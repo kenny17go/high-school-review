@@ -1,0 +1,9 @@
+{
+  "name": "高中段考複習平台 V4.2",
+  "short_name": "段考複習",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f4f7fa",
+  "theme_color": "#0f3d5e",
+  "lang": "zh-Hant"
+}
