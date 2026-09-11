@@ -1,4 +1,4 @@
-window.V496_BUILD="4.9.6-stable-core-20260911";
+window.V496_BUILD="4.9.6.2-historical-layer-20260911";
 
 (function(){
 "use strict";
@@ -373,33 +373,67 @@ function renderHistorical(list){
    refreshSchool();loadSchoolBankStatus();openPanel("practice");chooseSet();
  });
 }
+const HIST_CACHE_KEY_V4962="v4962_historical_cache";
+function saveHistoricalCacheV4962(list){
+ try{localStorage.setItem(HIST_CACHE_KEY_V4962,JSON.stringify({savedAt:Date.now(),items:list||[]}));}catch(e){console.warn("historical cache save skipped",e);}
+}
+function readHistoricalCacheV4962(){
+ try{const x=JSON.parse(localStorage.getItem(HIST_CACHE_KEY_V4962)||"null");return x&&Array.isArray(x.items)?x:null;}catch(e){return null;}
+}
+async function historicalClientV4962(){
+ const c=cfg();
+ if(!c.url||!c.key)throw new Error("尚未設定 Project URL / Publishable key");
+ const sdkOk=await ensureSupabaseSdkV496();
+ if(!sdkOk||!window.supabase)throw new Error("Supabase SDK 載入失敗");
+ // 歷屆來源使用獨立 client，不依賴 questions 表是否可讀，避免影響穩定核心。
+ return window.supabase.createClient(c.url,c.key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
+}
+function historicalErrorTextV4962(e){
+ const m=String(e?.message||e||"未知錯誤");
+ if(/Failed to fetch|NetworkError|Load failed/i.test(m))return "網路或 Supabase 端點無法連線";
+ if(/JWT|apikey|API key|Invalid/i.test(m))return "Publishable / anon key 無效";
+ if(/permission|policy|RLS|row-level/i.test(m))return "RLS / 權限阻擋 source_documents";
+ if(/SDK/i.test(m))return "Supabase SDK 載入失敗";
+ return m;
+}
 async function loadHistorical(showAll=false){
  const status=$("historicalStatus");
  status.textContent="讀取歷屆來源中…";
- if(dbMode!=="cloud"||!db){
-   status.textContent="正在連線資料庫…";
-   try{await connectDB(false);}catch(e){}
- }
- if(dbMode!=="cloud"||!db){
-   status.textContent="目前無法連線 Supabase；基本練習與模考仍可正常使用。";
-   renderHistorical([]);return;
- }
+ let list=null, cloudErr=null;
  try{
-   const {data,error}=await db.from("source_documents").select("*,schools(name)").order("academic_year",{ascending:false});
+   const hdb=await historicalClientV4962();
+   const task=hdb.from("source_documents")
+     .select("id,school_id,academic_year,term,exam_name,document_type,title,scope_text,source_url,schools(name)")
+     .order("academic_year",{ascending:false});
+   const timeout=new Promise((_,rej)=>setTimeout(()=>rej(new Error("歷屆來源查詢逾時")),5000));
+   const {data,error}=await Promise.race([task,timeout]);
    if(error)throw error;
-   allHistoricalV4961=data||[];
-   fillHistoricalFiltersV4961(allHistoricalV4961);
-   if(showAll){
-     if($("histSchool"))$("histSchool").value="全部";
-     if($("histYear"))$("histYear").value="全部";
-     if($("histTerm"))$("histTerm").value="全部";
-     if($("histExam"))$("histExam").value="全部";
+   list=data||[];
+   saveHistoricalCacheV4962(list);
+ }catch(e){cloudErr=e;console.warn("historical cloud load failed",e);}
+ if(list===null){
+   const cached=readHistoricalCacheV4962();
+   if(cached){
+     list=cached;
+     status.textContent=`Supabase 暫時無法讀取（${historicalErrorTextV4962(cloudErr)}）；已使用本機快取 ${list.length} 筆。`;
+   }else{
+     allHistoricalV4961=[];
+     fillHistoricalFiltersV4961([]);
+     status.textContent=`歷屆來源無法載入：${historicalErrorTextV4962(cloudErr)}。請到「資料庫設定」確認 Project URL / Publishable key；基本練習、模考與「我不會」不受影響。`;
+     renderHistorical([]);return;
    }
-   status.textContent=`資料庫共收錄 ${allHistoricalV4961.length} 筆歷屆官方來源；可直接用上方四個選單篩選。`;
-   filterHistoricalV4961();
- }catch(e){
-   console.error(e);status.textContent="歷屆來源讀取失敗："+(e.message||e);renderHistorical([]);
+ }else{
+   status.textContent=`Supabase 已讀取 ${list.length} 筆歷屆官方來源；並已建立本機快取。`;
  }
+ allHistoricalV4961=list;
+ fillHistoricalFiltersV4961(allHistoricalV4961);
+ if(showAll){
+   if($("histSchool"))$("histSchool").value="全部";
+   if($("histYear"))$("histYear").value="全部";
+   if($("histTerm"))$("histTerm").value="全部";
+   if($("histExam"))$("histExam").value="全部";
+ }
+ filterHistoricalV4961();
 }
 
 let autoPaper=[],autoAnswers={},activeScope=null;
