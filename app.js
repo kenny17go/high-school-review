@@ -384,6 +384,34 @@ async function getHistoricalDbV4963(){
   return historicalDbV4963;
 }
 
+
+const V4967_HISTORICAL_SCHOOLS=["建國中學","北一女中","師大附中","成功高中","中山女高","松山高中","延平高中","薇閣高中"];
+function fillHistoricalSchoolsV4967(){
+ const sel=$("histSchool");if(!sel)return;
+ const current=sel.value||"全部";
+ const dbNames=[...new Set((allHistoricalV4961||[]).map(x=>x.schools?.name).filter(Boolean))];
+ const names=[...new Set([...V4967_HISTORICAL_SCHOOLS,...dbNames])];
+ sel.innerHTML='<option value="全部">全部學校</option>'+names.map(n=>`<option value="${n}">${n}</option>`).join("");
+ sel.value=names.includes(current)?current:"全部";
+}
+async function loadGsatV4967(){
+ const status=$("gsatStatus"),list=$("gsatList");if(!status||!list)return;
+ status.textContent="讀取大考中心官方學測來源中…";
+ try{
+  const hdb=await getHistoricalDbV4963();
+  const {data,error}=await hdb.from("national_exam_sources").select("*").eq("subject","數學").order("academic_year",{ascending:false});
+  if(error)throw error;
+  const rows=data||[],ys=[...new Set(rows.map(x=>x.academic_year))],vs=[...new Set(rows.map(x=>x.subject_variant))];
+  const ysel=$("gsatYear"),vsel=$("gsatVariant");
+  if(ysel&&ysel.options.length<=1)ysel.innerHTML='<option value="全部">全部學年度</option>'+ys.map(y=>`<option value="${y}">${y} 學年度</option>`).join("");
+  if(vsel&&vsel.options.length<=1)vsel.innerHTML='<option value="全部">全部數學類別</option>'+vs.map(v=>`<option value="${v}">${v}</option>`).join("");
+  const y=ysel?.value||"全部",v=vsel?.value||"全部";
+  const filtered=rows.filter(x=>(y==="全部"||String(x.academic_year)===String(y))&&(v==="全部"||x.subject_variant===v));
+  status.textContent=`找到 ${filtered.length} 筆大考中心官方來源。`;
+  list.innerHTML=filtered.length?filtered.map(x=>`<div class="item"><b>${x.academic_year} ${x.exam_type}・${x.subject_variant}</b><div class="small">${x.scope_note||""}</div><div style="margin-top:8px"><a class="btnLink" href="${x.source_url}" target="_blank" rel="noopener">開啟大考中心官方來源</a></div></div>`).join(""):'<div class="empty">目前沒有符合條件的學測來源。</div>';
+ }catch(e){console.error(e);status.textContent="學測官方來源讀取失敗："+(e.message||e);list.innerHTML="";}
+}
+
 async function loadHistorical(showAll=false){
   const status=$("historicalStatus");
   status.textContent="讀取歷屆來源中…";
@@ -394,7 +422,7 @@ async function loadHistorical(showAll=false){
     const {data,error}=await Promise.race([query,timeout]);
     if(error)throw error;
     allHistoricalV4961=data||[];
-    fillHistoricalFiltersV4961(allHistoricalV4961);
+    fillHistoricalFiltersV4961(allHistoricalV4961); fillHistoricalSchoolsV4967();
     if(showAll){
       if($("histSchool"))$("histSchool").value="全部";
       if($("histYear"))$("histYear").value="全部";
@@ -740,6 +768,10 @@ onV496("signOutBtn","click",signOut);
 
 
 
+
+const gsatBtnV4967=$("loadGsat");if(gsatBtnV4967)gsatBtnV4967.onclick=loadGsatV4967;
+const gsatYearV4967=$("gsatYear");if(gsatYearV4967)gsatYearV4967.onchange=loadGsatV4967;
+const gsatVariantV4967=$("gsatVariant");if(gsatVariantV4967)gsatVariantV4967.onchange=loadGsatV4967;
 // selection changes: instant local re-render
 onV496("school","change",()=>{
   refreshSchool();
