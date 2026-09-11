@@ -170,6 +170,9 @@ async function refreshAuth(){
 function updateAuthUI(){
   $("authStatus").textContent=user ? ("已登入："+(user.email||"匿名使用者")) : "尚未登入";
   $("signOutBtn").style.display=user?"inline-block":"none";
+  const loginBox=$("authLoginBox"),logoutBox=$("authLogoutBox");
+  if(loginBox)loginBox.style.display=user?"none":"block";
+  if(logoutBox)logoutBox.style.display=user?"block":"none";
 }
 async function sendMagicLink(){
   if(!db){toast("請先連線 Supabase。");return}
@@ -613,7 +616,10 @@ async function loadSourceEngineering(){
    db.from("school_source_coverage").select("*,schools(name)")
  ]);
  sourceInventoryV49=inv.data||[];sourceCoverageV49=cov.data||[];
- const f=$("sourceSchoolFilter");f.innerHTML='<option value="全部">全部學校</option>'+sourceCoverageV49.map(x=>`<option>${x.schools?.name||""}</option>`).join("");
+ const f=$("sourceSchoolFilter");
+  const fixedSourceSchools=["建國中學","北一女中","師大附中","成功高中","中山女高","松山高中","延平高中","薇閣高中"];
+  const sourceNames=[...new Set([...fixedSourceSchools,...sourceCoverageV49.map(x=>x.schools?.name).filter(Boolean)])];
+  f.innerHTML='<option value="全部">全部學校</option>'+sourceNames.map(x=>`<option>${x}</option>`).join("");
  renderCoverageV49();renderSourceInventoryV49();await loadCalibrationV49();
 }
 function renderCoverageV49(){
@@ -651,6 +657,13 @@ function renderWeak(){
   $("weakBars").innerHTML=topics.map(t=>{const h=hist[t],pct=h&&h.total?Math.round(h.ok/h.total*100):0;return `<div class="barrow"><b>${t}</b><div class="bar"><i style="width:${pct}%"></i></div><span>${h&&h.total?pct+"%":"-"}</span></div>`}).join("");
 }
 
+
+function refreshAuthBoxV49614(){
+ const logged=!!currentUser;
+ const a=$("authLoginBox"),b=$("authLogoutBox");
+ if(a)a.style.display=logged?"none":"block";
+ if(b)b.style.display=logged?"block":"none";
+}
 function verifyBankV49610(){
   const total=Array.isArray(questions)?questions.length:0;
   const extra=Array.isArray(questions)?questions.filter(q=>Number(q.id)>160).length:0;
@@ -835,4 +848,9 @@ document.addEventListener("click",e=>{
    if(typeof loadGsatV4967==="function")loadGsatV4967();
  },180);
 });
+
+setTimeout(refreshAuthBoxV49614,400);
+
+const magicBtnV49614=$("sendMagicBtn");if(magicBtnV49614)magicBtnV49614.onclick=sendMagicLink;
+const signOutBtnV49614=$("signOutBtn");if(signOutBtnV49614)signOutBtnV49614.onclick=signOut;
 })();
