@@ -5,6 +5,7 @@ const F=window.V42_FALLBACK;
 const $=id=>document.getElementById(id);
 let db=null, dbMode="local", schools=F.schools, questions=F.questions;
 let current=[], answers={}, mock=[], mockAnswers={}, user=null;
+let sourceDocs=[];
 
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function cfg(){
@@ -29,7 +30,9 @@ async function connectDB(showMessage=false){
     db=window.supabase.createClient(c.url,c.key);
     const {data:s,error:se}=await db.from("schools").select("*").order("id");
     const {data:q,error:qe}=await db.from("questions").select("*").order("id").limit(1000);
+    const {data:sd,error:sde}=await db.from("source_documents").select("*,schools(name)").order("academic_year",{ascending:false});
     if(se||qe) throw (se||qe);
+    sourceDocs = (!sde && sd) ? sd : [];
     if(s&&s.length){
       schools={};
       s.forEach(x=>schools[x.name]={tone:x.source_tone,status:x.source_status,desc:x.description,url:x.official_url});
@@ -89,6 +92,7 @@ function openPanel(id){
   $(id).classList.add("active");
   if(id==="wrong")renderWrong();
   if(id==="weak")renderWeak();
+  if(id==="historical")loadHistorical(false);
   window.scrollTo(0,0);
 }
 function goHome(){
@@ -96,6 +100,7 @@ function goHome(){
   $("home").style.display="block";refreshStats();window.scrollTo(0,0);
 }
 document.addEventListener("click",e=>{
+  const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;refreshSchool();openPanel("practice");chooseSet();return}
   const o=e.target.closest("[data-open]"); if(o){openPanel(o.dataset.open);return}
   const h=e.target.closest("[data-home]"); if(h)goHome();
 });
@@ -170,6 +175,33 @@ async function submitMock(){
   if(db&&user)await syncAttempts(mock,mockAnswers,"mock");
   $("mockResult").innerHTML=`<h3>模擬考：${score} 分</h3><p>已作答 ${done} 題，答對 ${correct} 題。</p>`;refreshStats();
 }
+function termNumber(){ return $("term").value==="上學期"?1:2; }
+function renderHistorical(list){
+  const box=$("historicalList");
+  if(!list.length){box.innerHTML='<div class="card sourcecard">目前選擇條件尚未建立官方歷屆來源索引。可切換到「成功高中」，或按「顯示成功高中全部來源」。</div>';return;}
+  const typeMap={exam_index:"官方考卷索引",scope:"官方考試範圍",answer:"官方答案"};
+  box.innerHTML=list.map(x=>{
+    const school=(x.schools&&x.schools.name)?x.schools.name:"成功高中";
+    return `<div class="card sourcecard"><div class="sourcehead"><div><h3 style="margin:0">${x.title}</h3><div class="sourcemeta"><span>${school}</span><span>${x.academic_year}學年度</span><span>${x.term===1?"上學期":"下學期"}</span><span>${x.exam_name}</span></div></div><span class="sourcetype">${typeMap[x.document_type]||x.document_type}</span></div><p class="small">${x.scope_text||""}</p><div class="sourceactions"><a class="linkbtn primary" href="${x.source_url}" target="_blank" rel="noopener">開啟校方官方來源</a><button class="soft" data-practice-source="1" data-school="${school}" data-year="${x.academic_year}" data-term="${x.term}" data-exam="${x.exam_name}">練同範圍原創題</button></div></div>`;
+  }).join("");
+}
+async function loadHistorical(showAll=false){
+  $("historicalStatus").textContent="讀取來源中…";
+  if(dbMode!=="cloud" || !db){$("historicalStatus").textContent="歷屆真題索引需連線 Supabase V4.3 資料庫。請先執行 03_v43_migration.sql。";renderHistorical([]);return;}
+  let query=db.from("source_documents").select("*,schools(name)").order("academic_year",{ascending:false});
+  if(!showAll){
+    const {data:schoolData}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();
+    if(schoolData) query=query.eq("school_id",schoolData.id);
+    query=query.eq("academic_year",+$("year").value).eq("term",termNumber()).eq("exam_name",$("exam").value);
+  } else {
+    const {data:schoolData}=await db.from("schools").select("id").eq("name","成功高中").maybeSingle();
+    if(schoolData) query=query.eq("school_id",schoolData.id);
+  }
+  const {data,error}=await query;
+  if(error){console.error(error);$("historicalStatus").textContent="來源讀取失敗："+error.message;renderHistorical([]);return;}
+  sourceDocs=data||[];$("historicalStatus").textContent=`找到 ${sourceDocs.length} 筆官方來源資料。`;renderHistorical(sourceDocs);
+}
+
 function renderSources(){
   $("sourceRows").innerHTML=Object.keys(schools).map(n=>{const d=schools[n];return `<tr><td><b>${n}</b></td><td><span class="status ${d.tone==="good"?"goodS":d.tone==="mid"?"midS":"lowS"}">${d.status}</span></td><td>${d.desc}</td><td><a class="linkbtn soft" target="_blank" href="${d.url}">官方入口</a></td></tr>`}).join("");
 }
@@ -196,6 +228,8 @@ async function saveSettings(){localStorage.setItem("v42_url",$("urlInput").value
 function useLocal(){localStorage.removeItem("v42_url");localStorage.removeItem("v42_key");db=null;dbMode="local";schools=F.schools;questions=F.questions;populateSchools();chooseSet();renderSources();refreshSchool();setDbBadge(false,"本機備援");closeSettings();toast("已切換成本機題庫。")}
 
 ["school","year","term","exam"].forEach(id=>$(id).addEventListener("change",refreshSchool));
+$("loadHistorical").addEventListener("click",()=>loadHistorical(false));
+$("showAllHistorical").addEventListener("click",()=>loadHistorical(true));
 $("applyFilter").addEventListener("click",chooseSet);$("resetBtn").addEventListener("click",chooseSet);$("finishBtn").addEventListener("click",finishPractice);
 $("startMock").addEventListener("click",startMock);$("submitMock").addEventListener("click",submitMock);
 $("clearWrong").addEventListener("click",()=>{localStorage.removeItem("v42wrong");renderWrong();refreshStats()});

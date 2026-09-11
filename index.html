@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-Hant"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f3d5e">
-<title>高中段考複習平台 V4.2</title>
+<title>高中段考複習平台 V4.3</title>
 <style>
 :root{--bg:#f4f7fa;--ink:#193244;--muted:#6d7e8a;--p:#0f3d5e;--p2:#1f6f8b;--line:#dce6ed;--good:#2f8f5b;--warn:#ad741b;--bad:#b84b4b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif}
@@ -16,8 +16,9 @@ main{padding:14px 12px 88px}.card{background:#fff;border:1px solid var(--line);b
 .authbox{margin-top:12px;background:#f7fafc;border-radius:12px;padding:11px}.modal{display:none;position:fixed;inset:0;background:#0007;z-index:50;align-items:center;justify-content:center;padding:18px}.modalShow{display:flex}.modalCard{max-width:620px;width:100%;background:#fff;border-radius:18px;padding:16px}.modalCard h2{margin-top:0}.codehint{font-family:ui-monospace,monospace;background:#f4f6f7;padding:8px;border-radius:8px;font-size:11px;word-break:break-all}.toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,20px);background:#173b52;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.2s;z-index:80;max-width:90%;font-size:12px}.showToast{opacity:1;transform:translate(-50%,0)}
 footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 5px calc(8px + env(safe-area-inset-bottom));z-index:30}footer button{background:none;color:var(--muted);padding:3px 8px;font-size:11px}footer strong{display:block;font-size:18px;color:var(--p)}
 @media(max-width:760px){.setup{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.head p{display:none}}
+.sourcecard{margin:10px 0}.sourcehead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.sourcetype{font-size:11px;border-radius:999px;padding:5px 8px;background:#edf5f8;color:var(--p);font-weight:800}.sourcemeta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.sourcemeta span{font-size:11px;background:#f4f7f9;padding:4px 7px;border-radius:999px}.sourceactions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
 </style></head><body>
-<header><div class="head"><div><h1>高中段考複習平台 V4.2</h1><p>Supabase 真資料庫＋160題＋雲端作答紀錄＋本機備援</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft">資料庫設定</button></div></div></header>
+<header><div class="head"><div><h1>高中段考複習平台 V4.3</h1><p>真實歷屆來源索引＋Supabase＋160題原創詳解＋雲端作答紀錄</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft">資料庫設定</button></div></div></header>
 <main>
 <div id="home"><div class="card"><div class="setup">
 <div class="field"><label>學校</label><select id="school"><option>建國中學</option><option>北一女中</option><option>師大附中</option><option selected>成功高中</option><option>中山女高</option><option>延平高中</option><option>薇閣高中</option></select></div>
@@ -28,7 +29,15 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <div class="authbox"><b>雲端帳號</b><div id="authStatus" class="small">尚未登入</div><div class="filters"><input id="emailInput" type="email" placeholder="Email（Supabase Magic Link）"><button id="magicBtn" class="soft">寄登入連結</button><button id="signOutBtn" class="warn" style="display:none">登出</button></div><div class="small">未登入仍可練習；登入後作答與錯題會同步到資料庫。</div></div>
 </div>
 <div class="card"><h3 style="margin-top:0">學習數據</h3><div class="stats"><div class="metric"><b id="score">-</b>最近成績</div><div class="metric"><b id="wrongN">0</b>錯題</div><div class="metric"><b id="doneN">0</b>已作答</div><div class="metric"><b>160</b>題庫</div></div><div style="margin-top:12px"><div class="small">最近練習完成度</div><div class="progress"><i id="prog" style="width:0%"></i></div></div></div></div>
-<div class="grid"><div class="card mode" data-open="practice"><div class="ico">✏️</div><h3>大量題庫</h3><p>依章節、難度與題數出題。</p></div><div class="card mode" data-open="mock"><div class="ico">⏱️</div><h3>模擬段考</h3><p>交卷後統一顯示答案。</p></div><div class="card mode" data-open="weak"><div class="ico">📊</div><h3>弱點分析</h3><p>各章正確率與錯題。</p></div><div class="card mode" data-open="sources"><div class="ico">🏫</div><h3>真實來源</h3><p>七校來源核驗狀態。</p></div></div></div>
+<div class="grid"><div class="card mode" data-open="historical"><div class="ico">📄</div><h3>歷屆真題</h3><p>依學校、學年度、段考查看官方公開來源。</p></div><div class="card mode" data-open="practice"><div class="ico">✏️</div><h3>原創練習</h3><p>依真實範圍搭配160題詳解題庫。</p></div><div class="card mode" data-open="mock"><div class="ico">⏱️</div><h3>模擬段考</h3><p>交卷後統一顯示答案。</p></div><div class="card mode" data-open="weak"><div class="ico">📊</div><h3>弱點分析</h3><p>各章正確率與錯題。</p></div></div></div>
+
+
+<div id="historical" class="panel"><button class="soft back" data-home>← 回首頁</button>
+<div class="card"><h2>歷屆真題・官方來源</h2>
+<p class="small">V4.3 先從成功高中建立真實來源索引。完整考卷與答案仍由原校方網站提供，本平台不重新刊載整份考卷文字。</p>
+<div class="filters"><button class="primary" id="loadHistorical">依目前條件搜尋</button><button class="soft" id="showAllHistorical">顯示成功高中全部來源</button></div>
+<div id="historicalStatus" class="small"></div></div>
+<div id="historicalList"></div></div>
 
 <div id="practice" class="panel"><button class="soft back" data-home>← 回首頁</button><div class="card"><h2>大量題庫</h2><div class="filters"><select id="topicFilter"><option value="全部">全部章節</option><option>實數</option><option>多項式</option><option>指數</option><option>對數</option><option>綜合</option></select><select id="levelFilter"><option value="全部">全部難度</option><option>基礎</option><option>中等</option><option>挑戰</option></select><select id="qtyFilter"><option value="10">10題</option><option value="20" selected>20題</option><option value="30">30題</option><option value="50">50題</option></select><button class="primary" id="applyFilter">產生題組</button></div><div id="countText" class="small"></div></div><div id="quiz"></div><div class="card"><button class="primary" id="finishBtn">完成並計分</button><button class="soft" id="resetBtn">重新出題</button><div id="result"></div></div></div>
 
