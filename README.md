@@ -1,4 +1,4 @@
-# 高中段考複習平台 V4.2（Supabase 真資料庫版）
+# 高中段考複習平台 V4.3（Supabase 真資料庫版）
 
 ## 檔案
 - `index.html`：網站首頁
@@ -30,3 +30,16 @@ RLS 已設定：
 ## 關於「真實題庫」
 目前 160 題為原創題；七校部分為已核驗公開來源的索引與狀態資料。
 之後可把合法可使用的歷屆題逐題加入 `questions`，並設定 `is_original=false` 與 `source_url`。
+
+
+## V4.3 新增
+- 歷屆真題／原創練習分流。
+- 新增 source_documents 真實官方來源索引。
+- 第一批匯入成功高中106、114學年度公開來源。
+- 每筆來源顯示學校、學年度、學期、段考、文件類型與官方連結。
+- 完整考卷維持連回校方原始來源，不直接重製整份內容。
+
+## 升級
+1. Supabase SQL Editor 執行 03_v43_migration.sql（iPhone 可用 txt 版）。
+2. GitHub repository 用本包 index.html、app.js 覆蓋原檔；其餘檔案建議一併覆蓋。
+3. GitHub Pages 更新後重新整理。
