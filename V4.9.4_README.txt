@@ -1,0 +1,8 @@
+V4.9.4 極速版
+- 切換學校時不再讀 school_question_bank / school_profiles。
+- 學校題池由已載入的 160 題在手機端即時計算。
+- Supabase 僅背景載入官方範圍與來源數，最多等待約 2.2 秒，失敗不影響作答。
+- 修正舊版部分事件監聽可能落在 IIFE 外造成 Safari ReferenceError。
+- app.js 使用 ?v=4.9.4 強制更新。
+- 不需 Supabase migration。
+GitHub：覆蓋 index.html、app.js。
