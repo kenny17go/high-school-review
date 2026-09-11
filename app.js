@@ -215,19 +215,30 @@ async function loadCoverageV49617(){
  try{
    const hdb=await getHistoricalDbV4963();
    const subject=$("coverageSubject")?.value||"數學";
+   const grade=Number($("coverageGrade")?.value||1);
    const timeout=new Promise((_,rej)=>setTimeout(()=>rej(new Error("資料完整度查詢逾時")),6000));
    const task=Promise.all([
-     hdb.from("source_documents").select("academic_year,term,exam_name,subject,schools(name)").gte("academic_year",110),
-     hdb.from("exam_source_inventory").select("academic_year,term,exam_name,subject,schools(name)").gte("academic_year",110),
-     hdb.from("exam_scope_profiles").select("academic_year,term,exam_name,subject,schools(name)").gte("academic_year",110)
+     hdb.from("source_documents").select("academic_year,term,exam_name,grade,subject,document_type,schools(name)").gte("academic_year",110),
+     hdb.from("exam_source_inventory").select("academic_year,term,exam_name,grade,subject,source_kind,schools(name)").gte("academic_year",110),
+     hdb.from("exam_scope_profiles").select("academic_year,term,exam_name,grade,subject,schools(name)").gte("academic_year",110)
    ]);
    const res=await Promise.race([task,timeout]);
    const rows=[];
    res.forEach((r,idx)=>{
      if(r.error)throw r.error;
-     (r.data||[]).forEach(x=>rows.push({...x,_kind:["歷屆來源","題源索引","官方範圍"][idx]}));
+     (r.data||[]).forEach(x=>{
+       let kind="範";
+       if(idx===0){
+         const dt=String(x.document_type||"").toLowerCase();
+         kind=dt.includes("answer")?"答":(dt.includes("scope")?"範":"題");
+       }else if(idx===1){
+         const sk=String(x.source_kind||"").toLowerCase();
+         kind=sk==="answer"?"答":(sk==="question"?"題":(sk==="scope"?"範":"索"));
+       }
+       rows.push({...x,_kind:kind});
+     });
    });
-   const filtered=rows.filter(x=>(x.subject||"數學")===subject&&Number(x.academic_year)>=110);
+   const filtered=rows.filter(x=>(x.subject||"數學")===subject&&Number(x.grade||1)===grade&&Number(x.academic_year)>=110);
    const map=new Map();
    filtered.forEach(x=>{
      const school=x.schools?.name;if(!school||!x.academic_year||!x.term||!x.exam_name)return;
@@ -248,8 +259,15 @@ async function loadCoverageV49617(){
        [1,2].forEach(term=>{
          V49617_EXAMS.forEach(exam=>{
            const kinds=map.get([school,y,term,exam].join("|"));
-           if(kinds){covered++;body+=`<td class="coverageYes" title="${[...kinds].join("、")}">✓</td>`}
-           else body+='<td class="coverageNo">—</td>';
+           if(kinds){
+             covered++;
+             const order=["題","答","範","索"];
+             const labels=order.filter(k=>kinds.has(k)).map(k=>{
+               const cls=k==="答"?"answer":(k==="範"?"range":(k==="索"?"index":""));
+               return `<span class="coverageType ${cls}">${k}</span>`;
+             }).join("");
+             body+=`<td class="coverageYes" title="${[...kinds].join("、")}">${labels||"✓"}</td>`;
+           } else body+='<td class="coverageNo">—</td>';
          });
        });
      });
@@ -257,8 +275,8 @@ async function loadCoverageV49617(){
    });body+='</tbody>';
    matrix.innerHTML=h1+body;
    const pct=total?Math.round(covered/total*100):0,missing=total-covered;
-   if(sum)sum.innerHTML=`<span class="chip">科目：${subject}</span><span class="chip">已有 ${covered} 格</span><span class="chip">缺 ${missing} 格</span><span class="chip">完整度 ${pct}%</span>`;
-   status.textContent=`目前以 ${subject} 統計；✓ 代表該校該時段至少已有一筆「歷屆來源／題源索引／官方範圍」。`;
+   if(sum)sum.innerHTML=`<span class="chip">科目：${subject}</span><span class="chip">年級：高${["","一","二","三"][grade]}</span><span class="chip">已有 ${covered} 格</span><span class="chip">缺 ${missing} 格</span><span class="chip">完整度 ${pct}%</span>`;
+   status.textContent=`目前以 ${subject}・高${["","一","二","三"][grade]}統計；格內「題／答／範／索」代表目前已核驗的資料類型。`;
  }catch(e){
    console.error(e);status.textContent="資料完整度讀取失敗："+(e.message||e);
    matrix.innerHTML="";
@@ -886,6 +904,7 @@ const gsatYearV4967=$("gsatYear");if(gsatYearV4967)gsatYearV4967.onchange=loadGs
 const gsatVariantV4967=$("gsatVariant");if(gsatVariantV4967)gsatVariantV4967.onchange=loadGsatV4967;
 const refreshCoverageV49617=$("refreshCoverage");if(refreshCoverageV49617)refreshCoverageV49617.onclick=loadCoverageV49617;
 const coverageSubjectV49617=$("coverageSubject");if(coverageSubjectV49617)coverageSubjectV49617.onchange=loadCoverageV49617;
+const coverageGradeV49618=$("coverageGrade");if(coverageGradeV49618)coverageGradeV49618.onchange=loadCoverageV49617;
 // selection changes: instant local re-render
 onV496("school","change",()=>{
   refreshSchool();
