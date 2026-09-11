@@ -7,30 +7,45 @@ let db=null, dbMode="local", schools=F.schools, questions=F.questions;
 let current=[], answers={}, mock=[], mockAnswers={}, user=null;
 let sourceDocs=[];
 let schoolBankIds=null,schoolProfile=null,activeSchoolId=null,activeScopeV48=null;
+
+let v493SchoolCache=new Map(),v493ScopeCache=new Map(),v493LoadSeq=0,v493Timer=null;
+async function v493GetSchoolBundle(schoolName){
+ if(v493SchoolCache.has(schoolName))return v493SchoolCache.get(schoolName);
+ const {data:s,error:se}=await db.from("schools").select("id,name").eq("name",schoolName).maybeSingle();
+ if(se||!s)throw se||new Error("找不到學校");
+ const [bp,bb]=await Promise.all([
+   db.from("school_profiles").select("*").eq("school_id",s.id).maybeSingle(),
+   db.from("school_question_bank").select("question_id").eq("school_id",s.id)
+ ]);
+ const b={school:s,profile:bp.data||null,bankIds:new Set((bb.data||[]).map(x=>Number(x.question_id)))};
+ v493SchoolCache.set(schoolName,b); return b;
+}
+function v493ScopeKey(sid){return [sid,$("year").value,$("term").value,$("exam").value].join("|");}
+async function v493GetScopeBundle(sid){
+ const key=v493ScopeKey(sid); if(v493ScopeCache.has(key))return v493ScopeCache.get(key);
+ const term=$("term").value==="上學期"?1:2, year=+$("year").value, exam=$("exam").value;
+ const [sp,sd]=await Promise.all([
+  db.from("exam_scope_profiles").select("scope_label,topic_weights,difficulty_weights,source_url").eq("school_id",sid).eq("academic_year",year).eq("term",term).eq("exam_name",exam).eq("grade",1).eq("subject","數學").maybeSingle(),
+  db.from("source_documents").select("id").eq("school_id",sid).eq("academic_year",year).eq("term",term).eq("exam_name",exam)
+ ]);
+ const b={scope:sp.data||null,sources:(sd.data||[]).length}; v493ScopeCache.set(key,b); return b;
+}
+
 async function loadSchoolBankStatus(){
- const schoolName=$("school").value;
- if(dbMode!=="cloud"||!db){
-   schoolBankIds=null;schoolProfile=null;activeSchoolId=null;activeScopeV48=null;
-   renderBankStatus({mode:"local",count:questions.length});
-   return;
- }
+ const seq=++v493LoadSeq, schoolName=$("school").value;
+ if(dbMode!=="cloud"||!db){schoolBankIds=null;schoolProfile=null;activeSchoolId=null;activeScopeV48=null;renderBankStatus({mode:"local",count:questions.length});return;}
  try{
-   const {data:s,error:se}=await db.from("schools").select("id,name").eq("name",schoolName).maybeSingle();
-   if(se||!s)throw se||new Error("找不到學校");
-   activeSchoolId=s.id;
-   const [bp,bb,sp,sd]=await Promise.all([
-     db.from("school_profiles").select("*").eq("school_id",s.id).maybeSingle(),
-     db.from("school_question_bank").select("question_id,fit_score").eq("school_id",s.id),
-     db.from("exam_scope_profiles").select("*").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value).eq("grade",1).eq("subject","數學").maybeSingle(),
-     db.from("source_documents").select("id").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value)
-   ]);
-   schoolProfile=bp.data||null;
-   schoolBankIds=new Set((bb.data||[]).map(x=>Number(x.question_id)));
-   activeScopeV48=sp.data||null;
-   renderBankStatus({mode:"cloud",count:schoolBankIds.size,scope:activeScopeV48,sources:(sd.data||[]).length,profile:schoolProfile});
+  const bundle=await v493GetSchoolBundle(schoolName);
+  if(seq!==v493LoadSeq)return;
+  activeSchoolId=bundle.school.id; schoolProfile=bundle.profile; schoolBankIds=bundle.bankIds;
+  renderBankStatus({mode:"cloud",count:schoolBankIds.size,scope:null,sources:0,profile:schoolProfile});
+  const meta=await v493GetScopeBundle(activeSchoolId);
+  if(seq!==v493LoadSeq)return;
+  activeScopeV48=meta.scope;
+  renderBankStatus({mode:"cloud",count:schoolBankIds.size,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile});
  }catch(e){
-   console.error("V4.8 bank status",e);schoolBankIds=null;schoolProfile=null;activeScopeV48=null;
-   renderBankStatus({mode:"error",count:questions.length});
+  if(seq!==v493LoadSeq)return;
+  console.error("V4.9.3 bank status",e);schoolBankIds=null;schoolProfile=null;activeSchoolId=null;activeScopeV48=null;renderBankStatus({mode:"error",count:questions.length});
  }
 }
 function renderBankStatus(x){
@@ -95,11 +110,12 @@ async function connectDB(showMessage=false){
   }
   try{
     db=window.supabase.createClient(c.url,c.key);
-    const {data:s,error:se}=await db.from("schools").select("*").order("id");
-    const {data:q,error:qe}=await db.from("questions").select("*").order("id").limit(1000);
-    const {data:sd,error:sde}=await db.from("source_documents").select("*,schools(name)").order("academic_year",{ascending:false});
+    const [{data:s,error:se},{data:q,error:qe}] = await Promise.all([
+      db.from("schools").select("*").order("id"),
+      db.from("questions").select("*").order("id").limit(1000)
+    ]);
     if(se||qe) throw (se||qe);
-    sourceDocs = (!sde && sd) ? sd : [];
+    sourceDocs=[];
     if(s&&s.length){
       schools={};
       s.forEach(x=>schools[x.name]={tone:x.source_tone,status:x.source_status,desc:x.description,url:x.official_url});
@@ -490,7 +506,7 @@ function closeSettings(){$("settingsModal").classList.remove("modalShow")}
 async function saveSettings(){localStorage.setItem("v42_url",$("urlInput").value.trim());localStorage.setItem("v42_key",$("keyInput").value.trim());closeSettings();await connectDB(true)}
 function useLocal(){localStorage.removeItem("v42_url");localStorage.removeItem("v42_key");db=null;dbMode="local";schools=F.schools;questions=F.questions;populateSchools();chooseSet();renderSources();refreshSchool();setDbBadge(false,"本機備援");closeSettings();toast("已切換成本機題庫。")}
 
-["school","year","term","exam"].forEach(id=>$(id).addEventListener("change",refreshSchool));
+
 $("loadHistorical").addEventListener("click",()=>loadHistorical(false));
 $("buildAutoPaper").addEventListener("click",buildAutoPaper);
 $("newStudy").addEventListener("click",()=>startStudy(false));
@@ -522,6 +538,26 @@ populateSchools();refreshSchool();renderSources();chooseSet();refreshStats();con
 })();
 
 // V4.8 school/range reload
-["school","year","term","exam"].forEach(id=>$(id).addEventListener("change",async()=>{refreshSchool();await loadSchoolBankStatus();chooseSet();}));
+
 
 $("applySourceFilters").addEventListener("click",renderSourceInventoryV49);
+
+// V4.9.3 optimized listeners
+$("school").addEventListener("change",()=>{
+ clearTimeout(v493Timer);refreshSchool();
+ v493Timer=setTimeout(async()=>{await loadSchoolBankStatus();chooseSet();},220);
+});
+["year","term","exam"].forEach(id=>$(id).addEventListener("change",()=>{
+ clearTimeout(v493Timer);refreshSchool();
+ v493Timer=setTimeout(async()=>{
+   if(dbMode==="cloud"&&activeSchoolId){
+     const seq=++v493LoadSeq;
+     try{
+       const meta=await v493GetScopeBundle(activeSchoolId);
+       if(seq!==v493LoadSeq)return;
+       activeScopeV48=meta.scope;
+       renderBankStatus({mode:"cloud",count:schoolBankIds?.size||questions.length,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile});
+     }catch(e){console.error(e);}
+   }
+ },220);
+}));
