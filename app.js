@@ -206,6 +206,7 @@ function openPanel(id){
   try{
     if(id==="wrong")renderWrong();
     if(id==="weak")renderWeak();
+    if(id==="gsat")Promise.resolve(loadGsatV4967()).catch(e=>console.error(e));
     if(id==="historical")loadHistorical(false).catch(e=>{console.error(e);$("historicalStatus").textContent="來源暫時無法載入，基本題庫不受影響。";});
     if(id==="sourceengineering")Promise.resolve(loadSourceEngineering()).catch(e=>console.error(e));
     if(id==="autopaper")Promise.resolve(showScopeProfile()).catch(e=>console.error(e));
@@ -836,17 +837,6 @@ setTimeout(()=>connectDB(false).catch(e=>console.warn("background DB skipped",e)
 document.addEventListener("click",e=>{
  const h=e.target.closest('[data-open="historical"]');
  if(h)setTimeout(()=>{if(typeof loadGsatV4967==="function")loadGsatV4967();},250);
-});
-
-document.addEventListener("click",e=>{
- const j=e.target.closest("[data-gsat-jump]");
- if(!j)return;
- setTimeout(()=>{
-   const box=$("gsatHomeCard")?$("gsatList"):$("gsatList");
-   const heading=$("gsatYear")?.closest(".card");
-   if(heading)heading.scrollIntoView({behavior:"smooth",block:"start"});
-   if(typeof loadGsatV4967==="function")loadGsatV4967();
- },180);
 });
 
 setTimeout(refreshAuthBoxV49614,400);
