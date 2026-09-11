@@ -6,6 +6,73 @@ const $=id=>document.getElementById(id);
 let db=null, dbMode="local", schools=F.schools, questions=F.questions;
 let current=[], answers={}, mock=[], mockAnswers={}, user=null;
 let sourceDocs=[];
+let schoolBankIds=null,schoolProfile=null,activeSchoolId=null,activeScopeV48=null;
+async function loadSchoolBankStatus(){
+ const schoolName=$("school").value;
+ if(dbMode!=="cloud"||!db){
+   schoolBankIds=null;schoolProfile=null;activeSchoolId=null;activeScopeV48=null;
+   renderBankStatus({mode:"local",count:questions.length});
+   return;
+ }
+ try{
+   const {data:s,error:se}=await db.from("schools").select("id,name").eq("name",schoolName).maybeSingle();
+   if(se||!s)throw se||new Error("找不到學校");
+   activeSchoolId=s.id;
+   const [bp,bb,sp,sd]=await Promise.all([
+     db.from("school_profiles").select("*").eq("school_id",s.id).maybeSingle(),
+     db.from("school_question_bank").select("question_id,fit_score").eq("school_id",s.id),
+     db.from("exam_scope_profiles").select("*").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value).eq("grade",1).eq("subject","數學").maybeSingle(),
+     db.from("source_documents").select("id").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value)
+   ]);
+   schoolProfile=bp.data||null;
+   schoolBankIds=new Set((bb.data||[]).map(x=>Number(x.question_id)));
+   activeScopeV48=sp.data||null;
+   renderBankStatus({mode:"cloud",count:schoolBankIds.size,scope:activeScopeV48,sources:(sd.data||[]).length,profile:schoolProfile});
+ }catch(e){
+   console.error("V4.8 bank status",e);schoolBankIds=null;schoolProfile=null;activeScopeV48=null;
+   renderBankStatus({mode:"error",count:questions.length});
+ }
+}
+function renderBankStatus(x){
+ const title=$("bankLoadTitle"),detail=$("bankLoadDetail"),badge=$("bankLoadBadge"),chips=$("bankLoadChips"),homeChip=$("homeBankChip");
+ if(!title)return;
+ if(x.mode==="local"){
+   title.innerHTML=`<b>${$("school").value}</b>｜目前使用本機通用題庫`;
+   badge.textContent="本機備援";badge.className="status midS";
+   detail.textContent="Supabase 未連線，因此無法套用學校專屬題池與官方段考範圍。";
+   chips.innerHTML=`<span class="chip">可用 ${x.count} 題</span><span class="chip">未套用學校分流</span>`;
+   if(homeChip)homeChip.textContent=`本機 ${x.count} 題`;return;
+ }
+ if(x.mode==="error"){
+   title.innerHTML=`<b>${$("school").value}</b>｜學校題庫讀取失敗`;
+   badge.textContent="讀取失敗";badge.className="status lowS";
+   detail.textContent="已保留通用題庫備援，請重新整理或檢查 Supabase 連線。";
+   chips.innerHTML=`<span class="chip">備援 ${x.count} 題</span>`;return;
+ }
+ title.innerHTML=`<b>✅ ${$("school").value} 題庫載入成功</b>`;
+ badge.textContent="分流成功";badge.className="status goodS";
+ const scopeText=x.scope?`已載入範圍：${x.scope.scope_label}`:"這組學校／學年度／段考尚無已核驗官方範圍";
+ const profileText=x.profile?.official_style_verified?"校方題型已核驗":"平台模擬題型設定（非校方官方命題風格）";
+ detail.textContent=`${scopeText}。${profileText}。`;
+ chips.innerHTML=`<span class="chip">學校題池 ${x.count} 題</span><span class="chip">${x.scope?"官方範圍 ✓":"官方範圍待補"}</span><span class="chip">官方來源 ${x.sources} 筆</span>`;
+ if(homeChip)homeChip.textContent=`${$("school").value} ${x.count} 題`;
+}
+function getSchoolPool(){
+ if(dbMode==="cloud"&&schoolBankIds&&schoolBankIds.size){
+   return questions.filter(q=>schoolBankIds.has(Number(q.id)));
+ }
+ return questions.slice();
+}
+function getScopedSchoolPool(){
+ let pool=getSchoolPool();
+ if(activeScopeV48&&activeScopeV48.topic_weights){
+   const topics=Object.keys(activeScopeV48.topic_weights);
+   const scoped=pool.filter(q=>topics.includes(q.topic));
+   if(scoped.length)pool=scoped;
+ }
+ return pool;
+}
+
 
 function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function cfg(){
@@ -24,7 +91,7 @@ async function connectDB(showMessage=false){
   if(!c.url||!c.key||!window.supabase){
     db=null;dbMode="local";setDbBadge(false,"本機備援");
     if(showMessage) toast("尚未設定 Supabase，已使用本機 160 題。");
-    refreshSchool(); return false;
+    refreshSchool();loadSchoolBankStatus(); return false;
   }
   try{
     db=window.supabase.createClient(c.url,c.key);
@@ -43,6 +110,7 @@ async function connectDB(showMessage=false){
     dbMode="cloud";setDbBadge(true,"Supabase 已連線");
     await refreshAuth();
     populateSchools();
+    await loadSchoolBankStatus();
     chooseSet();
     renderSources();
     refreshSchool();
@@ -50,7 +118,7 @@ async function connectDB(showMessage=false){
     return true;
   }catch(err){
     console.error(err);db=null;dbMode="local";schools=F.schools;questions=F.questions;
-    setDbBadge(false,"連線失敗・本機備援");populateSchools();chooseSet();renderSources();refreshSchool();
+    setDbBadge(false,"連線失敗・本機備援");populateSchools();await loadSchoolBankStatus();chooseSet();renderSources();refreshSchool();
     if(showMessage) toast("Supabase 連線失敗，已自動切回本機題庫。");
     return false;
   }
@@ -103,19 +171,19 @@ function goHome(){
   $("home").style.display="block";refreshStats();window.scrollTo(0,0);
 }
 document.addEventListener("click",e=>{
-  const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;refreshSchool();openPanel("practice");chooseSet();return}
+  const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;refreshSchool();loadSchoolBankStatus().then(()=>{openPanel("practice");chooseSet();});return}
   const o=e.target.closest("[data-open]"); if(o){openPanel(o.dataset.open);return}
   const h=e.target.closest("[data-home]"); if(h)goHome();
 });
 
 function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now());
   const t=$("topicFilter").value,l=$("levelFilter").value,qty=+$("qtyFilter").value;
-  const pool=questions.filter(q=>(t==="全部"||q.topic===t)&&(l==="全部"||q.level===l));
+  const basePool=getSchoolPool();const pool=basePool.filter(q=>(t==="全部"||q.topic===t)&&(l==="全部"||q.level===l));
   current=shuffle(pool).slice(0,Math.min(qty,pool.length));answers={};renderQuiz();
-  $("countText").textContent=`目前產生 ${current.length} 題（符合條件共 ${pool.length} 題）｜資料來源：${dbMode==="cloud"?"Supabase":"本機備援"}`;
+  $("countText").textContent=`目前產生 ${current.length} 題（${$("school").value} 題池符合條件共 ${pool.length} 題）｜資料來源：${dbMode==="cloud"?"Supabase 學校分流":"本機備援"}`;
 }
 function renderQuiz(){
-  $("quiz").innerHTML=current.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${q.q} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${x}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-dontknow-q="${q.id}">我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${q.e}</div></div>`).join("");
+  $("quiz").innerHTML=current.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${q.q} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${x}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${q.e}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
   const b=e.target.closest(".opt"); if(!b)return;
@@ -158,8 +226,8 @@ async function syncAttempts(set,ans,mode){
   }
 }
 function startMock(){sessionStorage.setItem("v471_session","mock-"+Date.now());
-  const qty=+$("mockQty").value;mock=shuffle(questions).slice(0,qty);mockAnswers={};
-  $("mockQuiz").innerHTML=mock.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${q.q}<span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt mockopt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${x}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${q.e}</div></div>`).join("");
+  const qty=+$("mockQty").value,pool=getSchoolPool();mock=shuffle(pool).slice(0,Math.min(qty,pool.length));mockAnswers={};
+  $("mockQuiz").innerHTML=mock.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${q.q}<span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt mockopt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${x}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${q.e}</div></div>`).join("");
   $("mockSubmitBox").style.display="block";$("mockResult").innerHTML="";
 }
 $("mockQuiz").addEventListener("click",e=>{
@@ -215,7 +283,7 @@ async function getScopeProfile(){if(dbMode!=="cloud"||!db)return null;const {dat
 async function showScopeProfile(){activeScope=await getScopeProfile();const box=$("scopeProfile");if(!activeScope){box.innerHTML="目前這個學校／學年度／段考尚未建立已核驗範圍。你仍可使用「原創練習」。";return;}const tw=activeScope.topic_weights||{},dw=activeScope.difficulty_weights||{};box.innerHTML=`<b>已核驗範圍：</b>${activeScope.scope_label}<div class="chips">${Object.entries(tw).map(([k,v])=>`<span class="chip">${k} ${v}%</span>`).join("")}</div><div class="small">難度配置：${Object.entries(dw).map(([k,v])=>`${k} ${v}%`).join("／")}</div>${activeScope.source_url?`<p><a class="linkbtn soft" target="_blank" rel="noopener" href="${activeScope.source_url}">查看官方範圍來源</a></p>`:""}`;}
 function weightedPick(pool,weights,key,n){let result=[],used=new Set();for(const [label,pct] of Object.entries(weights||{})){const want=Math.round(n*(+pct)/100),candidates=pool.filter(q=>q[key]===label&&!used.has(q.id));shuffle(candidates).slice(0,want).forEach(q=>{result.push(q);used.add(q.id)});}return result.concat(shuffle(pool.filter(q=>!used.has(q.id))).slice(0,Math.max(0,n-result.length))).slice(0,n);}
 async function buildAutoPaper(){sessionStorage.setItem("v471_session","auto-"+Date.now());activeScope=await getScopeProfile();if(!activeScope){toast("這組條件尚無已核驗官方範圍");return;}const n=+$("autoQty").value,topics=Object.keys(activeScope.topic_weights||{}),pool=questions.filter(q=>topics.includes(q.topic));autoPaper=weightedPick(pool,activeScope.topic_weights,"topic",n);autoAnswers={};renderAutoPaper();$("autoSubmitBox").style.display="block";}
-function renderAutoPaper(){$("autoQuiz").innerHTML=autoPaper.map((q,i)=>`<div class="card qcard"><div class="small">第 ${i+1} 題 · ${q.topic} · ${q.level}</div><div class="qtitle">${q.question}</div><div class="opts">${q.options.map((o,j)=>`<button class="opt" data-ai="${i}" data-aj="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-auto-dk="${i}">我不會</button><button class="soft" data-auto-ask="${i}">問 ChatGPT</button></div><div class="explain" id="aexp${i}"><b>答案：</b>${String.fromCharCode(65+q.answer)}<br><b>詳解：</b>${q.explanation}</div></div>`).join("");document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{const i=+b.dataset.ai,j=+b.dataset.aj;autoAnswers[i]=j;b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});}
+function renderAutoPaper(){$("autoQuiz").innerHTML=autoPaper.map((q,i)=>`<div class="card qcard"><div class="small">第 ${i+1} 題 · ${q.topic} · ${q.level}</div><div class="qtitle">${q.question}</div><div class="opts">${q.options.map((o,j)=>`<button class="opt" data-ai="${i}" data-aj="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-auto-dk="${i}">🙋 我不會</button><button class="soft" data-auto-ask="${i}">問 ChatGPT</button></div><div class="explain" id="aexp${i}"><b>答案：</b>${String.fromCharCode(65+q.answer)}<br><b>詳解：</b>${q.explanation}</div></div>`).join("");document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{const i=+b.dataset.ai,j=+b.dataset.aj;autoAnswers[i]=j;b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});}
  document.querySelectorAll("[data-auto-dk]").forEach(b=>b.onclick=()=>{const q=autoPaper[+b.dataset.autoDk];markNeedHelp({id:q.id,topic:q.topic,level:q.level,question:q.question,options:q.options,answer:q.answer,explanation:q.explanation},"我不會");});
  document.querySelectorAll("[data-auto-ask]").forEach(b=>b.onclick=()=>{const q=autoPaper[+b.dataset.autoAsk];queueForChatGPT({id:q.id,topic:q.topic,level:q.level,question:q.question,options:q.options,answer:q.answer,explanation:q.explanation},"我想請 ChatGPT 再解釋");});
 
@@ -240,7 +308,7 @@ function studyMistake(q){
  return map[q.topic]||"計算前未檢查條件與符號。";
 }
 function startStudy(fromWrong=false){
- let pool=questions.slice();
+ let pool=getSchoolPool();
  if(fromWrong){const ids=(JSON.parse(localStorage.getItem("wrong")||"[]")).map(x=>x.id);pool=pool.filter(q=>ids.includes(q.id));}
  else{const t=$("studyTopic").value,l=$("studyLevel").value;if(t!=="全部")pool=pool.filter(q=>q.topic===t);if(l!=="全部")pool=pool.filter(q=>q.level===l);}
  studyPool=shuffle(pool);studyIndex=0;studyReveal=0;
@@ -250,7 +318,7 @@ function startStudy(fromWrong=false){
 function renderStudy(){
  const q=studyPool[studyIndex%studyPool.length];studyReveal=0;
  $("studyProgress").textContent=`第 ${studyIndex+1} 題 · ${q.topic} · ${q.level}`;
- $("studyCard").innerHTML=`<div class="card qcard"><div class="qtitle">${q.question}</div><div class="opts">${q.options.map((o,j)=>`<button class="opt" data-study-opt="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="studyActions"><button class="soft" id="dontKnow">我不會</button><button class="soft" id="showHint">提示 1</button><button class="soft" id="askLater">加入待詢</button><button class="primary" id="checkStudy">確認答案</button></div><div id="studyExplain" class="studySteps"></div><div class="confidence"><span class="small">這題掌握度：</span><button data-conf="1">再學一次</button><button data-conf="2">有點懂</button><button data-conf="3">已掌握</button></div></div>`;
+ $("studyCard").innerHTML=`<div class="card qcard"><div class="qtitle">${q.question}</div><div class="opts">${q.options.map((o,j)=>`<button class="opt" data-study-opt="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="studyActions"><button class="soft" id="dontKnow">🙋 我不會</button><button class="soft" id="showHint">提示 1</button><button class="soft" id="askLater">加入待詢</button><button class="primary" id="checkStudy">確認答案</button></div><div id="studyExplain" class="studySteps"></div><div class="confidence"><span class="small">這題掌握度：</span><button data-conf="1">再學一次</button><button data-conf="2">有點懂</button><button data-conf="3">已掌握</button></div></div>`;
  let picked=null;
  document.querySelectorAll("[data-study-opt]").forEach(b=>b.onclick=()=>{picked=+b.dataset.studyOpt;b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});
  $("showHint").onclick=()=>revealStudy(q,1);$("askLater").onclick=()=>queueForChatGPT(q,"我想請 ChatGPT 再解釋");
@@ -378,3 +446,6 @@ $("magicBtn").addEventListener("click",sendMagicLink);$("signOutBtn").addEventLi
 
 populateSchools();refreshSchool();renderSources();chooseSet();refreshStats();connectDB(false);
 })();
+
+// V4.8 school/range reload
+["school","year","term","exam"].forEach(id=>$(id).addEventListener("change",async()=>{refreshSchool();await loadSchoolBankStatus();chooseSet();}));
