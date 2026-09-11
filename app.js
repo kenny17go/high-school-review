@@ -146,6 +146,7 @@ async function connectDB(showMessage=false){
     if(q&&q.length){
       questions=q.map(x=>({id:x.id,topic:x.topic,sub:x.subtopic,level:x.difficulty,q:x.question_text,o:x.options,a:x.correct_index,e:x.explanation}));
     }
+    verifyBankV49610();
     dbMode="cloud";setDbBadge(true,"Supabase 已連線");
     await refreshAuth();
     populateSchools();
@@ -649,9 +650,29 @@ function renderWeak(){
   const hist=JSON.parse(localStorage.getItem("v42hist")||"{}"),topics=["實數","多項式","指數","對數","綜合"];
   $("weakBars").innerHTML=topics.map(t=>{const h=hist[t],pct=h&&h.total?Math.round(h.ok/h.total*100):0;return `<div class="barrow"><b>${t}</b><div class="bar"><i style="width:${pct}%"></i></div><span>${h&&h.total?pct+"%":"-"}</span></div>`}).join("");
 }
+
+function verifyBankV49610(){
+  const total=Array.isArray(questions)?questions.length:0;
+  const extra=Array.isArray(questions)?questions.filter(q=>Number(q.id)>160).length:0;
+  const pool=(typeof getSchoolPool==="function")?getSchoolPool():questions;
+  const poolExtra=Array.isArray(pool)?pool.filter(q=>Number(q.id)>160).length:0;
+  const totalEl=$("bankTotalN"), verifyEl=$("bankVerifyText"), chip=$("homeBankChip");
+  if(totalEl)totalEl.textContent=total;
+  if(chip)chip.textContent=`目前題庫 ${total} 題`;
+  if(verifyEl){
+    const topicCount={};
+    (questions||[]).forEach(q=>topicCount[q.topic]=(topicCount[q.topic]||0)+1);
+    const five=["實數","多項式","指數","對數","綜合"];
+    const balanced=five.every(t=>topicCount[t]===50);
+    verifyEl.textContent=`題庫驗證：總計 ${total} 題｜新增題 ${extra} 題｜${$("school")?.value||"目前學校"}可抽 ${pool.length} 題（其中新增題 ${poolExtra} 題）${balanced?"｜5 主題各 50 題 ✓":""}`;
+  }
+  return {total,extra,pool:pool.length,poolExtra};
+}
+
 function refreshStats(){
   const s=localStorage.getItem("v42score"),d=+(localStorage.getItem("v42done")||0),w=JSON.parse(localStorage.getItem("v42wrong")||"[]").length;
   $("score").textContent=s===null?"-":s;$("doneN").textContent=d;$("wrongN").textContent=w;$("prog").style.width=Math.min(100,Math.round(d/50*100))+"%";
+  verifyBankV49610();
 }
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("showToast");setTimeout(()=>t.classList.remove("showToast"),3200)}
 function openSettings(){
@@ -715,6 +736,7 @@ try{
   chooseSet();          // 先生成練習題
   refreshStats();
   loadSchoolBankStatus();
+  verifyBankV49610();
   setDbBadge(false,"⚡ 本機即用");
 }catch(e){
   console.error("V4.9.6 core startup failed",e);
@@ -783,6 +805,7 @@ const gsatVariantV4967=$("gsatVariant");if(gsatVariantV4967)gsatVariantV4967.onc
 onV496("school","change",()=>{
   refreshSchool();
   loadSchoolBankStatus();
+  verifyBankV49610();
   chooseSet();
 });
 ["year","term","exam"].forEach(id=>onV496(id,"change",()=>{

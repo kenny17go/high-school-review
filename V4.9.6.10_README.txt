@@ -1,0 +1,13 @@
+V4.9.6.10 250題計數修正版
+
+已驗證：
+- Supabase 題庫：250 題；實數/多項式/指數/對數/綜合各 50 題。
+- extra-questions-v4966.js：90 題，載入順序在 app.js 之前。
+- 本機模式：fallback-data + extra-questions 合併後進 questions。
+- 練習 chooseSet() 從 getSchoolPool() 抽題，因此新增題會進練習池。
+- 模考 startMock() 從 getSchoolPool() 抽題，因此新增題會進模考池。
+
+修正：
+- 首頁題庫數不再寫死 160，改由 questions.length 動態顯示。
+- 顯示題庫驗證：總題數、新增題數、目前學校可抽題數與新增題可抽數。
+- 未更動練習、模考、我不會、錯題、ChatGPT待詢邏輯。
