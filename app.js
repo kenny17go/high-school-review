@@ -16,6 +16,7 @@ const V494_PROFILES={
  "師大附中":{label:"附中模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%3!==0},
  "成功高中":{label:"成功模擬題池",allow:q=>true},
  "中山女高":{label:"中山女高模擬題池",allow:q=>q.level!=="挑戰"||Number(q.id)%3!==0},
+ "松山高中":{label:"松山高中模擬題池",allow:q=>true},
  "延平高中":{label:"延平模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%2===1},
  "薇閣高中":{label:"薇閣模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%2===1}
 };
@@ -68,7 +69,7 @@ function renderBankStatus(x){
    const c=v494LocalSchoolPool($("school").value).length;
    title.innerHTML=`<b>⚡ ${$("school").value} 題池已就緒</b>`;
    badge.textContent="本機極速";badge.className="status goodS";
-   detail.textContent="目前使用本機 160 題即時計算學校分流；Supabase 僅在背景補官方範圍。";
+   detail.textContent="目前使用本機題庫即時計算學校分流；Supabase 僅在背景補官方範圍。";
    chips.innerHTML=`<span class="chip">可用 ${c} 題</span><span class="chip">零等待切校</span>`;
    if(homeChip)homeChip.textContent=`${$("school").value} ${c} 題`;return;
  }
