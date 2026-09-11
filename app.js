@@ -197,6 +197,74 @@ function refreshSchool(){
   const s=$("status"); s.textContent=d.status||"待核驗";
   s.className="status "+(d.tone==="good"?"goodS":d.tone==="mid"?"midS":"lowS");
 }
+
+const V49617_SCHOOLS=["建國中學","北一女中","師大附中","成功高中","中山女高","松山高中","延平高中","薇閣高中"];
+const V49617_YEARS=[110,111,112,113,114,115];
+const V49617_EXAMS=["第一次段考","第二次段考","第三次段考／期末"];
+function normExamV49617(x){
+ const s=String(x||"");
+ if(s.includes("第一"))return "第一次段考";
+ if(s.includes("第二"))return "第二次段考";
+ if(s.includes("第三")||s.includes("期末"))return "第三次段考／期末";
+ return s;
+}
+async function loadCoverageV49617(){
+ const status=$("coverageStatus"),matrix=$("coverageMatrix"),sum=$("coverageSummary");
+ if(!status||!matrix)return;
+ status.textContent="正在讀取資料完整度…";
+ try{
+   const hdb=await getHistoricalDbV4963();
+   const subject=$("coverageSubject")?.value||"數學";
+   const timeout=new Promise((_,rej)=>setTimeout(()=>rej(new Error("資料完整度查詢逾時")),6000));
+   const task=Promise.all([
+     hdb.from("source_documents").select("academic_year,term,exam_name,subject,schools(name)").gte("academic_year",110),
+     hdb.from("exam_source_inventory").select("academic_year,term,exam_name,subject,schools(name)").gte("academic_year",110),
+     hdb.from("exam_scope_profiles").select("academic_year,term,exam_name,subject,schools(name)").gte("academic_year",110)
+   ]);
+   const res=await Promise.race([task,timeout]);
+   const rows=[];
+   res.forEach((r,idx)=>{
+     if(r.error)throw r.error;
+     (r.data||[]).forEach(x=>rows.push({...x,_kind:["歷屆來源","題源索引","官方範圍"][idx]}));
+   });
+   const filtered=rows.filter(x=>(x.subject||"數學")===subject&&Number(x.academic_year)>=110);
+   const map=new Map();
+   filtered.forEach(x=>{
+     const school=x.schools?.name;if(!school||!x.academic_year||!x.term||!x.exam_name)return;
+     const exam=normExamV49617(x.exam_name);
+     if(!V49617_EXAMS.includes(exam))return;
+     const key=[school,Number(x.academic_year),Number(x.term),exam].join("|");
+     if(!map.has(key))map.set(key,new Set());
+     map.get(key).add(x._kind);
+   });
+   let h1='<thead><tr><th class="schoolCell" rowspan="3">學校</th>';
+   V49617_YEARS.forEach(y=>h1+=`<th colspan="6">${y} 學年度</th>`);h1+='</tr><tr>';
+   V49617_YEARS.forEach(()=>{h1+='<th colspan="3">上學期</th><th colspan="3">下學期</th>'});h1+='</tr><tr>';
+   V49617_YEARS.forEach(()=>{for(let t=0;t<2;t++){h1+='<th class="coverageSlot">一段</th><th class="coverageSlot">二段</th><th class="coverageSlot">三段</th>'}});h1+='</tr></thead>';
+   let body='<tbody>',covered=0,total=V49617_SCHOOLS.length*V49617_YEARS.length*6;
+   V49617_SCHOOLS.forEach(school=>{
+     body+=`<tr><td class="schoolCell">${school}</td>`;
+     V49617_YEARS.forEach(y=>{
+       [1,2].forEach(term=>{
+         V49617_EXAMS.forEach(exam=>{
+           const kinds=map.get([school,y,term,exam].join("|"));
+           if(kinds){covered++;body+=`<td class="coverageYes" title="${[...kinds].join("、")}">✓</td>`}
+           else body+='<td class="coverageNo">—</td>';
+         });
+       });
+     });
+     body+='</tr>';
+   });body+='</tbody>';
+   matrix.innerHTML=h1+body;
+   const pct=total?Math.round(covered/total*100):0,missing=total-covered;
+   if(sum)sum.innerHTML=`<span class="chip">科目：${subject}</span><span class="chip">已有 ${covered} 格</span><span class="chip">缺 ${missing} 格</span><span class="chip">完整度 ${pct}%</span>`;
+   status.textContent=`目前以 ${subject} 統計；✓ 代表該校該時段至少已有一筆「歷屆來源／題源索引／官方範圍」。`;
+ }catch(e){
+   console.error(e);status.textContent="資料完整度讀取失敗："+(e.message||e);
+   matrix.innerHTML="";
+ }
+}
+
 function openPanel(id){
   const panel=$(id);
   if(!panel){toast("此功能頁目前無法開啟。");return;}
@@ -207,6 +275,7 @@ function openPanel(id){
     if(id==="wrong")renderWrong();
     if(id==="weak")renderWeak();
     if(id==="gsat")Promise.resolve(loadGsatV4967()).catch(e=>console.error(e));
+    if(id==="coverage")Promise.resolve(loadCoverageV49617()).catch(e=>console.error(e));
     if(id==="historical")loadHistorical(false).catch(e=>{console.error(e);$("historicalStatus").textContent="來源暫時無法載入，基本題庫不受影響。";});
     if(id==="sourceengineering")Promise.resolve(loadSourceEngineering()).catch(e=>console.error(e));
     if(id==="autopaper")Promise.resolve(showScopeProfile()).catch(e=>console.error(e));
@@ -815,6 +884,8 @@ onV496("signOutBtn","click",signOut);
 const gsatBtnV4967=$("loadGsat");if(gsatBtnV4967)gsatBtnV4967.onclick=loadGsatV4967;
 const gsatYearV4967=$("gsatYear");if(gsatYearV4967)gsatYearV4967.onchange=loadGsatV4967;
 const gsatVariantV4967=$("gsatVariant");if(gsatVariantV4967)gsatVariantV4967.onchange=loadGsatV4967;
+const refreshCoverageV49617=$("refreshCoverage");if(refreshCoverageV49617)refreshCoverageV49617.onclick=loadCoverageV49617;
+const coverageSubjectV49617=$("coverageSubject");if(coverageSubjectV49617)coverageSubjectV49617.onchange=loadCoverageV49617;
 // selection changes: instant local re-render
 onV496("school","change",()=>{
   refreshSchool();
