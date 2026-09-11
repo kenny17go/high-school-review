@@ -1,4 +1,4 @@
-window.V4964_BUILD="4.9.6.4-runtime-fix-20260911";
+window.V4965_BUILD="4.9.6.5-persist-settings-20260911";
 
 (function(){
 "use strict";
@@ -638,10 +638,11 @@ async function saveSettings(){
   if(ok)setTimeout(closeSettings,450);
 }
 function useLocal(){
-  localStorage.removeItem("v42_url");localStorage.removeItem("v42_key");
+  // 只切換目前執行模式；保留 Supabase 設定。
   db=null;dbMode="local";schools=F.schools;questions=F.questions;
   populateSchools();chooseSet();renderSources();refreshSchool();loadSchoolBankStatus();
-  setDbBadge(false,"⚡ 本機即用");closeSettings();toast("已切換成本機題庫。");
+  setDbBadge(false,"⚡ 本機即用");closeSettings();
+  toast("已暫時使用本機題庫；Supabase 設定仍保留。");
 }
 
 
