@@ -161,6 +161,7 @@ function openPanel(id){
   if(id==="wrong")renderWrong();
   if(id==="weak")renderWeak();
   if(id==="historical")loadHistorical(false);
+  if(id==="sourceengineering")loadSourceEngineering();
   if(id==="autopaper")showScopeProfile();
   if(id==="study")startStudy(false);
   if(id==="helper")renderHelper();
@@ -391,6 +392,79 @@ function copyAllStudyQuestions(){
  const head=`我正在準備台灣高中數學段考。以下是我目前不會、答錯或看不懂的題目。請一次先診斷我的共同弱點，再逐題教我。每題請用「觀念 → 破題 → 分步驟 → 常見錯誤」的方式，不要只給答案。最後請依我的弱點出 3 題新的練習題，先不要公布答案。\n\n`;
  copyTextSafe(head+a.map((x,i)=>`========== 第 ${i+1} 題 ==========\n${promptForItem(x)}`).join("\n\n"));
 }
+
+let sourceInventoryV49=[],sourceCoverageV49=[];
+const kindLabel={question:"試題",answer:"答案",scope:"考試範圍",schedule:"考程",index:"題庫索引",reference:"參考來源"};
+const provLabel={official_school:"校方官方",official_department:"校內科別官方",secondary_archive:"民間考古題索引",third_party_reference:"第三方參考"};
+
+let calibrationV49=[],examEvidenceV49=[];
+async function loadCalibrationV49(){
+ if(dbMode!=="cloud"||!db)return;
+ const [c,e]=await Promise.all([
+   db.from("school_calibration_status").select("*,schools(name)").order("school_id"),
+   db.from("exam_structure_evidence").select("*,schools(name)").order("academic_year",{ascending:false})
+ ]);
+ calibrationV49=c.data||[];examEvidenceV49=e.data||[];
+ renderCalibrationV49();renderExamEvidenceV49();
+}
+function statusTextV49(s){
+ return {calibrating:"官方考卷校正中",archive_confirmed:"官方題庫已確認",scope_only:"僅官方範圍",not_started:"尚未開始"}[s]||s;
+}
+function renderCalibrationV49(){
+ const box=$("calibrationCards");if(!box)return;
+ box.innerHTML=calibrationV49.map(x=>{
+  const conf=x.current_confidence||"low",cls=conf==="high"?"calibHigh":conf==="medium"?"calibMedium":"calibLow";
+  const findings=Array.isArray(x.key_findings)?x.key_findings:[];
+  return `<div class="card ${cls}"><div style="display:flex;justify-content:space-between;gap:8px"><h3 style="margin:0">${x.schools?.name||""}</h3><span class="status ${conf==="high"?"goodS":conf==="medium"?"midS":"lowS"}">${statusTextV49(x.structure_model_status)}</span></div>
+  <div class="chips"><span class="chip">官方題庫 ${x.official_archive_confirmed?"✓":"—"}</span><span class="chip">已分析 ${x.official_papers_analyzed} 份</span><span class="chip">槽位 ${x.archive_slots||0}</span></div>
+  ${x.archive_year_from?`<div class="small">已確認年度：約 ${x.archive_year_from}～${x.archive_year_to}</div>`:""}
+  <p class="small">${x.model_note||""}</p>${findings.length?`<ul class="small">${findings.map(f=>`<li>${f}</li>`).join("")}</ul>`:""}</div>`;
+ }).join("");
+}
+function renderExamEvidenceV49(){
+ const box=$("examEvidenceList");if(!box)return;
+ const analyzed=examEvidenceV49.filter(x=>x.analysis_status==="structure_verified");
+ $("examEvidenceSummary").textContent=`目前已完成 ${analyzed.length} 份官方考卷的結構化分析；archive_verified 僅代表官方題庫存在，尚未推論命題風格。`;
+ box.innerHTML=examEvidenceV49.map(x=>{
+   if(x.analysis_status!=="structure_verified")return `<div class="card sourcecard"><h3 style="margin:0">${x.schools?.name||""}｜${x.term===1?"上":"下"}學期｜${x.exam_name}</h3><p class="small">${x.format_summary||""}</p><div class="chips"><span class="chip">官方題庫已確認</span><span class="chip">尚未逐卷分析</span></div><a class="linkbtn soft" target="_blank" rel="noopener" href="${x.source_url}">開啟官方資料夾</a></div>`;
+   const vals=[["單選",x.single_select_count||0],["多選",x.multi_select_count||0],["是非",x.true_false_count||0],["填充",x.fill_blank_count||0],["計算/證明",x.written_count||0]];
+   return `<div class="card sourcecard"><div class="sourcehead"><div><h3 style="margin:0">${x.schools?.name||""}｜${x.academic_year}｜${x.term===1?"上":"下"}｜${x.exam_name}</h3><p class="small">${x.format_summary||""}</p></div><span class="trustHigh">結構已核驗</span></div>
+   <div class="evidenceGrid">${vals.map(v=>`<div class="evMetric"><b>${v[1]}</b>${v[0]}</div>`).join("")}</div>
+   <p class="small">${x.evidence_note||""}</p>
+   ${x.topic_summary?`<div class="chips">${Object.entries(x.topic_summary).map(([k,v])=>`<span class="chip">${k} ${v}%</span>`).join("")}</div>`:""}
+   <a class="linkbtn primary" target="_blank" rel="noopener" href="${x.source_url}">查看官方考卷</a></div>`;
+ }).join("");
+}
+
+async function loadSourceEngineering(){
+ if(dbMode!=="cloud"||!db){$("coverageCards").innerHTML='<div class="card">需先連線 Supabase 才能查看 V4.9 真實題源資料。</div>';$("sourceInventoryList").innerHTML="";return;}
+ const [inv,cov]=await Promise.all([
+   db.from("exam_source_inventory").select("*,schools(name)").order("verified_at",{ascending:false}),
+   db.from("school_source_coverage").select("*,schools(name)")
+ ]);
+ sourceInventoryV49=inv.data||[];sourceCoverageV49=cov.data||[];
+ const f=$("sourceSchoolFilter");f.innerHTML='<option value="全部">全部學校</option>'+sourceCoverageV49.map(x=>`<option>${x.schools?.name||""}</option>`).join("");
+ renderCoverageV49();renderSourceInventoryV49();await loadCalibrationV49();
+}
+function renderCoverageV49(){
+ $("coverageCards").innerHTML=sourceCoverageV49.map(x=>{
+  const name=x.schools?.name||"",st=x.coverage_status,cls=st==="strong"?"coverageGood":st==="limited"?"coverageLow":"coverageMixed";
+  const badges=[
+   x.official_question_source?"官方試題 ✓":"官方試題 —",
+   x.official_answer_source?"官方答案 ✓":"官方答案 —",
+   x.official_scope_source?"官方範圍 ✓":"官方範圍 —",
+   x.secondary_question_source?"民間考古題 ✓":"民間考古題 —"
+  ];
+  return `<div class="card ${cls}"><h3 style="margin:0">${name}</h3><div class="chips">${badges.map(b=>`<span class="chip">${b}</span>`).join("")}</div><p class="small">${x.notes||""}</p><div class="small">最新核驗學年度：${x.latest_verified_year||"—"}</div></div>`;
+ }).join("");
+}
+function renderSourceInventoryV49(){
+ const s=$("sourceSchoolFilter").value,k=$("sourceKindFilter").value,p=$("sourceProvFilter").value;
+ const arr=sourceInventoryV49.filter(x=>(s==="全部"||x.schools?.name===s)&&(k==="全部"||x.source_kind===k)&&(p==="全部"||x.provenance===p));
+ $("sourceInventorySummary").textContent=`符合條件 ${arr.length} 筆來源｜V4.9 僅建立索引與中繼資料，不直接複製完整考卷內容。`;
+ $("sourceInventoryList").innerHTML=arr.length?arr.map(x=>`<div class="card sourcecard"><div class="sourcehead"><div><h3 style="margin:0">${x.title}</h3><div class="sourceMeta"><span>${x.schools?.name||""}</span><span>${x.academic_year||"跨年度"}學年度</span><span>${x.term?x.term===1?"上學期":"下學期":"學期未限定"}</span><span>${x.exam_name||"多次考試"}</span><span>${kindLabel[x.source_kind]||x.source_kind}</span><span>${provLabel[x.provenance]||x.provenance}</span></div></div><span class="${x.confidence==="high"?"trustHigh":x.confidence==="medium"?"trustMedium":"trustLow"}">${x.confidence==="high"?"高可信":x.confidence==="medium"?"中可信":"待核驗"}</span></div><p class="small">${x.notes||""}</p><div class="sourceactions"><a class="linkbtn primary" href="${x.source_url}" target="_blank" rel="noopener">開啟來源</a><span class="small">使用方式：${x.reuse_mode==="official_link"?"官方連結":x.reuse_mode==="link_only"?"只建立連結索引":x.reuse_mode==="metadata_only"?"只保留中繼資料":"需另取得授權"}</span></div></div>`).join(""):'<div class="card">目前沒有符合條件的來源。</div>';
+}
+
 function renderSources(){
   $("sourceRows").innerHTML=Object.keys(schools).map(n=>{const d=schools[n];return `<tr><td><b>${n}</b></td><td><span class="status ${d.tone==="good"?"goodS":d.tone==="mid"?"midS":"lowS"}">${d.status}</span></td><td>${d.desc}</td><td><a class="linkbtn soft" target="_blank" href="${d.url}">官方入口</a></td></tr>`}).join("");
 }
@@ -449,3 +523,5 @@ populateSchools();refreshSchool();renderSources();chooseSet();refreshStats();con
 
 // V4.8 school/range reload
 ["school","year","term","exam"].forEach(id=>$(id).addEventListener("change",async()=>{refreshSchool();await loadSchoolBankStatus();chooseSet();}));
+
+$("applySourceFilters").addEventListener("click",renderSourceInventoryV49);
