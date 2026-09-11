@@ -94,6 +94,8 @@ function openPanel(id){
   if(id==="weak")renderWeak();
   if(id==="historical")loadHistorical(false);
   if(id==="autopaper")showScopeProfile();
+  if(id==="study")startStudy(false);
+  if(id==="helper")renderHelper();
   window.scrollTo(0,0);
 }
 function goHome(){
@@ -210,6 +212,85 @@ function weightedPick(pool,weights,key,n){let result=[],used=new Set();for(const
 async function buildAutoPaper(){activeScope=await getScopeProfile();if(!activeScope){toast("這組條件尚無已核驗官方範圍");return;}const n=+$("autoQty").value,topics=Object.keys(activeScope.topic_weights||{}),pool=questions.filter(q=>topics.includes(q.topic));autoPaper=weightedPick(pool,activeScope.topic_weights,"topic",n);autoAnswers={};renderAutoPaper();$("autoSubmitBox").style.display="block";}
 function renderAutoPaper(){$("autoQuiz").innerHTML=autoPaper.map((q,i)=>`<div class="card qcard"><div class="small">第 ${i+1} 題 · ${q.topic} · ${q.level}</div><div class="qtitle">${q.question}</div><div class="opts">${q.options.map((o,j)=>`<button class="opt" data-ai="${i}" data-aj="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="explain" id="aexp${i}"><b>答案：</b>${String.fromCharCode(65+q.answer)}<br><b>詳解：</b>${q.explanation}</div></div>`).join("");document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{const i=+b.dataset.ai,j=+b.dataset.aj;autoAnswers[i]=j;b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});}
 async function submitAutoPaper(){let correct=0;autoPaper.forEach((q,i)=>{const card=$("aexp"+i).parentElement,opts=card.querySelectorAll(".opt");opts[q.answer].classList.add("correct");if(autoAnswers[i]===q.answer)correct++;else if(autoAnswers[i]!=null)opts[autoAnswers[i]].classList.add("wrong");$("aexp"+i).classList.add("show")});const score=Math.round(correct/Math.max(1,autoPaper.length)*100);$("autoResult").innerHTML=`<h3>${$("school").value} ${$("year").value} ${$("term").value} ${$("exam").value} 模擬卷：${score} 分</h3><p class="small">${correct}/${autoPaper.length} 題正確 · 範圍：${activeScope.scope_label}</p>`;}
+
+let studyPool=[],studyIndex=0,studyReveal=0;
+function studyHint(q){
+ const hints={
+  "實數":"先整理數的性質、根式或絕對值條件，再決定運算順序。",
+  "多項式":"先觀察是否能因式分解、代入特殊值，或使用餘式／因式定理。",
+  "指數":"先把底數統一，再比較指數；注意指數律的使用條件。",
+  "對數":"先確認真數大於 0，再利用乘法、除法與次方的對數律。",
+  "綜合":"先判斷題目主要考哪個觀念，把已知條件轉成代數式。"
+ };return hints[q.topic]||"先圈出已知條件與要求的量，再選擇對應公式。";
+}
+function studyKey(q){
+ const map={"實數":"數與式的定義、運算性質與條件","多項式":"因式分解、餘式定理與代數運算","指數":"指數律、同底轉換與成長關係","對數":"對數定義、換底與對數律","綜合":"辨識核心觀念並串聯條件"};
+ return map[q.topic]||q.topic;
+}
+function studyMistake(q){
+ const map={"實數":"忽略根式、分母或絕對值造成的條件限制。","多項式":"展開或移項時符號錯誤，或把餘式定理的代入值弄反。","指數":"把加法誤套成指數律，或底數未統一就直接比較。","對數":"忘記真數必須大於 0，或把 log(a+b) 錯拆成兩個對數。","綜合":"太快計算，沒有先確認題目真正要求的量。"};
+ return map[q.topic]||"計算前未檢查條件與符號。";
+}
+function startStudy(fromWrong=false){
+ let pool=questions.slice();
+ if(fromWrong){const ids=(JSON.parse(localStorage.getItem("wrong")||"[]")).map(x=>x.id);pool=pool.filter(q=>ids.includes(q.id));}
+ else{const t=$("studyTopic").value,l=$("studyLevel").value;if(t!=="全部")pool=pool.filter(q=>q.topic===t);if(l!=="全部")pool=pool.filter(q=>q.level===l);}
+ studyPool=shuffle(pool);studyIndex=0;studyReveal=0;
+ if(!studyPool.length){$("studyCard").innerHTML='<div class="card">目前沒有符合條件的題目。</div>';return;}
+ renderStudy();
+}
+function renderStudy(){
+ const q=studyPool[studyIndex%studyPool.length];studyReveal=0;
+ $("studyProgress").textContent=`第 ${studyIndex+1} 題 · ${q.topic} · ${q.level}`;
+ $("studyCard").innerHTML=`<div class="card qcard"><div class="qtitle">${q.question}</div><div class="opts">${q.options.map((o,j)=>`<button class="opt" data-study-opt="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="studyActions"><button class="soft" id="dontKnow">我不會</button><button class="soft" id="showHint">提示 1</button><button class="soft" id="askLater">加入待詢</button><button class="primary" id="checkStudy">確認答案</button></div><div id="studyExplain" class="studySteps"></div><div class="confidence"><span class="small">這題掌握度：</span><button data-conf="1">再學一次</button><button data-conf="2">有點懂</button><button data-conf="3">已掌握</button></div></div>`;
+ let picked=null;
+ document.querySelectorAll("[data-study-opt]").forEach(b=>b.onclick=()=>{picked=+b.dataset.studyOpt;b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});
+ $("showHint").onclick=()=>revealStudy(q,1);$("askLater").onclick=()=>queueForChatGPT(q,"我想請 ChatGPT 再解釋");
+ $("dontKnow").onclick=()=>{revealStudy(q,4);saveStudyWrong(q,"不會");queueForChatGPT(q,"我不會")};
+ $("checkStudy").onclick=()=>{if(picked==null){toast("先選一個答案，或按「我不會」");return;}const opts=document.querySelectorAll("[data-study-opt]");opts[q.answer].classList.add("correct");if(picked!==q.answer){opts[picked].classList.add("wrong");saveStudyWrong(q,"答錯");queueForChatGPT(q,`我答錯了，我選 ${String.fromCharCode(65+picked)}`);}revealStudy(q,4);};
+ document.querySelectorAll("[data-conf]").forEach(b=>b.onclick=()=>{saveConfidence(q,+b.dataset.conf);studyIndex++;renderStudy();});
+}
+function revealStudy(q,to){
+ studyReveal=Math.max(studyReveal,to);const e=$("studyExplain"),steps=[];
+ if(studyReveal>=1)steps.push(`<div class="studyStep"><b>① 提示</b><br>${studyHint(q)}</div>`);
+ if(studyReveal>=2)steps.push(`<div class="studyStep"><b>② 破題關鍵</b><br>先辨識本題屬於「${q.topic}」，核心是：${studyKey(q)}。</div>`);
+ if(studyReveal>=3)steps.push(`<div class="studyStep"><b>③ 使用觀念／公式</b><br>${studyKey(q)}。把題目條件逐一代入，不要跳步。</div>`);
+ if(studyReveal>=4)steps.push(`<div class="studyStep"><b>④ 完整詳解</b><br>正確答案：${String.fromCharCode(65+q.answer)}<br>${q.explanation}</div><div class="studyStep"><b>⑤ 常見錯誤</b><br>${studyMistake(q)}</div>`);
+ e.innerHTML=steps.join("");
+ if(studyReveal<4){const btn=document.createElement("button");btn.className="soft";btn.textContent=studyReveal===1?"再給我破題關鍵":studyReveal===2?"顯示使用觀念": "看完整詳解";btn.onclick=()=>revealStudy(q,studyReveal+1);e.appendChild(btn);}
+}
+function saveStudyWrong(q,reason){
+ let arr=JSON.parse(localStorage.getItem("wrong")||"[]");if(!arr.some(x=>x.id===q.id))arr.push({...q,reason});localStorage.setItem("wrong",JSON.stringify(arr));updateStats();
+}
+function saveConfidence(q,level){
+ let m=JSON.parse(localStorage.getItem("studyConfidence")||"{}");m[q.id]={level,at:new Date().toISOString()};localStorage.setItem("studyConfidence",JSON.stringify(m));
+}
+
+
+function getStudyQueue(){return JSON.parse(localStorage.getItem("studyQueue")||"[]");}
+function setStudyQueue(a){localStorage.setItem("studyQueue",JSON.stringify(a));}
+function queueForChatGPT(q,reason="我不會",note=""){
+ let a=getStudyQueue(),old=a.find(x=>x.id===q.id);
+ const item={id:q.id,topic:q.topic,level:q.level,question:q.question,options:q.options,answer:q.answer,explanation:q.explanation,reason,note,school:$("school").value,year:$("year").value,term:$("term").value,exam:$("exam").value,at:new Date().toISOString()};
+ if(old)Object.assign(old,item);else a.push(item);setStudyQueue(a);toast("已加入 ChatGPT 待詢清單");
+}
+function promptForItem(x){
+ const opts=(x.options||[]).map((o,i)=>`${String.fromCharCode(65+i)}. ${o}`).join("\n");
+ return `我是台灣高一學生，正在準備 ${x.school} ${x.year} 學年度 ${x.term} ${x.exam}。\n\n【章節】${x.topic}（${x.level}）\n【題目】${x.question}\n【選項】\n${opts}\n【題庫答案】${String.fromCharCode(65+Number(x.answer))}\n【題庫原詳解】${x.explanation||"無"}\n【我的狀況】${x.reason}${x.note?`\n【我卡住的地方】${x.note}`:""}\n\n請用台灣高中一年級程度教我，不要只丟答案。請依序：\n1. 說明這題考什麼觀念\n2. 告訴我破題關鍵\n3. 用清楚、不跳步的方式解題\n4. 指出我最可能犯的錯誤\n5. 最後出一題同觀念、難度相近的題目讓我練習，先不要公布答案。`;
+}
+async function copyTextSafe(text){try{await navigator.clipboard.writeText(text);toast("已複製，可直接貼到 ChatGPT");}catch(e){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast("已複製，可直接貼到 ChatGPT");}}
+function renderHelper(){
+ const a=getStudyQueue();$("helperSummary").textContent=`目前有 ${a.length} 題待詢問／待複習。`;
+ $("helperList").innerHTML=a.length?a.map((x,i)=>`<div class="card qcard"><div class="small">${x.school} · ${x.year} · ${x.term} · ${x.exam} · ${x.topic} · ${x.level}</div><div class="qtitle">${x.question}</div><p class="small">狀況：${x.reason}${x.note?`｜卡點：${x.note}`:""}</p><div class="filters"><button class="primary" data-copy-helper="${i}">複製這一題問 ChatGPT</button><button class="soft" data-note-helper="${i}">補充我卡住的地方</button><button class="warn" data-del-helper="${i}">移除</button></div></div>`).join(""):'<div class="card">目前沒有待詢問題。做題時按「我不會」或加入待詢即可。</div>';
+ document.querySelectorAll("[data-copy-helper]").forEach(b=>b.onclick=()=>copyTextSafe(promptForItem(a[+b.dataset.copyHelper])));
+ document.querySelectorAll("[data-note-helper]").forEach(b=>b.onclick=()=>{const i=+b.dataset.noteHelper,n=prompt("你卡在哪裡？例如：看不懂第二步為什麼可以移項",a[i].note||"");if(n!==null){a[i].note=n;setStudyQueue(a);renderHelper();}});
+ document.querySelectorAll("[data-del-helper]").forEach(b=>b.onclick=()=>{a.splice(+b.dataset.delHelper,1);setStudyQueue(a);renderHelper();});
+}
+function copyAllStudyQuestions(){
+ const a=getStudyQueue();if(!a.length){toast("目前沒有待詢問題");return;}
+ const head=`我正在準備台灣高中數學段考。以下是我目前不會、答錯或看不懂的題目。請一次先診斷我的共同弱點，再逐題教我。每題請用「觀念 → 破題 → 分步驟 → 常見錯誤」的方式，不要只給答案。最後請依我的弱點出 3 題新的練習題，先不要公布答案。\n\n`;
+ copyTextSafe(head+a.map((x,i)=>`========== 第 ${i+1} 題 ==========\n${promptForItem(x)}`).join("\n\n"));
+}
 function renderSources(){
   $("sourceRows").innerHTML=Object.keys(schools).map(n=>{const d=schools[n];return `<tr><td><b>${n}</b></td><td><span class="status ${d.tone==="good"?"goodS":d.tone==="mid"?"midS":"lowS"}">${d.status}</span></td><td>${d.desc}</td><td><a class="linkbtn soft" target="_blank" href="${d.url}">官方入口</a></td></tr>`}).join("");
 }
@@ -238,6 +319,10 @@ function useLocal(){localStorage.removeItem("v42_url");localStorage.removeItem("
 ["school","year","term","exam"].forEach(id=>$(id).addEventListener("change",refreshSchool));
 $("loadHistorical").addEventListener("click",()=>loadHistorical(false));
 $("buildAutoPaper").addEventListener("click",buildAutoPaper);
+$("newStudy").addEventListener("click",()=>startStudy(false));
+$("copyAllQuestions").addEventListener("click",copyAllStudyQuestions);
+$("clearStudyQueue").addEventListener("click",()=>{if(confirm("確定清除全部待詢問題？")){setStudyQueue([]);renderHelper();}});
+$("reviewWeak").addEventListener("click",()=>startStudy(true));
 $("submitAuto").addEventListener("click",submitAutoPaper);
 $("showAllHistorical").addEventListener("click",()=>loadHistorical(true));
 $("applyFilter").addEventListener("click",chooseSet);$("resetBtn").addEventListener("click",chooseSet);$("finishBtn").addEventListener("click",finishPractice);
