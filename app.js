@@ -771,9 +771,14 @@ function verifyBankV49610(){
 }
 
 function refreshStats(){
-  const s=localStorage.getItem("v42score"),d=+(localStorage.getItem("v42done")||0),w=JSON.parse(localStorage.getItem("v42wrong")||"[]").length;
-  $("score").textContent=s===null?"-":s;$("doneN").textContent=d;$("wrongN").textContent=w;$("prog").style.width=Math.min(100,Math.round(d/50*100))+"%";
-  verifyBankV49610();
+  const s=localStorage.getItem("v42score");
+  const d=+(localStorage.getItem("v42done")||0);
+  const w=JSON.parse(localStorage.getItem("v42wrong")||"[]").length;
+  if($("score"))$("score").textContent=s===null?"-":s;
+  if($("doneN"))$("doneN").textContent=d;
+  if($("wrongN"))$("wrongN").textContent=w;
+  if($("prog"))$("prog").style.width=Math.min(100,Math.round(d/50*100))+"%";
+  if(typeof verifyBankV49610==="function")verifyBankV49610();
 }
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("showToast");setTimeout(()=>t.classList.remove("showToast"),3200)}
 function openSettings(){
