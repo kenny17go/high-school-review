@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-Hant"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f3d5e">
-<title>高中段考複習平台 V4.9.6 穩定核心版</title>
+<title>高中段考複習平台 V4.9.6.1 歷屆真題修正版</title>
 <style>
 :root{--bg:#f4f7fa;--ink:#193244;--muted:#6d7e8a;--p:#0f3d5e;--p2:#1f6f8b;--line:#dce6ed;--good:#2f8f5b;--warn:#ad741b;--bad:#b84b4b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif}
@@ -27,8 +27,9 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 .coverageGood{border-left:5px solid #2f8f5b}.coverageMixed{border-left:5px solid #ad741b}.coverageLow{border-left:5px solid #b84b4b}.sourceMeta{display:flex;gap:6px;flex-wrap:wrap;margin:7px 0}.sourceMeta span{font-size:10px;background:#f1f5f7;border-radius:999px;padding:4px 7px}.trustHigh{color:#2f8f5b;font-weight:800}.trustMedium{color:#ad741b;font-weight:800}.trustLow{color:#b84b4b;font-weight:800}
 .calibHigh{border-left:5px solid #2f8f5b}.calibMedium{border-left:5px solid #ad741b}.calibLow{border-left:5px solid #b84b4b}.formatBar{height:8px;background:#e7edf1;border-radius:999px;overflow:hidden;margin:4px 0 9px}.formatBar i{display:block;height:100%;background:var(--p2)}.evidenceGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}.evMetric{text-align:center;background:#f7fafc;border-radius:10px;padding:8px 4px}.evMetric b{display:block;font-size:18px;color:var(--p)}
 .dontKnowBtn{background:#fff3dc!important;color:#805614!important;border:1px solid #edcf96!important}.perfTiny{font-size:10px;color:var(--muted)}
+.historicalPick{border:1px solid var(--line);border-radius:14px;padding:14px}.historicalPick:active{transform:scale(.995)}.historicalActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.historicalActions button{min-height:46px}.histSelected{outline:2px solid var(--p2)}@media(max-width:520px){.historicalActions{grid-template-columns:1fr}}
 </style></head><body>
-<header><div class="head"><div><h1>高中段考複習平台 V4.9.6 穩定核心版</h1><p>極速模式＋本機即時計算學校題池＋背景載入官方範圍</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft">資料庫設定</button></div></div></header>
+<header><div class="head"><div><h1>高中段考複習平台 V4.9.6.1 穩定核心版</h1><p>極速模式＋本機即時計算學校題池＋背景載入官方範圍</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft">資料庫設定</button></div></div></header>
 <main>
 <div id="home"><div class="card"><div class="setup">
 <div class="field"><label>學校</label><select id="school"><option>建國中學</option><option>北一女中</option><option>師大附中</option><option selected>成功高中</option><option>中山女高</option><option>延平高中</option><option>薇閣高中</option></select></div>
@@ -66,8 +67,15 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <div id="sourceInventorySummary" class="small"></div></div>
 <div id="sourceInventoryList"></div></div><div id="historical" class="panel"><button class="soft back" data-home>← 回首頁</button>
 <div class="card"><h2>歷屆真題・官方來源</h2>
-<p class="small">V4.9 先從成功高中建立真實來源索引。完整考卷與答案仍由原校方網站提供，本平台不重新刊載整份考卷文字。</p>
-<div class="filters"><button class="primary" id="loadHistorical">依目前條件搜尋</button><button class="soft" id="showAllHistorical">顯示成功高中全部來源</button></div>
+<p class="small">這裡使用獨立篩選，不受首頁只顯示近年學年度限制。可直接選擇資料庫中已收錄的學校、年度、學期與段考。</p>
+<div class="filters">
+<select id="histSchool"><option value="全部">全部學校</option></select>
+<select id="histYear"><option value="全部">全部學年度</option></select>
+<select id="histTerm"><option value="全部">全部學期</option><option value="1">上學期</option><option value="2">下學期</option></select>
+<select id="histExam"><option value="全部">全部考試</option></select>
+<button class="primary" id="loadHistorical">搜尋歷屆資料</button>
+<button class="soft" id="showAllHistorical">顯示全部</button>
+</div>
 <div id="historicalStatus" class="small"></div></div>
 <div id="historicalList"></div></div>
 
@@ -91,5 +99,5 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <footer><button data-home><strong>⌂</strong>首頁</button><button data-open="practice"><strong>✓</strong>題庫</button><button data-open="mock"><strong>⏱</strong>模考</button><button data-open="wrong"><strong>★</strong>錯題</button></footer>
 <div id="settingsModal" class="modal"><div class="modalCard"><h2>Supabase 資料庫設定</h2><p class="small">只填 Project URL 與瀏覽器可用的 publishable/anon key。不要輸入 service_role key。</p><label class="small"><b>Project URL</b></label><input id="urlInput" placeholder="https://xxxx.supabase.co" style="margin:5px 0 10px"><label class="small"><b>Publishable / anon key</b></label><input id="keyInput" placeholder="sb_publishable_... 或 anon JWT"><div class="btns"><button id="saveSettings" class="primary">儲存並測試連線</button><button id="localBtn" class="soft">改用本機題庫</button><button id="closeSettings" class="soft">關閉</button></div><p class="small">第一次設定流程：先在 Supabase 執行本套件的 <b>01_schema.sql</b>，再執行 <b>02_seed.sql</b>，最後把 Project URL 與 key 填在這裡。</p></div></div>
 <div id="toast" class="toast"></div>
-<script src="config.js?v=4.8.0"></script><script src="fallback-data.js"></script><script src="app.js?v=4.9.6"></script>
+<script src="config.js?v=4.8.0"></script><script src="fallback-data.js"></script><script src="app.js?v=4.9.6.1"></script>
 </body></html>

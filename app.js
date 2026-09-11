@@ -295,30 +295,111 @@ async function submitMock(){
   $("mockResult").innerHTML=`<h3>模擬考：${score} 分</h3><p>已作答 ${done} 題，答對 ${correct} 題。</p>`;refreshStats();
 }
 function termNumber(){ return $("term").value==="上學期"?1:2; }
+let allHistoricalV4961=[];
+function uniqSorted(a,desc=false){
+  const v=[...new Set(a.filter(x=>x!==null&&x!==undefined&&x!==""))];
+  return v.sort((a,b)=>desc?Number(b)-Number(a):String(a).localeCompare(String(b),"zh-Hant"));
+}
+function fillHistoricalFiltersV4961(list){
+ const schoolSel=$("histSchool"),yearSel=$("histYear"),examSel=$("histExam");
+ const keepS=schoolSel?.value||"全部",keepY=yearSel?.value||"全部",keepE=examSel?.value||"全部";
+ if(schoolSel){
+   const vals=uniqSorted(list.map(x=>x.schools?.name||"成功高中"));
+   schoolSel.innerHTML='<option value="全部">全部學校</option>'+vals.map(x=>`<option>${x}</option>`).join("");
+   if(vals.includes(keepS))schoolSel.value=keepS;
+ }
+ if(yearSel){
+   const vals=uniqSorted(list.map(x=>x.academic_year),true);
+   yearSel.innerHTML='<option value="全部">全部學年度</option>'+vals.map(x=>`<option value="${x}">${x} 學年度</option>`).join("");
+   if(vals.map(String).includes(String(keepY)))yearSel.value=keepY;
+ }
+ if(examSel){
+   const vals=uniqSorted(list.map(x=>x.exam_name));
+   examSel.innerHTML='<option value="全部">全部考試</option>'+vals.map(x=>`<option>${x}</option>`).join("");
+   if(vals.includes(keepE))examSel.value=keepE;
+ }
+}
+function filterHistoricalV4961(){
+ const s=$("histSchool")?.value||"全部",y=$("histYear")?.value||"全部",t=$("histTerm")?.value||"全部",e=$("histExam")?.value||"全部";
+ const list=allHistoricalV4961.filter(x=>
+   (s==="全部"||(x.schools?.name||"成功高中")===s)&&
+   (y==="全部"||String(x.academic_year)===String(y))&&
+   (t==="全部"||String(x.term)===String(t))&&
+   (e==="全部"||x.exam_name===e)
+ );
+ renderHistorical(list);
+}
 function renderHistorical(list){
-  const box=$("historicalList");
-  if(!list.length){box.innerHTML='<div class="card sourcecard">目前選擇條件尚未建立官方歷屆來源索引。可切換到「成功高中」，或按「顯示成功高中全部來源」。</div>';return;}
-  const typeMap={exam_index:"官方考卷索引",scope:"官方考試範圍",answer:"官方答案"};
-  box.innerHTML=list.map(x=>{
-    const school=(x.schools&&x.schools.name)?x.schools.name:"成功高中";
-    return `<div class="card sourcecard"><div class="sourcehead"><div><h3 style="margin:0">${x.title}</h3><div class="sourcemeta"><span>${school}</span><span>${x.academic_year}學年度</span><span>${x.term===1?"上學期":"下學期"}</span><span>${x.exam_name}</span></div></div><span class="sourcetype">${typeMap[x.document_type]||x.document_type}</span></div><p class="small">${x.scope_text||""}</p><div class="sourceactions"><a class="linkbtn primary" href="${x.source_url}" target="_blank" rel="noopener">開啟校方官方來源</a><button class="soft" data-practice-source="1" data-school="${school}" data-year="${x.academic_year}" data-term="${x.term}" data-exam="${x.exam_name}">練同範圍原創題</button></div></div>`;
-  }).join("");
+ const box=$("historicalList");
+ if(!list.length){
+   box.innerHTML='<div class="card sourcecard">目前沒有符合條件的歷屆來源。請改選「全部學年度」或「全部考試」。</div>';
+   return;
+ }
+ const typeMap={exam_index:"官方考卷／索引",scope:"官方考試範圍",answer:"官方答案"};
+ box.innerHTML=list.map((x,i)=>{
+   const school=x.schools?.name||"成功高中";
+   const url=String(x.source_url||"");
+   return `<div class="card sourcecard historicalPick" data-hist-card="${i}">
+     <div class="sourcehead"><div><h3 style="margin:0">${x.title}</h3>
+     <div class="sourcemeta"><span>${school}</span><span>${x.academic_year}學年度</span><span>${x.term===1?"上學期":"下學期"}</span><span>${x.exam_name}</span></div></div>
+     <span class="sourcetype">${typeMap[x.document_type]||x.document_type}</span></div>
+     <p class="small">${x.scope_text||""}</p>
+     <div class="historicalActions">
+       <button class="primary" data-hist-open="${i}" ${url?"":"disabled"}>🔗 開啟官方來源</button>
+       <button class="soft" data-hist-practice="${i}">✏️ 用此範圍練習</button>
+     </div></div>`;
+ }).join("");
+
+ document.querySelectorAll("[data-hist-open]").forEach(b=>b.onclick=()=>{
+   const x=list[+b.dataset.histOpen],url=x?.source_url;
+   if(!url){toast("這筆資料目前沒有可開啟的來源網址。");return;}
+   const w=window.open(url,"_blank");
+   if(!w) location.href=url;
+ });
+ document.querySelectorAll("[data-hist-practice]").forEach(b=>b.onclick=()=>{
+   const x=list[+b.dataset.histPractice]; if(!x)return;
+   const school=x.schools?.name||"成功高中";
+   $("school").value=school;
+   // Older years may not exist on home dropdown. Add it dynamically.
+   if(!$("year").querySelector(`option[value="${x.academic_year}"]`)){
+     const op=document.createElement("option");op.value=String(x.academic_year);op.textContent=String(x.academic_year);$("year").appendChild(op);
+   }
+   $("year").value=String(x.academic_year);
+   $("term").value=x.term===1?"上學期":"下學期";
+   if(!$("exam").querySelector(`option[value="${CSS.escape(x.exam_name)}"]`)){
+     const op=document.createElement("option");op.value=x.exam_name;op.textContent=x.exam_name;$("exam").appendChild(op);
+   }
+   $("exam").value=x.exam_name;
+   refreshSchool();loadSchoolBankStatus();openPanel("practice");chooseSet();
+ });
 }
 async function loadHistorical(showAll=false){
-  $("historicalStatus").textContent="讀取來源中…";
-  if(dbMode!=="cloud" || !db){$("historicalStatus").textContent="歷屆真題索引需連線 Supabase V4.3 資料庫。請先執行 03_v43_migration.sql。";renderHistorical([]);return;}
-  let query=db.from("source_documents").select("*,schools(name)").order("academic_year",{ascending:false});
-  if(!showAll){
-    const {data:schoolData}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();
-    if(schoolData) query=query.eq("school_id",schoolData.id);
-    query=query.eq("academic_year",+$("year").value).eq("term",termNumber()).eq("exam_name",$("exam").value);
-  } else {
-    const {data:schoolData}=await db.from("schools").select("id").eq("name","成功高中").maybeSingle();
-    if(schoolData) query=query.eq("school_id",schoolData.id);
-  }
-  const {data,error}=await query;
-  if(error){console.error(error);$("historicalStatus").textContent="來源讀取失敗："+error.message;renderHistorical([]);return;}
-  sourceDocs=data||[];$("historicalStatus").textContent=`找到 ${sourceDocs.length} 筆官方來源資料。`;renderHistorical(sourceDocs);
+ const status=$("historicalStatus");
+ status.textContent="讀取歷屆來源中…";
+ if(dbMode!=="cloud"||!db){
+   status.textContent="正在連線資料庫…";
+   try{await connectDB(false);}catch(e){}
+ }
+ if(dbMode!=="cloud"||!db){
+   status.textContent="目前無法連線 Supabase；基本練習與模考仍可正常使用。";
+   renderHistorical([]);return;
+ }
+ try{
+   const {data,error}=await db.from("source_documents").select("*,schools(name)").order("academic_year",{ascending:false});
+   if(error)throw error;
+   allHistoricalV4961=data||[];
+   fillHistoricalFiltersV4961(allHistoricalV4961);
+   if(showAll){
+     if($("histSchool"))$("histSchool").value="全部";
+     if($("histYear"))$("histYear").value="全部";
+     if($("histTerm"))$("histTerm").value="全部";
+     if($("histExam"))$("histExam").value="全部";
+   }
+   status.textContent=`資料庫共收錄 ${allHistoricalV4961.length} 筆歷屆官方來源；可直接用上方四個選單篩選。`;
+   filterHistoricalV4961();
+ }catch(e){
+   console.error(e);status.textContent="歷屆來源讀取失敗："+(e.message||e);renderHistorical([]);
+ }
 }
 
 let autoPaper=[],autoAnswers={},activeScope=null;
@@ -574,7 +655,7 @@ onV496("quiz","click",e=>{
 });
 
 // ---- Optional / cloud features: failure cannot stop core ----
-onV496("loadHistorical","click",()=>loadHistorical(false).catch(console.error));
+onV496("loadHistorical","click",()=>{if(allHistoricalV4961.length)filterHistoricalV4961();else loadHistorical(false).catch(console.error);});
 onV496("showAllHistorical","click",()=>loadHistorical(true).catch(console.error));
 onV496("buildAutoPaper","click",()=>Promise.resolve(buildAutoPaper()).catch(console.error));
 onV496("submitAuto","click",()=>Promise.resolve(submitAutoPaper()).catch(console.error));
@@ -590,6 +671,7 @@ if($("copyAllQuestions")&&!$("copySessionQuestions")){
  b.addEventListener("click",copyCurrentSessionQuestions);
 }
 
+["histSchool","histYear","histTerm","histExam"].forEach(id=>onV496(id,"change",()=>{if(allHistoricalV4961.length)filterHistoricalV4961();}));
 // settings/auth
 onV496("settingsBtn","click",openSettings);
 onV496("closeSettings","click",closeSettings);
