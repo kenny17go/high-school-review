@@ -1,4 +1,4 @@
-window.V494_BUILD="4.9.4-fixed2-20260911";
+window.V4941_BUILD="4.9.4.1-startup-fix-20260911";
 
 (function(){
 "use strict";
@@ -103,19 +103,39 @@ function setDbBadge(ok,text){
   b.textContent=text;
   b.className="dbbadge "+(ok?"online":"offline");
 }
+
+let supabaseSdkPromiseV4941=null;
+function ensureSupabaseSdkV4941(){
+ if(window.supabase)return Promise.resolve(true);
+ if(supabaseSdkPromiseV4941)return supabaseSdkPromiseV4941;
+ supabaseSdkPromiseV4941=new Promise(resolve=>{
+   const s=document.createElement("script");
+   s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+   s.async=true;
+   s.onload=()=>resolve(true);
+   s.onerror=()=>resolve(false);
+   document.head.appendChild(s);
+ });
+ return supabaseSdkPromiseV4941;
+}
+
 async function connectDB(showMessage=false){
   const c=cfg();
-  if(!c.url||!c.key||!window.supabase){
-    db=null;dbMode="local";setDbBadge(false,"本機備援");
-    if(showMessage) toast("尚未設定 Supabase，已使用本機 160 題。");
+  if(!c.url||!c.key){
+    db=null;dbMode="local";setDbBadge(false,"⚡ 本機即用");
+    if(showMessage) toast("尚未設定 Supabase，目前使用本機題庫。");
     refreshSchool();loadSchoolBankStatus(); return false;
   }
   try{
+    const sdkOk=await ensureSupabaseSdkV4941();
+    if(!sdkOk||!window.supabase)throw new Error("Supabase SDK 載入失敗");
     db=window.supabase.createClient(c.url,c.key);
-    const [{data:s,error:se},{data:q,error:qe}] = await Promise.all([
+    const remoteLoad=Promise.all([
       db.from("schools").select("*").order("id"),
       db.from("questions").select("*").order("id").limit(1000)
     ]);
+    const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("Supabase 連線逾時")),3000));
+    const [{data:s,error:se},{data:q,error:qe}] = await Promise.race([remoteLoad,timeout]);
     if(se||qe) throw (se||qe);
     sourceDocs=[];
     if(s&&s.length){
@@ -538,7 +558,13 @@ $("clearWrong").addEventListener("click",()=>{localStorage.removeItem("v42wrong"
 $("settingsBtn").addEventListener("click",openSettings);$("closeSettings").addEventListener("click",closeSettings);$("saveSettings").addEventListener("click",saveSettings);$("localBtn").addEventListener("click",useLocal);
 $("magicBtn").addEventListener("click",sendMagicLink);$("signOutBtn").addEventListener("click",signOut);
 
-populateSchools();refreshSchool();renderSources();chooseSet();refreshStats();connectDB(false);
+populateSchools();
+refreshSchool();
+renderSources();
+chooseSet();
+refreshStats();
+loadSchoolBankStatus(); // 先立即顯示本機題池，不等待網路
+setTimeout(()=>connectDB(false),80); // Supabase 延後背景連線
 
 $("school").addEventListener("change",()=>{
   refreshSchool();

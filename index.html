@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-Hant"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f3d5e">
-<title>高中段考複習平台 V4.9.4 極速版</title>
+<title>高中段考複習平台 V4.9.4.1 啟動修正版</title>
 <style>
 :root{--bg:#f4f7fa;--ink:#193244;--muted:#6d7e8a;--p:#0f3d5e;--p2:#1f6f8b;--line:#dce6ed;--good:#2f8f5b;--warn:#ad741b;--bad:#b84b4b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif}
@@ -28,7 +28,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 .calibHigh{border-left:5px solid #2f8f5b}.calibMedium{border-left:5px solid #ad741b}.calibLow{border-left:5px solid #b84b4b}.formatBar{height:8px;background:#e7edf1;border-radius:999px;overflow:hidden;margin:4px 0 9px}.formatBar i{display:block;height:100%;background:var(--p2)}.evidenceGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:8px}.evMetric{text-align:center;background:#f7fafc;border-radius:10px;padding:8px 4px}.evMetric b{display:block;font-size:18px;color:var(--p)}
 .dontKnowBtn{background:#fff3dc!important;color:#805614!important;border:1px solid #edcf96!important}.perfTiny{font-size:10px;color:var(--muted)}
 </style></head><body>
-<header><div class="head"><div><h1>高中段考複習平台 V4.9.4 極速版</h1><p>極速模式＋本機即時計算學校題池＋背景載入官方範圍</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft">資料庫設定</button></div></div></header>
+<header><div class="head"><div><h1>高中段考複習平台 V4.9.4.1 啟動修正版</h1><p>極速模式＋本機即時計算學校題池＋背景載入官方範圍</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">⚡ 本機即用</span><button id="settingsBtn" class="soft">資料庫設定</button></div></div></header>
 <main>
 <div id="home"><div class="card"><div class="setup">
 <div class="field"><label>學校</label><select id="school"><option>建國中學</option><option>北一女中</option><option>師大附中</option><option selected>成功高中</option><option>中山女高</option><option>延平高中</option><option>薇閣高中</option></select></div>
@@ -37,9 +37,9 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <div class="field"><label>考試</label><select id="exam"><option>第一次段考</option><option>第二次段考</option><option>第三次段考／期末</option></select></div></div></div>
 <div class="card bankstatus" style="margin-top:12px">
 <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start">
-<div><h3 style="margin:0 0 5px">📚 題庫載入狀態</h3><div id="bankLoadTitle"><b>正在讀取…</b></div></div>
-<span id="bankLoadBadge" class="status midS">檢查中</span></div>
-<div class="small" style="margin-top:6px"><span class="status goodS">⚡ 極速模式</span> 切換學校不等待遠端題庫映射。</div><div id="bankLoadDetail" class="small" style="margin-top:7px">正在確認學校題庫、段考範圍與官方來源。</div>
+<div><h3 style="margin:0 0 5px">📚 題庫載入狀態</h3><div id="bankLoadTitle"><b>⚡ 本機題庫已就緒</b></div></div>
+<span id="bankLoadBadge" class="status goodS">立即可用</span></div>
+<div class="small" style="margin-top:6px"><span class="status goodS">⚡ 極速模式</span> 切換學校不等待遠端題庫映射。</div><div id="bankLoadDetail" class="small" style="margin-top:7px">本機題庫立即可用；Supabase 官方範圍資料在背景載入。</div>
 <div id="bankLoadChips" class="chips"></div>
 </div>
 <div class="hero"><div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><div><h2 id="title" style="margin:0"></h2><div id="sub" class="small"></div></div><span id="status" class="status"></span></div><div class="chips"><span class="chip" id="homeBankChip">通用題庫 160 題</span><span class="chip">Supabase</span><span class="chip">RLS</span><span class="chip">離線備援</span></div><p id="desc"></p><div class="btns"><button class="primary" data-open="practice">開始練習</button><button class="soft" data-open="mock">模擬段考</button><button class="soft" data-open="sources">真實來源</button><a id="official" class="linkbtn soft" target="_blank">官方網站</a></div>
@@ -91,6 +91,5 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <footer><button data-home><strong>⌂</strong>首頁</button><button data-open="practice"><strong>✓</strong>題庫</button><button data-open="mock"><strong>⏱</strong>模考</button><button data-open="wrong"><strong>★</strong>錯題</button></footer>
 <div id="settingsModal" class="modal"><div class="modalCard"><h2>Supabase 資料庫設定</h2><p class="small">只填 Project URL 與瀏覽器可用的 publishable/anon key。不要輸入 service_role key。</p><label class="small"><b>Project URL</b></label><input id="urlInput" placeholder="https://xxxx.supabase.co" style="margin:5px 0 10px"><label class="small"><b>Publishable / anon key</b></label><input id="keyInput" placeholder="sb_publishable_... 或 anon JWT"><div class="btns"><button id="saveSettings" class="primary">儲存並測試連線</button><button id="localBtn" class="soft">改用本機題庫</button><button id="closeSettings" class="soft">關閉</button></div><p class="small">第一次設定流程：先在 Supabase 執行本套件的 <b>01_schema.sql</b>，再執行 <b>02_seed.sql</b>，最後把 Project URL 與 key 填在這裡。</p></div></div>
 <div id="toast" class="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js?v=4.8.0"></script><script src="fallback-data.js"></script><script src="app.js?v=4.9.4-fixed2"></script>
+<script src="config.js?v=4.8.0"></script><script src="fallback-data.js"></script><script src="app.js?v=4.9.4.1"></script>
 </body></html>
