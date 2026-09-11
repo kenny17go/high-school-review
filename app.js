@@ -305,19 +305,26 @@ function fillHistoricalFiltersV4961(list){
  const schoolSel=$("histSchool"),yearSel=$("histYear"),examSel=$("histExam");
  const keepS=schoolSel?.value||"全部",keepY=yearSel?.value||"全部",keepE=examSel?.value||"全部";
  if(schoolSel){
-   const vals=uniqSorted(list.map(x=>x.schools?.name||"成功高中"));
+   const dbNames=uniqSorted(list.map(x=>x.schools?.name||"成功高中"));
+   const fixed=["建國中學","北一女中","師大附中","成功高中","中山女高","松山高中","延平高中","薇閣高中"];
+   const vals=[...new Set([...fixed,...dbNames])];
    schoolSel.innerHTML='<option value="全部">全部學校</option>'+vals.map(x=>`<option>${x}</option>`).join("");
    if(vals.includes(keepS))schoolSel.value=keepS;
  }
  if(yearSel){
-   const vals=uniqSorted(list.map(x=>x.academic_year),true);
+   const dbYears=uniqSorted(list.map(x=>x.academic_year),true).map(Number);
+   const fixedYears=[];
+   for(let y=115;y>=110;y--)fixedYears.push(y);
+   const vals=[...new Set([...fixedYears,...dbYears.filter(y=>Number(y)>=110)])].sort((a,b)=>b-a);
    yearSel.innerHTML='<option value="全部">全部學年度</option>'+vals.map(x=>`<option value="${x}">${x} 學年度</option>`).join("");
    if(vals.map(String).includes(String(keepY)))yearSel.value=keepY;
  }
  if(examSel){
    const vals=uniqSorted(list.map(x=>x.exam_name));
-   examSel.innerHTML='<option value="全部">全部考試</option>'+vals.map(x=>`<option>${x}</option>`).join("");
-   if(vals.includes(keepE))examSel.value=keepE;
+   const fixed=["第一次段考","第二次段考","第三次段考／期末"];
+   const all=[...new Set([...fixed,...vals])];
+   examSel.innerHTML='<option value="全部">全部考試</option>'+all.map(x=>`<option>${x}</option>`).join("");
+   if(all.includes(keepE))examSel.value=keepE;
  }
 }
 function filterHistoricalV4961(){
@@ -401,7 +408,7 @@ async function loadGsatV4967(){
   const hdb=await getHistoricalDbV4963();
   const {data,error}=await hdb.from("national_exam_sources").select("*").eq("subject","數學").order("academic_year",{ascending:false});
   if(error)throw error;
-  const rows=data||[],ys=[...new Set(rows.map(x=>x.academic_year))],vs=[...new Set(rows.map(x=>x.subject_variant))];
+  const rows=(data||[]).filter(x=>Number(x.academic_year)>=110),ys=[...new Set(rows.map(x=>x.academic_year))],vs=[...new Set(rows.map(x=>x.subject_variant))];
   const ysel=$("gsatYear"),vsel=$("gsatVariant");
   if(ysel&&ysel.options.length<=1)ysel.innerHTML='<option value="全部">全部學年度</option>'+ys.map(y=>`<option value="${y}">${y} 學年度</option>`).join("");
   if(vsel&&vsel.options.length<=1)vsel.innerHTML='<option value="全部">全部數學類別</option>'+vs.map(v=>`<option value="${v}">${v}</option>`).join("");
@@ -789,4 +796,9 @@ onV496("school","change",()=>{
 setTimeout(()=>connectDB(false).catch(e=>console.warn("background DB skipped",e)),120);
 
 
+
+document.addEventListener("click",e=>{
+ const h=e.target.closest('[data-open="historical"]');
+ if(h)setTimeout(()=>{if(typeof loadGsatV4967==="function")loadGsatV4967();},250);
+});
 })();
