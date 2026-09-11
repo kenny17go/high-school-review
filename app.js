@@ -824,4 +824,15 @@ document.addEventListener("click",e=>{
  const h=e.target.closest('[data-open="historical"]');
  if(h)setTimeout(()=>{if(typeof loadGsatV4967==="function")loadGsatV4967();},250);
 });
+
+document.addEventListener("click",e=>{
+ const j=e.target.closest("[data-gsat-jump]");
+ if(!j)return;
+ setTimeout(()=>{
+   const box=$("gsatHomeCard")?$("gsatList"):$("gsatList");
+   const heading=$("gsatYear")?.closest(".card");
+   if(heading)heading.scrollIntoView({behavior:"smooth",block:"start"});
+   if(typeof loadGsatV4967==="function")loadGsatV4967();
+ },180);
+});
 })();
