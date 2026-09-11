@@ -1,4 +1,4 @@
-window.V496_BUILD="4.9.6.2-historical-layer-20260911";
+window.V4963_BUILD="4.9.6.3-settings-fix-20260911";
 
 (function(){
 "use strict";
@@ -373,68 +373,42 @@ function renderHistorical(list){
    refreshSchool();loadSchoolBankStatus();openPanel("practice");chooseSet();
  });
 }
-const HIST_CACHE_KEY_V4962="v4962_historical_cache";
-function saveHistoricalCacheV4962(list){
- try{localStorage.setItem(HIST_CACHE_KEY_V4962,JSON.stringify({savedAt:Date.now(),items:list||[]}));}catch(e){console.warn("historical cache save skipped",e);}
+let historicalDbV4963=null;
+async function getHistoricalDbV4963(){
+  const c=cfg();
+  if(!c.url||!c.key)throw new Error("尚未設定 Project URL / Publishable key");
+  const sdkOk=await ensureSupabaseSdkV496();
+  if(!sdkOk||!window.supabase)throw new Error("Supabase SDK 載入失敗");
+  if(!historicalDbV4963)historicalDbV4963=window.supabase.createClient(c.url,c.key);
+  return historicalDbV4963;
 }
-function readHistoricalCacheV4962(){
- try{const x=JSON.parse(localStorage.getItem(HIST_CACHE_KEY_V4962)||"null");return x&&Array.isArray(x.items)?x:null;}catch(e){return null;}
-}
-async function historicalClientV4962(){
- const c=cfg();
- if(!c.url||!c.key)throw new Error("尚未設定 Project URL / Publishable key");
- const sdkOk=await ensureSupabaseSdkV496();
- if(!sdkOk||!window.supabase)throw new Error("Supabase SDK 載入失敗");
- // 歷屆來源使用獨立 client，不依賴 questions 表是否可讀，避免影響穩定核心。
- return window.supabase.createClient(c.url,c.key,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});
-}
-function historicalErrorTextV4962(e){
- const m=String(e?.message||e||"未知錯誤");
- if(/Failed to fetch|NetworkError|Load failed/i.test(m))return "網路或 Supabase 端點無法連線";
- if(/JWT|apikey|API key|Invalid/i.test(m))return "Publishable / anon key 無效";
- if(/permission|policy|RLS|row-level/i.test(m))return "RLS / 權限阻擋 source_documents";
- if(/SDK/i.test(m))return "Supabase SDK 載入失敗";
- return m;
-}
+
 async function loadHistorical(showAll=false){
- const status=$("historicalStatus");
- status.textContent="讀取歷屆來源中…";
- let list=null, cloudErr=null;
- try{
-   const hdb=await historicalClientV4962();
-   const task=hdb.from("source_documents")
-     .select("id,school_id,academic_year,term,exam_name,document_type,title,scope_text,source_url,schools(name)")
-     .order("academic_year",{ascending:false});
-   const timeout=new Promise((_,rej)=>setTimeout(()=>rej(new Error("歷屆來源查詢逾時")),5000));
-   const {data,error}=await Promise.race([task,timeout]);
-   if(error)throw error;
-   list=data||[];
-   saveHistoricalCacheV4962(list);
- }catch(e){cloudErr=e;console.warn("historical cloud load failed",e);}
- if(list===null){
-   const cached=readHistoricalCacheV4962();
-   if(cached){
-     list=cached;
-     status.textContent=`Supabase 暫時無法讀取（${historicalErrorTextV4962(cloudErr)}）；已使用本機快取 ${list.length} 筆。`;
-   }else{
-     allHistoricalV4961=[];
-     fillHistoricalFiltersV4961([]);
-     status.textContent=`歷屆來源無法載入：${historicalErrorTextV4962(cloudErr)}。請到「資料庫設定」確認 Project URL / Publishable key；基本練習、模考與「我不會」不受影響。`;
-     renderHistorical([]);return;
-   }
- }else{
-   status.textContent=`Supabase 已讀取 ${list.length} 筆歷屆官方來源；並已建立本機快取。`;
- }
- allHistoricalV4961=list;
- fillHistoricalFiltersV4961(allHistoricalV4961);
- if(showAll){
-   if($("histSchool"))$("histSchool").value="全部";
-   if($("histYear"))$("histYear").value="全部";
-   if($("histTerm"))$("histTerm").value="全部";
-   if($("histExam"))$("histExam").value="全部";
- }
- filterHistoricalV4961();
+  const status=$("historicalStatus");
+  status.textContent="讀取歷屆來源中…";
+  try{
+    const hdb=await getHistoricalDbV4963();
+    const query=hdb.from("source_documents").select("*,schools(name)").order("academic_year",{ascending:false});
+    const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("歷屆來源查詢逾時")),5000));
+    const {data,error}=await Promise.race([query,timeout]);
+    if(error)throw error;
+    allHistoricalV4961=data||[];
+    fillHistoricalFiltersV4961(allHistoricalV4961);
+    if(showAll){
+      if($("histSchool"))$("histSchool").value="全部";
+      if($("histYear"))$("histYear").value="全部";
+      if($("histTerm"))$("histTerm").value="全部";
+      if($("histExam"))$("histExam").value="全部";
+    }
+    status.textContent=`資料庫共收錄 ${allHistoricalV4961.length} 筆歷屆官方來源；可直接用上方四個選單篩選。`;
+    filterHistoricalV4961();
+  }catch(e){
+    console.error(e);
+    status.textContent="歷屆來源讀取失敗："+(e.message||e)+"。請按右上「資料庫設定」確認 Project URL / Publishable key。";
+    renderHistorical([]);
+  }
 }
+
 
 let autoPaper=[],autoAnswers={},activeScope=null;
 async function getScopeProfile(){if(dbMode!=="cloud"||!db)return null;const {data:s}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();if(!s)return null;const {data}=await db.from("exam_scope_profiles").select("*").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value).eq("grade",1).eq("subject","數學").maybeSingle();return data||null;}
@@ -644,10 +618,31 @@ function refreshStats(){
   $("score").textContent=s===null?"-":s;$("doneN").textContent=d;$("wrongN").textContent=w;$("prog").style.width=Math.min(100,Math.round(d/50*100))+"%";
 }
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("showToast");setTimeout(()=>t.classList.remove("showToast"),3200)}
-function openSettings(){const c=cfg();$("urlInput").value=c.url;$("keyInput").value=c.key;$("settingsModal").classList.add("modalShow")}
-function closeSettings(){$("settingsModal").classList.remove("modalShow")}
-async function saveSettings(){localStorage.setItem("v42_url",$("urlInput").value.trim());localStorage.setItem("v42_key",$("keyInput").value.trim());closeSettings();await connectDB(true)}
-function useLocal(){localStorage.removeItem("v42_url");localStorage.removeItem("v42_key");db=null;dbMode="local";schools=F.schools;questions=F.questions;populateSchools();chooseSet();renderSources();refreshSchool();setDbBadge(false,"本機備援");closeSettings();toast("已切換成本機題庫。")}
+function openSettings(){
+  const c=cfg(), modal=$("settingsModal");
+  if(!modal){toast("找不到資料庫設定視窗。");return;}
+  $("urlInput").value=c.url||"";
+  $("keyInput").value=c.key||"";
+  const st=$("settingsStatus");
+  if(st)st.textContent=(c.url&&c.key)?"✅ 已偵測到已儲存的 Project URL / Key。":"⚠️ 尚未偵測到已儲存的 Project URL / Key。";
+  modal.classList.add("modalShow");
+}
+function closeSettings(){const modal=$("settingsModal");if(modal)modal.classList.remove("modalShow")}
+async function saveSettings(){
+  const u=$("urlInput")?.value.trim()||"", k=$("keyInput")?.value.trim()||"";
+  if(!u||!k){toast("請先填入 Project URL 與 Publishable / anon key。");return;}
+  localStorage.setItem("v42_url",u);localStorage.setItem("v42_key",k);
+  const st=$("settingsStatus");if(st)st.textContent="正在測試 Supabase 連線…";
+  const ok=await connectDB(true);
+  if(st)st.textContent=ok?"✅ Supabase 連線成功。":"❌ Supabase 連線失敗，請檢查 URL / Key。";
+  if(ok)setTimeout(closeSettings,450);
+}
+function useLocal(){
+  localStorage.removeItem("v42_url");localStorage.removeItem("v42_key");
+  db=null;dbMode="local";schools=F.schools;questions=F.questions;
+  populateSchools();chooseSet();renderSources();refreshSchool();loadSchoolBankStatus();
+  setDbBadge(false,"⚡ 本機即用");closeSettings();toast("已切換成本機題庫。");
+}
 
 
 
@@ -707,12 +702,18 @@ if($("copyAllQuestions")&&!$("copySessionQuestions")){
 
 ["histSchool","histYear","histTerm","histExam"].forEach(id=>onV496(id,"change",()=>{if(allHistoricalV4961.length)filterHistoricalV4961();}));
 // settings/auth
-onV496("settingsBtn","click",openSettings);
-onV496("closeSettings","click",closeSettings);
-onV496("saveSettings","click",saveSettings);
-onV496("localBtn","click",useLocal);
+
+
+
+
 onV496("magicBtn","click",sendMagicLink);
 onV496("signOutBtn","click",signOut);
+
+// V4.9.6.3 hardened settings bindings
+const settingsBtnEl=$("settingsBtn");if(settingsBtnEl)settingsBtnEl.onclick=openSettings;
+const closeSettingsEl=$("closeSettings");if(closeSettingsEl)closeSettingsEl.onclick=closeSettings;
+const saveSettingsEl=$("saveSettings");if(saveSettingsEl)saveSettingsEl.onclick=()=>saveSettings();
+const localBtnEl=$("localBtn");if(localBtnEl)localBtnEl.onclick=useLocal;
 
 // selection changes: instant local re-render
 onV496("school","change",()=>{
