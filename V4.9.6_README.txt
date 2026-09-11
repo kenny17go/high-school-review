@@ -1,0 +1,13 @@
+V4.9.6 穩定核心版
+
+策略：保留 V4.9 資料，不回退 Supabase；把 V4.7 的「基本作答可靠性」恢復成最高優先。
+
+修正：
+- JavaScript 通過 node --check。
+- 核心初始化（本機題庫、練習題、統計）在所有選配功能事件綁定之前執行。
+- 所有 addEventListener 改成安全綁定；某個選配 DOM/功能失敗不會中止整個 app。
+- 練習 / 模考完全使用本機題庫立即生成。
+- 歷屆真題 / 題源工程 / 真實範圍組題做錯誤隔離。
+- Supabase SDK lazy-load，背景同步，3 秒 timeout。
+- 網路或 Supabase 出錯不影響練習、模考、錯題。
+- GitHub 只覆蓋 index.html、app.js；Supabase 不需修改。

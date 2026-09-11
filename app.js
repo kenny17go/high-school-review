@@ -1,4 +1,4 @@
-window.V4941_BUILD="4.9.4.1-startup-fix-20260911";
+window.V496_BUILD="4.9.6-stable-core-20260911";
 
 (function(){
 "use strict";
@@ -104,19 +104,19 @@ function setDbBadge(ok,text){
   b.className="dbbadge "+(ok?"online":"offline");
 }
 
-let supabaseSdkPromiseV4941=null;
-function ensureSupabaseSdkV4941(){
- if(window.supabase)return Promise.resolve(true);
- if(supabaseSdkPromiseV4941)return supabaseSdkPromiseV4941;
- supabaseSdkPromiseV4941=new Promise(resolve=>{
-   const s=document.createElement("script");
-   s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-   s.async=true;
-   s.onload=()=>resolve(true);
-   s.onerror=()=>resolve(false);
-   document.head.appendChild(s);
- });
- return supabaseSdkPromiseV4941;
+let supabaseSdkPromiseV496=null;
+function ensureSupabaseSdkV496(){
+  if(window.supabase)return Promise.resolve(true);
+  if(supabaseSdkPromiseV496)return supabaseSdkPromiseV496;
+  supabaseSdkPromiseV496=new Promise(resolve=>{
+    const s=document.createElement("script");
+    s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
+    s.async=true;
+    s.onload=()=>resolve(true);
+    s.onerror=()=>resolve(false);
+    document.head.appendChild(s);
+  });
+  return supabaseSdkPromiseV496;
 }
 
 async function connectDB(showMessage=false){
@@ -127,8 +127,8 @@ async function connectDB(showMessage=false){
     refreshSchool();loadSchoolBankStatus(); return false;
   }
   try{
-    const sdkOk=await ensureSupabaseSdkV4941();
-    if(!sdkOk||!window.supabase)throw new Error("Supabase SDK 載入失敗");
+    const sdkOk=await ensureSupabaseSdkV496();
+    if(!sdkOk||!window.supabase) throw new Error("Supabase SDK 載入失敗");
     db=window.supabase.createClient(c.url,c.key);
     const remoteLoad=Promise.all([
       db.from("schools").select("*").order("id"),
@@ -193,16 +193,20 @@ function refreshSchool(){
   s.className="status "+(d.tone==="good"?"goodS":d.tone==="mid"?"midS":"lowS");
 }
 function openPanel(id){
+  const panel=$(id);
+  if(!panel){toast("此功能頁目前無法開啟。");return;}
   $("home").style.display="none";
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
-  $(id).classList.add("active");
-  if(id==="wrong")renderWrong();
-  if(id==="weak")renderWeak();
-  if(id==="historical")loadHistorical(false);
-  if(id==="sourceengineering")loadSourceEngineering();
-  if(id==="autopaper")showScopeProfile();
-  if(id==="study")startStudy(false);
-  if(id==="helper")renderHelper();
+  panel.classList.add("active");
+  try{
+    if(id==="wrong")renderWrong();
+    if(id==="weak")renderWeak();
+    if(id==="historical")loadHistorical(false).catch(e=>{console.error(e);$("historicalStatus").textContent="來源暫時無法載入，基本題庫不受影響。";});
+    if(id==="sourceengineering")Promise.resolve(loadSourceEngineering()).catch(e=>console.error(e));
+    if(id==="autopaper")Promise.resolve(showScopeProfile()).catch(e=>console.error(e));
+    if(id==="study")startStudy(false);
+    if(id==="helper")renderHelper();
+  }catch(e){console.error("panel init failed",id,e);toast("此頁部分資料載入失敗，但其他功能仍可使用。");}
   window.scrollTo(0,0);
 }
 function goHome(){
@@ -531,20 +535,36 @@ async function saveSettings(){localStorage.setItem("v42_url",$("urlInput").value
 function useLocal(){localStorage.removeItem("v42_url");localStorage.removeItem("v42_key");db=null;dbMode="local";schools=F.schools;questions=F.questions;populateSchools();chooseSet();renderSources();refreshSchool();setDbBadge(false,"本機備援");closeSettings();toast("已切換成本機題庫。")}
 
 
-$("loadHistorical").addEventListener("click",()=>loadHistorical(false));
-$("buildAutoPaper").addEventListener("click",buildAutoPaper);
-$("newStudy").addEventListener("click",()=>startStudy(false));
-$("copyAllQuestions").addEventListener("click",copyAllStudyQuestions);
-if($("copyAllQuestions")&&!$("copySessionQuestions")){
- const b=document.createElement("button");b.id="copySessionQuestions";b.className="soft";b.textContent="複製本次測驗問題";
- $("copyAllQuestions").parentElement.insertBefore(b,$("copyAllQuestions").nextSibling);
- b.addEventListener("click",copyCurrentSessionQuestions);
+
+function onV496(id,event,handler){
+  const el=$(id);
+  if(!el){console.warn("V4.9.6 missing optional element:",id);return;}
+  el.addEventListener(event,handler);
 }
-$("clearStudyQueue").addEventListener("click",()=>{if(confirm("確定清除全部待詢問題？")){setStudyQueue([]);renderHelper();}});
-$("reviewWeak").addEventListener("click",()=>startStudy(true));
-$("submitAuto").addEventListener("click",submitAutoPaper);
-$("showAllHistorical").addEventListener("click",()=>loadHistorical(true));
-$("applyFilter").addEventListener("click",chooseSet);$("resetBtn").addEventListener("click",chooseSet);$("quiz").addEventListener("click",e=>{
+
+// ---- Stable core startup FIRST ----
+try{
+  db=null;dbMode="local";schools=F.schools;questions=F.questions;
+  populateSchools();
+  refreshSchool();
+  renderSources();
+  chooseSet();          // 先生成練習題
+  refreshStats();
+  loadSchoolBankStatus();
+  setDbBadge(false,"⚡ 本機即用");
+}catch(e){
+  console.error("V4.9.6 core startup failed",e);
+}
+
+// ---- Core interactions ----
+onV496("applyFilter","click",chooseSet);
+onV496("resetBtn","click",chooseSet);
+onV496("finishBtn","click",finishPractice);
+onV496("startMock","click",startMock);
+onV496("submitMock","click",submitMock);
+onV496("clearWrong","click",()=>{localStorage.removeItem("v42wrong");renderWrong();refreshStats();});
+
+onV496("quiz","click",e=>{
  const dk=e.target.closest("[data-dontknow-q]"),ask=e.target.closest("[data-ask-q]"),ex=e.target.closest("[data-explain-q]");
  if(!dk&&!ask&&!ex)return;
  const id=+(dk?.dataset.dontknowQ||ask?.dataset.askQ||ex?.dataset.explainQ),q=questions.find(x=>x.id===id);if(!q)return;
@@ -552,31 +572,47 @@ $("applyFilter").addEventListener("click",chooseSet);$("resetBtn").addEventListe
  if(ask)queueForChatGPT(q,"我想請 ChatGPT 再解釋");
  if(ex){const note=prompt("哪一段詳解看不懂？","");markNeedHelp(q,"詳解看不懂",note||"");}
 });
-$("finishBtn").addEventListener("click",finishPractice);
-$("startMock").addEventListener("click",startMock);$("submitMock").addEventListener("click",submitMock);
-$("clearWrong").addEventListener("click",()=>{localStorage.removeItem("v42wrong");renderWrong();refreshStats()});
-$("settingsBtn").addEventListener("click",openSettings);$("closeSettings").addEventListener("click",closeSettings);$("saveSettings").addEventListener("click",saveSettings);$("localBtn").addEventListener("click",useLocal);
-$("magicBtn").addEventListener("click",sendMagicLink);$("signOutBtn").addEventListener("click",signOut);
 
-populateSchools();
-refreshSchool();
-renderSources();
-chooseSet();
-refreshStats();
-loadSchoolBankStatus(); // 先立即顯示本機題池，不等待網路
-setTimeout(()=>connectDB(false),80); // Supabase 延後背景連線
+// ---- Optional / cloud features: failure cannot stop core ----
+onV496("loadHistorical","click",()=>loadHistorical(false).catch(console.error));
+onV496("showAllHistorical","click",()=>loadHistorical(true).catch(console.error));
+onV496("buildAutoPaper","click",()=>Promise.resolve(buildAutoPaper()).catch(console.error));
+onV496("submitAuto","click",()=>Promise.resolve(submitAutoPaper()).catch(console.error));
+onV496("newStudy","click",()=>startStudy(false));
+onV496("reviewWeak","click",()=>startStudy(true));
+onV496("copyAllQuestions","click",copyAllStudyQuestions);
+onV496("clearStudyQueue","click",()=>{if(confirm("確定清除全部待詢問題？")){setStudyQueue([]);renderHelper();}});
 
-$("school").addEventListener("change",()=>{
+if($("copyAllQuestions")&&!$("copySessionQuestions")){
+ const b=document.createElement("button");
+ b.id="copySessionQuestions";b.className="soft";b.textContent="複製本次測驗問題";
+ $("copyAllQuestions").parentElement.insertBefore(b,$("copyAllQuestions").nextSibling);
+ b.addEventListener("click",copyCurrentSessionQuestions);
+}
+
+// settings/auth
+onV496("settingsBtn","click",openSettings);
+onV496("closeSettings","click",closeSettings);
+onV496("saveSettings","click",saveSettings);
+onV496("localBtn","click",useLocal);
+onV496("magicBtn","click",sendMagicLink);
+onV496("signOutBtn","click",signOut);
+
+// selection changes: instant local re-render
+onV496("school","change",()=>{
   refreshSchool();
   loadSchoolBankStatus();
   chooseSet();
 });
-["year","term","exam"].forEach(id=>$(id).addEventListener("change",()=>{
+["year","term","exam"].forEach(id=>onV496(id,"change",()=>{
   refreshSchool();
   activeScopeV48=null;
-  renderBankStatus({mode:"cloud",count:getSchoolPool().length,scope:null,sources:0,profile:schoolProfile,fast:true});
   clearTimeout(v494Timer);
   v494Timer=setTimeout(()=>loadSchoolBankStatus(),180);
 }));
+
+// background cloud sync, never blocks practice/mock
+setTimeout(()=>connectDB(false).catch(e=>console.warn("background DB skipped",e)),120);
+
 
 })();
