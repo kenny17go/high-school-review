@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-Hant"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f3d5e">
-<title>高中段考複習平台 V4.7</title>
+<title>高中段考複習平台 V4.7.1</title>
 <style>
 :root{--bg:#f4f7fa;--ink:#193244;--muted:#6d7e8a;--p:#0f3d5e;--p2:#1f6f8b;--line:#dce6ed;--good:#2f8f5b;--warn:#ad741b;--bad:#b84b4b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif}
@@ -18,8 +18,14 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 @media(max-width:760px){.setup{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.head p{display:none}}
 .sourcecard{margin:10px 0}.sourcehead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.sourcetype{font-size:11px;border-radius:999px;padding:5px 8px;background:#edf5f8;color:var(--p);font-weight:800}.sourcemeta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.sourcemeta span{font-size:11px;background:#f4f7f9;padding:4px 7px;border-radius:999px}.sourceactions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
 .studySteps{display:grid;gap:8px;margin-top:12px}.studyStep{background:#f7fafc;border:1px solid var(--line);border-radius:12px;padding:11px;line-height:1.65;font-size:13px}.studyStep b{color:var(--p)}.studyActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.confidence{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.confidence button{background:#eef4f7;color:var(--p)}
+
+.queueBadge{display:inline-block;background:#fff3dc;color:#805614;border-radius:999px;padding:4px 7px;font-size:10px;font-weight:800;margin-left:6px}
+.inlineTools{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.inlineTools button{font-size:12px;padding:8px 10px}
+.reasonTag{display:inline-block;border-radius:999px;padding:4px 7px;font-size:10px;font-weight:800;background:#edf5f8;color:var(--p)}
+.reason-wrong{background:#fdeeee;color:#9a3434}.reason-dontknow{background:#fff3dc;color:#805614}.reason-explain{background:#eaf3f7;color:#1f5c7b}
 </style></head><body>
-<header><div class="head"><div><h1>高中段考複習平台 V4.7</h1><p>ChatGPT 學習助手＋錯題彙整＋分層詳解＋真實範圍組題</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft">資料庫設定</button></div></div></header>
+<header><div class="head"><div><h1>高中段考複習平台 V4.7.1</h1><p>全模式連動＋ChatGPT 學習助手＋錯題彙整＋分層詳解</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft">資料庫設定</button></div></div></header>
 <main>
 <div id="home"><div class="card"><div class="setup">
 <div class="field"><label>學校</label><select id="school"><option>建國中學</option><option>北一女中</option><option>師大附中</option><option selected>成功高中</option><option>中山女高</option><option>延平高中</option><option>薇閣高中</option></select></div>
@@ -35,7 +41,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 
 <div id="historical" class="panel"><button class="soft back" data-home>← 回首頁</button>
 <div class="card"><h2>歷屆真題・官方來源</h2>
-<p class="small">V4.7 先從成功高中建立真實來源索引。完整考卷與答案仍由原校方網站提供，本平台不重新刊載整份考卷文字。</p>
+<p class="small">V4.7.1 先從成功高中建立真實來源索引。完整考卷與答案仍由原校方網站提供，本平台不重新刊載整份考卷文字。</p>
 <div class="filters"><button class="primary" id="loadHistorical">依目前條件搜尋</button><button class="soft" id="showAllHistorical">顯示成功高中全部來源</button></div>
 <div id="historicalStatus" class="small"></div></div>
 <div id="historicalList"></div></div>
