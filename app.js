@@ -7,77 +7,78 @@ let db=null, dbMode="local", schools=F.schools, questions=F.questions;
 let current=[], answers={}, mock=[], mockAnswers={}, user=null;
 let sourceDocs=[];
 let schoolBankIds=null,schoolProfile=null,activeSchoolId=null,activeScopeV48=null;
+let v494ScopeCache=new Map(),v494Seq=0,v494Timer=null;
 
-let v493SchoolCache=new Map(),v493ScopeCache=new Map(),v493LoadSeq=0,v493Timer=null;
-async function v493GetSchoolBundle(schoolName){
- if(v493SchoolCache.has(schoolName))return v493SchoolCache.get(schoolName);
- const {data:s,error:se}=await db.from("schools").select("id,name").eq("name",schoolName).maybeSingle();
- if(se||!s)throw se||new Error("找不到學校");
- const [bp,bb]=await Promise.all([
-   db.from("school_profiles").select("*").eq("school_id",s.id).maybeSingle(),
-   db.from("school_question_bank").select("question_id").eq("school_id",s.id)
- ]);
- const b={school:s,profile:bp.data||null,bankIds:new Set((bb.data||[]).map(x=>Number(x.question_id)))};
- v493SchoolCache.set(schoolName,b); return b;
-}
-function v493ScopeKey(sid){return [sid,$("year").value,$("term").value,$("exam").value].join("|");}
-async function v493GetScopeBundle(sid){
- const key=v493ScopeKey(sid); if(v493ScopeCache.has(key))return v493ScopeCache.get(key);
- const term=$("term").value==="上學期"?1:2, year=+$("year").value, exam=$("exam").value;
- const [sp,sd]=await Promise.all([
-  db.from("exam_scope_profiles").select("scope_label,topic_weights,difficulty_weights,source_url").eq("school_id",sid).eq("academic_year",year).eq("term",term).eq("exam_name",exam).eq("grade",1).eq("subject","數學").maybeSingle(),
-  db.from("source_documents").select("id").eq("school_id",sid).eq("academic_year",year).eq("term",term).eq("exam_name",exam)
- ]);
- const b={scope:sp.data||null,sources:(sd.data||[]).length}; v493ScopeCache.set(key,b); return b;
-}
+const V494_PROFILES={
+ "建國中學":{label:"建中模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%3===0},
+ "北一女中":{label:"北一女模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%2===0},
+ "師大附中":{label:"附中模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%3!==0},
+ "成功高中":{label:"成功模擬題池",allow:q=>true},
+ "中山女高":{label:"中山女高模擬題池",allow:q=>q.level!=="挑戰"||Number(q.id)%3!==0},
+ "延平高中":{label:"延平模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%2===1},
+ "薇閣高中":{label:"薇閣模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%2===1}
+};
 
-async function loadSchoolBankStatus(){
- const seq=++v493LoadSeq, schoolName=$("school").value;
- if(dbMode!=="cloud"||!db){schoolBankIds=null;schoolProfile=null;activeSchoolId=null;activeScopeV48=null;renderBankStatus({mode:"local",count:questions.length});return;}
+function v494LocalSchoolPool(name){
+ const p=V494_PROFILES[name]||{label:"通用題池",allow:q=>true};
+ return questions.filter(p.allow);
+}
+function v494ScopeKey(){return [$("school").value,$("year").value,$("term").value,$("exam").value].join("|");}
+async function v494FetchScopeOnly(){
+ if(dbMode!=="cloud"||!db)return null;
+ const key=v494ScopeKey();
+ if(v494ScopeCache.has(key))return v494ScopeCache.get(key);
+ const seq=++v494Seq;
  try{
-  const bundle=await v493GetSchoolBundle(schoolName);
-  if(seq!==v493LoadSeq)return;
-  activeSchoolId=bundle.school.id; schoolProfile=bundle.profile; schoolBankIds=bundle.bankIds;
-  renderBankStatus({mode:"cloud",count:schoolBankIds.size,scope:null,sources:0,profile:schoolProfile});
-  const meta=await v493GetScopeBundle(activeSchoolId);
-  if(seq!==v493LoadSeq)return;
-  activeScopeV48=meta.scope;
-  renderBankStatus({mode:"cloud",count:schoolBankIds.size,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile});
+   const timeout=new Promise((_,rej)=>setTimeout(()=>rej(new Error("timeout")),2200));
+   const task=(async()=>{
+     const {data:s}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();
+     if(!s)return {scope:null,sources:0};
+     activeSchoolId=s.id;
+     const term=$("term").value==="上學期"?1:2,year=+$("year").value,exam=$("exam").value;
+     const [sp,sd]=await Promise.all([
+       db.from("exam_scope_profiles").select("scope_label,topic_weights,difficulty_weights,source_url").eq("school_id",s.id).eq("academic_year",year).eq("term",term).eq("exam_name",exam).eq("grade",1).eq("subject","數學").maybeSingle(),
+       db.from("source_documents").select("id").eq("school_id",s.id).eq("academic_year",year).eq("term",term).eq("exam_name",exam)
+     ]);
+     return {scope:sp.data||null,sources:(sd.data||[]).length};
+   })();
+   const meta=await Promise.race([task,timeout]);
+   if(seq!==v494Seq)return null;
+   v494ScopeCache.set(key,meta);return meta;
  }catch(e){
-  if(seq!==v493LoadSeq)return;
-  console.error("V4.9.3 bank status",e);schoolBankIds=null;schoolProfile=null;activeSchoolId=null;activeScopeV48=null;renderBankStatus({mode:"error",count:questions.length});
+   console.warn("V4.9.4 scope background load skipped",e);
+   return null;
  }
+}
+async function loadSchoolBankStatus(){
+ const name=$("school").value;
+ const pool=v494LocalSchoolPool(name);
+ schoolBankIds=new Set(pool.map(q=>Number(q.id)));
+ schoolProfile={profile_label:(V494_PROFILES[name]||{}).label||"平台模擬題池",official_style_verified:false};
+ activeScopeV48=null;
+ renderBankStatus({mode:"cloud",count:pool.length,scope:null,sources:0,profile:schoolProfile,fast:true});
+ const meta=await v494FetchScopeOnly();
+ if(meta){activeScopeV48=meta.scope;renderBankStatus({mode:"cloud",count:pool.length,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile,fast:true});}
 }
 function renderBankStatus(x){
  const title=$("bankLoadTitle"),detail=$("bankLoadDetail"),badge=$("bankLoadBadge"),chips=$("bankLoadChips"),homeChip=$("homeBankChip");
  if(!title)return;
  if(x.mode==="local"){
-   title.innerHTML=`<b>${$("school").value}</b>｜目前使用本機通用題庫`;
-   badge.textContent="本機備援";badge.className="status midS";
-   detail.textContent="Supabase 未連線，因此無法套用學校專屬題池與官方段考範圍。";
-   chips.innerHTML=`<span class="chip">可用 ${x.count} 題</span><span class="chip">未套用學校分流</span>`;
-   if(homeChip)homeChip.textContent=`本機 ${x.count} 題`;return;
+   const c=v494LocalSchoolPool($("school").value).length;
+   title.innerHTML=`<b>⚡ ${$("school").value} 題池已就緒</b>`;
+   badge.textContent="本機極速";badge.className="status goodS";
+   detail.textContent="目前使用本機 160 題即時計算學校分流；Supabase 僅在背景補官方範圍。";
+   chips.innerHTML=`<span class="chip">可用 ${c} 題</span><span class="chip">零等待切校</span>`;
+   if(homeChip)homeChip.textContent=`${$("school").value} ${c} 題`;return;
  }
- if(x.mode==="error"){
-   title.innerHTML=`<b>${$("school").value}</b>｜學校題庫讀取失敗`;
-   badge.textContent="讀取失敗";badge.className="status lowS";
-   detail.textContent="已保留通用題庫備援，請重新整理或檢查 Supabase 連線。";
-   chips.innerHTML=`<span class="chip">備援 ${x.count} 題</span>`;return;
- }
- title.innerHTML=`<b>✅ ${$("school").value} 題庫載入成功</b>`;
- badge.textContent="分流成功";badge.className="status goodS";
- const scopeText=x.scope?`已載入範圍：${x.scope.scope_label}`:"這組學校／學年度／段考尚無已核驗官方範圍";
- const profileText=x.profile?.official_style_verified?"校方題型已核驗":"平台模擬題型設定（非校方官方命題風格）";
- detail.textContent=`${scopeText}。${profileText}。`;
- chips.innerHTML=`<span class="chip">學校題池 ${x.count} 題</span><span class="chip">${x.scope?"官方範圍 ✓":"官方範圍待補"}</span><span class="chip">官方來源 ${x.sources} 筆</span>`;
+ const scopeText=x.scope?`已載入官方範圍：${x.scope.scope_label}`:"官方範圍背景讀取／尚未建立";
+ title.innerHTML=`<b>⚡ ${$("school").value} 題池立即載入</b>`;
+ badge.textContent="極速分流";badge.className="status goodS";
+ detail.textContent=`${scopeText}。學校題池為平台模擬分流；不宣稱等同校方官方命題風格。`;
+ chips.innerHTML=`<span class="chip">學校題池 ${x.count} 題</span><span class="chip">${x.scope?"官方範圍 ✓":"不等待範圍"}</span>${x.sources?`<span class="chip">官方來源 ${x.sources} 筆</span>`:""}`;
  if(homeChip)homeChip.textContent=`${$("school").value} ${x.count} 題`;
 }
-function getSchoolPool(){
- if(dbMode==="cloud"&&schoolBankIds&&schoolBankIds.size){
-   return questions.filter(q=>schoolBankIds.has(Number(q.id)));
- }
- return questions.slice();
-}
+function getSchoolPool(){return v494LocalSchoolPool($("school").value);}
 function getScopedSchoolPool(){
  let pool=getSchoolPool();
  if(activeScopeV48&&activeScopeV48.topic_weights){
@@ -126,7 +127,7 @@ async function connectDB(showMessage=false){
     dbMode="cloud";setDbBadge(true,"Supabase 已連線");
     await refreshAuth();
     populateSchools();
-    await loadSchoolBankStatus();
+    loadSchoolBankStatus();
     chooseSet();
     renderSources();
     refreshSchool();
@@ -134,7 +135,7 @@ async function connectDB(showMessage=false){
     return true;
   }catch(err){
     console.error(err);db=null;dbMode="local";schools=F.schools;questions=F.questions;
-    setDbBadge(false,"連線失敗・本機備援");populateSchools();await loadSchoolBankStatus();chooseSet();renderSources();refreshSchool();
+    setDbBadge(false,"連線失敗・本機備援");populateSchools();loadSchoolBankStatus();chooseSet();renderSources();refreshSchool();
     if(showMessage) toast("Supabase 連線失敗，已自動切回本機題庫。");
     return false;
   }
@@ -188,7 +189,7 @@ function goHome(){
   $("home").style.display="block";refreshStats();window.scrollTo(0,0);
 }
 document.addEventListener("click",e=>{
-  const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;refreshSchool();loadSchoolBankStatus().then(()=>{openPanel("practice");chooseSet();});return}
+  const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;refreshSchool();loadSchoolBankStatus();openPanel("practice");chooseSet();return}
   const o=e.target.closest("[data-open]"); if(o){openPanel(o.dataset.open);return}
   const h=e.target.closest("[data-home]"); if(h)goHome();
 });
@@ -535,29 +536,18 @@ $("settingsBtn").addEventListener("click",openSettings);$("closeSettings").addEv
 $("magicBtn").addEventListener("click",sendMagicLink);$("signOutBtn").addEventListener("click",signOut);
 
 populateSchools();refreshSchool();renderSources();chooseSet();refreshStats();connectDB(false);
-})();
 
-// V4.8 school/range reload
-
-
-$("applySourceFilters").addEventListener("click",renderSourceInventoryV49);
-
-// V4.9.3 optimized listeners
 $("school").addEventListener("change",()=>{
- clearTimeout(v493Timer);refreshSchool();
- v493Timer=setTimeout(async()=>{await loadSchoolBankStatus();chooseSet();},220);
+  refreshSchool();
+  loadSchoolBankStatus();
+  chooseSet();
 });
 ["year","term","exam"].forEach(id=>$(id).addEventListener("change",()=>{
- clearTimeout(v493Timer);refreshSchool();
- v493Timer=setTimeout(async()=>{
-   if(dbMode==="cloud"&&activeSchoolId){
-     const seq=++v493LoadSeq;
-     try{
-       const meta=await v493GetScopeBundle(activeSchoolId);
-       if(seq!==v493LoadSeq)return;
-       activeScopeV48=meta.scope;
-       renderBankStatus({mode:"cloud",count:schoolBankIds?.size||questions.length,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile});
-     }catch(e){console.error(e);}
-   }
- },220);
+  refreshSchool();
+  activeScopeV48=null;
+  renderBankStatus({mode:"cloud",count:getSchoolPool().length,scope:null,sources:0,profile:schoolProfile,fast:true});
+  clearTimeout(v494Timer);
+  v494Timer=setTimeout(()=>loadSchoolBankStatus(),180);
 }));
+
+})();
