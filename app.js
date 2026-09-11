@@ -1,4 +1,4 @@
-window.V4963_BUILD="4.9.6.3-settings-fix-20260911";
+window.V4964_BUILD="4.9.6.4-runtime-fix-20260911";
 
 (function(){
 "use strict";
@@ -646,6 +646,23 @@ function useLocal(){
 
 
 
+
+function copyCurrentSessionQuestions(){
+  try{
+    const sid=sessionStorage.getItem("v471_session")||"";
+    const all=typeof getStudyQueue==="function" ? getStudyQueue() : [];
+    const list=sid ? all.filter(x=>x.sessionId===sid) : all;
+    if(!list.length){toast("本次測驗目前沒有待詢問題。");return;}
+    const head="以下是我這一次測驗遇到的不會／答錯／看不懂的題目。請先找出共同弱點，再逐題用「觀念 → 破題 → 分步驟 → 常見錯誤」教我，最後出 3 題同觀念練習題，先不要公布答案。\\n\\n";
+    const body=list.map((x,i)=>`========== 第 ${i+1} 題 ==========\\n${typeof promptForItem==="function"?promptForItem(x):(x.question||"")}`).join("\\n\\n");
+    if(typeof copyTextSafe==="function")copyTextSafe(head+body);
+    else navigator.clipboard.writeText(head+body).then(()=>toast("已複製本次測驗問題"));
+  }catch(e){
+    console.error("copyCurrentSessionQuestions",e);
+    toast("本次問題整理暫時無法使用。");
+  }
+}
+
 function onV496(id,event,handler){
   const el=$(id);
   if(!el){console.warn("V4.9.6 missing optional element:",id);return;}
@@ -665,6 +682,12 @@ try{
 }catch(e){
   console.error("V4.9.6 core startup failed",e);
 }
+
+// Critical UI bindings: bind before any optional feature.
+const settingsBtnEl=$("settingsBtn");if(settingsBtnEl)settingsBtnEl.onclick=openSettings;
+const closeSettingsEl=$("closeSettings");if(closeSettingsEl)closeSettingsEl.onclick=closeSettings;
+const saveSettingsEl=$("saveSettings");if(saveSettingsEl)saveSettingsEl.onclick=()=>saveSettings();
+const localBtnEl=$("localBtn");if(localBtnEl)localBtnEl.onclick=useLocal;
 
 // ---- Core interactions ----
 onV496("applyFilter","click",chooseSet);
@@ -693,12 +716,16 @@ onV496("reviewWeak","click",()=>startStudy(true));
 onV496("copyAllQuestions","click",copyAllStudyQuestions);
 onV496("clearStudyQueue","click",()=>{if(confirm("確定清除全部待詢問題？")){setStudyQueue([]);renderHelper();}});
 
-if($("copyAllQuestions")&&!$("copySessionQuestions")){
- const b=document.createElement("button");
- b.id="copySessionQuestions";b.className="soft";b.textContent="複製本次測驗問題";
- $("copyAllQuestions").parentElement.insertBefore(b,$("copyAllQuestions").nextSibling);
- b.addEventListener("click",copyCurrentSessionQuestions);
-}
+try{
+ if($("copyAllQuestions")&&!$("copySessionQuestions")){
+  const b=document.createElement("button");
+  b.id="copySessionQuestions";b.className="soft";b.textContent="複製本次測驗問題";
+  $("copyAllQuestions").parentElement.insertBefore(b,$("copyAllQuestions").nextSibling);
+  if(typeof copyCurrentSessionQuestions==="function"){
+    b.addEventListener("click",copyCurrentSessionQuestions);
+  }
+ }
+}catch(e){console.warn("optional session-copy control skipped",e);}
 
 ["histSchool","histYear","histTerm","histExam"].forEach(id=>onV496(id,"change",()=>{if(allHistoricalV4961.length)filterHistoricalV4961();}));
 // settings/auth
@@ -709,11 +736,7 @@ if($("copyAllQuestions")&&!$("copySessionQuestions")){
 onV496("magicBtn","click",sendMagicLink);
 onV496("signOutBtn","click",signOut);
 
-// V4.9.6.3 hardened settings bindings
-const settingsBtnEl=$("settingsBtn");if(settingsBtnEl)settingsBtnEl.onclick=openSettings;
-const closeSettingsEl=$("closeSettings");if(closeSettingsEl)closeSettingsEl.onclick=closeSettings;
-const saveSettingsEl=$("saveSettings");if(saveSettingsEl)saveSettingsEl.onclick=()=>saveSettings();
-const localBtnEl=$("localBtn");if(localBtnEl)localBtnEl.onclick=useLocal;
+
 
 // selection changes: instant local re-render
 onV496("school","change",()=>{
