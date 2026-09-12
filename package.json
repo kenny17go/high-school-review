@@ -1,0 +1,8 @@
+{
+  "name": "high-school-review",
+  "private": true,
+  "version": "4.9.7.6",
+  "scripts": {
+    "test": "node --check app.js && node --check extra-questions-v4966.js && node --check extra-questions-high2-v4973.js && node scripts/validate.mjs"
+  }
+}

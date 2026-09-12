@@ -1,0 +1,22 @@
+{
+  "version": "4.9.7.6",
+  "name": "Codex-ready 發布架構版",
+  "date": "2026-09-12",
+  "repository": "kenny17go/high-school-review",
+  "branch": "main",
+  "entry": "index.html",
+  "release_files": [
+    "index.html",
+    "app.js",
+    "extra-questions-v4966.js",
+    "extra-questions-high2-v4973.js"
+  ],
+  "preserve_existing_files": [
+    "fallback-data.js",
+    "config.js",
+    "apple-touch-icon.png",
+    "icon-192.png",
+    "icon-512.png"
+  ],
+  "manual_zip_fallback": true
+}

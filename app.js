@@ -1,10 +1,10 @@
-window.V4965_BUILD="4.9.6.5-persist-settings-20260911";
+window.V4973_BUILD="4.9.7.3-high2-pool";
 
 (function(){
 "use strict";
 const F=window.V42_FALLBACK;
 const $=id=>document.getElementById(id);
-let db=null, dbMode="local", schools=F.schools, questions=F.questions;
+let db=null, dbMode="local", schools=F.schools, questions=(F.questions||[]).map(randomizeHigh2OptionsV4975);
 let current=[], answers={}, mock=[], mockAnswers={}, user=null;
 let sourceDocs=[];
 let schoolBankIds=null,schoolProfile=null,activeSchoolId=null,activeScopeV48=null;
@@ -21,13 +21,61 @@ const V494_PROFILES={
  "薇閣高中":{label:"薇閣模擬題池",allow:q=>q.level!=="基礎"||Number(q.id)%2===1}
 };
 
+const V4973_HIGH1_TOPICS=["實數","多項式","指數","對數","綜合"];
+const V4973_HIGH2_TOPICS=["三角函數","平面向量","空間與矩陣","機率","模型與圓錐曲線"];
+function currentGradeV4973(){
+ const v=$("mainGrade")?.value||"1";
+ return v==="all"?"all":Number(v);
+}
+function currentTrackV4973(){return $("mathTrack")?.value||"A";}
+function randomizeHigh2OptionsV4975(q){
+  if(!q||Number(q.grade||1)!==2||!Array.isArray(q.o)||q.o.length<2)return q;
+  const pairs=q.o.map((text,i)=>({text,correct:i===Number(q.a)}));
+  for(let i=pairs.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [pairs[i],pairs[j]]=[pairs[j],pairs[i]];
+  }
+  return {...q,o:pairs.map(x=>x.text),a:pairs.findIndex(x=>x.correct)};
+}
+
+function mergeHigh2V4973(base){
+ const out=(Array.isArray(base)?base:[]).map(randomizeHigh2OptionsV4975);
+ const seen=new Set(out.map(q=>Number(q.id)));
+ (window.V4973_HIGH2_QUESTIONS||[]).forEach(q=>{if(!seen.has(Number(q.id)))out.push(randomizeHigh2OptionsV4975(q));});
+ return out;
+}
+function syncGradeUIV4973(){
+ const g=currentGradeV4973(), tf=$("mathTrackField");
+ if(tf)tf.style.display=g===2?"block":"none";
+ const topics=g===2?V4973_HIGH2_TOPICS:(g==="all"?[...V4973_HIGH1_TOPICS,...V4973_HIGH2_TOPICS]:V4973_HIGH1_TOPICS);
+ ["topicFilter","studyTopic"].forEach(id=>{
+   const sel=$(id);if(!sel)return;
+   const old=sel.value;
+   sel.innerHTML='<option value="全部">全部章節</option>'+topics.map(t=>`<option>${t}</option>`).join("");
+   sel.value=topics.includes(old)?old:"全部";
+ });
+ refreshSchool();
+ loadSchoolBankStatus();
+ verifyBankV49610();
+}
+
 function v494LocalSchoolPool(name){
  const p=V494_PROFILES[name]||{label:"通用題池",allow:q=>true};
- return questions.filter(p.allow);
+ const g=currentGradeV4973(), tr=currentTrackV4973();
+ return questions.filter(q=>{
+   const qg=Number(q.grade||1);
+   if(g!=="all"&&qg!==g)return false;
+   if(g===2&&tr!=="all"){
+     const qt=q.track||q.curriculum_track||"AB";
+     if(!(qt==="AB"||qt===tr))return false;
+   }
+   return p.allow(q);
+ });
 }
-function v494ScopeKey(){return [$("school").value,$("year").value,$("term").value,$("exam").value].join("|");}
+function v494ScopeKey(){return [$("school").value,currentGradeV4973(),currentTrackV4973(),$("year").value,$("term").value,$("exam").value].join("|");}
 async function v494FetchScopeOnly(){
  if(dbMode!=="cloud"||!db)return null;
+ const activeGrade=currentGradeV4973();if(activeGrade==="all")return null;
  const key=v494ScopeKey();
  if(v494ScopeCache.has(key))return v494ScopeCache.get(key);
  const seq=++v494Seq;
@@ -39,8 +87,8 @@ async function v494FetchScopeOnly(){
      activeSchoolId=s.id;
      const term=$("term").value==="上學期"?1:2,year=+$("year").value,exam=$("exam").value;
      const [sp,sd]=await Promise.all([
-       db.from("exam_scope_profiles").select("scope_label,topic_weights,difficulty_weights,source_url").eq("school_id",s.id).eq("academic_year",year).eq("term",term).eq("exam_name",exam).eq("grade",1).eq("subject","數學").maybeSingle(),
-       db.from("source_documents").select("id").eq("school_id",s.id).eq("academic_year",year).eq("term",term).eq("exam_name",exam)
+       db.from("exam_scope_profiles").select("scope_label,topic_weights,difficulty_weights,source_url").eq("school_id",s.id).eq("academic_year",year).eq("term",term).eq("exam_name",exam).eq("grade",activeGrade).eq("subject","數學").maybeSingle(),
+       db.from("source_documents").select("id").eq("school_id",s.id).eq("academic_year",year).eq("term",term).eq("exam_name",exam).eq("grade",activeGrade)
      ]);
      return {scope:sp.data||null,sources:(sd.data||[]).length};
    })();
@@ -144,7 +192,7 @@ async function connectDB(showMessage=false){
       s.forEach(x=>schools[x.name]={tone:x.source_tone,status:x.source_status,desc:x.description,url:x.official_url});
     }
     if(q&&q.length){
-      questions=q.map(x=>({id:x.id,topic:x.topic,sub:x.subtopic,level:x.difficulty,q:x.question_text,o:x.options,a:x.correct_index,e:x.explanation}));
+      questions=mergeHigh2V4973(q.map(x=>({id:x.id,grade:Number(x.grade||1),track:x.curriculum_track||"AB",topic:x.topic,sub:x.subtopic,level:x.difficulty,q:x.question_text,o:x.options,a:x.correct_index,e:x.explanation})));
     }
     verifyBankV49610();
     dbMode="cloud";setDbBadge(true,"Supabase 已連線");
@@ -157,7 +205,7 @@ async function connectDB(showMessage=false){
     if(showMessage) toast("資料庫連線成功，共讀取 "+questions.length+" 題。");
     return true;
   }catch(err){
-    console.error(err);db=null;dbMode="local";schools=F.schools;questions=F.questions;
+    console.error(err);db=null;dbMode="local";schools=F.schools;questions=mergeHigh2V4973(F.questions);
     setDbBadge(false,"連線失敗・本機備援");populateSchools();loadSchoolBankStatus();chooseSet();renderSources();refreshSchool();
     if(showMessage) toast("Supabase 連線失敗，已自動切回本機題庫。");
     return false;
@@ -190,8 +238,10 @@ function populateSchools(){
 }
 function refreshSchool(){
   const n=$("school").value,d=schools[n]||{};
-  $("title").textContent=n+"｜高一數學";
-  $("sub").textContent=$("year").value+"學年度｜"+$("term").value+"｜"+$("exam").value;
+  const gv=$("mainGrade")?.value||"1", gl=gv==="all"?"高一／高二":["","高一","高二"][Number(gv)];
+  const track=(gv==="2")?`・${currentTrackV4973()==="all"?"數A/B":`數${currentTrackV4973()}`}`:"";
+  $("title").textContent=n+"｜"+gl+"數學"+track;
+  $("sub").textContent=gl+track+"｜"+$("term").value+"｜"+$("exam").value;
   $("desc").textContent=d.desc||"來源資料待補";
   $("official").href=d.url||"#";
   const s=$("status"); s.textContent=d.status||"待核驗";
@@ -220,7 +270,8 @@ async function loadCoverageV49617(){
    const task=Promise.all([
      hdb.from("source_documents").select("academic_year,term,exam_name,grade,subject,document_type,schools(name)").gte("academic_year",110),
      hdb.from("exam_source_inventory").select("academic_year,term,exam_name,grade,subject,source_kind,schools(name)").gte("academic_year",110),
-     hdb.from("exam_scope_profiles").select("academic_year,term,exam_name,grade,subject,schools(name)").gte("academic_year",110)
+     hdb.from("exam_scope_profiles").select("academic_year,term,exam_name,grade,subject,schools(name)").gte("academic_year",110),
+     hdb.from("exam_source_search_status").select("academic_year,term,exam_name,grade,subject,search_status,schools(name)").gte("academic_year",112)
    ]);
    const res=await Promise.race([task,timeout]);
    const rows=[];
@@ -234,6 +285,8 @@ async function loadCoverageV49617(){
        }else if(idx===1){
          const sk=String(x.source_kind||"").toLowerCase();
          kind=sk==="answer"?"答":(sk==="question"?"題":(sk==="scope"?"範":"索"));
+       }else if(idx===3){
+         kind=x.search_status==="searched_no_public_source"?"未公開":"已找到";
        }
        rows.push({...x,_kind:kind});
      });
@@ -262,11 +315,13 @@ async function loadCoverageV49617(){
            if(kinds){
              covered++;
              const order=["題","答","範","索"];
-             const labels=order.filter(k=>kinds.has(k)).map(k=>{
+             const real=order.filter(k=>kinds.has(k));
+             const labels=real.map(k=>{
                const cls=k==="答"?"answer":(k==="範"?"range":(k==="索"?"index":""));
                return `<span class="coverageType ${cls}">${k}</span>`;
              }).join("");
-             body+=`<td class="coverageYes" title="${[...kinds].join("、")}">${labels||"✓"}</td>`;
+             const missing=!real.length&&kinds.has("未公開")?'<span class="coverageType missing">未公開</span>':"";
+             body+=`<td class="${real.length?"coverageYes":"coverageNo"}" title="${[...kinds].join("、")}">${labels||missing||"—"}</td>`;
            } else body+='<td class="coverageNo">—</td>';
          });
        });
@@ -754,20 +809,18 @@ function refreshAuthBoxV49614(){
 }
 function verifyBankV49610(){
   const total=Array.isArray(questions)?questions.length:0;
-  const extra=Array.isArray(questions)?questions.filter(q=>Number(q.id)>160).length:0;
+  const g=currentGradeV4973(), tr=currentTrackV4973();
   const pool=(typeof getSchoolPool==="function")?getSchoolPool():questions;
-  const poolExtra=Array.isArray(pool)?pool.filter(q=>Number(q.id)>160).length:0;
   const totalEl=$("bankTotalN"), verifyEl=$("bankVerifyText"), chip=$("homeBankChip");
   if(totalEl)totalEl.textContent=total;
   if(chip)chip.textContent=`目前題庫 ${total} 題`;
   if(verifyEl){
-    const topicCount={};
-    (questions||[]).forEach(q=>topicCount[q.topic]=(topicCount[q.topic]||0)+1);
-    const five=["實數","多項式","指數","對數","綜合"];
-    const balanced=five.every(t=>topicCount[t]===50);
-    verifyEl.textContent=`題庫驗證：總計 ${total} 題｜新增題 ${extra} 題｜${$("school")?.value||"目前學校"}可抽 ${pool.length} 題（其中新增題 ${poolExtra} 題）${balanced?"｜5 主題各 50 題 ✓":""}`;
+    const gLabel=g==="all"?"高一＋高二":`高${["","一","二"][g]}`;
+    const tLabel=g===2?`・${tr==="all"?"數A/B":`數${tr}`}`:"";
+    const topicCount={};pool.forEach(q=>topicCount[q.topic]=(topicCount[q.topic]||0)+1);
+    verifyEl.textContent=`題庫驗證：總庫 ${total} 題｜目前 ${gLabel}${tLabel} 可抽 ${pool.length} 題｜主題 ${Object.keys(topicCount).length} 類`;
   }
-  return {total,extra,pool:pool.length,poolExtra};
+  return {total,pool:pool.length};
 }
 
 function refreshStats(){
@@ -802,7 +855,7 @@ async function saveSettings(){
 }
 function useLocal(){
   // 只切換目前執行模式；保留 Supabase 設定。
-  db=null;dbMode="local";schools=F.schools;questions=F.questions;
+  db=null;dbMode="local";schools=F.schools;questions=mergeHigh2V4973(F.questions);
   populateSchools();chooseSet();renderSources();refreshSchool();loadSchoolBankStatus();
   setDbBadge(false,"⚡ 本機即用");closeSettings();
   toast("已暫時使用本機題庫；Supabase 設定仍保留。");
@@ -835,7 +888,7 @@ function onV496(id,event,handler){
 
 // ---- Stable core startup FIRST ----
 try{
-  db=null;dbMode="local";schools=F.schools;questions=F.questions;
+  db=null;dbMode="local";schools=F.schools;questions=mergeHigh2V4973(F.questions);
   populateSchools();
   refreshSchool();
   renderSources();
@@ -910,6 +963,8 @@ const gsatVariantV4967=$("gsatVariant");if(gsatVariantV4967)gsatVariantV4967.onc
 const refreshCoverageV49617=$("refreshCoverage");if(refreshCoverageV49617)refreshCoverageV49617.onclick=loadCoverageV49617;
 const coverageSubjectV49617=$("coverageSubject");if(coverageSubjectV49617)coverageSubjectV49617.onchange=loadCoverageV49617;
 const coverageGradeV49618=$("coverageGrade");if(coverageGradeV49618)coverageGradeV49618.onchange=loadCoverageV49617;
+const mainGradeV4973=$("mainGrade");if(mainGradeV4973)mainGradeV4973.onchange=()=>{syncGradeUIV4973();toast(mainGradeV4973.value==="2"?"已切換高二模擬題池。":mainGradeV4973.value==="all"?"已切換高一＋高二。":"已切換高一。");};
+const mathTrackV4973=$("mathTrack");if(mathTrackV4973)mathTrackV4973.onchange=syncGradeUIV4973;
 // selection changes: instant local re-render
 onV496("school","change",()=>{
   refreshSchool();
@@ -938,4 +993,6 @@ setTimeout(refreshAuthBoxV49614,400);
 
 const magicBtnV49614=$("sendMagicBtn");if(magicBtnV49614)magicBtnV49614.onclick=sendMagicLink;
 const signOutBtnV49614=$("signOutBtn");if(signOutBtnV49614)signOutBtnV49614.onclick=signOut;
+
+setTimeout(()=>{syncGradeUIV4973();},120);
 })();

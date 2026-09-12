@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f3d5e">
-<title>高中段考複習平台 V4.9.7.1 學習數據恢復版</title>
+<title>高中段考複習平台 V4.9.7.6 Codex-ready 發布架構版</title>
 <style>
 :root{--bg:#f4f7fa;--ink:#193244;--muted:#6d7e8a;--p:#0f3d5e;--p2:#1f6f8b;--line:#dce6ed;--good:#2f8f5b;--warn:#ad741b;--bad:#b84b4b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif}
 header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--p),var(--p2));color:white;padding:14px}.head,.inner,main{max-width:1100px;margin:auto}.head{display:flex;justify-content:space-between;align-items:center;gap:10px}header h1{font-size:20px;margin:0}header p{margin:3px 0 0;font-size:11px;opacity:.9}
 .dbbadge{border-radius:999px;padding:6px 9px;font-size:11px;font-weight:800;white-space:nowrap}.dbbadge.online{background:#dff5e8;color:#236c45}.dbbadge.offline{background:#fff0d5;color:#835a18}
-main{padding:14px 12px 88px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:0 4px 14px #1532480a}.setup{display:grid;grid-template-columns:1.2fr .8fr .8fr 1fr;gap:9px}.field label{font-size:12px;font-weight:800;color:var(--muted);display:block;margin-bottom:5px}select,input{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-size:14px}
+main{padding:14px 12px 88px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:15px;box-shadow:0 4px 14px #1532480a}.setup{display:grid;grid-template-columns:1.2fr .75fr .75fr .8fr 1fr;gap:9px}.field label{font-size:12px;font-weight:800;color:var(--muted);display:block;margin-bottom:5px}select,input{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-size:14px}
 .hero{display:grid;grid-template-columns:1.35fr .65fr;gap:12px;margin-top:12px}.status{display:inline-block;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:800}.goodS{background:#e7f5ed;color:var(--good)}.midS{background:#fff3dc;color:var(--warn)}.lowS{background:#fdecec;color:var(--bad)}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.chip,.tag{display:inline-block;background:#edf5f8;color:var(--p);padding:5px 8px;border-radius:999px;font-size:11px;font-weight:700}.btns,.filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}button,.linkbtn{border:0;border-radius:11px;padding:10px 13px;font-weight:800;cursor:pointer;text-decoration:none;font-size:13px}.primary{background:var(--p);color:#fff}.soft{background:#eaf3f7;color:var(--p)}.warn{background:#fff3dc;color:#805614}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.metric{text-align:center;background:#f7fafc;padding:12px 5px;border-radius:12px}.metric b{display:block;font-size:23px;color:var(--p)}.progress{height:9px;background:#e8eef2;border-radius:999px;overflow:hidden}.progress i{display:block;height:100%;background:var(--p2)}
@@ -39,15 +39,15 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 .coverageMatrix thead .schoolCell{z-index:8;background:#e9f3f8}
 .coverageYes{font-weight:900;color:#17864b;font-size:16px}.coverageNo{color:#c5cdd2}.coverageSlot{min-width:46px}
 .coverageSummary{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.coverageSummary .chip{font-size:12px}
-.coverageType{display:inline-block;min-width:21px;padding:2px 4px;margin:1px;border-radius:6px;background:#e9f6ee;color:#167443;font-size:10px;font-weight:800}.coverageType.range{background:#eef4ff;color:#365f9d}.coverageType.index{background:#fff4df;color:#8a651a}.coverageType.answer{background:#f3eefe;color:#6843a8}</style><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+.coverageType{display:inline-block;min-width:21px;padding:2px 4px;margin:1px;border-radius:6px;background:#e9f6ee;color:#167443;font-size:10px;font-weight:800}.coverageType.range{background:#eef4ff;color:#365f9d}.coverageType.index{background:#fff4df;color:#8a651a}.coverageType.answer{background:#f3eefe;color:#6843a8}.coverageType.missing{background:#f2f3f5;color:#737b83;min-width:48px}</style><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 </head><body>
-<header><div class="head"><div><h1>高中段考複習平台 V4.9.7.1 學習數據恢復版</h1><p>極速模式＋本機即時計算學校題池＋背景載入官方範圍</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft" type="button">資料庫設定</button></div></div></header>
+<header><div class="head"><div><h1>高中段考複習平台 V4.9.7.6 Codex-ready 發布架構版</h1><p>極速模式＋本機即時計算學校題池＋背景載入官方範圍</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft" type="button">資料庫設定</button></div></div></header>
 <main>
 <div id="home"><div class="card"><div class="setup">
 <div class="field"><label>學校</label><select id="school"><option>建國中學</option><option>北一女中</option><option>師大附中</option><option selected>成功高中</option><option>中山女高</option><option>松山高中</option><option>延平高中</option><option>薇閣高中</option></select></div>
-<div class="field"><label>學年度</label><select id="year"><option>114</option><option>113</option><option>112</option><option>111</option><option>110</option></select></div>
+<div class="field"><label>年級</label><select id="mainGrade"><option value="1" selected>高一</option><option value="2">高二</option><option value="all">全部</option></select><select id="year" style="display:none" aria-hidden="true"><option selected>114</option></select></div><div class="field" id="mathTrackField" style="display:none"><label>高二類型</label><select id="mathTrack"><option value="A" selected>數 A</option><option value="B">數 B</option><option value="all">全部</option></select></div>
 <div class="field"><label>學期</label><select id="term"><option>上學期</option><option>下學期</option></select></div>
 <div class="field"><label>考試</label><select id="exam"><option>第一次段考</option><option>第二次段考</option><option>第三次段考／期末</option></select></div></div></div>
 <div class="card bankstatus" style="margin-top:12px">
@@ -55,7 +55,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <div><h3 style="margin:0 0 5px">📚 題庫載入狀態</h3><div id="bankLoadTitle"><b>⚡ 本機題庫已就緒</b></div></div>
 <span id="bankLoadBadge" class="status goodS">立即可用</span></div>
 <div class="small" style="margin-top:6px"><span class="status goodS">⚡ 極速模式</span> 切換學校不等待遠端題庫映射。</div><div id="bankLoadDetail" class="small" style="margin-top:7px">基本練習與模考使用本機題庫；真實來源資料於進入功能頁時才讀取。</div>
-<div id="bankLoadChips" class="chips"></div>
+<div id="bankLoadChips" class="chips"></div><div class="small" id="optionShuffleBadge">🎲 高二選項位置會自動隨機化，避免答案位置形成規律。</div>
 </div>
 <div class="hero"><div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><div><h2 id="title" style="margin:0"></h2><div id="sub" class="small"></div></div><span id="status" class="status"></span></div><div class="chips"><span class="chip" id="homeBankChip">題庫載入中…</span><span class="chip">Supabase</span><span class="chip">RLS</span><span class="chip">離線備援</span></div><p id="desc"></p><div class="btns"><button class="primary" data-open="practice">開始練習</button><button class="soft" data-open="mock">模擬段考</button><button class="soft" data-open="sources">真實來源</button><a id="official" class="linkbtn soft" target="_blank">官方網站</a></div>
 <div class="authbox"><b>雲端帳號</b>
@@ -106,7 +106,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 </select>
 <button id="refreshCoverage" class="primary" type="button">重新整理</button>
 </div>
-<div id="coverageStatus" class="small"></div><div class="small" style="margin-top:6px">圖例：<b>題</b>=考題　<b>答</b>=解答　<b>範</b>=官方範圍　<b>索</b>=題源索引</div>
+<div id="coverageStatus" class="small"></div><div class="small" style="margin-top:6px">圖例：<b>題</b>=考題　<b>答</b>=解答　<b>範</b>=官方範圍　<b>索</b>=題源索引　<b>未公開</b>=已搜尋但目前未找到可核驗公開題目/答案</div>
 <div id="coverageSummary" class="coverageSummary"></div>
 <div class="coverageMatrixWrap"><table id="coverageMatrix" class="coverageMatrix"></table></div>
 </div>
@@ -172,5 +172,5 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <footer><button data-home><strong>⌂</strong>首頁</button><button data-open="practice"><strong>✓</strong>題庫</button><button data-open="mock"><strong>⏱</strong>模考</button><button data-open="wrong"><strong>★</strong>錯題</button></footer>
 <div id="settingsModal" class="modal"><div class="modalCard"><h2>Supabase 資料庫設定</h2><div id="settingsStatus" class="small" style="margin-bottom:10px"></div><p class="small">只填 Project URL 與瀏覽器可用的 publishable/anon key。不要輸入 service_role key。</p><label class="small"><b>Project URL</b></label><input id="urlInput" placeholder="https://xxxx.supabase.co" style="margin:5px 0 10px"><label class="small"><b>Publishable / anon key</b></label><input id="keyInput" placeholder="sb_publishable_... 或 anon JWT"><div class="btns"><button type="button" id="saveSettings" class="primary">儲存並測試連線</button><button type="button" id="localBtn" class="soft">暫時使用本機題庫</button><button type="button" id="closeSettings" class="soft">關閉</button></div><p class="small">第一次設定流程：先在 Supabase 執行本套件的 <b>01_schema.sql</b>，再執行 <b>02_seed.sql</b>，最後把 Project URL 與 key 填在這裡。</p></div></div>
 <div id="toast" class="toast"></div>
-<script src="config.js?v=4.8.0"></script><script src="fallback-data.js"></script><script src="extra-questions-v4966.js"></script><script src="app.js?v=4.9.7.1"></script>
+<script src="config.js?v=4.8.0"></script><script src="fallback-data.js"></script><script src="extra-questions-v4966.js"></script><script src="extra-questions-high2-v4973.js?v=4.9.7.6"></script><script src="app.js?v=4.9.7.6"></script>
 </body></html>
