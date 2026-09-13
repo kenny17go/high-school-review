@@ -4,6 +4,51 @@ window.V4965_BUILD="4.9.6.5-persist-settings-20260911";
 "use strict";
 const F=window.V42_FALLBACK;
 const $=id=>document.getElementById(id);
+const catalog=window.LearningCatalog;
+F.schools["松山高中"]=F.schools["松山高中"]||{tone:"mid",status:"公開範圍待核驗",desc:"保留學校入口；模擬範圍不代表校方官方進度。",url:"https://www.sssh.tp.edu.tw/"};
+const grade2Fallback=window.GRADE2_QUESTIONS||[];
+let grade2Cloud=[],cloudSubjects=[],scopeOverrides=new Map(),scopeRequest=0,connectionRequest=0;
+let practiceScope=null,mockScope=null;
+function escapeText(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#39;"}[c]));}
+function selectedGrade(){return Number($("grade")?.value||1);}
+function learningSelection(){return {subjectId:"math",courseId:`math-108-g2-${($("curriculumTrack")?.value||"A").toLowerCase()}`,grade:selectedGrade(),school:$("school").value,
+  academic_year:Number($("year").value),academicYear:Number($("year").value),semester:termNumber(),exam:$("exam").value};}
+function grade2CourseLabel(){return catalog.courses.find(c=>c.id===learningSelection().courseId)?.label||"高二數學";}
+function currentScope(){const s=learningSelection();return catalog.resolve(s,scopeOverrides.get(catalog.key(s))||[]);}
+function allQuestions(){return [...questions,...grade2Cloud,...grade2Fallback];}
+function findQuestion(id){return current.find(q=>q.id===id)||mock.find(q=>q.id===id)||allQuestions().find(q=>q.id===id);}
+function scopeSummary(scope){return `${scope.label}｜${catalog.labels[scope.sourceType]}｜${catalog.courses.find(c=>c.id===scope.courseId)?.label||""}｜${scope.school} ${scope.academicYear} ${scope.semester===1?"上":"下"}學期 第${scope.exam}次段考`;}
+function updateTopicFilters(){
+ const topics=selectedGrade()===2?catalog.chapters.filter(c=>currentScope().chapterIds.includes(c.id)).map(c=>c.label):["實數","多項式","指數","對數","綜合"];
+ ["topicFilter","studyTopic"].forEach(id=>{const el=$(id),old=el.value;el.replaceChildren(new Option("全部章節","全部"),...topics.map(t=>new Option(t,t)));el.value=topics.includes(old)?old:"全部";});
+}
+function renderLearningScope(){
+ const box=$("currentScope");if(!box)return;
+ if(selectedGrade()!==2){box.textContent="本次範圍：高一既有學校題池（維持原有練習方式）";return;}
+ const scope=currentScope(),count=catalog.pool(scope,grade2Cloud,grade2Fallback).length;
+ $("bankLoadChips").textContent=`目前範圍 ${count} 題`;
+ box.textContent=`本次範圍：${scopeSummary(scope)}。${scope.note} 可用 ${count} 題。`;
+ if(scope.sourceUrl){const a=document.createElement("a");a.href=scope.sourceUrl;a.target="_blank";a.rel="noopener";a.textContent=" 查看範圍依據";box.appendChild(a);}
+}
+async function loadGrade2Scope(){
+ const s=learningSelection(),key=catalog.key(s),seq=++scopeRequest,client=db;
+ renderLearningScope();updateTopicFilters();
+ if(!client||dbMode!=="cloud"||scopeOverrides.has(key))return;
+ let timer;
+ try{
+  const task=(async()=>{
+   const {data:school,error:se}=await client.from("schools").select("id").eq("name",s.school).maybeSingle();
+   if(se)throw se;if(!school)return [];
+   const {data,error}=await client.from("exam_scope_profiles").select("*").eq("school_id",school.id)
+    .eq("academic_year",s.academicYear).eq("term",s.semester).eq("exam_name",s.exam).eq("grade",s.grade).eq("subject","數學");
+   if(error)throw error;
+   return (data||[]).map(row=>catalog.adaptScope(row,s,cloudSubjects)).filter(Boolean);
+  })();
+  const rows=await Promise.race([task,new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error("範圍讀取逾時")),2500);})]);
+  if(seq!==scopeRequest||client!==db||key!==catalog.key(learningSelection()))return;
+  scopeOverrides.set(key,rows);renderLearningScope();updateTopicFilters();
+ }catch(e){console.warn("高二範圍未能載入，保留平台模擬安排",e.message);}finally{clearTimeout(timer);}
+}
 let db=null, dbMode="local", schools=F.schools, questions=F.questions;
 let current=[], answers={}, mock=[], mockAnswers={}, user=null;
 let sourceDocs=[];
@@ -25,7 +70,7 @@ function v494LocalSchoolPool(name){
  const p=V494_PROFILES[name]||{label:"通用題池",allow:q=>true};
  return questions.filter(p.allow);
 }
-function v494ScopeKey(){return [$("school").value,$("year").value,$("term").value,$("exam").value].join("|");}
+function v494ScopeKey(){return [selectedGrade(),$("school").value,$("year").value,$("term").value,$("exam").value].join("|");}
 async function v494FetchScopeOnly(){
  if(dbMode!=="cloud"||!db)return null;
  const key=v494ScopeKey();
@@ -53,6 +98,16 @@ async function v494FetchScopeOnly(){
  }
 }
 async function loadSchoolBankStatus(){
+ if(selectedGrade()===2){
+  const count=getSchoolPool().length;
+  $("bankLoadTitle").textContent=grade2CourseLabel()+"範圍題池已就緒";
+  $("bankLoadBadge").textContent="依範圍分流";
+  $("bankLoadDetail").textContent="練習與模擬段考使用同一組章節映射；缺題只以相同範圍的模擬題補足。";
+  $("bankLoadChips").textContent=`目前範圍 ${count} 題`;
+  await loadGrade2Scope();return;
+ }
+ ++scopeRequest;renderLearningScope();
+ const selectionKey=v494ScopeKey();
  const name=$("school").value;
  const pool=v494LocalSchoolPool(name);
  schoolBankIds=new Set(pool.map(q=>Number(q.id)));
@@ -60,7 +115,7 @@ async function loadSchoolBankStatus(){
  activeScopeV48=null;
  renderBankStatus({mode:"cloud",count:pool.length,scope:null,sources:0,profile:schoolProfile,fast:true});
  const meta=await v494FetchScopeOnly();
- if(meta){activeScopeV48=meta.scope;renderBankStatus({mode:"cloud",count:pool.length,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile,fast:true});}
+ if(meta&&selectionKey===v494ScopeKey()){activeScopeV48=meta.scope;renderBankStatus({mode:"cloud",count:pool.length,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile,fast:true});}
 }
 function renderBankStatus(x){
  const title=$("bankLoadTitle"),detail=$("bankLoadDetail"),badge=$("bankLoadBadge"),chips=$("bankLoadChips"),homeChip=$("homeBankChip");
@@ -80,7 +135,7 @@ function renderBankStatus(x){
  chips.innerHTML=`<span class="chip">學校題池 ${x.count} 題</span><span class="chip">${x.scope?"官方範圍 ✓":"不等待範圍"}</span>${x.sources?`<span class="chip">官方來源 ${x.sources} 筆</span>`:""}`;
  if(homeChip)homeChip.textContent=`${$("school").value} ${x.count} 題`;
 }
-function getSchoolPool(){return v494LocalSchoolPool($("school").value);}
+function getSchoolPool(){return selectedGrade()===2?catalog.pool(currentScope(),grade2Cloud,grade2Fallback):v494LocalSchoolPool($("school").value);}
 function getScopedSchoolPool(){
  let pool=getSchoolPool();
  if(activeScopeV48&&activeScopeV48.topic_weights){
@@ -121,6 +176,8 @@ function ensureSupabaseSdkV496(){
 }
 
 async function connectDB(showMessage=false){
+  const request=++connectionRequest;
+  ++scopeRequest;scopeOverrides.clear();
   const c=cfg();
   if(!c.url||!c.key){
     db=null;dbMode="local";setDbBadge(false,"⚡ 本機即用");
@@ -129,34 +186,46 @@ async function connectDB(showMessage=false){
   }
   try{
     const sdkOk=await ensureSupabaseSdkV496();
+    if(request!==connectionRequest)return false;
     if(!sdkOk||!window.supabase) throw new Error("Supabase SDK 載入失敗");
     db=window.supabase.createClient(c.url,c.key);
     const remoteLoad=Promise.all([
       db.from("schools").select("*").order("id"),
-      db.from("questions").select("*").order("id").limit(1000)
+      db.from("questions").select("*").order("id").limit(1000),
+      db.from("subjects").select("id,code,name,enabled").order("id")
     ]);
     const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("Supabase 連線逾時")),3000));
-    const [{data:s,error:se},{data:q,error:qe}] = await Promise.race([remoteLoad,timeout]);
+    const [{data:s,error:se},{data:q,error:qe},subjectResult] = await Promise.race([remoteLoad,timeout]);
+    if(request!==connectionRequest)return false;
     if(se||qe) throw (se||qe);
+    cloudSubjects=subjectResult.error?[]:(subjectResult.data||[]);
+    grade2Cloud=[];
     sourceDocs=[];
     if(s&&s.length){
-      schools={};
+      schools={...F.schools};
       s.forEach(x=>schools[x.name]={tone:x.source_tone,status:x.source_status,desc:x.description,url:x.official_url});
     }
     if(q&&q.length){
-      questions=q.map(x=>({id:x.id,topic:x.topic,sub:x.subtopic,level:x.difficulty,q:x.question_text,o:x.options,a:x.correct_index,e:x.explanation}));
+      grade2Cloud=q.map(row=>catalog.adaptQuestion(row,cloudSubjects)).filter(Boolean);
+      const legacy=q.filter(x=>catalog.isLegacyMath(x,cloudSubjects));
+      const merged=new Map(F.questions.map(x=>[x.id,x]));
+      legacy.forEach(x=>merged.set(x.id,{id:x.id,topic:x.topic,sub:x.subtopic,level:x.difficulty,q:x.question_text,o:x.options,a:x.correct_index,e:x.explanation}));
+      questions=[...merged.values()];
     }
     verifyBankV49610();
     dbMode="cloud";setDbBadge(true,"Supabase 已連線");
     await refreshAuth();
+    if(request!==connectionRequest)return false;
     populateSchools();
     loadSchoolBankStatus();
-    chooseSet();
+    if(!$("practice").classList.contains("active"))chooseSet();
     renderSources();
     refreshSchool();
     if(showMessage) toast("資料庫連線成功，共讀取 "+questions.length+" 題。");
     return true;
   }catch(err){
+    if(request!==connectionRequest)return false;
+    grade2Cloud=[];scopeOverrides.clear();++scopeRequest;
     console.error(err);db=null;dbMode="local";schools=F.schools;questions=F.questions;
     setDbBadge(false,"連線失敗・本機備援");populateSchools();loadSchoolBankStatus();chooseSet();renderSources();refreshSchool();
     if(showMessage) toast("Supabase 連線失敗，已自動切回本機題庫。");
@@ -190,7 +259,8 @@ function populateSchools(){
 }
 function refreshSchool(){
   const n=$("school").value,d=schools[n]||{};
-  $("title").textContent=n+"｜高一數學";
+  $("title").textContent=n+"｜"+(selectedGrade()===2?grade2CourseLabel():"高一數學");
+  $("curriculumTrackField").hidden=selectedGrade()!==2;
   $("sub").textContent=$("year").value+"學年度｜"+$("term").value+"｜"+$("exam").value;
   $("desc").textContent=d.desc||"來源資料待補";
   $("official").href=d.url||"#";
@@ -290,6 +360,7 @@ function openPanel(id){
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
   panel.classList.add("active");
   try{
+    if(id==="practice"&&selectedGrade()===2)chooseSet();
     if(id==="wrong")renderWrong();
     if(id==="weak")renderWeak();
     if(id==="gsat")Promise.resolve(loadGsatV4967()).catch(e=>console.error(e));
@@ -313,17 +384,21 @@ document.addEventListener("click",e=>{
 });
 
 function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now());
+  practiceScope=selectedGrade()===2?currentScope():null;
+  if(practiceScope)updateTopicFilters();
   const t=$("topicFilter").value,l=$("levelFilter").value,qty=+$("qtyFilter").value;
   const basePool=getSchoolPool();const pool=basePool.filter(q=>(t==="全部"||q.topic===t)&&(l==="全部"||q.level===l));
-  current=shuffle(pool).slice(0,Math.min(qty,pool.length));answers={};renderQuiz();
+  current=shuffle(pool).slice(0,Math.min(qty,pool.length)).map(q=>q.grade===2?catalog.shuffleOptions(q):q);answers={};renderQuiz();
   $("countText").textContent=`目前產生 ${current.length} 題（${$("school").value} 題池符合條件共 ${pool.length} 題）｜資料來源：${dbMode==="cloud"?"Supabase 學校分流":"本機備援"}`;
+  if(practiceScope)$("countText").textContent=`本次範圍：${scopeSummary(practiceScope)}｜${current.length} 題（符合條件 ${pool.length} 題）${current.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${practiceScope.note}`;
+  $("result").textContent="";
 }
 function renderQuiz(){
-  $("quiz").innerHTML=current.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${q.q} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${x}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${q.e}</div></div>`).join("");
+  $("quiz").innerHTML=current.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
   const b=e.target.closest(".opt"); if(!b)return;
-  const id=+b.dataset.q,opt=+b.dataset.opt,q=questions.find(x=>x.id===id);answers[id]=opt;
+  const id=+b.dataset.q,opt=+b.dataset.opt,q=current.find(x=>x.id===id);if(!q)return;answers[id]=opt;
   document.querySelectorAll(`.opt[data-q="${id}"]`).forEach(x=>x.classList.remove("selected","correct","wrong"));
   b.classList.add("selected",opt===q.a?"correct":"wrong");
   if(opt!==q.a)markNeedHelp(q,`答錯：我選 ${String.fromCharCode(65+opt)}，正確答案是 ${String.fromCharCode(65+q.a)}`,"",opt);
@@ -336,7 +411,7 @@ async function finishPractice(){
   const score=done?Math.round(correct/done*100):0;
   saveLocalSession(done,score,wrong,current,answers);
   if(db&&user) await syncAttempts(current,answers,"practice");
-  $("result").innerHTML=`<h3>成績：${score} 分</h3><p>已作答 ${done} 題，答對 ${correct} 題。${db&&user?" 已同步到 Supabase。":" 目前儲存在此裝置。"}</p>`;
+  $("result").innerHTML=`<h3>成績：${score} 分</h3><p>已作答 ${done} 題，答對 ${correct} 題。${practiceScope?"本機模擬題紀錄儲存在此裝置。":db&&user?" 已嘗試同步到 Supabase。":" 目前儲存在此裝置。"}</p>`;
   refreshStats();
 }
 function saveLocalSession(done,score,wrong,set,ans){
@@ -349,8 +424,9 @@ function saveLocalSession(done,score,wrong,set,ans){
 }
 async function syncAttempts(set,ans,mode){
   if(!db||!user)return;
+  set=set.filter(q=>q.origin!=="local");
   const rows=set.filter(q=>ans[q.id]!==undefined).map(q=>({
-    user_id:user.id,question_id:q.id,selected_index:ans[q.id],is_correct:ans[q.id]===q.a,mode,
+    user_id:user.id,question_id:q.id,selected_index:q.optionOrder?.[ans[q.id]]??ans[q.id],is_correct:ans[q.id]===q.a,mode,
     school_name:$("school").value,academic_year:+$("year").value,exam_name:$("exam").value
   }));
   if(rows.length){const {error}=await db.from("attempts").insert(rows);if(error)console.error(error)}
@@ -362,13 +438,16 @@ async function syncAttempts(set,ans,mode){
   }
 }
 function startMock(){sessionStorage.setItem("v471_session","mock-"+Date.now());
-  const qty=+$("mockQty").value,pool=getSchoolPool();mock=shuffle(pool).slice(0,Math.min(qty,pool.length));mockAnswers={};
-  $("mockQuiz").innerHTML=mock.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${q.q}<span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt mockopt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${x}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${q.e}</div></div>`).join("");
+  mockScope=selectedGrade()===2?currentScope():null;
+  const qty=+$("mockQty").value,pool=getSchoolPool();mock=shuffle(pool).slice(0,Math.min(qty,pool.length)).map(q=>q.grade===2?catalog.shuffleOptions(q):q);mockAnswers={};
+  $("mockQuiz").innerHTML=mock.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt mockopt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
   $("mockSubmitBox").style.display="block";$("mockResult").innerHTML="";
+  $("mockScopeText").textContent=mockScope?`本次範圍：${scopeSummary(mockScope)}｜${mock.length} 題${mock.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${mockScope.note}`:"高一既有學校模擬題池";
+  if(!mock.length){$("mockSubmitBox").style.display="none";toast("目前範圍沒有符合條件的題目。");}
 }
 $("mockQuiz").addEventListener("click",e=>{
  const dk=e.target.closest("[data-mock-dk]"),ask=e.target.closest("[data-mock-ask]");
- if(dk||ask){const id=+(dk?.dataset.mockDk||ask?.dataset.mockAsk),q=questions.find(x=>x.id===id);if(q){if(dk)markNeedHelp(q,"我不會");else queueForChatGPT(q,"我想請 ChatGPT 再解釋");}return;}
+ if(dk||ask){const id=+(dk?.dataset.mockDk||ask?.dataset.mockAsk),q=mock.find(x=>x.id===id);if(q){if(dk)markNeedHelp(q,"我不會");else queueForChatGPT(q,"我想請 ChatGPT 再解釋");}return;}
 
   const b=e.target.closest(".mockopt");if(!b)return;const id=+b.dataset.q;mockAnswers[id]=+b.dataset.opt;
   document.querySelectorAll(`.mockopt[data-q="${id}"]`).forEach(x=>x.classList.remove("selected"));b.classList.add("selected");
@@ -458,6 +537,8 @@ function renderHistorical(list){
  });
  document.querySelectorAll("[data-hist-practice]").forEach(b=>b.onclick=()=>{
    const x=list[+b.dataset.histPractice]; if(!x)return;
+   if(x.grade!=null&&![1,2].includes(Number(x.grade))){toast("此年級尚未建立練習題池。");return;}
+   $("grade").value=String(x.grade||1);updateTopicFilters();
    const school=x.schools?.name||"成功高中";
    $("school").value=school;
    // Older years may not exist on home dropdown. Add it dynamically.
@@ -539,11 +620,11 @@ async function loadHistorical(showAll=false){
 
 
 let autoPaper=[],autoAnswers={},activeScope=null;
-async function getScopeProfile(){if(dbMode!=="cloud"||!db)return null;const {data:s}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();if(!s)return null;const {data}=await db.from("exam_scope_profiles").select("*").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value).eq("grade",1).eq("subject","數學").maybeSingle();return data||null;}
+async function getScopeProfile(){if(selectedGrade()===2){const s=currentScope();return s.sourceType==="official"&&s.chapterIds.length?{...s,scope_label:s.label,source_url:s.sourceUrl,topic_weights:Object.fromEntries(s.chapterIds.map(id=>[catalog.chapters.find(c=>c.id===id).label,100/s.chapterIds.length]))}:null;}if(dbMode!=="cloud"||!db)return null;const {data:s}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();if(!s)return null;const {data}=await db.from("exam_scope_profiles").select("*").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value).eq("grade",1).eq("subject","數學").maybeSingle();return data||null;}
 async function showScopeProfile(){activeScope=await getScopeProfile();const box=$("scopeProfile");if(!activeScope){box.innerHTML="目前這個學校／學年度／段考尚未建立已核驗範圍。你仍可使用「原創練習」。";return;}const tw=activeScope.topic_weights||{},dw=activeScope.difficulty_weights||{};box.innerHTML=`<b>已核驗範圍：</b>${activeScope.scope_label}<div class="chips">${Object.entries(tw).map(([k,v])=>`<span class="chip">${k} ${v}%</span>`).join("")}</div><div class="small">難度配置：${Object.entries(dw).map(([k,v])=>`${k} ${v}%`).join("／")}</div>${activeScope.source_url?`<p><a class="linkbtn soft" target="_blank" rel="noopener" href="${activeScope.source_url}">查看官方範圍來源</a></p>`:""}`;}
 function weightedPick(pool,weights,key,n){let result=[],used=new Set();for(const [label,pct] of Object.entries(weights||{})){const want=Math.round(n*(+pct)/100),candidates=pool.filter(q=>q[key]===label&&!used.has(q.id));shuffle(candidates).slice(0,want).forEach(q=>{result.push(q);used.add(q.id)});}return result.concat(shuffle(pool.filter(q=>!used.has(q.id))).slice(0,Math.max(0,n-result.length))).slice(0,n);}
-async function buildAutoPaper(){sessionStorage.setItem("v471_session","auto-"+Date.now());activeScope=await getScopeProfile();if(!activeScope){toast("這組條件尚無已核驗官方範圍");return;}const n=+$("autoQty").value,topics=Object.keys(activeScope.topic_weights||{}),pool=questions.filter(q=>topics.includes(q.topic));autoPaper=weightedPick(pool,activeScope.topic_weights,"topic",n);autoAnswers={};renderAutoPaper();$("autoSubmitBox").style.display="block";}
-function renderAutoPaper(){$("autoQuiz").innerHTML=autoPaper.map((q,i)=>`<div class="card qcard"><div class="small">第 ${i+1} 題 · ${q.topic} · ${q.level}</div><div class="qtitle">${q.q}</div><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-ai="${i}" data-aj="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-auto-dk="${i}">🙋 我不會</button><button class="soft" data-auto-ask="${i}">問 ChatGPT</button></div><div class="explain" id="aexp${i}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${q.e}</div></div>`).join("");
+async function buildAutoPaper(){sessionStorage.setItem("v471_session","auto-"+Date.now());activeScope=await getScopeProfile();if(!activeScope){toast("這組條件尚無已核驗官方範圍");return;}const n=+$("autoQty").value,topics=Object.keys(activeScope.topic_weights||{}),pool=(selectedGrade()===2?getSchoolPool():questions).filter(q=>topics.includes(q.topic));autoPaper=weightedPick(pool,activeScope.topic_weights,"topic",n).map(q=>q.grade===2?catalog.shuffleOptions(q):q);autoAnswers={};renderAutoPaper();$("autoSubmitBox").style.display="block";}
+function renderAutoPaper(){$("autoQuiz").innerHTML=autoPaper.map((q,i)=>`<div class="card qcard"><div class="small">第 ${i+1} 題 · ${q.topic} · ${q.level}</div><div class="qtitle">${escapeText(q.q)}</div><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-ai="${i}" data-aj="${j}">${String.fromCharCode(65+j)}. ${escapeText(o)}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-auto-dk="${i}">🙋 我不會</button><button class="soft" data-auto-ask="${i}">問 ChatGPT</button></div><div class="explain" id="aexp${i}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
  document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{const i=+b.dataset.ai,j=+b.dataset.aj;autoAnswers[i]=j;b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});
  document.querySelectorAll("[data-auto-dk]").forEach(b=>b.onclick=()=>{const q=autoPaper[+b.dataset.autoDk];markNeedHelp(q,"我不會");});
  document.querySelectorAll("[data-auto-ask]").forEach(b=>b.onclick=()=>{const q=autoPaper[+b.dataset.autoAsk];queueForChatGPT(q,"我想請 ChatGPT 再解釋");});
@@ -573,14 +654,14 @@ function startStudy(fromWrong=false){
  let pool=getSchoolPool();
  if(fromWrong){const ids=(JSON.parse(localStorage.getItem("wrong")||"[]")).map(x=>x.id);pool=pool.filter(q=>ids.includes(q.id));}
  else{const t=$("studyTopic").value,l=$("studyLevel").value;if(t!=="全部")pool=pool.filter(q=>q.topic===t);if(l!=="全部")pool=pool.filter(q=>q.level===l);}
- studyPool=shuffle(pool);studyIndex=0;studyReveal=0;
+ studyPool=shuffle(pool).map(q=>q.grade===2?catalog.shuffleOptions(q):q);studyIndex=0;studyReveal=0;
  if(!studyPool.length){$("studyCard").innerHTML='<div class="card">目前沒有符合條件的題目。</div>';return;}
  renderStudy();
 }
 function renderStudy(){
  const q=studyPool[studyIndex%studyPool.length];studyReveal=0;
  $("studyProgress").textContent=`第 ${studyIndex+1} 題 · ${q.topic} · ${q.level}`;
- $("studyCard").innerHTML=`<div class="card qcard"><div class="qtitle">${q.q}</div><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-study-opt="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="studyActions"><button class="soft" id="dontKnow">🙋 我不會</button><button class="soft" id="showHint">提示 1</button><button class="soft" id="askLater">加入待詢</button><button class="primary" id="checkStudy">確認答案</button></div><div id="studyExplain" class="studySteps"></div><div class="confidence"><span class="small">這題掌握度：</span><button data-conf="1">再學一次</button><button data-conf="2">有點懂</button><button data-conf="3">已掌握</button></div></div>`;
+ $("studyCard").innerHTML=`<div class="card qcard"><div class="qtitle">${escapeText(q.q)}</div><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-study-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(o)}</button>`).join("")}</div><div class="studyActions"><button class="soft" id="dontKnow">🙋 我不會</button><button class="soft" id="showHint">提示 1</button><button class="soft" id="askLater">加入待詢</button><button class="primary" id="checkStudy">確認答案</button></div><div id="studyExplain" class="studySteps"></div><div class="confidence"><span class="small">這題掌握度：</span><button data-conf="1">再學一次</button><button data-conf="2">有點懂</button><button data-conf="3">已掌握</button></div></div>`;
  let picked=null;
  document.querySelectorAll("[data-study-opt]").forEach(b=>b.onclick=()=>{picked=+b.dataset.studyOpt;b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});
  $("showHint").onclick=()=>revealStudy(q,1);$("askLater").onclick=()=>queueForChatGPT(q,"我想請 ChatGPT 再解釋");
@@ -593,12 +674,12 @@ function revealStudy(q,to){
  if(studyReveal>=1)steps.push(`<div class="studyStep"><b>① 提示</b><br>${studyHint(q)}</div>`);
  if(studyReveal>=2)steps.push(`<div class="studyStep"><b>② 破題關鍵</b><br>先辨識本題屬於「${q.topic}」，核心是：${studyKey(q)}。</div>`);
  if(studyReveal>=3)steps.push(`<div class="studyStep"><b>③ 使用觀念／公式</b><br>${studyKey(q)}。把題目條件逐一代入，不要跳步。</div>`);
- if(studyReveal>=4)steps.push(`<div class="studyStep"><b>④ 完整詳解</b><br>正確答案：${String.fromCharCode(65+q.a)}<br>${q.e}</div><div class="studyStep"><b>⑤ 常見錯誤</b><br>${studyMistake(q)}</div><div class="studyActions"><button class="soft" id="studyExplainHelp">詳解看不懂</button></div>`);
+ if(studyReveal>=4)steps.push(`<div class="studyStep"><b>④ 完整詳解</b><br>正確答案：${String.fromCharCode(65+q.a)}<br>${escapeText(q.e)}</div><div class="studyStep"><b>⑤ 常見錯誤</b><br>${studyMistake(q)}</div><div class="studyActions"><button class="soft" id="studyExplainHelp">詳解看不懂</button></div>`);
  e.innerHTML=steps.join("");if(studyReveal>=4&&$("studyExplainHelp"))$("studyExplainHelp").onclick=()=>{const note=prompt("哪一段詳解看不懂？","");markNeedHelp(q,"詳解看不懂",note||"");};
  if(studyReveal<4){const btn=document.createElement("button");btn.className="soft";btn.textContent=studyReveal===1?"再給我破題關鍵":studyReveal===2?"顯示使用觀念": "看完整詳解";btn.onclick=()=>revealStudy(q,studyReveal+1);e.appendChild(btn);}
 }
 function saveStudyWrong(q,reason){
- let arr=JSON.parse(localStorage.getItem("wrong")||"[]");if(!arr.some(x=>x.id===q.id))arr.push({...q,reason});localStorage.setItem("wrong",JSON.stringify(arr));updateStats();
+ let arr=JSON.parse(localStorage.getItem("wrong")||"[]");if(!arr.some(x=>x.id===q.id))arr.push({...q,reason});localStorage.setItem("wrong",JSON.stringify(arr));addToLegacyWrong(q);refreshStats();
 }
 function saveConfidence(q,level){
  let m=JSON.parse(localStorage.getItem("studyConfidence")||"{}");m[q.id]={level,at:new Date().toISOString()};localStorage.setItem("studyConfidence",JSON.stringify(m));
@@ -606,6 +687,8 @@ function saveConfidence(q,level){
 
 
 function addToLegacyWrong(q){
+ const ids=JSON.parse(localStorage.getItem("v42wrong")||"[]");
+ if(!ids.includes(q.id)){ids.push(q.id);localStorage.setItem("v42wrong",JSON.stringify(ids));}
  let arr=JSON.parse(localStorage.getItem("wrong")||"[]");
  if(!arr.some(x=>x.id===q.id))arr.push(q);
  localStorage.setItem("wrong",JSON.stringify(arr));
@@ -619,7 +702,7 @@ function setStudyQueue(a){localStorage.setItem("studyQueue",JSON.stringify(a));}
 function queueForChatGPT(q,reason="我不會",note="",picked=null){
  let a=getStudyQueue(),old=a.find(x=>x.id===q.id);
  const item={
-   id:q.id,topic:q.topic,level:q.level,question:q.q,options:q.o,
+   id:q.id,grade:q.grade||1,subjectId:q.subjectId||"math",chapterId:q.chapterId||null,topic:q.topic,level:q.level,question:q.q,options:q.o,
    answer:q.a,explanation:q.e,reason,note,picked,
    school:$("school").value,year:$("year").value,term:$("term").value,exam:$("exam").value,
    sessionId:sessionStorage.getItem("v471_session")||"",at:new Date().toISOString()
@@ -629,7 +712,7 @@ function queueForChatGPT(q,reason="我不會",note="",picked=null){
 }
 function promptForItem(x){
  const opts=(x.options||[]).map((o,i)=>`${String.fromCharCode(65+i)}. ${o}`).join("\n");
- return `我是台灣高一學生，正在準備 ${x.school} ${x.year} 學年度 ${x.term} ${x.exam}。\n\n【章節】${x.topic}（${x.level}）\n【題目】${x.question}\n【選項】\n${opts}\n【題庫答案】${String.fromCharCode(65+Number(x.answer))}\n【題庫原詳解】${x.explanation||"無"}\n【我的狀況】${x.reason}${x.picked!=null?`\n【我選的答案】${String.fromCharCode(65+Number(x.picked))}`:""}${x.note?`\n【我卡住的地方】${x.note}`:""}\n\n請用台灣高中一年級程度教我，不要只丟答案。請依序：\n1. 說明這題考什麼觀念\n2. 告訴我破題關鍵\n3. 用清楚、不跳步的方式解題\n4. 指出我最可能犯的錯誤\n5. 最後出一題同觀念、難度相近的題目讓我練習，先不要公布答案。`;
+ return `我是台灣${Number(x.grade)===2?"高二":"高一"}學生，正在準備 ${x.school} ${x.year} 學年度 ${x.term} ${x.exam}。\n\n【章節】${x.topic}（${x.level}）\n【題目】${x.question}\n【選項】\n${opts}\n【題庫答案】${String.fromCharCode(65+Number(x.answer))}\n【題庫原詳解】${x.explanation||"無"}\n【我的狀況】${x.reason}${x.picked!=null?`\n【我選的答案】${String.fromCharCode(65+Number(x.picked))}`:""}${x.note?`\n【我卡住的地方】${x.note}`:""}\n\n請用台灣高中${Number(x.grade)===2?"二":"一"}年級程度教我，不要只丟答案。請依序：\n1. 說明這題考什麼觀念\n2. 告訴我破題關鍵\n3. 用清楚、不跳步的方式解題\n4. 指出我最可能犯的錯誤\n5. 最後出一題同觀念、難度相近的題目讓我練習，先不要公布答案。`;
 }
 async function copyTextSafe(text){try{await navigator.clipboard.writeText(text);toast("已複製，可直接貼到 ChatGPT");}catch(e){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast("已複製，可直接貼到 ChatGPT");}}
 function reasonClass(r){
@@ -643,7 +726,7 @@ function renderHelper(){
  const dont=a.filter(x=>String(x.reason).includes("不會")).length;
  const explain=a.filter(x=>String(x.reason).includes("詳解")||String(x.reason).includes("再解釋")).length;
  $("helperSummary").innerHTML=`目前 ${a.length} 題：<span class="reasonTag reason-wrong">答錯 ${wrong}</span> <span class="reasonTag reason-dontknow">我不會 ${dont}</span> <span class="reasonTag reason-explain">詳解看不懂 ${explain}</span>`;
- $("helperList").innerHTML=a.length?a.map((x,i)=>`<div class="card qcard"><div class="small">${x.school} · ${x.year} · ${x.term} · ${x.exam} · ${x.topic} · ${x.level}</div><div class="qtitle">${x.question}</div><p class="small"><span class="reasonTag ${reasonClass(x.reason)}">${x.reason}</span>${x.picked!=null?`｜我選 ${String.fromCharCode(65+Number(x.picked))}`:""}${x.note?`｜卡點：${x.note}`:""}</p><div class="filters"><button class="primary" data-copy-helper="${i}">複製這一題問 ChatGPT</button><button class="soft" data-note-helper="${i}">補充我卡住的地方</button><button class="warn" data-del-helper="${i}">移除</button></div></div>`).join(""):'<div class="card">目前沒有待詢問題。任何模式按「我不會」、答錯或「詳解看不懂」都會自動加入。</div>';
+ $("helperList").innerHTML=a.length?a.map((x,i)=>`<div class="card qcard"><div class="small">${x.school} · ${x.year} · ${x.term} · ${x.exam} · ${x.topic} · ${x.level}</div><div class="qtitle">${escapeText(x.question)}</div><p class="small"><span class="reasonTag ${reasonClass(x.reason)}">${x.reason}</span>${x.picked!=null?`｜我選 ${String.fromCharCode(65+Number(x.picked))}`:""}${x.note?`｜卡點：${x.note}`:""}</p><div class="filters"><button class="primary" data-copy-helper="${i}">複製這一題問 ChatGPT</button><button class="soft" data-note-helper="${i}">補充我卡住的地方</button><button class="warn" data-del-helper="${i}">移除</button></div></div>`).join(""):'<div class="card">目前沒有待詢問題。任何模式按「我不會」、答錯或「詳解看不懂」都會自動加入。</div>';
  document.querySelectorAll("[data-copy-helper]").forEach(b=>b.onclick=()=>copyTextSafe(promptForItem(a[+b.dataset.copyHelper])));
  document.querySelectorAll("[data-note-helper]").forEach(b=>b.onclick=()=>{const i=+b.dataset.noteHelper,n=prompt("你卡在哪裡？例如：看不懂第二步為什麼可以移項",a[i].note||"");if(n!==null){a[i].note=n;setStudyQueue(a);renderHelper();}});
  document.querySelectorAll("[data-del-helper]").forEach(b=>b.onclick=()=>{a.splice(+b.dataset.delHelper,1);setStudyQueue(a);renderHelper();});
@@ -698,7 +781,7 @@ function renderExamEvidenceV49(){
 }
 
 async function loadSourceEngineering(){
- if(dbMode!=="cloud"||!db){$("coverageCards").innerHTML='<div class="card">需先連線 Supabase 才能查看 V4.9 真實題源資料。</div>';$("sourceInventoryList").innerHTML="";return;}
+ if(dbMode!=="cloud"||!db){$("coverageCards").innerHTML='<div class="card">需先連線 Supabase 才能查看真實題源資料。</div>';$("sourceInventoryList").innerHTML="";return;}
  const [inv,cov]=await Promise.all([
    db.from("exam_source_inventory").select("*,schools(name)").order("verified_at",{ascending:false}),
    db.from("school_source_coverage").select("*,schools(name)")
@@ -725,7 +808,7 @@ function renderCoverageV49(){
 function renderSourceInventoryV49(){
  const s=$("sourceSchoolFilter").value,k=$("sourceKindFilter").value,p=$("sourceProvFilter").value;
  const arr=sourceInventoryV49.filter(x=>(s==="全部"||x.schools?.name===s)&&(k==="全部"||x.source_kind===k)&&(p==="全部"||x.provenance===p));
- $("sourceInventorySummary").textContent=`符合條件 ${arr.length} 筆來源｜V4.9 僅建立索引與中繼資料，不直接複製完整考卷內容。`;
+ $("sourceInventorySummary").textContent=`符合條件 ${arr.length} 筆來源｜僅建立索引與中繼資料，不直接複製完整考卷內容。`;
  $("sourceInventoryList").innerHTML=arr.length?arr.map(x=>`<div class="card sourcecard"><div class="sourcehead"><div><h3 style="margin:0">${x.title}</h3><div class="sourceMeta"><span>${x.schools?.name||""}</span><span>${x.academic_year||"跨年度"}學年度</span><span>${x.term?x.term===1?"上學期":"下學期":"學期未限定"}</span><span>${x.exam_name||"多次考試"}</span><span>${kindLabel[x.source_kind]||x.source_kind}</span><span>${provLabel[x.provenance]||x.provenance}</span></div></div><span class="${x.confidence==="high"?"trustHigh":x.confidence==="medium"?"trustMedium":"trustLow"}">${x.confidence==="high"?"高可信":x.confidence==="medium"?"中可信":"待核驗"}</span></div><p class="small">${x.notes||""}</p><div class="sourceactions"><a class="linkbtn primary" href="${x.source_url}" target="_blank" rel="noopener">開啟來源</a><span class="small">使用方式：${x.reuse_mode==="official_link"?"官方連結":x.reuse_mode==="link_only"?"只建立連結索引":x.reuse_mode==="metadata_only"?"只保留中繼資料":"需另取得授權"}</span></div></div>`).join(""):'<div class="card">目前沒有符合條件的來源。</div>';
 }
 
@@ -738,22 +821,23 @@ async function renderWrong(){
     const {data}=await db.from("wrong_questions").select("question_id").eq("user_id",user.id).eq("mastered",false);
     if(data) ids=Array.from(new Set(ids.concat(data.map(x=>x.question_id))));
   }
-  $("wrongList").innerHTML=ids.length?ids.map((id,i)=>{const q=questions.find(x=>x.id===id);if(!q)return"";return `<div class="card qcard"><div class="qtitle">${i+1}. ${q.q}<span class="tag">${q.topic}</span></div><div class="explain show"><b>答案：</b>${q.o[q.a]}<br><b>詳解：</b>${q.e}</div></div>`}).join(""):'<div class="card">目前沒有錯題。</div>';
+  $("wrongList").innerHTML=ids.length?ids.map((id,i)=>{const q=findQuestion(id);if(!q)return"";return `<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)}<span class="tag">${q.topic}</span></div><div class="explain show"><b>答案：</b>${escapeText(q.o[q.a])}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`}).join(""):'<div class="card">目前沒有錯題。</div>';
 }
 function renderWeak(){
-  const hist=JSON.parse(localStorage.getItem("v42hist")||"{}"),topics=["實數","多項式","指數","對數","綜合"];
+  const hist=JSON.parse(localStorage.getItem("v42hist")||"{}"),topics=[...new Set(["實數","多項式","指數","對數","綜合",...catalog.chapters.map(c=>c.label)])];
   $("weakBars").innerHTML=topics.map(t=>{const h=hist[t],pct=h&&h.total?Math.round(h.ok/h.total*100):0;return `<div class="barrow"><b>${t}</b><div class="bar"><i style="width:${pct}%"></i></div><span>${h&&h.total?pct+"%":"-"}</span></div>`}).join("");
 }
 
 
 function refreshAuthBoxV49614(){
- const logged=!!currentUser;
+ const logged=!!user;
  const a=$("authLoginBox"),b=$("authLogoutBox");
  if(a)a.style.display=logged?"none":"block";
  if(b)b.style.display=logged?"block":"none";
 }
 function verifyBankV49610(){
-  const total=Array.isArray(questions)?questions.length:0;
+  const track=$("curriculumTrack")?.value||"A";
+  const total=selectedGrade()===2?[...grade2Fallback,...grade2Cloud].filter(q=>catalog.trackAllows(track,q.curriculumTrack)).length:(Array.isArray(questions)?questions.length:0);
   const extra=Array.isArray(questions)?questions.filter(q=>Number(q.id)>160).length:0;
   const pool=(typeof getSchoolPool==="function")?getSchoolPool():questions;
   const poolExtra=Array.isArray(pool)?pool.filter(q=>Number(q.id)>160).length:0;
@@ -761,6 +845,10 @@ function verifyBankV49610(){
   if(totalEl)totalEl.textContent=total;
   if(chip)chip.textContent=`目前題庫 ${total} 題`;
   if(verifyEl){
+    if(selectedGrade()===2){
+      verifyEl.textContent=`${grade2CourseLabel()}：${total} 題｜本次範圍可抽 ${pool.length} 題｜本機模擬題作答保留於此裝置`;
+      return {total,extra:grade2Fallback.length,pool:pool.length,poolExtra:pool.filter(q=>q.origin==="local").length};
+    }
     const topicCount={};
     (questions||[]).forEach(q=>topicCount[q.topic]=(topicCount[q.topic]||0)+1);
     const five=["實數","多項式","指數","對數","綜合"];
@@ -795,6 +883,7 @@ async function saveSettings(){
   const u=$("urlInput")?.value.trim()||"", k=$("keyInput")?.value.trim()||"";
   if(!u||!k){toast("請先填入 Project URL 與 Publishable / anon key。");return;}
   localStorage.setItem("v42_url",u);localStorage.setItem("v42_key",k);
+  historicalDbV4963=null;v494ScopeCache.clear();
   const st=$("settingsStatus");if(st)st.textContent="正在測試 Supabase 連線…";
   const ok=await connectDB(true);
   if(st)st.textContent=ok?"✅ Supabase 連線成功。":"❌ Supabase 連線失敗，請檢查 URL / Key。";
@@ -802,6 +891,7 @@ async function saveSettings(){
 }
 function useLocal(){
   // 只切換目前執行模式；保留 Supabase 設定。
+  ++connectionRequest;++scopeRequest;++v494Seq;scopeOverrides.clear();v494ScopeCache.clear();grade2Cloud=[];
   db=null;dbMode="local";schools=F.schools;questions=F.questions;
   populateSchools();chooseSet();renderSources();refreshSchool();loadSchoolBankStatus();
   setDbBadge(false,"⚡ 本機即用");closeSettings();
@@ -865,7 +955,7 @@ onV496("clearWrong","click",()=>{localStorage.removeItem("v42wrong");renderWrong
 onV496("quiz","click",e=>{
  const dk=e.target.closest("[data-dontknow-q]"),ask=e.target.closest("[data-ask-q]"),ex=e.target.closest("[data-explain-q]");
  if(!dk&&!ask&&!ex)return;
- const id=+(dk?.dataset.dontknowQ||ask?.dataset.askQ||ex?.dataset.explainQ),q=questions.find(x=>x.id===id);if(!q)return;
+ const id=+(dk?.dataset.dontknowQ||ask?.dataset.askQ||ex?.dataset.explainQ),q=current.find(x=>x.id===id);if(!q)return;
  if(dk)markNeedHelp(q,"我不會");
  if(ask)queueForChatGPT(q,"我想請 ChatGPT 再解釋");
  if(ex){const note=prompt("哪一段詳解看不懂？","");markNeedHelp(q,"詳解看不懂",note||"");}
@@ -911,18 +1001,17 @@ const refreshCoverageV49617=$("refreshCoverage");if(refreshCoverageV49617)refres
 const coverageSubjectV49617=$("coverageSubject");if(coverageSubjectV49617)coverageSubjectV49617.onchange=loadCoverageV49617;
 const coverageGradeV49618=$("coverageGrade");if(coverageGradeV49618)coverageGradeV49618.onchange=loadCoverageV49617;
 // selection changes: instant local re-render
-onV496("school","change",()=>{
+function selectionChanged(){
+  ++scopeRequest;++v494Seq;
+  activeScopeV48=null;updateTopicFilters();
   refreshSchool();
   loadSchoolBankStatus();
   verifyBankV49610();
   chooseSet();
-});
-["year","term","exam"].forEach(id=>onV496(id,"change",()=>{
-  refreshSchool();
-  activeScopeV48=null;
-  clearTimeout(v494Timer);
-  v494Timer=setTimeout(()=>loadSchoolBankStatus(),180);
-}));
+  mock=[];mockAnswers={};$("mockQuiz").textContent="";$("mockSubmitBox").style.display="none";$("mockScopeText").textContent="";
+}
+["grade","curriculumTrack","school","year","term","exam"].forEach(id=>onV496(id,"change",selectionChanged));
+onV496("applySourceFilters","click",renderSourceInventoryV49);
 
 // background cloud sync, never blocks practice/mock
 setTimeout(()=>connectDB(false).catch(e=>console.warn("background DB skipped",e)),120);

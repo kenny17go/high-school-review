@@ -1,0 +1,10 @@
+{
+  "version": "4.9.7.7",
+  "name": "高二段考範圍智慧分流版",
+  "status": "unreleased",
+  "baseCommit": "4ae423294d5572a05153d6bceb7fe287177dbb1e",
+  "observedBasePageVersion": "4.9.7.1",
+  "catalogSchemaVersion": 2,
+  "supportedAcademicYears": [112, 113, 114],
+  "grade2Tracks": ["A", "B", "AB"]
+}

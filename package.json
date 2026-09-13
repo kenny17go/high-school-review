@@ -1,0 +1,19 @@
+{
+  "name": "high-school-review",
+  "version": "4.9.7-7",
+  "private": true,
+  "description": "高中段考複習平台，靜態網站與唯讀教材資料適配",
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "test:data": "node tests/routing.test.cjs",
+    "test:browser": "node tests/browser.test.cjs",
+    "test": "npm run validate && npm run test:browser"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "displayVersion": "4.9.7.7"
+}
