@@ -1,4 +1,4 @@
-window.V4965_BUILD="4.9.6.5-persist-settings-20260911";
+window.V4977_BUILD="4.9.7.7-high2-scope-routing";
 
 (function(){
 "use strict";
@@ -290,7 +290,8 @@ async function loadCoverageV49617(){
    const task=Promise.all([
      hdb.from("source_documents").select("academic_year,term,exam_name,grade,subject,document_type,schools(name)").gte("academic_year",110),
      hdb.from("exam_source_inventory").select("academic_year,term,exam_name,grade,subject,source_kind,schools(name)").gte("academic_year",110),
-     hdb.from("exam_scope_profiles").select("academic_year,term,exam_name,grade,subject,schools(name)").gte("academic_year",110)
+     hdb.from("exam_scope_profiles").select("academic_year,term,exam_name,grade,subject,schools(name)").gte("academic_year",110),
+     hdb.from("exam_source_search_status").select("academic_year,term,exam_name,grade,subject,search_status,schools(name)").gte("academic_year",112)
    ]);
    const res=await Promise.race([task,timeout]);
    const rows=[];
@@ -304,6 +305,8 @@ async function loadCoverageV49617(){
        }else if(idx===1){
          const sk=String(x.source_kind||"").toLowerCase();
          kind=sk==="answer"?"答":(sk==="question"?"題":(sk==="scope"?"範":"索"));
+       }else if(idx===3){
+         kind=x.search_status==="searched_no_public_source"?"未公開":"已找到";
        }
        rows.push({...x,_kind:kind});
      });
@@ -332,11 +335,13 @@ async function loadCoverageV49617(){
            if(kinds){
              covered++;
              const order=["題","答","範","索"];
-             const labels=order.filter(k=>kinds.has(k)).map(k=>{
+             const real=order.filter(k=>kinds.has(k));
+             const labels=real.map(k=>{
                const cls=k==="答"?"answer":(k==="範"?"range":(k==="索"?"index":""));
                return `<span class="coverageType ${cls}">${k}</span>`;
              }).join("");
-             body+=`<td class="coverageYes" title="${[...kinds].join("、")}">${labels||"✓"}</td>`;
+             const missing=!real.length&&kinds.has("未公開")?'<span class="coverageType missing">未公開</span>':"";
+             body+=`<td class="${real.length?"coverageYes":"coverageNo"}" title="${[...kinds].join("、")}">${labels||missing||"—"}</td>`;
            } else body+='<td class="coverageNo">—</td>';
          });
        });

@@ -1,10 +1,39 @@
 {
   "version": "4.9.7.7",
   "name": "高二段考範圍智慧分流版",
-  "status": "unreleased",
+  "status": "released",
   "baseCommit": "4ae423294d5572a05153d6bceb7fe287177dbb1e",
   "observedBasePageVersion": "4.9.7.1",
   "catalogSchemaVersion": 2,
-  "supportedAcademicYears": [112, 113, 114],
-  "grade2Tracks": ["A", "B", "AB"]
+  "supportedAcademicYears": [
+    112,
+    113,
+    114
+  ],
+  "grade2Tracks": [
+    "A",
+    "B",
+    "AB"
+  ],
+  "repository": "kenny17go/high-school-review",
+  "branch": "main",
+  "entry": "index.html",
+  "integratedRemoteCommit": "a7c69fe2435eca728e865cc7d340b94a0bdaad4d",
+  "release_files": [
+    "index.html",
+    "app.js",
+    "extra-questions-v4966.js",
+    "learning-catalog.js",
+    "grade2-questions.js",
+    "grade2-scopes.js"
+  ],
+  "preserve_existing_files": [
+    "fallback-data.js",
+    "config.js",
+    "apple-touch-icon.png",
+    "icon-192.png",
+    "icon-512.png",
+    "extra-questions-high2-v4973.js"
+  ],
+  "manual_zip_fallback": true
 }

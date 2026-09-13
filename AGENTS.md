@@ -13,3 +13,6 @@
 - 不得重新將低於 110 學年度的學測資料放入顯示結果。
 - 發布前必須跑 `npm test`（靜態／資料與瀏覽器測試），並檢查 `git diff --check`、`git status`。必要的 Supabase 驗證使用唯讀 API；測試不得對正式資料庫寫入。
 - 未取得明確指示不得 commit、push 或部署；完整流程見 `DEPLOY.md`。
+
+- 同步維護 app.js build marker、JS cache-busting、version.json 與 CHANGELOG。不得提交秘密金鑰。
+- Commit 命名使用 V<版本> <功能摘要>。無法寫入 GitHub 時保留 ZIP 手動上傳備援方式。

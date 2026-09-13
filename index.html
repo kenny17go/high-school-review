@@ -39,7 +39,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 .coverageMatrix thead .schoolCell{z-index:8;background:#e9f3f8}
 .coverageYes{font-weight:900;color:#17864b;font-size:16px}.coverageNo{color:#c5cdd2}.coverageSlot{min-width:46px}
 .coverageSummary{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.coverageSummary .chip{font-size:12px}
-.coverageType{display:inline-block;min-width:21px;padding:2px 4px;margin:1px;border-radius:6px;background:#e9f6ee;color:#167443;font-size:10px;font-weight:800}.coverageType.range{background:#eef4ff;color:#365f9d}.coverageType.index{background:#fff4df;color:#8a651a}.coverageType.answer{background:#f3eefe;color:#6843a8}</style><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+.coverageType{display:inline-block;min-width:21px;padding:2px 4px;margin:1px;border-radius:6px;background:#e9f6ee;color:#167443;font-size:10px;font-weight:800}.coverageType.range{background:#eef4ff;color:#365f9d}.coverageType.index{background:#fff4df;color:#8a651a}.coverageType.answer{background:#f3eefe;color:#6843a8}.coverageType.missing{background:#f2f3f5;color:#737b83;min-width:48px}</style><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 </head><body>
@@ -106,7 +106,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 </select>
 <button id="refreshCoverage" class="primary" type="button">重新整理</button>
 </div>
-<div id="coverageStatus" class="small"></div><div class="small" style="margin-top:6px">圖例：<b>題</b>=考題　<b>答</b>=解答　<b>範</b>=官方範圍　<b>索</b>=題源索引</div>
+<div id="coverageStatus" class="small"></div><div class="small" style="margin-top:6px">圖例：<b>題</b>=考題　<b>答</b>=解答　<b>範</b>=官方範圍　<b>索</b>=題源索引　<b>未公開</b>=已搜尋但目前未找到可核驗公開題目/答案</div>
 <div id="coverageSummary" class="coverageSummary"></div>
 <div class="coverageMatrixWrap"><table id="coverageMatrix" class="coverageMatrix"></table></div>
 </div>

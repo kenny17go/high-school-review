@@ -17,3 +17,6 @@
 - 本機負數題目 ID 不送進雲端 questions 外鍵。
 - PWA manifest/icon 需比對原檔；手機寬度測試不等於實機安裝驗證。
 - 發布後若需回復，先確認使用者授權並以可審查的 revert 提交處理，不 force push、不丟棄本機工作。
+
+## 手動備援
+GitHub 寫入受阻時可交付 ZIP，只包含本次修改檔案；保留未包含的 config、fallback、圖示及使用者設定。
