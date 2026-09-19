@@ -8,9 +8,12 @@ const read=file=>fs.readFileSync(path.join(root,file),'utf8');
 const version=JSON.parse(read('version.json'));
 const pkg=JSON.parse(read('package.json'));
 assert.equal(pkg.displayVersion,version.version);
-assert.equal(pkg.version,version.version.replace(/\.(\d+)$/, '-$1'));
+assert.equal(pkg.version,version.version==='5.0'?'5.0.0':version.version.replace(/\.(\d+)$/, '-$1'));
 const html=read('index.html');
 assert.ok(html.includes(`V${version.version} ${version.name}`));
+assert.ok(read('app.js').includes(`window.V500_BUILD="${version.build}"`),'build marker');
+for(const file of ['subject-registry.js','classical-texts.js','learning-core.js','learning-storage.js','subject-adapters.js','app.js'])assert.ok(html.includes(`${file}?v=${version.build}"`),`${file} cache version`);
+assert.ok(read('subject-adapters.js').includes(`chinese-data.js?v=${version.build}'`),'lazy bank cache version');
 for(const file of ['AGENTS.md','DEPLOY.md','CHANGELOG.md','config.js','fallback-data.js','grade2-questions.js','learning-catalog.js','grade2-scopes.js'])assert.ok(fs.existsSync(path.join(root,file)),file);
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(new Set(ids).size,ids.length,'duplicate HTML IDs');
@@ -23,7 +26,7 @@ for(const match of markup.matchAll(/<(\/?)\s*([a-z][a-z0-9]*)\b[^>]*>/gi)){
 }
 assert.equal(stack.length,0,'unclosed HTML');
 const scripts=[...html.matchAll(/<script\s+src="([^"?]+)(?:\?[^"]*)?"/g)].map(m=>m[1]);
-for(const file of [...scripts,'tests/routing.test.cjs','tests/browser.test.cjs','tests/live-readonly.mjs','scripts/validate.mjs']){
+for(const file of [...scripts,'chinese-data.js','tests/routing.test.cjs','tests/browser.test.cjs','tests/live-readonly.mjs','tests/v5-data.test.cjs','tests/v5-browser.cjs','tests/v5-cloud-browser.cjs','tests/migration.test.mjs','scripts/import-sources.mjs','scripts/validate.mjs']){
  const r=spawnSync(process.execPath,['--check',path.join(root,file)],{encoding:'utf8'});
  if(r.error)throw r.error;assert.equal(r.status,0,r.stderr);
 }

@@ -1,29 +1,41 @@
-window.V4977_BUILD="4.9.7.7-high2-scope-routing";
+window.V500_BUILD="5.0-acceptance-3";
 
 (function(){
 "use strict";
 const F=window.V42_FALLBACK;
 const $=id=>document.getElementById(id);
 const catalog=window.LearningCatalog;
+const registry=window.SubjectRegistry,core=window.LearningCore,progress=window.LearningProgress;
+const subjectId=()=>$("subject")?.value||"math";
+const subjectInfo=()=>registry.get(subjectId());
+const adapter=()=>subjectInfo().adapter;
+let questionLoadSeq=0;
+const cloudBankCache=new Map();
+function subjectScopeSummary(s){return s.label+"｜"+(catalog.labels[s.sourceType]||"來源待核驗")+"｜"+subjectInfo().name+" "+s.academicYear+"學年度";}
+function decorateQuestions(set){return set.map(q=>(q.grade===2||q.subject==="chinese")?catalog.shuffleOptions(q):q);}
+function selectQuestions(pool,n){return adapter()?adapter().pick(pool,n):shuffle(pool).slice(0,n);}
+function passageMarkup(q,seen){const p=q.chineseMetadata?.passage_id;if(!p||seen.has(p))return "";seen.add(p);return registry.get(q.subject)?.adapter?.passage(q)||"";}
+
 F.schools["松山高中"]=F.schools["松山高中"]||{tone:"mid",status:"公開範圍待核驗",desc:"保留學校入口；模擬範圍不代表校方官方進度。",url:"https://www.sssh.tp.edu.tw/"};
 const grade2Fallback=window.GRADE2_QUESTIONS||[];
 let grade2Cloud=[],cloudSubjects=[],scopeOverrides=new Map(),scopeRequest=0,connectionRequest=0;
 let practiceScope=null,mockScope=null;
 function escapeText(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#39;"}[c]));}
 function selectedGrade(){return Number($("grade")?.value||1);}
-function learningSelection(){return {subjectId:"math",courseId:`math-108-g2-${($("curriculumTrack")?.value||"A").toLowerCase()}`,grade:selectedGrade(),school:$("school").value,
+function learningSelection(){return {subjectId:subjectId(),courseId:adapter()?subjectInfo().courses.find(c=>c.grade===selectedGrade())?.id:`math-108-g2-${($("curriculumTrack")?.value||"A").toLowerCase()}`,grade:selectedGrade(),school:$("school").value,
   academic_year:Number($("year").value),academicYear:Number($("year").value),semester:termNumber(),exam:$("exam").value};}
 function grade2CourseLabel(){return catalog.courses.find(c=>c.id===learningSelection().courseId)?.label||"高二數學";}
-function currentScope(){const s=learningSelection();return catalog.resolve(s,scopeOverrides.get(catalog.key(s))||[]);}
-function allQuestions(){return [...questions,...grade2Cloud,...grade2Fallback];}
-function findQuestion(id){return current.find(q=>q.id===id)||mock.find(q=>q.id===id)||allQuestions().find(q=>q.id===id);}
-function scopeSummary(scope){return `${scope.label}｜${catalog.labels[scope.sourceType]}｜${catalog.courses.find(c=>c.id===scope.courseId)?.label||""}｜${scope.school} ${scope.academicYear} ${scope.semester===1?"上":"下"}學期 第${scope.exam}次段考`;}
+function currentScope(){const s=learningSelection();return adapter()?adapter().scope(s):catalog.resolve(s,scopeOverrides.get(catalog.key(s))||[]);}
+function allQuestions(){return [...questions,...grade2Cloud,...grade2Fallback,...registry.enabled().flatMap(s=>s.adapter?.all()||[])];}
+function findQuestion(id,subject=subjectId()){return [...current,...mock,...allQuestions()].find(q=>q.id===id&&(q.subject||q.subjectId||'math')===subject);}
+function scopeSummary(scope){if(adapter())return subjectScopeSummary(scope);return `${scope.label}｜${catalog.labels[scope.sourceType]}｜${catalog.courses.find(c=>c.id===scope.courseId)?.label||""}｜${scope.school} ${scope.academicYear} ${scope.semester===1?"上":"下"}學期 第${scope.exam}次段考`;}
 function updateTopicFilters(){
- const topics=selectedGrade()===2?catalog.chapters.filter(c=>currentScope().chapterIds.includes(c.id)).map(c=>c.label):["實數","多項式","指數","對數","綜合"];
+ const topics=adapter()?adapter().topics():selectedGrade()===2?catalog.chapters.filter(c=>currentScope().chapterIds.includes(c.id)).map(c=>c.label):["實數","多項式","指數","對數","綜合"];
  ["topicFilter","studyTopic"].forEach(id=>{const el=$(id),old=el.value;el.replaceChildren(new Option("全部章節","全部"),...topics.map(t=>new Option(t,t)));el.value=topics.includes(old)?old:"全部";});
 }
 function renderLearningScope(){
  const box=$("currentScope");if(!box)return;
+ if(adapter()){const s=currentScope();box.textContent="本次範圍："+subjectScopeSummary(s)+"。"+s.note;return;}
  if(selectedGrade()!==2){box.textContent="本次範圍：高一既有學校題池（維持原有練習方式）";return;}
  const scope=currentScope(),count=catalog.pool(scope,grade2Cloud,grade2Fallback).length;
  $("bankLoadChips").textContent=`目前範圍 ${count} 題`;
@@ -98,6 +110,7 @@ async function v494FetchScopeOnly(){
  }
 }
 async function loadSchoolBankStatus(){
+ if(adapter()){++scopeRequest;renderLearningScope();updateTopicFilters();$("bankLoadTitle").textContent=subjectInfo().name+"題庫";$("bankLoadBadge").textContent="平台模擬範圍";$("bankLoadDetail").textContent=currentScope().note;$("bankLoadChips").textContent="本次 "+getSchoolPool().length+" 題";return;}
  if(selectedGrade()===2){
   const count=getSchoolPool().length;
   $("bankLoadTitle").textContent=grade2CourseLabel()+"範圍題池已就緒";
@@ -115,7 +128,7 @@ async function loadSchoolBankStatus(){
  activeScopeV48=null;
  renderBankStatus({mode:"cloud",count:pool.length,scope:null,sources:0,profile:schoolProfile,fast:true});
  const meta=await v494FetchScopeOnly();
- if(meta&&selectionKey===v494ScopeKey()){activeScopeV48=meta.scope;renderBankStatus({mode:"cloud",count:pool.length,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile,fast:true});}
+ if(meta&&!adapter()&&selectionKey===v494ScopeKey()){activeScopeV48=meta.scope;renderBankStatus({mode:"cloud",count:pool.length,scope:activeScopeV48,sources:meta.sources,profile:schoolProfile,fast:true});}
 }
 function renderBankStatus(x){
  const title=$("bankLoadTitle"),detail=$("bankLoadDetail"),badge=$("bankLoadBadge"),chips=$("bankLoadChips"),homeChip=$("homeBankChip");
@@ -135,7 +148,7 @@ function renderBankStatus(x){
  chips.innerHTML=`<span class="chip">學校題池 ${x.count} 題</span><span class="chip">${x.scope?"官方範圍 ✓":"不等待範圍"}</span>${x.sources?`<span class="chip">官方來源 ${x.sources} 筆</span>`:""}`;
  if(homeChip)homeChip.textContent=`${$("school").value} ${x.count} 題`;
 }
-function getSchoolPool(){return selectedGrade()===2?catalog.pool(currentScope(),grade2Cloud,grade2Fallback):v494LocalSchoolPool($("school").value);}
+function getSchoolPool(){if(adapter())return adapter().pool(learningSelection());return selectedGrade()===2?catalog.pool(currentScope(),grade2Cloud,grade2Fallback):v494LocalSchoolPool($("school").value);}
 function getScopedSchoolPool(){
  let pool=getSchoolPool();
  if(activeScopeV48&&activeScopeV48.topic_weights){
@@ -177,7 +190,8 @@ function ensureSupabaseSdkV496(){
 
 async function connectDB(showMessage=false){
   const request=++connectionRequest;
-  ++scopeRequest;scopeOverrides.clear();
+  ++scopeRequest;scopeOverrides.clear();++questionLoadSeq;cloudBankCache.clear();
+  registry.enabled().forEach(s=>s.adapter?.clearCloud());questions=F.questions;grade2Cloud=[];
   const c=cfg();
   if(!c.url||!c.key){
     db=null;dbMode="local";setDbBadge(false,"⚡ 本機即用");
@@ -191,13 +205,13 @@ async function connectDB(showMessage=false){
     db=window.supabase.createClient(c.url,c.key);
     const remoteLoad=Promise.all([
       db.from("schools").select("*").order("id"),
-      db.from("questions").select("*").order("id").limit(1000),
+
       db.from("subjects").select("id,code,name,enabled").order("id")
     ]);
     const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("Supabase 連線逾時")),3000));
-    const [{data:s,error:se},{data:q,error:qe},subjectResult] = await Promise.race([remoteLoad,timeout]);
+    const [{data:s,error:se},subjectResult] = await Promise.race([remoteLoad,timeout]);
     if(request!==connectionRequest)return false;
-    if(se||qe) throw (se||qe);
+    if(se) throw se;
     cloudSubjects=subjectResult.error?[]:(subjectResult.data||[]);
     grade2Cloud=[];
     sourceDocs=[];
@@ -205,15 +219,9 @@ async function connectDB(showMessage=false){
       schools={...F.schools};
       s.forEach(x=>schools[x.name]={tone:x.source_tone,status:x.source_status,desc:x.description,url:x.official_url});
     }
-    if(q&&q.length){
-      grade2Cloud=q.map(row=>catalog.adaptQuestion(row,cloudSubjects)).filter(Boolean);
-      const legacy=q.filter(x=>catalog.isLegacyMath(x,cloudSubjects));
-      const merged=new Map(F.questions.map(x=>[x.id,x]));
-      legacy.forEach(x=>merged.set(x.id,{id:x.id,topic:x.topic,sub:x.subtopic,level:x.difficulty,q:x.question_text,o:x.options,a:x.correct_index,e:x.explanation}));
-      questions=[...merged.values()];
-    }
     verifyBankV49610();
     dbMode="cloud";setDbBadge(true,"Supabase 已連線");
+    loadCurrentSubjectQuestions().catch(e=>console.warn("保留本機題庫",e.message));
     await refreshAuth();
     if(request!==connectionRequest)return false;
     populateSchools();
@@ -258,6 +266,7 @@ function populateSchools(){
   if(!sel.value) sel.value=Object.keys(schools)[0];
 }
 function refreshSchool(){
+  if(adapter()){$("title").textContent=$("school").value+"｜高"+(selectedGrade()===1?"一":"二")+subjectInfo().name;$("curriculumTrackField").hidden=true;$("sub").textContent=$("year").value+"學年度｜"+$("term").value+"｜"+$("exam").value;$("desc").textContent=currentScope().note;$("status").textContent='平台模擬範圍';$("status").className='status midS';$("official").href=schools[$('school').value]?.url||'#';$("homeBankChip").textContent=subjectInfo().name+' '+getSchoolPool().length+' 題';renderLearningScope();adapter().stats();return;}
   const n=$("school").value,d=schools[n]||{};
   $("title").textContent=n+"｜"+(selectedGrade()===2?grade2CourseLabel():"高一數學");
   $("curriculumTrackField").hidden=selectedGrade()!==2;
@@ -278,21 +287,22 @@ function normExamV49617(x){
  if(s.includes("第三")||s.includes("期末"))return "第三次段考／期末";
  return s;
 }
+let coverageLoadSeq=0,historicalLoadSeq=0,gsatLoadSeq=0;
 async function loadCoverageV49617(){
+ const seq=++coverageLoadSeq,subject=$("coverageSubject").value,grade=Number($("coverageGrade").value);
+ if($("coverageSubject").value==="國文")renderTextCoverage();else $("textCoverage").textContent="";
  const status=$("coverageStatus"),matrix=$("coverageMatrix"),sum=$("coverageSummary");
  if(!status||!matrix)return;
  status.textContent="正在讀取資料完整度…";
  try{
-   const hdb=await getHistoricalDbV4963();
-   const subject=$("coverageSubject")?.value||"數學";
-   const grade=Number($("coverageGrade")?.value||1);
+   const hdb=($("coverageSubject").value==="國文"&&!db)?null:await getHistoricalDbV4963();
    const timeout=new Promise((_,rej)=>setTimeout(()=>rej(new Error("資料完整度查詢逾時")),6000));
-   const task=Promise.all([
+   const task=hdb?Promise.all([
      hdb.from("source_documents").select("academic_year,term,exam_name,grade,subject,document_type,schools(name)").gte("academic_year",110),
      hdb.from("exam_source_inventory").select("academic_year,term,exam_name,grade,subject,source_kind,schools(name)").gte("academic_year",110),
      hdb.from("exam_scope_profiles").select("academic_year,term,exam_name,grade,subject,schools(name)").gte("academic_year",110),
      hdb.from("exam_source_search_status").select("academic_year,term,exam_name,grade,subject,search_status,schools(name)").gte("academic_year",112)
-   ]);
+   ]):Promise.resolve([]);
    const res=await Promise.race([task,timeout]);
    const rows=[];
    res.forEach((r,idx)=>{
@@ -311,6 +321,8 @@ async function loadCoverageV49617(){
        rows.push({...x,_kind:kind});
      });
    });
+   if(seq!==coverageLoadSeq||subject!==$("coverageSubject").value||grade!==Number($("coverageGrade").value))return;
+   const years=subject==="國文"?[112,113,114]:V49617_YEARS;
    const filtered=rows.filter(x=>(x.subject||"數學")===subject&&Number(x.grade||1)===grade&&Number(x.academic_year)>=110);
    const map=new Map();
    filtered.forEach(x=>{
@@ -322,13 +334,13 @@ async function loadCoverageV49617(){
      map.get(key).add(x._kind);
    });
    let h1='<thead><tr><th class="schoolCell" rowspan="3">學校</th>';
-   V49617_YEARS.forEach(y=>h1+=`<th colspan="6">${y} 學年度</th>`);h1+='</tr><tr>';
-   V49617_YEARS.forEach(()=>{h1+='<th colspan="3">上學期</th><th colspan="3">下學期</th>'});h1+='</tr><tr>';
-   V49617_YEARS.forEach(()=>{for(let t=0;t<2;t++){h1+='<th class="coverageSlot">一段</th><th class="coverageSlot">二段</th><th class="coverageSlot">三段</th>'}});h1+='</tr></thead>';
-   let body='<tbody>',covered=0,total=V49617_SCHOOLS.length*V49617_YEARS.length*6;
+   years.forEach(y=>h1+=`<th colspan="6">${y} 學年度</th>`);h1+='</tr><tr>';
+   years.forEach(()=>{h1+='<th colspan="3">上學期</th><th colspan="3">下學期</th>'});h1+='</tr><tr>';
+   years.forEach(()=>{for(let t=0;t<2;t++){h1+='<th class="coverageSlot">一段</th><th class="coverageSlot">二段</th><th class="coverageSlot">三段</th>'}});h1+='</tr></thead>';
+   let body='<tbody>',covered=0,total=V49617_SCHOOLS.length*years.length*6;
    V49617_SCHOOLS.forEach(school=>{
      body+=`<tr><td class="schoolCell">${school}</td>`;
-     V49617_YEARS.forEach(y=>{
+     years.forEach(y=>{
        [1,2].forEach(term=>{
          V49617_EXAMS.forEach(exam=>{
            const kinds=map.get([school,y,term,exam].join("|"));
@@ -342,7 +354,7 @@ async function loadCoverageV49617(){
              }).join("");
              const missing=!real.length&&kinds.has("未公開")?'<span class="coverageType missing">未公開</span>':"";
              body+=`<td class="${real.length?"coverageYes":"coverageNo"}" title="${[...kinds].join("、")}">${labels||missing||"—"}</td>`;
-           } else body+='<td class="coverageNo">—</td>';
+           } else body+='<td class="coverageNo">'+(subject==='國文'?'未收集':'—')+'</td>';
          });
        });
      });
@@ -353,19 +365,23 @@ async function loadCoverageV49617(){
    if(sum)sum.innerHTML=`<span class="chip">科目：${subject}</span><span class="chip">年級：高${["","一","二","三"][grade]}</span><span class="chip">已有 ${covered} 格</span><span class="chip">缺 ${missing} 格</span><span class="chip">完整度 ${pct}%</span>`;
    status.textContent=`目前以 ${subject}・高${["","一","二","三"][grade]}統計；格內「題／答／範／索」代表目前已核驗的資料類型。`;
  }catch(e){
+   if(seq!==coverageLoadSeq)return;
    console.error(e);status.textContent="資料完整度讀取失敗："+(e.message||e);
    matrix.innerHTML="";
  }
 }
 
 function openPanel(id){
+  if(id==="classicalPanel"){adapter()?.setMode("classical");adapter()?.render();}
+  if(id==="learningAnalytics")renderSubjectAnalytics();
+  if(id==="wrong"&&!$("wrong").classList.contains("active"))$("wrongSubject").value=subjectId();
   const panel=$(id);
   if(!panel){toast("此功能頁目前無法開啟。");return;}
   $("home").style.display="none";
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
   panel.classList.add("active");
   try{
-    if(id==="practice"&&selectedGrade()===2)chooseSet();
+    if(id==="practice"&&(adapter()||selectedGrade()===2))chooseSet();
     if(id==="wrong")renderWrong();
     if(id==="weak")renderWeak();
     if(id==="gsat")Promise.resolve(loadGsatV4967()).catch(e=>console.error(e));
@@ -384,22 +400,24 @@ function goHome(){
 }
 document.addEventListener("click",e=>{
   const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;refreshSchool();loadSchoolBankStatus();openPanel("practice");chooseSet();return}
-  const o=e.target.closest("[data-open]"); if(o){openPanel(o.dataset.open);return}
+  const o=e.target.closest("[data-open]"); if(o){if(o.dataset.subjectMode)adapter()?.setMode(o.dataset.subjectMode);openPanel(o.dataset.open);return}
   const h=e.target.closest("[data-home]"); if(h)goHome();
 });
 
 function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now());
-  practiceScope=selectedGrade()===2?currentScope():null;
+  practiceScope=adapter()||selectedGrade()===2?currentScope():null;
   if(practiceScope)updateTopicFilters();
   const t=$("topicFilter").value,l=$("levelFilter").value,qty=+$("qtyFilter").value;
   const basePool=getSchoolPool();const pool=basePool.filter(q=>(t==="全部"||q.topic===t)&&(l==="全部"||q.level===l));
-  current=shuffle(pool).slice(0,Math.min(qty,pool.length)).map(q=>q.grade===2?catalog.shuffleOptions(q):q);answers={};renderQuiz();
+  current=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));answers={};renderQuiz();
   $("countText").textContent=`目前產生 ${current.length} 題（${$("school").value} 題池符合條件共 ${pool.length} 題）｜資料來源：${dbMode==="cloud"?"Supabase 學校分流":"本機備援"}`;
   if(practiceScope)$("countText").textContent=`本次範圍：${scopeSummary(practiceScope)}｜${current.length} 題（符合條件 ${pool.length} 題）${current.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${practiceScope.note}`;
   $("result").textContent="";
 }
+function questionSourceMarkup(q){return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
 function renderQuiz(){
-  $("quiz").innerHTML=current.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ const passageSeen=new Set();
+  $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
   const b=e.target.closest(".opt"); if(!b)return;
@@ -420,6 +438,8 @@ async function finishPractice(){
   refreshStats();
 }
 function saveLocalSession(done,score,wrong,set,ans){
+  progress.record(set,ans,sessionStorage.getItem("v471_session")||"session","practice-or-mock");
+  if(adapter()){refreshStats();return;}
   localStorage.setItem("v42score",String(score));localStorage.setItem("v42done",String(done));
   const old=JSON.parse(localStorage.getItem("v42wrong")||"[]");
   localStorage.setItem("v42wrong",JSON.stringify(Array.from(new Set(old.concat(wrong)))));
@@ -443,9 +463,10 @@ async function syncAttempts(set,ans,mode){
   }
 }
 function startMock(){sessionStorage.setItem("v471_session","mock-"+Date.now());
-  mockScope=selectedGrade()===2?currentScope():null;
-  const qty=+$("mockQty").value,pool=getSchoolPool();mock=shuffle(pool).slice(0,Math.min(qty,pool.length)).map(q=>q.grade===2?catalog.shuffleOptions(q):q);mockAnswers={};
-  $("mockQuiz").innerHTML=mock.map((q,i)=>`<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span></div><div class="opts">${q.o.map((x,j)=>`<button class="opt mockopt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+  mockScope=adapter()||selectedGrade()===2?currentScope():null;
+  const qty=+$("mockQty").value,pool=getSchoolPool();mock=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));mockAnswers={};
+  const passageSeen=new Set();
+  $("mockQuiz").innerHTML=mock.map((q,i)=>`${passageMarkup(q,passageSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div><div class="opts">${q.o.map((x,j)=>`<button class="opt mockopt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
   $("mockSubmitBox").style.display="block";$("mockResult").innerHTML="";
   $("mockScopeText").textContent=mockScope?`本次範圍：${scopeSummary(mockScope)}｜${mock.length} 題${mock.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${mockScope.note}`:"高一既有學校模擬題池";
   if(!mock.length){$("mockSubmitBox").style.display="none";toast("目前範圍沒有符合條件的題目。");}
@@ -504,12 +525,13 @@ function fillHistoricalFiltersV4961(list){
  }
 }
 function filterHistoricalV4961(){
+ renderSubjectHistory();
  const s=$("histSchool")?.value||"全部",y=$("histYear")?.value||"全部",t=$("histTerm")?.value||"全部",e=$("histExam")?.value||"全部";
  const list=allHistoricalV4961.filter(x=>
    (s==="全部"||(x.schools?.name||"成功高中")===s)&&
    (y==="全部"||String(x.academic_year)===String(y))&&
    (t==="全部"||String(x.term)===String(t))&&
-   (e==="全部"||x.exam_name===e)
+   (e==="全部"||x.exam_name===e)&&(!adapter()||!$('histGrade').value||Number(x.grade)===Number($('histGrade').value))
  );
  renderHistorical(list);
 }
@@ -580,25 +602,29 @@ function fillHistoricalSchoolsV4967(){
  sel.value=names.includes(current)?current:"全部";
 }
 async function loadGsatV4967(){
+ const seq=++gsatLoadSeq,requestedSubject=subjectId(),requestedName=subjectInfo().name;
  const status=$("gsatStatus"),list=$("gsatList");if(!status||!list)return;
  status.textContent="讀取大考中心官方學測來源中…";
  try{
   const hdb=await getHistoricalDbV4963();
-  const {data,error}=await hdb.from("national_exam_sources").select("*").eq("subject","數學").order("academic_year",{ascending:false});
-  if(error)throw error;
-  const rows=(data||[]).filter(x=>Number(x.academic_year)>=110),ys=[...new Set(rows.map(x=>x.academic_year))],vs=[...new Set(rows.map(x=>x.subject_variant))];
+  const {data,error}=await hdb.from("national_exam_sources").select("*").eq("subject",requestedName).order("academic_year",{ascending:false});
+  if(error)throw error;if(seq!==gsatLoadSeq||requestedSubject!==subjectId())return;
+  const rows=(data||[]).filter(x=>(x.subject||"數學")===requestedName&&Number(x.academic_year)>=110),ys=[...new Set(rows.map(x=>x.academic_year))],vs=[...new Set(rows.map(x=>x.subject_variant))];
   const ysel=$("gsatYear"),vsel=$("gsatVariant");
   if(ysel&&ysel.options.length<=1)ysel.innerHTML='<option value="全部">全部學年度</option>'+ys.map(y=>`<option value="${y}">${y} 學年度</option>`).join("");
-  if(vsel&&vsel.options.length<=1)vsel.innerHTML='<option value="全部">全部數學類別</option>'+vs.map(v=>`<option value="${v}">${v}</option>`).join("");
+  if(vsel&&vsel.options.length<=1)vsel.innerHTML='<option value="全部">全部'+escapeText(requestedName)+'類別</option>'+vs.filter(Boolean).map(v=>`<option value="${escapeText(v)}">${escapeText(v)}</option>`).join("");
   const y=ysel?.value||"全部",v=vsel?.value||"全部";
   const filtered=rows.filter(x=>(y==="全部"||String(x.academic_year)===String(y))&&(v==="全部"||x.subject_variant===v));
   status.textContent=`找到 ${filtered.length} 筆大考中心官方來源。`;
   list.innerHTML=filtered.length?filtered.map(x=>`<div class="item"><b>${x.academic_year} ${x.exam_type}・${x.subject_variant}</b><div class="small">${x.scope_note||""}</div><div style="margin-top:8px"><a class="btnLink" href="${x.source_url}" target="_blank" rel="noopener">開啟大考中心官方來源</a></div></div>`).join(""):'<div class="empty">目前沒有符合條件的學測來源。</div>';
- }catch(e){console.error(e);status.textContent="學測官方來源讀取失敗："+(e.message||e);list.innerHTML="";}
+ }catch(e){if(seq!==gsatLoadSeq||requestedSubject!==subjectId())return;console.error(e);status.textContent="學測官方來源讀取失敗："+(e.message||e);list.innerHTML="";}
 }
 
 async function loadHistorical(showAll=false){
+  const seq=++historicalLoadSeq,requestedSubject=subjectId(),requestedName=subjectInfo().name;
   const status=$("historicalStatus");
+  renderSubjectHistory();
+  if(adapter()&&!db){allHistoricalV4961=[];fillHistoricalFiltersV4961([]);status.textContent='目前使用本機資料；國文官方來源索引尚未載入。';renderHistorical([]);return;}
   status.textContent="讀取歷屆來源中…";
   try{
     const hdb=await getHistoricalDbV4963();
@@ -606,7 +632,8 @@ async function loadHistorical(showAll=false){
     const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("歷屆來源查詢逾時")),5000));
     const {data,error}=await Promise.race([query,timeout]);
     if(error)throw error;
-    allHistoricalV4961=data||[];
+    if(seq!==historicalLoadSeq||requestedSubject!==subjectId())return;
+    allHistoricalV4961=(data||[]).filter(x=>(x.subject||"數學")===requestedName);
     fillHistoricalFiltersV4961(allHistoricalV4961); fillHistoricalSchoolsV4967();
     if(showAll){
       if($("histSchool"))$("histSchool").value="全部";
@@ -617,6 +644,7 @@ async function loadHistorical(showAll=false){
     status.textContent=`資料庫共收錄 ${allHistoricalV4961.length} 筆歷屆官方來源；可直接用上方四個選單篩選。`;
     filterHistoricalV4961();
   }catch(e){
+    if(seq!==historicalLoadSeq||requestedSubject!==subjectId())return;
     console.error(e);
     status.textContent="歷屆來源讀取失敗："+(e.message||e)+"。請按右上「資料庫設定」確認 Project URL / Publishable key。";
     renderHistorical([]);
@@ -625,7 +653,7 @@ async function loadHistorical(showAll=false){
 
 
 let autoPaper=[],autoAnswers={},activeScope=null;
-async function getScopeProfile(){if(selectedGrade()===2){const s=currentScope();return s.sourceType==="official"&&s.chapterIds.length?{...s,scope_label:s.label,source_url:s.sourceUrl,topic_weights:Object.fromEntries(s.chapterIds.map(id=>[catalog.chapters.find(c=>c.id===id).label,100/s.chapterIds.length]))}:null;}if(dbMode!=="cloud"||!db)return null;const {data:s}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();if(!s)return null;const {data}=await db.from("exam_scope_profiles").select("*").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value).eq("grade",1).eq("subject","數學").maybeSingle();return data||null;}
+async function getScopeProfile(){if(adapter())return null;if(selectedGrade()===2){const s=currentScope();return s.sourceType==="official"&&s.chapterIds.length?{...s,scope_label:s.label,source_url:s.sourceUrl,topic_weights:Object.fromEntries(s.chapterIds.map(id=>[catalog.chapters.find(c=>c.id===id).label,100/s.chapterIds.length]))}:null;}if(dbMode!=="cloud"||!db)return null;const {data:s}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();if(!s)return null;const {data}=await db.from("exam_scope_profiles").select("*").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value).eq("grade",1).eq("subject","數學").maybeSingle();return data||null;}
 async function showScopeProfile(){activeScope=await getScopeProfile();const box=$("scopeProfile");if(!activeScope){box.innerHTML="目前這個學校／學年度／段考尚未建立已核驗範圍。你仍可使用「原創練習」。";return;}const tw=activeScope.topic_weights||{},dw=activeScope.difficulty_weights||{};box.innerHTML=`<b>已核驗範圍：</b>${activeScope.scope_label}<div class="chips">${Object.entries(tw).map(([k,v])=>`<span class="chip">${k} ${v}%</span>`).join("")}</div><div class="small">難度配置：${Object.entries(dw).map(([k,v])=>`${k} ${v}%`).join("／")}</div>${activeScope.source_url?`<p><a class="linkbtn soft" target="_blank" rel="noopener" href="${activeScope.source_url}">查看官方範圍來源</a></p>`:""}`;}
 function weightedPick(pool,weights,key,n){let result=[],used=new Set();for(const [label,pct] of Object.entries(weights||{})){const want=Math.round(n*(+pct)/100),candidates=pool.filter(q=>q[key]===label&&!used.has(q.id));shuffle(candidates).slice(0,want).forEach(q=>{result.push(q);used.add(q.id)});}return result.concat(shuffle(pool.filter(q=>!used.has(q.id))).slice(0,Math.max(0,n-result.length))).slice(0,n);}
 async function buildAutoPaper(){sessionStorage.setItem("v471_session","auto-"+Date.now());activeScope=await getScopeProfile();if(!activeScope){toast("這組條件尚無已核驗官方範圍");return;}const n=+$("autoQty").value,topics=Object.keys(activeScope.topic_weights||{}),pool=(selectedGrade()===2?getSchoolPool():questions).filter(q=>topics.includes(q.topic));autoPaper=weightedPick(pool,activeScope.topic_weights,"topic",n).map(q=>q.grade===2?catalog.shuffleOptions(q):q);autoAnswers={};renderAutoPaper();$("autoSubmitBox").style.display="block";}
@@ -639,6 +667,7 @@ async function submitAutoPaper(){let correct=0;autoPaper.forEach((q,i)=>{const c
 
 let studyPool=[],studyIndex=0,studyReveal=0;
 function studyHint(q){
+ if(registry.get(q.subject)?.adapter)return "先找出文本中的語境與關鍵線索，再排除超出文本的推論。";
  const hints={
   "實數":"先整理數的性質、根式或絕對值條件，再決定運算順序。",
   "多項式":"先觀察是否能因式分解、代入特殊值，或使用餘式／因式定理。",
@@ -648,10 +677,12 @@ function studyHint(q){
  };return hints[q.topic]||"先圈出已知條件與要求的量，再選擇對應公式。";
 }
 function studyKey(q){
+ if(registry.get(q.subject)?.adapter)return registry.skills.find(s=>s.id===q.skill)?.name||q.category;
  const map={"實數":"數與式的定義、運算性質與條件","多項式":"因式分解、餘式定理與代數運算","指數":"指數律、同底轉換與成長關係","對數":"對數定義、換底與對數律","綜合":"辨識核心觀念並串聯條件"};
  return map[q.topic]||q.topic;
 }
 function studyMistake(q){
+ if(registry.get(q.subject)?.adapter)return "不要只憑篇名或單一字面作答；核對前後文，避免過度推論。";
  const map={"實數":"忽略根式、分母或絕對值造成的條件限制。","多項式":"展開或移項時符號錯誤，或把餘式定理的代入值弄反。","指數":"把加法誤套成指數律，或底數未統一就直接比較。","對數":"忘記真數必須大於 0，或把 log(a+b) 錯拆成兩個對數。","綜合":"太快計算，沒有先確認題目真正要求的量。"};
  return map[q.topic]||"計算前未檢查條件與符號。";
 }
@@ -684,6 +715,7 @@ function revealStudy(q,to){
  if(studyReveal<4){const btn=document.createElement("button");btn.className="soft";btn.textContent=studyReveal===1?"再給我破題關鍵":studyReveal===2?"顯示使用觀念": "看完整詳解";btn.onclick=()=>revealStudy(q,studyReveal+1);e.appendChild(btn);}
 }
 function saveStudyWrong(q,reason){
+ if(q.subject&&q.subject!=="math"){progress.help(q,reason);refreshStats();return;}
  let arr=JSON.parse(localStorage.getItem("wrong")||"[]");if(!arr.some(x=>x.id===q.id))arr.push({...q,reason});localStorage.setItem("wrong",JSON.stringify(arr));addToLegacyWrong(q);refreshStats();
 }
 function saveConfidence(q,level){
@@ -692,6 +724,7 @@ function saveConfidence(q,level){
 
 
 function addToLegacyWrong(q){
+ if(q.subject&&q.subject!=="math"){progress.help(q,"我不會／錯題");return;}
  const ids=JSON.parse(localStorage.getItem("v42wrong")||"[]");
  if(!ids.includes(q.id)){ids.push(q.id);localStorage.setItem("v42wrong",JSON.stringify(ids));}
  let arr=JSON.parse(localStorage.getItem("wrong")||"[]");
@@ -705,9 +738,10 @@ function markNeedHelp(q,reason,note="",picked=null){
 function getStudyQueue(){return JSON.parse(localStorage.getItem("studyQueue")||"[]");}
 function setStudyQueue(a){localStorage.setItem("studyQueue",JSON.stringify(a));}
 function queueForChatGPT(q,reason="我不會",note="",picked=null){
- let a=getStudyQueue(),old=a.find(x=>x.id===q.id);
+ const recordSubject=q.subject||q.subjectId||'math';
+ let a=getStudyQueue(),old=a.find(x=>x.id===q.id&&(x.subject||x.subjectId||'math')===recordSubject);
  const item={
-   id:q.id,grade:q.grade||1,subjectId:q.subjectId||"math",chapterId:q.chapterId||null,topic:q.topic,level:q.level,question:q.q,options:q.o,
+   id:q.id,grade:q.grade||1,subject:recordSubject,text_ids:q.chineseMetadata?.text_ids||[],skill:q.skill||null,category:q.category||q.topic,subjectId:recordSubject,chapterId:q.chapterId||null,topic:q.topic,level:q.level,question:q.q,options:q.o,
    answer:q.a,explanation:q.e,reason,note,picked,
    school:$("school").value,year:$("year").value,term:$("term").value,exam:$("exam").value,
    sessionId:sessionStorage.getItem("v471_session")||"",at:new Date().toISOString()
@@ -726,19 +760,19 @@ function reasonClass(r){
  return "reason-dontknow";
 }
 function renderHelper(){
- const a=getStudyQueue();
+ const a=getStudyQueue().filter(x=>(x.subject||x.subjectId||"math")===subjectId());
  const wrong=a.filter(x=>String(x.reason).includes("答錯")).length;
  const dont=a.filter(x=>String(x.reason).includes("不會")).length;
  const explain=a.filter(x=>String(x.reason).includes("詳解")||String(x.reason).includes("再解釋")).length;
  $("helperSummary").innerHTML=`目前 ${a.length} 題：<span class="reasonTag reason-wrong">答錯 ${wrong}</span> <span class="reasonTag reason-dontknow">我不會 ${dont}</span> <span class="reasonTag reason-explain">詳解看不懂 ${explain}</span>`;
  $("helperList").innerHTML=a.length?a.map((x,i)=>`<div class="card qcard"><div class="small">${x.school} · ${x.year} · ${x.term} · ${x.exam} · ${x.topic} · ${x.level}</div><div class="qtitle">${escapeText(x.question)}</div><p class="small"><span class="reasonTag ${reasonClass(x.reason)}">${x.reason}</span>${x.picked!=null?`｜我選 ${String.fromCharCode(65+Number(x.picked))}`:""}${x.note?`｜卡點：${x.note}`:""}</p><div class="filters"><button class="primary" data-copy-helper="${i}">複製這一題問 ChatGPT</button><button class="soft" data-note-helper="${i}">補充我卡住的地方</button><button class="warn" data-del-helper="${i}">移除</button></div></div>`).join(""):'<div class="card">目前沒有待詢問題。任何模式按「我不會」、答錯或「詳解看不懂」都會自動加入。</div>';
  document.querySelectorAll("[data-copy-helper]").forEach(b=>b.onclick=()=>copyTextSafe(promptForItem(a[+b.dataset.copyHelper])));
- document.querySelectorAll("[data-note-helper]").forEach(b=>b.onclick=()=>{const i=+b.dataset.noteHelper,n=prompt("你卡在哪裡？例如：看不懂第二步為什麼可以移項",a[i].note||"");if(n!==null){a[i].note=n;setStudyQueue(a);renderHelper();}});
- document.querySelectorAll("[data-del-helper]").forEach(b=>b.onclick=()=>{a.splice(+b.dataset.delHelper,1);setStudyQueue(a);renderHelper();});
+ document.querySelectorAll("[data-note-helper]").forEach(b=>b.onclick=()=>{const i=+b.dataset.noteHelper,n=prompt("你卡在哪裡？例如：看不懂第二步為什麼可以移項",a[i].note||"");if(n!==null){const all=getStudyQueue(),item=all.find(x=>x.id===a[i].id&&(x.subject||x.subjectId||"math")===subjectId());if(item)item.note=n;setStudyQueue(all);renderHelper();}});
+ document.querySelectorAll("[data-del-helper]").forEach(b=>b.onclick=()=>{const item=a[+b.dataset.delHelper];setStudyQueue(getStudyQueue().filter(x=>!(x.id===item.id&&(x.subject||x.subjectId||"math")===subjectId())));renderHelper();});
 }
 function copyAllStudyQuestions(){
- const a=getStudyQueue();if(!a.length){toast("目前沒有待詢問題");return;}
- const head=`我正在準備台灣高中數學段考。以下是我目前不會、答錯或看不懂的題目。請一次先診斷我的共同弱點，再逐題教我。每題請用「觀念 → 破題 → 分步驟 → 常見錯誤」的方式，不要只給答案。最後請依我的弱點出 3 題新的練習題，先不要公布答案。\n\n`;
+ const a=getStudyQueue().filter(x=>(x.subject||x.subjectId||"math")===subjectId());if(!a.length){toast("目前沒有待詢問題");return;}
+ const head=`我正在準備台灣高中段考。以下是我目前不會、答錯或看不懂的題目。請一次先診斷我的共同弱點，再逐題教我。每題請用「觀念 → 破題 → 分步驟 → 常見錯誤」的方式，不要只給答案。最後請依我的弱點出 3 題新的練習題，先不要公布答案。\n\n`;
  copyTextSafe(head+a.map((x,i)=>`========== 第 ${i+1} 題 ==========\n${promptForItem(x)}`).join("\n\n"));
 }
 
@@ -749,11 +783,13 @@ const provLabel={official_school:"校方官方",official_department:"校內科�
 let calibrationV49=[],examEvidenceV49=[];
 async function loadCalibrationV49(){
  if(dbMode!=="cloud"||!db)return;
+ const requestedSwitch=subjectSwitchSeq,client=db;
  const [c,e]=await Promise.all([
    db.from("school_calibration_status").select("*,schools(name)").order("school_id"),
    db.from("exam_structure_evidence").select("*,schools(name)").order("academic_year",{ascending:false})
  ]);
- calibrationV49=c.data||[];examEvidenceV49=e.data||[];
+ if(requestedSwitch!==subjectSwitchSeq||client!==db||adapter())return;
+ calibrationV49=(c.data||[]).filter(x=>(x.subject||'數學')==='數學');examEvidenceV49=(e.data||[]).filter(x=>(x.subject||'數學')==='數學');
  renderCalibrationV49();renderExamEvidenceV49();
 }
 function statusTextV49(s){
@@ -786,12 +822,15 @@ function renderExamEvidenceV49(){
 }
 
 async function loadSourceEngineering(){
+ if(adapter()){renderSubjectSources();return;}
  if(dbMode!=="cloud"||!db){$("coverageCards").innerHTML='<div class="card">需先連線 Supabase 才能查看真實題源資料。</div>';$("sourceInventoryList").innerHTML="";return;}
+ const requestedSwitch=subjectSwitchSeq,client=db;
  const [inv,cov]=await Promise.all([
    db.from("exam_source_inventory").select("*,schools(name)").order("verified_at",{ascending:false}),
    db.from("school_source_coverage").select("*,schools(name)")
  ]);
- sourceInventoryV49=inv.data||[];sourceCoverageV49=cov.data||[];
+ if(requestedSwitch!==subjectSwitchSeq||client!==db||adapter())return;
+ sourceInventoryV49=(inv.data||[]).filter(x=>(x.subject||'數學')==='數學');sourceCoverageV49=(cov.data||[]).filter(x=>(x.subject||'數學')==='數學');
  const f=$("sourceSchoolFilter");
   const fixedSourceSchools=["建國中學","北一女中","師大附中","成功高中","中山女高","松山高中","延平高中","薇閣高中"];
   const sourceNames=[...new Set([...fixedSourceSchools,...sourceCoverageV49.map(x=>x.schools?.name).filter(Boolean)])];
@@ -811,6 +850,7 @@ function renderCoverageV49(){
  }).join("");
 }
 function renderSourceInventoryV49(){
+ if(adapter()){renderSubjectSources();return;}
  const s=$("sourceSchoolFilter").value,k=$("sourceKindFilter").value,p=$("sourceProvFilter").value;
  const arr=sourceInventoryV49.filter(x=>(s==="全部"||x.schools?.name===s)&&(k==="全部"||x.source_kind===k)&&(p==="全部"||x.provenance===p));
  $("sourceInventorySummary").textContent=`符合條件 ${arr.length} 筆來源｜僅建立索引與中繼資料，不直接複製完整考卷內容。`;
@@ -818,17 +858,20 @@ function renderSourceInventoryV49(){
 }
 
 function renderSources(){
+ if(adapter()){$("sourceRows").innerHTML=catalog.schools.map(n=>`<tr><td>${escapeText(n)}</td><td>國文已驗證真題 ${adapter().all().filter(q=>core.isVerified(q)&&q.school===n).length} 題</td><td>尚未收錄可驗證題目；不沿用數學狀態</td><td>待收集</td></tr>`).join("");return;}
   $("sourceRows").innerHTML=Object.keys(schools).map(n=>{const d=schools[n];return `<tr><td><b>${n}</b></td><td><span class="status ${d.tone==="good"?"goodS":d.tone==="mid"?"midS":"lowS"}">${d.status}</span></td><td>${d.desc}</td><td><a class="linkbtn soft" target="_blank" href="${d.url}">官方入口</a></td></tr>`}).join("");
 }
 async function renderWrong(){
+ if($("wrongSubject").value!=="math")return renderCombinedWrong();
   let ids=JSON.parse(localStorage.getItem("v42wrong")||"[]");
   if(db&&user){
     const {data}=await db.from("wrong_questions").select("question_id").eq("user_id",user.id).eq("mastered",false);
     if(data) ids=Array.from(new Set(ids.concat(data.map(x=>x.question_id))));
   }
-  $("wrongList").innerHTML=ids.length?ids.map((id,i)=>{const q=findQuestion(id);if(!q)return"";return `<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)}<span class="tag">${q.topic}</span></div><div class="explain show"><b>答案：</b>${escapeText(q.o[q.a])}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`}).join(""):'<div class="card">目前沒有錯題。</div>';
+  $("wrongList").innerHTML=ids.length?ids.map((id,i)=>{const q=findQuestion(id,'math');if(!q||(q.subject||q.subjectId||"math")!=="math")return"";return `<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)}<span class="tag">${q.topic}</span></div><div class="explain show"><b>答案：</b>${escapeText(q.o[q.a])}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`}).join(""):'<div class="card">目前沒有錯題。</div>';
 }
 function renderWeak(){
+ if(adapter()){return renderSubjectAnalytics("weakBars");}
   const hist=JSON.parse(localStorage.getItem("v42hist")||"{}"),topics=[...new Set(["實數","多項式","指數","對數","綜合",...catalog.chapters.map(c=>c.label)])];
   $("weakBars").innerHTML=topics.map(t=>{const h=hist[t],pct=h&&h.total?Math.round(h.ok/h.total*100):0;return `<div class="barrow"><b>${t}</b><div class="bar"><i style="width:${pct}%"></i></div><span>${h&&h.total?pct+"%":"-"}</span></div>`}).join("");
 }
@@ -841,6 +884,7 @@ function refreshAuthBoxV49614(){
  if(b)b.style.display=logged?"block":"none";
 }
 function verifyBankV49610(){
+ if(adapter()){adapter().stats();return {total:adapter().all().length,pool:getSchoolPool().length};}
   const track=$("curriculumTrack")?.value||"A";
   const total=selectedGrade()===2?[...grade2Fallback,...grade2Cloud].filter(q=>catalog.trackAllows(track,q.curriculumTrack)).length:(Array.isArray(questions)?questions.length:0);
   const extra=Array.isArray(questions)?questions.filter(q=>Number(q.id)>160).length:0;
@@ -864,6 +908,7 @@ function verifyBankV49610(){
 }
 
 function refreshStats(){
+ if(adapter()){adapter().stats();return;}
   const s=localStorage.getItem("v42score");
   const d=+(localStorage.getItem("v42done")||0);
   const w=JSON.parse(localStorage.getItem("v42wrong")||"[]").length;
@@ -895,6 +940,8 @@ async function saveSettings(){
   if(ok)setTimeout(closeSettings,450);
 }
 function useLocal(){
+ ++historicalLoadSeq;++gsatLoadSeq;++coverageLoadSeq;
+ ++questionLoadSeq;cloudBankCache.clear();registry.enabled().forEach(s=>s.adapter?.clearCloud());
   // 只切換目前執行模式；保留 Supabase 設定。
   ++connectionRequest;++scopeRequest;++v494Seq;scopeOverrides.clear();v494ScopeCache.clear();grade2Cloud=[];
   db=null;dbMode="local";schools=F.schools;questions=F.questions;
@@ -928,6 +975,81 @@ function onV496(id,event,handler){
   el.addEventListener(event,handler);
 }
 
+// V5 shared transport: only the selected subject/grade, with bounded pages and stale guards.
+async function loadCurrentSubjectQuestions(){
+ const seq=++questionLoadSeq,client=db,subject=subjectId(),grade=selectedGrade(),info=subjectInfo(),key=subject+":"+grade;
+ if(!client||dbMode!=="cloud")return;
+ const descriptor=cloudSubjects.find(s=>s.code===info.code&&s.enabled!==false);
+ if(!descriptor)return;
+ const isCurrent=()=>seq===questionLoadSeq&&client===db&&subjectId()===subject&&selectedGrade()===grade;
+ function apply(rows){
+  if(!isCurrent())return;
+  if(info.adapter){info.adapter.receive(rows);}
+  else if(grade===2){grade2Cloud=rows.map(q=>catalog.adaptQuestion(q,cloudSubjects)).filter(Boolean);}
+  else {const merged=new Map(F.questions.map(q=>[q.id,q]));rows.filter(q=>catalog.isLegacyMath(q,cloudSubjects)).forEach(x=>merged.set(x.id,{id:x.id,topic:x.topic,sub:x.subtopic,level:x.difficulty,q:x.question_text,o:x.options,a:x.correct_index,e:x.explanation}));questions=[...merged.values()];}
+  refreshSchool();renderLearningScope();verifyBankV49610();renderSubjectHistory();
+ }
+ if(cloudBankCache.has(key)){apply(cloudBankCache.get(key));return;}
+ try{
+  const rows=await core.paged(()=>{let q=client.from("questions").select(info.adapter?"*,question_text_links(*),question_skills(*),question_group_items(question_groups(group_id,passage_id,passages(*)))":"*").order("id").eq("grade",grade);return subject==="math"&&grade===1?q.or(`subject_id.eq.${descriptor.id},subject_id.is.null`):q.eq("subject_id",descriptor.id);},{isCurrent,onPage:apply});
+  if(rows&&isCurrent())cloudBankCache.set(key,rows);
+ }catch(e){if(isCurrent()){$("bankLoadDetail").textContent="雲端題庫暫未完成載入，保留本機題目。";}console.warn(e.message);}
+}
+function renderCombinedWrong(){
+ const wanted=$("wrongSubject").value,text=$("wrongText").value,skill=$("wrongSkill").value,category=$("wrongCategory").value;
+ const rows=progress.wrong().filter(q=>wanted==="all"||q.subject===wanted).map(q=>({...q,...(findQuestion(q.id,q.subject||q.subjectId||'math')||{})})).filter(q=>(!text||q.chineseMetadata?.text_ids?.includes(text))&&(!skill||q.chineseMetadata?.skills?.includes(skill))&&(!category||q.category===category));
+ $("wrongList").innerHTML=rows.length?rows.map(q=>`<div class="card qcard"><span class="tag">${escapeText(registry.get(q.subject||q.subjectId||"math")?.name||"數學")}</span><div class="qtitle">${escapeText(q.q||q.question||"題目 "+q.id+"（待載入原題）")}</div><p>${escapeText(q.e||q.explanation||"")}</p></div>`).join(""):'<div class="card">目前沒有符合條件的錯題。</div>';
+}
+function renderSubjectAnalytics(target="subjectAnalytics"){
+ const subject=subjectId(),info=subjectInfo(),summary=progress.summary(subject),rows=info.skills.length?info.skills.map(skill=>{const s=progress.summary(subject,null,skill.id);return `<li>${escapeText(skill.name)}：${s.percent===null?"尚未練習":s.percent+"%（"+s.total+"次作答）"}</li>`;}).join(""):"";
+ $(target).innerHTML=`<h3>${escapeText(info.name)}學習數據</h3><p>V5 作答 ${summary.total} 次，${summary.percent===null?"尚未練習":summary.percent+"% 正確"}。熟練度依實際作答計算。</p><ul>${rows}</ul>`;
+ if(subject==="math"){$(target).innerHTML+='<p>升級前的數學統計保留於原有首頁與弱點分析；未從舊總數虛構逐題作答。</p>';}
+ if(info.categories.length)$(target).innerHTML+='<h4>分類表現</h4><ul>'+info.categories.map(category=>{const s=progress.summary(subject,null,null,category);return `<li>${escapeText(category)}：${s.percent===null?'尚未練習':s.percent+'%（'+s.total+'次作答）'}</li>`;}).join('')+'</ul>';
+ if(info.specialFeatures.includes("classical-texts"))$(target).innerHTML+=window.ClassicalTexts.map(t=>{const s=progress.summary(subject,t.text_id);return `<p>${escapeText(t.title)}：${s.percent===null?"尚未練習":s.percent+"%（"+s.total+"次）"}</p>`;}).join("");
+}
+function renderSubjectHistory(){
+ const service=adapter(),box=$('subjectHistorical');box.hidden=!service?.history;
+ if(!service?.history){box.textContent='';return;}
+ const rows=service.history({source:$('histSource').value,school:$('histSchool').value,year:$('histYear').value,term:$('histTerm').value,exam:$('histExam').value,grade:$('histGrade').value,textId:$('histText').value});
+ box.innerHTML=`<h3>目前載入的國文已驗證真題：${rows.length} 題</h3><p class="small">依首頁年級載入題庫；來源索引與可作答真題分開計算。待審題不列入。</p>`+(rows.length?rows.map(q=>`<div class="card"><b>${escapeText(q.source_title)}</b><p>${escapeText(q.academic_year)} 學年度｜${escapeText(q.school||'大考中心')}｜第 ${escapeText(q.question_number)} 題</p><p>${escapeText(q.q)}</p><a class="linkbtn soft" href="${escapeText(core.safeUrl(q.source_url))}" target="_blank" rel="noopener">查看原始來源</a></div>`).join(''):'<p>目前沒有符合条件的已驗證真題；平台題不算入真題。</p>');
+}
+function renderTextCoverage(){
+ const service=registry.get("chinese").adapter,bank=service.all(),links=service.allLinks();
+ $("textCoverage").innerHTML='<h3>古文30篇 × 已驗證真題來源</h3><div class="choiceGrid">'+window.ClassicalTexts.map(t=>{const c=core.coverage(bank,links,t.text_id);return '<div class="card"><b>'+escapeText(t.title)+'</b><p>學測 '+c.ceec+' 題｜八校 '+Object.values(c.schools).reduce((a,b)=>a+b,0)+' 題</p></div>';}).join('')+'</div>';
+}
+function renderSubjectSources(){
+ const rows=adapter()?.all()||[],verified=rows.filter(core.isVerified);
+ $("coverageCards").innerHTML=catalog.schools.map(s=>`<div class="card">${escapeText(s)}：已驗證 ${verified.filter(q=>q.school===s).length} 題；待收集／核驗。</div>`).join("");
+ $("calibrationCards").textContent="國文尚無已校正的官方試卷資料。";$("examEvidenceList").textContent="尚未收錄。";$("examEvidenceSummary").textContent="";
+ $("sourceInventorySummary").textContent=`${subjectInfo().name}已驗證真題 ${verified.length} 題；不使用數學來源冒充。`;$("sourceInventoryList").textContent="候選來源需經資料工程驗證後才發布。";
+}
+let subjectSwitchSeq=0;
+async function switchSubject(){
+ const seq=++subjectSwitchSeq; ++questionLoadSeq;++scopeRequest;++v494Seq;++historicalLoadSeq;++gsatLoadSeq;++coverageLoadSeq;
+ adapter()?.clearCloud();
+ current=[];mock=[];answers={};mockAnswers={};studyPool=[];
+ $("quiz").textContent="";$("mockQuiz").textContent="";$("studyCard").textContent="";
+ allHistoricalV4961=[];sourceInventoryV49=[];sourceDocs=[];
+ for(const id of ['historicalList','gsatList','helperList','wrongList','weakBars'])$(id).textContent="";
+ for(const id of ['gsatYear','gsatVariant'])$(id).replaceChildren(new Option('全部','全部'));
+ $("subjectEntrances").hidden=!adapter();$("curriculumTrackField").hidden=!!adapter()||selectedGrade()!==2;
+ $("subjectHistoryFilters").hidden=!adapter()?.history;renderSubjectHistory();
+ $("coverageSubject").value=subjectInfo().name;
+ Array.from($("grade").options).forEach(o=>o.textContent=(o.value==='1'?'高一':'高二')+subjectInfo().name);
+ $("gsatHomeCard").querySelector('p').textContent='110學年度起'+subjectInfo().name+'官方來源；實際收錄數依資料庫顯示。';
+ $("gsat").querySelector('p').textContent=subjectInfo().name+'學測官方來源；來源連結不等同已完成逐題分類。';
+ goHome();
+ try{await adapter()?.ensure();if(seq!==subjectSwitchSeq)return;adapter()?.setMode('exam');selectionChanged();renderSources();refreshStats();await loadCurrentSubjectQuestions();}
+ catch(e){if(seq===subjectSwitchSeq)toast(e.message);}
+}
+registry.enabled().forEach(s=>s.adapter?.init({selection:learningSelection,startPractice:()=>openPanel('practice'),open:openPanel,refreshStats}));
+$("wrongText").replaceChildren(new Option('全部篇目',''),...window.ClassicalTexts.map(t=>new Option(t.title,t.text_id)));
+$("wrongSkill").replaceChildren(new Option('全部能力',''),...registry.skills.map(s=>new Option(s.name,s.id)));
+$("wrongCategory").replaceChildren(new Option('全部分類',''),...registry.categories.map(c=>new Option(c,c)));
+['wrongSubject','wrongText','wrongSkill','wrongCategory'].forEach(id=>$(id).addEventListener('change',renderWrong));
+$('histText').replaceChildren(new Option('全部篇目',''),...window.ClassicalTexts.map(t=>new Option(t.title,t.text_id)));
+['histSource','histText','histGrade'].forEach(id=>$(id).addEventListener('change',()=>{if(id==='histGrade'&&$('histGrade').value){$('grade').value=$('histGrade').value;adapter()?.clearCloud();selectionChanged();loadCurrentSubjectQuestions().catch(console.warn);}filterHistoricalV4961();}));
+$("subject").addEventListener('change',switchSubject);
 // ---- Stable core startup FIRST ----
 try{
   db=null;dbMode="local";schools=F.schools;questions=F.questions;
@@ -955,7 +1077,7 @@ onV496("resetBtn","click",chooseSet);
 onV496("finishBtn","click",finishPractice);
 onV496("startMock","click",startMock);
 onV496("submitMock","click",submitMock);
-onV496("clearWrong","click",()=>{localStorage.removeItem("v42wrong");renderWrong();refreshStats();});
+onV496("clearWrong","click",()=>{if($("wrongSubject").value!=="math"){toast("國文紀錄保留；請依弱點繼續練習。");return;}localStorage.removeItem("v42wrong");renderWrong();refreshStats();});
 
 onV496("quiz","click",e=>{
  const dk=e.target.closest("[data-dontknow-q]"),ask=e.target.closest("[data-ask-q]"),ex=e.target.closest("[data-explain-q]");
@@ -974,7 +1096,7 @@ onV496("submitAuto","click",()=>Promise.resolve(submitAutoPaper()).catch(console
 onV496("newStudy","click",()=>startStudy(false));
 onV496("reviewWeak","click",()=>startStudy(true));
 onV496("copyAllQuestions","click",copyAllStudyQuestions);
-onV496("clearStudyQueue","click",()=>{if(confirm("確定清除全部待詢問題？")){setStudyQueue([]);renderHelper();}});
+onV496("clearStudyQueue","click",()=>{if(confirm("確定清除此科目的待詢問題？")){setStudyQueue(getStudyQueue().filter(q=>(q.subject||q.subjectId||"math")!==subjectId()));renderHelper();}});
 
 try{
  if($("copyAllQuestions")&&!$("copySessionQuestions")){
@@ -987,7 +1109,7 @@ try{
  }
 }catch(e){console.warn("optional session-copy control skipped",e);}
 
-["histSchool","histYear","histTerm","histExam"].forEach(id=>onV496(id,"change",()=>{if(allHistoricalV4961.length)filterHistoricalV4961();}));
+["histSchool","histYear","histTerm","histExam"].forEach(id=>onV496(id,"change",filterHistoricalV4961));
 // settings/auth
 
 
@@ -1015,7 +1137,7 @@ function selectionChanged(){
   chooseSet();
   mock=[];mockAnswers={};$("mockQuiz").textContent="";$("mockSubmitBox").style.display="none";$("mockScopeText").textContent="";
 }
-["grade","curriculumTrack","school","year","term","exam"].forEach(id=>onV496(id,"change",selectionChanged));
+["grade","curriculumTrack","school","year","term","exam"].forEach(id=>onV496(id,"change",()=>{if(id==='grade')adapter()?.clearCloud();selectionChanged();if(id==="grade")loadCurrentSubjectQuestions().catch(console.warn);}));
 onV496("applySourceFilters","click",renderSourceInventoryV49);
 
 // background cloud sync, never blocks practice/mock

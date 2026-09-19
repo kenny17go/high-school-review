@@ -16,3 +16,15 @@
 
 - 同步維護 app.js build marker、JS cache-busting、version.json 與 CHANGELOG。不得提交秘密金鑰。
 - Commit 命名使用 V<版本> <功能摘要>。無法寫入 GitHub 時保留 ZIP 手動上傳備援方式。
+
+## V5 共用架構規則
+
+- 數學 V4.9.7.7 為 Frozen Core；除共用架構接點、按科載入與紀錄相容外，不重写數學分流與題庫。
+- 新科目必須經 Subject Registry / adapter 接入；禁止為新科目複製整套 app。
+- 國文篇目必須使用 Classical Text Registry 永久 text_id；一題可連結多篇文本與多項 skill。
+- 核心15篇為108課綱推薦選文；延伸15篇是從舊推薦選文擇選的「平台選編」，不得說成完整差集。
+- 真題必須有可追溯來源；AI／平台題不得冒充 CEEC 或學校真題。needs_review 不計入已驗證統計。
+- 未釐清著作權的文本只留 metadata / URL；不複製現代文章全文。
+- 版本更新不得清除 Supabase、localStorage、登入或學習進度。缺 subject 的舊紀錄按 math 處理。
+- 發布前跑全部 regression tests（npm test），包含數學、國文、跨科與 PostgreSQL migration；正式資料庫測試限唯讀。
+- V5 本次交付須停在未 commit / push 狀態；migration 檔不等於已套用正式資料庫。

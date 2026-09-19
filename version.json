@@ -1,10 +1,11 @@
 {
-  "version": "4.9.7.7",
-  "name": "高二段考範圍智慧分流版",
-  "status": "released",
-  "baseCommit": "4ae423294d5572a05153d6bceb7fe287177dbb1e",
+  "version": "5.0",
+  "build": "5.0-acceptance-3",
+  "name": "全科目核心架構＋國文第一階段",
+  "status": "unreleased",
+  "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
   "observedBasePageVersion": "4.9.7.1",
-  "catalogSchemaVersion": 2,
+  "catalogSchemaVersion": 3,
   "supportedAcademicYears": [
     112,
     113,
@@ -25,7 +26,13 @@
     "extra-questions-v4966.js",
     "learning-catalog.js",
     "grade2-questions.js",
-    "grade2-scopes.js"
+    "grade2-scopes.js",
+    "subject-registry.js",
+    "classical-texts.js",
+    "learning-core.js",
+    "learning-storage.js",
+    "subject-adapters.js",
+    "chinese-data.js"
   ],
   "preserve_existing_files": [
     "fallback-data.js",
@@ -35,5 +42,11 @@
     "icon-512.png",
     "extra-questions-high2-v4973.js"
   ],
-  "manual_zip_fallback": true
+  "manual_zip_fallback": true,
+  "base": "V4.9.7.7",
+  "subjects": {
+    "math": "stable",
+    "chinese": "phase1",
+    "physics": "planned"
+  }
 }

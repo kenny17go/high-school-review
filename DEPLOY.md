@@ -3,7 +3,7 @@
 本網站保留靜態 HTML/JS 架構，無編譯步驟。新增 JS 檔必須與 index.html 一同發布。
 
 1. `git status`：確認所有異動皆屬已核對的工作，不覆蓋未提交檔案。
-2. 核對 `version.json`、`package.json.displayVersion` 與頁面版本為 4.9.7.7。npm 僅接受三段 SemVer，因此 `package.json.version` 使用 4.9.7-7，畫面仍顯示 V4.9.7.7。
+2. 核對 `version.json`、`package.json.displayVersion` 與頁面版本為 5.0；`package.json.version` 使用 SemVer 5.0.0。
 3. 有 lockfile 時執行 `npm ci`；初次建立相依套件可用 `npm install`。瀏覽器測試預設使用已安裝的 Edge；沒有 Edge 時用 Playwright 安裝 Chromium 並設定 `TEST_BROWSER_CHANNEL=chromium`。
 4. `npm test`，接著 `git diff --check`。測試不得使用正式帳號或對正式 Supabase 寫入。
 5. 用本機預覽檢查高一、高二 A/B/AB、112/113/114、不同行政條件、錯題、來源與資料完整度。需要正式 API 驗證時只用 Publishable key 發 GET 請求；不能把金鑰提交到版本庫。
@@ -20,3 +20,10 @@
 
 ## 手動備援
 GitHub 寫入受阻時可交付 ZIP，只包含本次修改檔案；保留未包含的 config、fallback、圖示及使用者設定。
+
+## V5 資料庫升級（未執行）
+先在現有資料庫的 staging copy 執行 supabase/migrations/20260914151605_v5_subject_core.sql，核對權限與題目數，再由使用者確認是否套用正式 project。不得建立第二個正式 project。
+
+此 migration 僅建結構與向後相容欄位，不匯入或虛構國文真題。CHIN 未啟用／migration 未套用時，前端使用國文本機原創題；數學仍可讀既有欄位。
+
+國文新增檔案也要一同發布；chinese-data.js 為切科後延遲載入。沒有新增 Service Worker 或 workflow，不變更現有圖示。部署後核對 script query version 與網路回應，不能把 Git push 當成已完成 PWA 更新。

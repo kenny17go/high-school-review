@@ -1,6 +1,6 @@
 <!doctype html><html lang="zh-Hant"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f3d5e">
-<title>高中段考複習平台 V4.9.7.7 高二段考範圍智慧分流版</title>
+<title>高中全科段考複習平台 V5.0 全科目核心架構＋國文第一階段</title>
 <style>
 :root{--bg:#f4f7fa;--ink:#193244;--muted:#6d7e8a;--p:#0f3d5e;--p2:#1f6f8b;--line:#dce6ed;--good:#2f8f5b;--warn:#ad741b;--bad:#b84b4b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang TC","Noto Sans TC",sans-serif}
@@ -16,6 +16,8 @@ main{padding:14px 12px 88px}.card{background:#fff;border:1px solid var(--line);b
 .authbox{margin-top:12px;background:#f7fafc;border-radius:12px;padding:11px}.modal{display:none;position:fixed;inset:0;background:#0007;z-index:50;align-items:center;justify-content:center;padding:18px}.modalShow{display:flex}.modalCard{max-width:620px;width:100%;background:#fff;border-radius:18px;padding:16px}.modalCard h2{margin-top:0}.codehint{font-family:ui-monospace,monospace;background:#f4f6f7;padding:8px;border-radius:8px;font-size:11px;word-break:break-all}.toast{position:fixed;left:50%;bottom:80px;transform:translate(-50%,20px);background:#173b52;color:#fff;padding:10px 14px;border-radius:10px;opacity:0;pointer-events:none;transition:.2s;z-index:80;max-width:90%;font-size:12px}.showToast{opacity:1;transform:translate(-50%,0)}
 footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 5px calc(8px + env(safe-area-inset-bottom));z-index:30}footer button{background:none;color:var(--muted);padding:3px 8px;font-size:11px}footer strong{display:block;font-size:18px;color:var(--p)}
 @media(max-width:760px){.setup{grid-template-columns:1fr 1fr}.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.head p{display:none}}
+#settingsBtn{white-space:nowrap;flex-shrink:0;min-width:100px;min-height:44px}#subjectHistoryFilters label{flex:1 1 160px;min-width:0}
+@media(max-width:480px){.head{flex-wrap:wrap;gap:8px}.head>div:first-child{flex-basis:100%}.head>div:last-child{margin-left:auto}header h1{font-size:18px}}
 .sourcecard{margin:10px 0}.sourcehead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.sourcetype{font-size:11px;border-radius:999px;padding:5px 8px;background:#edf5f8;color:var(--p);font-weight:800}.sourcemeta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.sourcemeta span{font-size:11px;background:#f4f7f9;padding:4px 7px;border-radius:999px}.sourceactions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
 .studySteps{display:grid;gap:8px;margin-top:12px}.studyStep{background:#f7fafc;border:1px solid var(--line);border-radius:12px;padding:11px;line-height:1.65;font-size:13px}.studyStep b{color:var(--p)}.studyActions{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}.confidence{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.confidence button{background:#eef4f7;color:var(--p)}
 
@@ -39,14 +41,14 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 .coverageMatrix thead .schoolCell{z-index:8;background:#e9f3f8}
 .coverageYes{font-weight:900;color:#17864b;font-size:16px}.coverageNo{color:#c5cdd2}.coverageSlot{min-width:46px}
 .coverageSummary{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.coverageSummary .chip{font-size:12px}
-.coverageType{display:inline-block;min-width:21px;padding:2px 4px;margin:1px;border-radius:6px;background:#e9f6ee;color:#167443;font-size:10px;font-weight:800}.coverageType.range{background:#eef4ff;color:#365f9d}.coverageType.index{background:#fff4df;color:#8a651a}.coverageType.answer{background:#f3eefe;color:#6843a8}.coverageType.missing{background:#f2f3f5;color:#737b83;min-width:48px}</style><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+.coverageType{display:inline-block;min-width:21px;padding:2px 4px;margin:1px;border-radius:6px;background:#e9f6ee;color:#167443;font-size:10px;font-weight:800}.coverageType.range{background:#eef4ff;color:#365f9d}.coverageType.index{background:#fff4df;color:#8a651a}.coverageType.answer{background:#f3eefe;color:#6843a8}.coverageType.missing{background:#f2f3f5;color:#737b83;min-width:48px}[hidden]{display:none!important}.choiceGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}.choice{display:flex;align-items:center;gap:8px;padding:9px;border:1px solid var(--line);border-radius:8px;min-height:44px}.choice input{width:20px;min-width:20px;height:20px}.choice small{display:block;color:var(--muted)}.readingPassage{margin:8px 0;padding:12px;background:#f6f8fa;border-left:3px solid var(--p);white-space:pre-wrap}.readingPassage p{line-height:1.9;overflow-wrap:anywhere}#singleTextDetails li{line-height:1.9}#subjectEntrances{margin-top:12px}#classicalPanel select{margin:8px 0}@media(max-width:480px){.choiceGrid{grid-template-columns:1fr}.filters select{min-width:0;max-width:100%}} </style><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
 </head><body>
-<header><div class="head"><div><h1>高中段考複習平台 V4.9.7.7 高二段考範圍智慧分流版</h1><p>極速模式＋本機即時計算學校題池＋背景載入官方範圍</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft" type="button">資料庫設定</button></div></div></header>
+<header><div class="head"><div><h1>高中全科段考複習平台 V5.0 全科目核心架構＋國文第一階段</h1><p>極速模式＋本機即時計算學校題池＋背景載入官方範圍</p></div><div style="display:flex;gap:7px;align-items:center"><span id="dbBadge" class="dbbadge offline">本機備援</span><button id="settingsBtn" class="soft" type="button">資料庫設定</button></div></div></header>
 <main>
 <div id="home"><div class="card"><div class="setup">
-<div class="field"><label for="grade">年級／課程</label><select id="grade"><option value="1">高一數學</option><option value="2">高二數學</option></select></div><div id="curriculumTrackField" class="field" hidden><label for="curriculumTrack">高二分流</label><select id="curriculumTrack"><option value="A">數 A（含 AB 共通）</option><option value="B">數 B（含 AB 共通）</option><option value="AB">全部（AB 共通）</option></select></div><div class="field"><label>學校</label><select id="school"><option>建國中學</option><option>北一女中</option><option>師大附中</option><option selected>成功高中</option><option>中山女高</option><option>松山高中</option><option>延平高中</option><option>薇閣高中</option></select></div>
+<div class="field"><label for="subject">科目</label><select id="subject"><option value="math">數學</option><option value="chinese">國文</option></select></div><div class="field"><label for="grade">年級／課程</label><select id="grade"><option value="1">高一數學</option><option value="2">高二數學</option></select></div><div id="curriculumTrackField" class="field" hidden><label for="curriculumTrack">高二分流</label><select id="curriculumTrack"><option value="A">數 A（含 AB 共通）</option><option value="B">數 B（含 AB 共通）</option><option value="AB">全部（AB 共通）</option></select></div><div class="field"><label>學校</label><select id="school"><option>建國中學</option><option>北一女中</option><option>師大附中</option><option selected>成功高中</option><option>中山女高</option><option>松山高中</option><option>延平高中</option><option>薇閣高中</option></select></div>
 <div class="field"><label>學年度</label><select id="year"><option>114</option><option>113</option><option>112</option><option>111</option><option>110</option></select></div>
 <div class="field"><label>學期</label><select id="term"><option>上學期</option><option>下學期</option></select></div>
 <div class="field"><label>考試</label><select id="exam"><option>第一次段考</option><option>第二次段考</option><option>第三次段考／期末</option></select></div></div></div>
@@ -57,7 +59,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <div class="small" style="margin-top:6px"><span class="status goodS">⚡ 極速模式</span> 切換學校不等待遠端題庫映射。</div><div id="bankLoadDetail" class="small" style="margin-top:7px">基本練習與模考使用本機題庫；真實來源資料於進入功能頁時才讀取。</div>
 <div id="bankLoadChips" class="chips"></div><div id="currentScope" class="small" aria-live="polite"></div>
 </div>
-<div class="hero"><div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><div><h2 id="title" style="margin:0"></h2><div id="sub" class="small"></div></div><span id="status" class="status"></span></div><div class="chips"><span class="chip" id="homeBankChip">題庫載入中…</span><span class="chip">Supabase</span><span class="chip">RLS</span><span class="chip">離線備援</span></div><p id="desc"></p><div class="btns"><button class="primary" data-open="practice">開始練習</button><button class="soft" data-open="mock">模擬段考</button><button class="soft" data-open="sources">真實來源</button><a id="official" class="linkbtn soft" target="_blank">官方網站</a></div>
+<div id="subjectEntrances" class="card" hidden><h2>國文：我要準備什麼？</h2><div class="filters"><button class="primary" data-subject-mode="exam" data-open="practice">段考練習</button><button class="soft" data-subject-mode="exam" data-open="mock">模擬段考</button><button class="primary" data-open="classicalPanel">古文30篇精讀</button><button class="soft" data-subject-mode="reading" data-open="practice">閱讀素養</button><button class="soft" data-subject-mode="language" data-open="practice">字音字形／成語／國學常識</button><button class="soft" data-open="historical">歷屆真題</button><button class="soft" data-open="gsat">學測國文</button><button class="soft" data-open="wrong">我不會／錯題</button><button class="soft" data-open="weak">弱點分析</button><button class="soft" data-open="learningAnalytics">學習數據</button></div></div><div class="hero"><div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><div><h2 id="title" style="margin:0"></h2><div id="sub" class="small"></div></div><span id="status" class="status"></span></div><div class="chips"><span class="chip" id="homeBankChip">題庫載入中…</span><span class="chip">Supabase</span><span class="chip">RLS</span><span class="chip">離線備援</span></div><p id="desc"></p><div class="btns"><button class="primary" data-open="practice">開始練習</button><button class="soft" data-open="mock">模擬段考</button><button class="soft" data-open="sources">真實來源</button><a id="official" class="linkbtn soft" target="_blank">官方網站</a></div>
 <div class="authbox"><b>雲端帳號</b>
 <div id="authStatus" class="small">尚未登入</div>
 <div id="authLoginBox" style="margin-top:9px">
@@ -92,13 +94,15 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 </div></div></div>
 
 
+<div id="classicalPanel" class="panel"><button class="soft back" data-home>← 回首頁</button><div class="card"><h2>古文30篇精讀</h2><p>核心15篇＋平台選編延伸15篇。延伸篇目從舊推薦選文擇選，非舊30篇的完整差集；不代表不考或不重要。</p><label for="classicalGroup">準備範圍</label><select id="classicalGroup"><option value="core15">108課綱推薦古文15篇（核心精讀）</option><option value="extended15">延伸古文15篇（平台選編）</option><option value="all">30篇綜合複習</option></select><div class="filters"><button class="soft" data-text-action="all">全選</button><button class="soft" data-text-action="clear">清除</button><button class="soft" data-text-action="weak">只選弱點篇目</button></div><p id="textSelectionCount" aria-live="polite"></p><div id="textChoices" class="choiceGrid"></div><h3>要考什麼？</h3><div id="skillChoices" class="choiceGrid"></div><label for="classicalSource">題目來源</label><select id="classicalSource"><option value="all">全部</option><option value="real-first">真題優先</option><option value="ceec">只做學測真題</option><option value="school">只做八校段考真題</option><option value="platform">平台模擬題</option></select><label class="choice"><input id="classicalWeakOnly" type="checkbox"><span>只練我的弱點</span></label><p id="classicalAvailable" aria-live="polite"></p><button class="primary" id="startClassical">開始精讀練習</button><div id="singleTextDetails"></div></div></div>
+<div id="learningAnalytics" class="panel"><button class="soft back" data-home>← 回首頁</button><div class="card"><h2>學習數據</h2><div id="subjectAnalytics"></div></div></div>
 <div id="coverage" class="panel">
 <button class="soft back" data-home>← 回首頁</button>
 <div class="card">
 <h2>🧩 資料完整度</h2>
 <p class="small">左側為學校，上方為學年度／學期／段考，可切換高一／高二／高三。V4.9.7 已優先補強 112～114 學年度、高一～高二數學題源。格子內會顯示「題／答／範／索」，方便辨識目前已有考題、解答、範圍或題源索引；空白代表目前仍缺可核驗公開資料。</p>
 <div class="filters">
-<select id="coverageSubject"><option value="數學">數學</option></select>
+<select id="coverageSubject"><option value="數學">數學</option><option value="國文">國文</option></select>
 <select id="coverageGrade">
 <option value="1">高一</option>
 <option value="2">高二</option>
@@ -107,7 +111,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <button id="refreshCoverage" class="primary" type="button">重新整理</button>
 </div>
 <div id="coverageStatus" class="small"></div><div class="small" style="margin-top:6px">圖例：<b>題</b>=考題　<b>答</b>=解答　<b>範</b>=官方範圍　<b>索</b>=題源索引　<b>未公開</b>=已搜尋但目前未找到可核驗公開題目/答案</div>
-<div id="coverageSummary" class="coverageSummary"></div>
+<div id="textCoverage"></div><div id="coverageSummary" class="coverageSummary"></div>
 <div class="coverageMatrixWrap"><table id="coverageMatrix" class="coverageMatrix"></table></div>
 </div>
 </div><div id="sourceengineering" class="panel"><button class="soft back" data-home>← 回首頁</button>
@@ -150,7 +154,7 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 <button class="soft" id="showAllHistorical">顯示全部</button>
 </div>
 <div id="historicalStatus" class="small"></div></div>
-<div id="historicalList"></div></div>
+<div id="subjectHistoryFilters" class="card filters" hidden><label>真題來源<select id="histSource"><option value="all">全部真題</option><option value="ceec">學測真題</option><option value="school">八校段考真題</option></select></label><label>篇目<select id="histText"><option value="">全部篇目</option></select></label><label>年級<select id="histGrade"><option value="">目前載入的年級</option><option value="1">高一</option><option value="2">高二</option></select></label></div><div id="subjectHistorical" class="card" hidden></div><div id="historicalList"></div></div>
 
 <div id="helper" class="panel"><button class="soft back" data-home>← 回首頁</button>
 <div class="card"><h2>📋 ChatGPT 學習助手＋錯題彙整</h2><p class="small">不使用 API、不產生 API 費用。把題目與你的卡點整理成文字後，一鍵複製，再貼到 ChatGPT 詢問。</p>
@@ -167,10 +171,10 @@ footer{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px sol
 
 <div id="weak" class="panel"><button class="soft back" data-home>← 回首頁</button><div class="card"><h2>弱點分析</h2><div id="weakBars"></div></div></div>
 <div id="sources" class="panel"><button class="soft back" data-home>← 回首頁</button><div class="card"><h2>真實來源資料</h2><div class="tablewrap"><table><thead><tr><th>學校</th><th>狀態</th><th>用途</th><th>入口</th></tr></thead><tbody id="sourceRows"></tbody></table></div></div></div>
-<div id="wrong" class="panel"><button class="soft back" data-home>← 回首頁</button><div class="card"><h2>錯題本</h2><p class="small">登入後可合併讀取 Supabase 錯題。</p></div><div id="wrongList"></div><button class="warn" id="clearWrong">清除本機錯題</button></div>
+<div id="wrong" class="panel"><button class="soft back" data-home>← 回首頁</button><div class="card"><h2>錯題本</h2><p class="small">登入後可合併讀取 Supabase 錯題。</p></div><div class="card filters"><select id="wrongSubject"><option value="all">全部科目</option><option value="math">數學</option><option value="chinese">國文</option></select><select id="wrongText"><option value="">全部篇目</option></select><select id="wrongSkill"><option value="">全部能力</option></select><select id="wrongCategory"><option value="">全部分類</option></select></div><div id="wrongList"></div><button class="warn" id="clearWrong">清除本機錯題</button></div>
 </main>
 <footer><button data-home><strong>⌂</strong>首頁</button><button data-open="practice"><strong>✓</strong>題庫</button><button data-open="mock"><strong>⏱</strong>模考</button><button data-open="wrong"><strong>★</strong>錯題</button></footer>
 <div id="settingsModal" class="modal"><div class="modalCard"><h2>Supabase 資料庫設定</h2><div id="settingsStatus" class="small" style="margin-bottom:10px"></div><p class="small">只填 Project URL 與瀏覽器可用的 publishable/anon key。不要輸入 service_role key。</p><label class="small"><b>Project URL</b></label><input id="urlInput" placeholder="https://xxxx.supabase.co" style="margin:5px 0 10px"><label class="small"><b>Publishable / anon key</b></label><input id="keyInput" placeholder="sb_publishable_... 或 anon JWT"><div class="btns"><button type="button" id="saveSettings" class="primary">儲存並測試連線</button><button type="button" id="localBtn" class="soft">暫時使用本機題庫</button><button type="button" id="closeSettings" class="soft">關閉</button></div><p class="small">第一次設定流程：先在 Supabase 執行本套件的 <b>01_schema.sql</b>，再執行 <b>02_seed.sql</b>，最後把 Project URL 與 key 填在這裡。</p></div></div>
 <div id="toast" class="toast"></div>
-<script src="config.js?v=4.8.0"></script><script src="fallback-data.js"></script><script src="extra-questions-v4966.js"></script><script src="learning-catalog.js?v=4.9.7.7"></script><script src="grade2-questions.js?v=4.9.7.7"></script><script src="grade2-scopes.js?v=4.9.7.7"></script><script src="app.js?v=4.9.7.7"></script>
+<script src="config.js?v=4.8.0"></script><script src="fallback-data.js"></script><script src="extra-questions-v4966.js"></script><script src="learning-catalog.js?v=4.9.7.7"></script><script src="grade2-questions.js?v=4.9.7.7"></script><script src="grade2-scopes.js?v=4.9.7.7"></script><script src="subject-registry.js?v=5.0-acceptance-3"></script><script src="classical-texts.js?v=5.0-acceptance-3"></script><script src="learning-core.js?v=5.0-acceptance-3"></script><script src="learning-storage.js?v=5.0-acceptance-3"></script><script src="subject-adapters.js?v=5.0-acceptance-3"></script><script src="app.js?v=5.0-acceptance-3"></script>
 </body></html>
