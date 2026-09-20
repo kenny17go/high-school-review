@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-acceptance-3";
+window.V500_BUILD="5.0-content-review-1";
 
 (function(){
 "use strict";

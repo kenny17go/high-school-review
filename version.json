@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-acceptance-3",
+  "build": "5.0-content-review-1",
   "name": "全科目核心架構＋國文第一階段",
   "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",

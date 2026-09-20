@@ -3,17 +3,31 @@
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
 ## Current Task
-持續擴充「高中全科段考複習平台」，以 V5 共用架構逐科加入內容與功能，同時保護既有數學穩定核心。
+2026-09-20：DONE（內容與測試）— 國文既有150題內容檢查，補強124題詳解、修正語意與用字，完成回歸與相容性比對。未新增科目或真題。
+
+使用者本輪明確要求「國文內容檢查與補強：檢查現有題目、答案與詳解，沒問題就將已完成的交接紀錄 commit、push」。測試已通過，將本次內容修正、審閱報告與交接紀錄一併交付；不用再詢問相同授權。本檔為提交前驗證快照，實際提交／推送／部署結果須以 Git 與 Pages 查核。
+
+### 中斷點與核對依據
+- 回顧前一任務「繼續專案工作」（01a0ba04-ebbd-7971-b7a2-f647f4f6cc77）：使用者要求提交／推送前詢問，之後明確回覆「同意」。該輪已成功 commit 及 push `64f2483`，才因額度中斷；不要再次提交同一批 V5 功能。
+- 本次開始時本機 HEAD 與過期的 origin/main 均為 `64f2483`，工作目錄乾淨；本機只有舊 AGENTS.md，CODEX_PROGRESS.md 不存在。
+- fetch 後確認遠端另有 `384a3a5`（新增交接）與 `f06aa8f`（整理維護規則），差異只有 AGENTS.md、CODEX_PROGRESS.md。已以 fast-forward 同步，沒有建立新提交。
+- 已完整閱讀新舊規則、原始交接、CHANGELOG、驗證／架構／發布文件，核對程式 build marker、HTML script query、測試入口與 Git 歷史。
+- docs/verification.md 的「待確認 commit / push」及工作目錄清單是上次提交前的歷史快照，不是現在狀態。
 
 ## Current Repository State
 - Repository: `kenny17go/high-school-review`
 - Branch: `main`
-- GitHub 最新確認 commit: `64f24832c863f833259653eb4a077713060ceccb`
-- Commit: `V5.0 全科目核心架構與國文第一階段`
-- `version.json`: V5.0 / build `5.0-acceptance-3`
+- 本輪修改基準／提交前 fetch 確認 HEAD 與 origin/main: `f06aa8f1cf4a30a060c78fbc9ac6c06f37c29e27`
+- 基準 Commit: `docs: consolidate project and Codex development rules`
+- 本輪交付提交名稱：`V5.0 國文題目詳解補強與交接紀錄`。完整 SHA 請由 `git log -1` 取得，不在提交內容中虛構自身 SHA。
+- V5 功能提交: `64f24832c863f833259653eb4a077713060ceccb`，`V5.0 全科目核心架構與國文第一階段`
+- `version.json`: V5.0 / build `5.0-content-review-1`
 - Status: `unreleased`
 - Base: V4.9.7.7
 - 科目狀態：math = stable、chinese = phase1、physics = planned
+- 前輪 GitHub Pages 已成功部署 f06aa8f；run https://github.com/kenny17go/high-school-review/actions/runs/35451525827 。這不是本輪新版的部署證據。
+- 網站 https://kenny17go.github.io/high-school-review/ 。本輪推送後應核對版本為 `5.0-content-review-1`、app marker、HTML cache query 與延遲國文題庫內容；`unreleased` 是原有發布標記，不代表網站離線。
+- 提交範圍僅下列8個檔案。正式資料庫、本機設定與學習紀錄沒有變更。
 
 ## Completed
 - 已建立 V5 全科目共用核心架構。
@@ -23,8 +37,23 @@
 - 已有 learning catalog/core/storage、subject adapters/registry 等共用模組。
 - 已建立測試與發布規則；正式發布前需執行 `npm test`。
 - 已建立並維護 `AGENTS.md`。
+- 上次已補齊國文歷屆來源／篇目／年級篩選、分類統計、雲端文章關聯、過期回應保護、跨科同 ID 隔離與 localStorage 遷移重試保護；本次測試通過，不重做。
+- 已完成推送後 Pages 狀態及線上靜態檔核對。
+- 本輪逐題審閱150題：未發現必須更換正確答案索引的問題；修正題幹前提／措辭，補強古文90題、白話20題、詩詞10題及語文4題的詳解。
+- 《岳陽樓記》補互文與語意界限；《鴻門宴》限定短句所能支持的推論；區分「鍥」字義與成語義；延期通知先明定日期已確定；統計與閱讀題補足過度推論辨識。
+- 保留全部題號、答案索引、科目／年級／技能及45文章／45題組／98文本關聯，已實際比較修改前後資料。
+- 新增 `docs/chinese-content-review.md`，逐組列出全部題目覆蓋與外部核對來源；明示 AI 審閱不等於教師審定。
 
 ## Modified / Important Files
+本輪修改8個檔案：
+- `chinese-data.js`：124題詳解及必要題幹／選項文字修正；不重建原題庫，不改 ID 與答案位置。
+- `app.js`、`index.html`、`subject-adapters.js`、`version.json`：只同步 build／快取 `5.0-content-review-1`，確保延遲載入的新題庫生效。
+- `CHANGELOG.md`：本輪內容補強紀錄。
+- `docs/chinese-content-review.md`：完整審閱覆蓋與來源。
+- `CODEX_PROGRESS.md`：保留首次交接核對結果，更新本輪狀態與 Next Step。
+
+數學題庫、config.js、fallback-data.js、圖示、localStorage與雲端相容層均未修改。
+
 目前核心檔案包含：
 - `index.html`
 - `app.js`
@@ -42,22 +71,33 @@
 保護檔案與既有資料規則請以 `AGENTS.md`、`DEPLOY.md`、`version.json` 為準。
 
 ## Tests
-目前 repository 已配置 `npm test` 與 `tests/`。
-每次實際修改後至少執行：
-1. `npm test`
-2. `git diff --check`
-3. `git status`
-4. 必要的手機／瀏覽器 smoke test
-5. 涉及 Supabase 時，正式資料庫測試限唯讀，除非使用者另有明確指示。
+2026-09-20 本輪實際執行結果：
+- 階段一（古文90題）`node tests/v5-data.test.cjs`：PASS。
+- 階段二（白話／詩詞／語文補強）相同國文資料測試：PASS。
+- 修改前後實際載入比對：150題的 ID、答案與 metadata 一致；45文章、45題組、98文本關聯逐項一致；124題詳解有變更。暫存快照位於忽略的 `test-results/chinese-review-before.json`、`chinese-review-after.json`，不提交。
+- 完整 `npm test`：PASS，exit 0。含靜態／版本一致性、432 組數學路由與練習／模考、420 題高二及250題高一保護、國文30篇／150題／288範圍、1201筆分頁、審核匯入、localStorage、跨科、390px、雲端隔離 fixture。
+- PostgreSQL migration 在本機 PGlite 重跑兩次、RLS 及禁止寫入測試：PASS；沒有對正式資料庫執行 migration 或測試寫入。
+- 測試包含瀏覽器 pageerror 檢查與國文高一／高二、詳解、390px 畫面；不等於 iPhone 實機測試。
+- `git diff --check`：PASS；僅LF/CRLF提示。提交前 status 僅上述8檔，保護檔案 diff 無變更。
+- 前輪線上檔案比對驗證的是 acceptance-3；本輪以 push 後查核結果為準，不沿用舊結果冒充新版驗證。
+- 本機 npm 不在 PATH，沿用已存在的臨時 npm 11.6.0。PowerShell 重跑方式：
 
-本檔建立時未對網站程式進行功能修改，因此沒有新增一輪功能 regression test。
+```powershell
+$npmTestRoot = Join-Path $env:TEMP 'high-school-review-npm-11.6.0'
+$env:PATH = $npmTestRoot + ';' + $env:PATH
+node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
+```
+
+此路徑是本機暫存工具，未來若不存在需重新檢查工具環境，不把環境問題當成產品測試失敗。
 
 ## Remaining
-- V5.0 目前仍標示 unreleased。
+- V5.0 版本檔仍標示 unreleased，但 Pages 已上線；若後續正式整理發布 metadata，需一併核對版本與變更紀錄，不能重做部署來「修復」此文字差異。
 - 國文仍為 phase1，後續內容與已驗證來源需持續補充。
 - 物理目前為 planned，尚待依 Subject Registry / adapter 架構加入。
 - 其他高中科目應依相同共用架構逐步加入，避免建立平行、重複的 app。
 - 正式資料庫 migration 不應因 migration 檔存在就視為已套用；需另行確認。
+- 完整 staging copy migration 演練、正式登入／同步及 iPhone 實機 PWA 安裝／更新仍未驗證。
+- 國文真題及官方課次 mapping 仍待可靠來源；150題已完成本輪 AI 審閱，但仍需教師審校。部分干擾選項偏易、能力分布不均，未將本次補詳解宣稱為完整進階題庫。
 
 ## Known Issues / Risks
 - 新增科目時最重要風險是破壞數學 Frozen Core、跨科 localStorage/Supabase 紀錄隔離、年級／分流與來源映射。
@@ -66,13 +106,11 @@
 - 未釐清著作權的文本不得直接複製全文。
 
 ## Next Step
-下一次 Codex 工作開始時：
-1. 先讀 `AGENTS.md` 與本檔。
-2. 核對最新 Git HEAD、`version.json`、`CHANGELOG.md` 與實際工作目錄，不假設本檔一定最新。
-3. 確認使用者本次指定要新增／修改的科目。
-4. 若新增科目，先檢查 Subject Registry、adapter、learning catalog/core/storage 的既有接點，再做最小增量修改。
-5. 每完成一個小階段即測試；不要一次加入大量未驗證內容。
-6. 工作結束或額度即將用完前更新本檔的 Current Task、Completed、Tests、Remaining、Known Issues 與 Next Step。
+1. 讀 AGENTS.md、本檔；核對 HEAD、工作目錄、遠端與 `version.json`。本輪應可由提交名 `V5.0 國文題目詳解補強與交接紀錄` 找到交付，不以本檔提交前的基準 SHA 當最新 HEAD。
+2. 若 commit／push 被中斷，先核對該提交是否已在遠端，避免重複提交；若尚未完成且測試／檔案無新變更，本輪使用者已授權繼續完成 commit／push。
+3. 若推送已完成，確認 Pages 最新成功 run 對應該提交，線上 build 為 `5.0-content-review-1`，並比對 chinese-data.js。已有確認結果時不要重做功能。
+4. 本輪150題審閱與124題補強已完成。後續建議由教師檢視 `docs/chinese-content-review.md`，或由使用者指定進階干擾選項／能力補強或真題來源的下一批範圍；不自行新增物理或寫入正式資料庫。
+5. 新任務依最小增量實作、階段測試、更新本檔。這次 commit／push 授權只適用本輪交付，不延伸為未來所有修改。
 
 ## Limit / Handoff Rule
 若 Codex 額度即將耗盡：
