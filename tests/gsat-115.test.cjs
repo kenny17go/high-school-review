@@ -1,0 +1,15 @@
+const fs=require("fs"),vm=require("vm"),assert=require("assert/strict");
+const ctx={window:{}};vm.createContext(ctx);
+for(const f of ["gsat-115-ready-data.js","gsat-115-engine.js"])vm.runInContext(fs.readFileSync(f,"utf8"),ctx,{filename:f});
+const bank=ctx.window.GSAT115_READY,engine=ctx.window.GSAT115Engine,q=n=>bank.questions.find(x=>x.n===n);
+assert.equal(bank.questions.length,20);
+assert.equal(bank.questions.reduce((s,x)=>s+x.points,0),100);
+assert.equal(new Set(bank.questions.map(x=>x.n)).size,20);
+assert.equal(engine.grade(q(1),1).score,5);
+assert.equal(engine.grade(q(7),[2,3]).score,5);
+assert.equal(engine.grade(q(7),[2]).score,3);
+assert.equal(engine.grade(q(13),["9","1","0"]).score,5);
+assert.equal(engine.grade(q(18),2).score,3);
+assert.equal(engine.grade(q(19),"x-y-z=-1").status,"manual_required");
+assert.equal(q(18).groupId,q(19).groupId);assert.equal(q(19).groupId,q(20).groupId);
+console.log("GSAT 115 Math A integration PASS");
