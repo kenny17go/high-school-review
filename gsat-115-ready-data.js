@@ -1,0 +1,18 @@
+window.GSAT115_READY=Object.freeze({
+  meta:{academicYear:115,examType:"學測",subject:"數學",variant:"數學A",totalPoints:100,sourceType:"ceec_official",
+    paperUrl:"https://www.ceec.edu.tw/files/file_pool/1/0Q026476137769263238/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E8%A9%A6%E5%8D%B7.pdf",
+    answerUrl:"https://www.ceec.edu.tw/files/file_pool/1/0Q018623055943601950/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf"},
+  questions:[
+    {n:1,type:"single_choice",points:5,answer:{index:1}},{n:2,type:"single_choice",points:5,answer:{index:0}},
+    {n:3,type:"single_choice",points:5,answer:{index:0}},{n:4,type:"single_choice",points:5,answer:{index:2}},
+    {n:5,type:"single_choice",points:5,answer:{index:4}},{n:6,type:"single_choice",points:5,answer:{index:1}},
+    {n:7,type:"multiple_choice",points:5,answer:{indices:[2,3]}},{n:8,type:"multiple_choice",points:5,answer:{indices:[1,4]}},
+    {n:9,type:"multiple_choice",points:5,answer:{indices:[0,1,3]}},{n:10,type:"multiple_choice",points:5,answer:{indices:[0,4]}},
+    {n:11,type:"multiple_choice",points:5,answer:{indices:[1,3]}},{n:12,type:"multiple_choice",points:5,answer:{indices:[1,3]}},
+    {n:13,type:"fill_blank",points:5,answer:{cells:["9","1","0"]}},{n:14,type:"fill_blank",points:5,answer:{cells:["1","4"]}},
+    {n:15,type:"fill_blank",points:5,answer:{cells:["3","2"]}},{n:16,type:"fill_blank",points:5,answer:{cells:["3","5","2"]}},
+    {n:17,type:"fill_blank",points:5,answer:{cells:["3","1","1"]}},{n:18,type:"single_choice",points:3,answer:{index:2},groupId:"115-matha-18-20"},
+    {n:19,type:"manual",points:4,answer:{grading:"manual_required",reference:"x-y-z=-1"},groupId:"115-matha-18-20"},
+    {n:20,type:"manual",points:8,answer:{grading:"manual_required"},groupId:"115-matha-18-20"}
+  ]
+});
