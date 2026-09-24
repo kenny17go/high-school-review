@@ -119,3 +119,11 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - 不為趕進度跳過測試或做高風險重構。
 - 更新本檔，明確留下最後完成點與下一步。
 \n## 2026-09-25 GSAT 115 Math A integration\n- 使用者明確授權「更新 GitHub」。\n- 已以 additive module 整合 115 學測數A：20題／100分題型、配分與官方答案結構，新增 `gsat-115-ready-data.js`、`gsat-115-engine.js`、`gsat-115-ui.js`。\n- `index.html` 的 GSAT panel 已加入 `#gsat115Ready`，保留既有 `gsatList` 與 `loadGsatV4967()`。\n- build 更新為 `5.0-gsat-115-1`；沒有修改 Frozen Core practice/mock，也沒有寫入 Supabase。\n- 新增 `tests/gsat-115.test.cjs` 並納入 npm test。\n- Q19/Q20 維持 manual_required；公式密集題題面仍以 CEEC 官方 PDF 為準。\n- Remaining：需以 GitHub Actions / Pages 實際結果驗證完整 npm test 與線上部署；未取得成功結果前不可宣稱完整 regression DONE。\n
+## 2026-09-25 GSAT 115 Math A unified bank
+- 使用者明確授權「更新 GitHub」。
+- 新增 `gsat-115-unified-bank.js`：115數A 20題統一 metadata，包含單元、次要觀念、技能、官方答案/頁碼、平台分層解析與驗證狀態。
+- `gsat-115-ui.js` 改讀統一題庫，支援 115 全題依序瀏覽與依單元篩選；逐題展開官方答案及平台「觀念／破題／完整解法／常見錯誤」。
+- Q5/Q8/Q10/Q11/Q12 保留 needs_review；Q19/Q20 保留人工評閱。未寫入 Supabase，未改 Frozen Core。
+- build: `5.0-gsat-115-2`；新增 unified-bank regression assertions。
+- 驗證限制：本輪透過 GitHub connector 修改，未在本機 clone 執行完整 npm test；需以 GitHub Actions/Pages 實際結果確認部署與 regression，不能把未執行測試寫成 PASS。
+- Next: 先驗證 Pages；之後 114–111 數A沿用同一 unified schema 批次匯入，不重建另一套題庫。
