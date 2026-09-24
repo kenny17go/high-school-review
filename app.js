@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-content-review-1";
+window.V500_BUILD="5.0-gsat-115-1";
 
 (function(){
 "use strict";
