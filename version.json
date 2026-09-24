@@ -1,7 +1,7 @@
 {
   "version": "5.0",
-  "build": "5.0-gsat-115-1",
-  "name": "全科目核心架構＋115學測數A站內題庫",
+  "build": "5.0-gsat-115-2",
+  "name": "全科目核心架構＋115學測數A統一真題題庫",
   "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
   "observedBasePageVersion": "4.9.7.1",
@@ -38,7 +38,8 @@
     "chinese-data.js",
     "gsat-115-ready-data.js",
     "gsat-115-engine.js",
-    "gsat-115-ui.js"
+    "gsat-115-ui.js",
+    "gsat-115-unified-bank.js"
   ],
   "preserve_existing_files": [
     "fallback-data.js",
