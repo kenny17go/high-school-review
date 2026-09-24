@@ -118,3 +118,4 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - 先完成目前最小可完成單位並測試。
 - 不為趕進度跳過測試或做高風險重構。
 - 更新本檔，明確留下最後完成點與下一步。
+\n## 2026-09-25 GSAT 115 Math A integration\n- 使用者明確授權「更新 GitHub」。\n- 已以 additive module 整合 115 學測數A：20題／100分題型、配分與官方答案結構，新增 `gsat-115-ready-data.js`、`gsat-115-engine.js`、`gsat-115-ui.js`。\n- `index.html` 的 GSAT panel 已加入 `#gsat115Ready`，保留既有 `gsatList` 與 `loadGsatV4967()`。\n- build 更新為 `5.0-gsat-115-1`；沒有修改 Frozen Core practice/mock，也沒有寫入 Supabase。\n- 新增 `tests/gsat-115.test.cjs` 並納入 npm test。\n- Q19/Q20 維持 manual_required；公式密集題題面仍以 CEEC 官方 PDF 為準。\n- Remaining：需以 GitHub Actions / Pages 實際結果驗證完整 npm test 與線上部署；未取得成功結果前不可宣稱完整 regression DONE。\n
