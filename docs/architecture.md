@@ -99,3 +99,22 @@ Migration 未套用時 CHIN disabled，國文使用本機資料；數學沿用�
 關聯回傳形式依 [Supabase joins 文件](https://supabase.com/docs/guides/database/joins-and-nesting) 核對；本次使用隔離 API fixture 與本機 PostgreSQL 測試，未連接正式 API。
 
 參考：[Supabase 分頁範圍文件](https://supabase.com/docs/reference/javascript/using-modifiers-range)、[RLS 文件](https://supabase.com/docs/guides/database/postgres/row-level-security)。
+
+## 統一 Question Bank：來源不是第二套題庫
+
+平台只維護一個 Question Bank。CEEC 學測、學校段考／校內考題與平台題都遵守同一 question contract；sourceType 與來源 metadata 只負責追溯與篩選，不決定另一套 UI。
+
+    Question Bank
+      ├─ subject / grade / course
+      ├─ unit / topic / skill / difficulty / questionType
+      ├─ stem / passage / options / answer / explanation
+      └─ source
+           ├─ CEEC: exam + academic_year + variant + original_question_number
+           ├─ School: school + academic_year + semester + exam + original_question_number
+           └─ Platform: generated/simulated + version/provenance
+
+前端的「大量題庫／學測／學校段考／依年份／依單元／弱點」全部是同一資料集合的 query/filter/view。選「115學測數A」就是把統一題庫過濾為 CEEC + 115 + 數A 並依原題號排序；選某校某次段考亦同。題目顯示與作答一律走共用 renderer，包含完整題面、作答、我不會、問 ChatGPT、詳解看不懂、分層詳解、錯題與進度。
+
+整份計分屬於 session/mode，不屬於 source：單元練習逐題回饋；整份模考／整份考卷才在交卷後統一計分。
+
+現有 115 數A來源專用模組視為過渡資料／接線，不應成為長期第二套題庫架構；後續工作應把其題目資料匯入共用 Question Bank 並由既有 renderer 呈現，再移除重複顯示層。
