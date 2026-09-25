@@ -18,13 +18,20 @@ console.log("GSAT 115 Math A unified bank PASS");
 vm.runInContext(fs.readFileSync('unified-question-bank.js','utf8'),ctx,{filename:'unified-question-bank.js'});
 const runtime=ctx.window.UnifiedQuestionBank;
 assert(runtime,'UnifiedQuestionBank runtime should exist');
-assert(runtime.questions.length>=6,'first integration batch should expose playable CEEC questions');
+assert.equal(runtime.questions.length,20,'the complete 115 Math A paper must reach the unified runtime bank');
 assert(runtime.questions.every(q=>q.sourceType==='ceec_official'&&q.stem&&Array.isArray(q.options)&&q.explanation),'runtime questions need common renderer fields');
 assert(runtime.filter({sourceType:'ceec_official',academic_year:115}).length===runtime.questions.length,'source/year filters should operate on the common bank');
+assert.deepEqual(Object.fromEntries(['single_choice','multiple_choice','fill_blank','short_answer'].map(type=>[type,runtime.questions.filter(q=>q.questionType===type).length])),{single_choice:7,multiple_choice:6,fill_blank:5,short_answer:2});
+assert.deepEqual(Array.from(runtime.questions,q=>q.question_number),Array.from({length:20},(_,i)=>i+1),'runtime should preserve all original question numbers in order');
+assert(runtime.questions.filter(q=>['single_choice','multiple_choice'].includes(q.questionType)).every(q=>q.options.length===5),'all choice questions need five options');
+assert.deepEqual(Array.from(runtime.questions.find(q=>q.question_number===7).answer),[2,3]);
+assert.deepEqual(Array.from(runtime.questions.find(q=>q.question_number===13).answer),['9','1','0']);
+assert.equal(runtime.questions.find(q=>q.question_number===20).answer.reference,'volume=10; maxDistance=sqrt(94)');
 
 // Shared question-group contract: questions remain independent while context is reusable.
 const grouped=runtime.questions.find(q=>q.question_number===18);
 assert.equal(grouped.group_id,'ceec-115-matha-g18-20');
+assert(runtime.questions.filter(q=>q.group_id===grouped.group_id).length===3,'Q18-Q20 must all retain the shared group context');
 const shared=runtime.context(grouped);
 assert(shared,'shared group context should resolve');
 assert.deepEqual(Array.from(shared.question_numbers),[18,19,20]);

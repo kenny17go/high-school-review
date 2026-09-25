@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-batch-golden-2",
+  "build": "5.0-batch-golden-3",
   "name": "統一題庫＋Batch Importer Golden Sample",
   "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",

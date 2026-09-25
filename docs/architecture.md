@@ -115,6 +115,8 @@ Migration 未套用時 CHIN disabled，國文使用本機資料；數學沿用�
 
 前端的「大量題庫／學測／學校段考／依年份／依單元／弱點」全部是同一資料集合的 query/filter/view。選「115學測數A」就是把統一題庫過濾為 CEEC + 115 + 數A 並依原題號排序；選某校某次段考亦同。題目顯示與作答一律走共用 renderer，包含完整題面、作答、我不會、問 ChatGPT、詳解看不懂、分層詳解、錯題與進度。
 
+115數A的 browser runtime 必須完整映射全卷20題，不得只接入單選子集；目前共用 renderer 的題型分布為單選7、多選6、選填5、非選2，Q18–Q20透過 Question Group 共用題幹。Batch Raw/Staging 的完整題數不等於前端已接線，回歸測試必須同時檢查 runtime 的20題與題型分布。
+
 整份計分屬於 session/mode，不屬於 source：單元練習逐題回饋；整份模考／整份考卷才在交卷後統一計分。
 
 現有 115 數A來源專用模組視為過渡資料／接線，不應成為長期第二套題庫架構；後續工作應把其題目資料匯入共用 Question Bank 並由既有 renderer 呈現，再移除重複顯示層。
@@ -150,4 +152,3 @@ Importer 的輸出應包含 review summary / exception queue，讓人工集中�
 
 ### Scaling rule
 115 Golden Sample 端到端穩定後，先凍結 Unified Question Schema V1，再批次處理 114→111 數A；新科目先取20–50題 Golden Sample 驗證科目特有題型，再擴大量。擴充新來源原則上只增加資料、分類與 filter；只有真正的新題型才擴充共用 renderer。
-

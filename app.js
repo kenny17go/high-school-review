@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-batch-golden-2";
+window.V500_BUILD="5.0-batch-golden-3";
 
 (function(){
 "use strict";
@@ -413,7 +413,10 @@ function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now(
   const localPool=getSchoolPool(),officialPool=unifiedQuestions().filter(q=>q.subject===subjectId());
   const basePool=source==="ceec"?officialPool:source==="platform"?localPool:[...new Map([...localPool,...officialPool].map(q=>[String(q.id),q])).values()];
   const pool=basePool.filter(q=>(sourceYear==="全部"||String(q.academic_year)===String(sourceYear))&&(t==="全部"||q.topic===t)&&(l==="全部"||q.level===l));
-  current=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));answers={};renderQuiz();
+  const selected=source==="ceec"&&sourceYear!=="全部"&&qty>=pool.length
+    ?pool.slice().sort((a,b)=>Number(a.question_number)-Number(b.question_number))
+    :selectQuestions(pool,Math.min(qty,pool.length));
+  current=decorateQuestions(selected);answers={};renderQuiz();
   const sourceLabel=source==="ceec"?"學測真題":source==="platform"?"學校／平台題":"全部來源";
   $("countText").textContent=`目前產生 ${current.length} 題（符合條件共 ${pool.length} 題）｜來源：${sourceLabel}${sourceYear!=="全部"?"｜"+sourceYear+"學年度":""}`;
   if(practiceScope)$("countText").textContent=`本次範圍：${scopeSummary(practiceScope)}｜${current.length} 題（符合條件 ${pool.length} 題）${current.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${practiceScope.note}`;

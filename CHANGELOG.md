@@ -1,3 +1,10 @@
+## 5.0 — 115 數A完整20題共用題庫接線修正（2026-09-25）
+
+- 修正 Batch Importer 已有20題、但 `unified-question-bank.js` runtime bridge 只提供6題單選，導致「大量題庫」顯示6題的漏接問題。
+- 115數A完整20題現在全部沿用同一個 Question Bank 與共用 mixed-type renderer；題型為7題單選、6題多選、5題選填、2題非選，Q18–20沿用共用題組 context。
+- 選定學測年度且一次載入完整考卷時依官方原題號排序；抽取部分題目時仍保留原有隨機組題行為。
+- 加入完整題數、原題號、題型分布、選項、答案格式與題組關係 regression assertions；題目仍標記 `sync_disabled`，不寫入正式 Supabase。
+
 ## 5.0 — 共用混合題型 Renderer（2026-09-25）
 - 共用 Question Contract 擴充 single_choice / multiple_choice / fill_blank / numeric / short_answer / essay，不建立學測專用 renderer。
 - 練習模式加入多選勾選、選填多格輸入、數值與非選文字作答；單選既有操作維持。

@@ -54,7 +54,7 @@ export function buildGoldenInput(){
    source_url:PAPER_URL,
    answer_url:ANSWER_URL,
    stem:content.stem||null,
-   options:content.options||original.options,
+   options:content.options?.length?content.options:original.options,
    group_id:n>=18?groupId:null,
    answer_match:sameAnswer(original.answer,MANIFEST[n]),
    parse_confidence:0.98,

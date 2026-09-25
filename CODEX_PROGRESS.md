@@ -2,6 +2,17 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-25 115 數A完整20題 runtime 接線修正
+
+- 使用者回報「大量題庫」篩選學測真題／115學年度只顯示6題。實際核對確認 Raw 與 Staging 均為完整20題，問題位於 `unified-question-bank.js`：content map 只有 Q1、Q2、Q3、Q4、Q6、Q18，且最後只保留整數單選答案，因而排除所有多選、選填、非選題。
+- runtime bridge 已補齊 Q1–Q20 題面，並依既有共用 question contract 映射7題單選、6題多選、5題選填、2題非選；沒有建立 GSAT 專用 renderer。Q18–Q20保留同一 Question Group。
+- 選定學測年度並載入完整考卷時改依 `question_number` 顯示1–20；少量抽題仍維持原本隨機行為。
+- 全20題仍為本機官方來源資料，保留 `sync_disabled`；本次沒有寫入正式 Supabase，也沒有變更 Supabase schema。
+- regression 改為要求 runtime 恰好20題、題號1–20連續、題型分布／選項／答案 shape／題組關係正確，避免再退回6題。
+- 實際重建 Golden artifacts：20題、clean 20、Exception Queue 0、error 0、warning 0；20題仍全為 staging `needs_review`，所以 `ready_for_publish=false`，沒有藉本次前端修正偽造人工核准。
+- `validate`、V5 data、GSAT、Batch Importer、Golden Sample、PostgreSQL migration 與 `git diff --check` 全部 PASS。完整 `npm test` 只在既知環境限制中止：系統缺少 `/opt/microsoft/msedge/msedge`，產品 assertions 在此之前均通過。
+- build/cache 更新為 `5.0-batch-golden-3`。本節的 commit、push、Pages 與線上驗證結果須以本輪完成後的 Git/GitHub 實際狀態為準。
+
 ## 2026-09-25 Batch Importer V1 — 115 數A Golden Sample milestone
 
 - 以最新 HEAD `9ce30d7` 為基準，在本機完整執行 Batch Importer V1；沒有重做既有架構，也沒有寫入正式 Supabase。
