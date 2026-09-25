@@ -153,3 +153,14 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - build 5.0-unified-bank-2；未寫 Supabase。
 - regression assertions 已加入 tests/gsat-115.test.cjs；本輪 GitHub connector 無本機工作樹，因此尚未執行完整 npm test / 390px browser regression，狀態仍 IN PROGRESS。
 
+## 2026-09-25 Common mixed-type renderer implemented
+- 使用者明確授權「更新 GitHub」。
+- LearningCore canonical contract 已擴充 single_choice / multiple_choice / fill_blank / numeric / short_answer / essay，新增 answerKey / answered / equalAnswer / formatAnswer。
+- 練習與模考共用 renderer 已支援單選、多選、選填、數值、非選文字；題組 context 繼續共用同一 renderer。
+- 模考仍遵守交卷前不顯示答案／詳解；short_answer / essay 不虛構自動正誤，交卷後標示需人工／規準批改。
+- LearningStorage 改用共用答案判定；多選順序不影響正確性，選填逐格精確比對。
+- staging CEEC runtime 加 sync_disabled；正式 Supabase schema 尚未升級前，不同步這些新題型／字串 ID 到 production。
+- build 更新 5.0-unified-bank-3；新增 mixed-type regression fixtures。
+- 本批未寫 Supabase。GitHub connector 無本機工作樹，尚未實際執行 npm test / git diff --check / 390px browser regression；在這些驗證完成前狀態仍 IN PROGRESS。
+- 下一個資料批次：依官方題面逐題補入115數A多選 Q7–Q12、選填 Q13–Q17、非選 Q19–Q20；公式／圖形題維持 needs_review 直到視覺核對。
+
