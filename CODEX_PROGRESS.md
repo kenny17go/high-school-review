@@ -164,3 +164,13 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - 本批未寫 Supabase。GitHub connector 無本機工作樹，尚未實際執行 npm test / git diff --check / 390px browser regression；在這些驗證完成前狀態仍 IN PROGRESS。
 - 下一個資料批次：依官方題面逐題補入115數A多選 Q7–Q12、選填 Q13–Q17、非選 Q19–Q20；公式／圖形題維持 needs_review 直到視覺核對。
 
+## 2026-09-25 Batch exam production pipeline locked
+- 使用者明確授權「更新 GitHub」。
+- 已把「整份試卷」而非「逐題人工」定為長期題庫生產單位；115 數A是第一份 Golden Sample。
+- 固定流程：官方整份試卷/PDF → 自動拆題與題組 → 辨識題型 → 對官方答案 → 自動分類單元/技能 → 批次平台詳解 → 自動檢查 → needs_review → exception review → verified → 一次發布整份試卷。
+- Explanation Pipeline 固定四層：考什麼 → 破題關鍵 → 完整步驟 → 常見錯誤；不得逐題手工呼叫 AI 作為長期流程。
+- AI／平台產生的分類與詳解即使通過自動檢查仍維持 needs_review；不得冒充官方詳解，人工覆核後才能 verified/published。
+- 人工審查以 exception queue 為主，正常題不逐題重做；Importer 需產出 review summary 與異常原因。
+- Raw / Staging / Published 分層；Importer 不直接寫 production Supabase。本批只有文件／架構規則更新，沒有 Supabase 寫入、沒有題庫資料改動。
+- 115 Golden Sample 端到端穩定後凍結 Unified Question Schema V1，再批次跑 114→111 數A；新科目先以20–50題 Golden Sample 驗證特殊題型後擴大量。
+
