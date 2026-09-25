@@ -10,14 +10,45 @@ function normalize(row){
   difficulty:row.difficulty||row.level||'基礎',sourceType:row.sourceType||'unknown',sourceId:row.sourceId||null,tags:row.tags||[],chineseMetadata:meta};
  return {...q,q:q.stem,o:q.options,a:q.answer,e:q.explanation,level:q.difficulty,topic:q.topic||q.category,sub:q.sub||q.skill};
 }
+const supportedQuestionTypes=new Set(['single_choice','multiple_choice','fill_blank','numeric','short_answer','essay']);
+function answerKey(q){
+ if(q.questionType==='single_choice')return Number.isInteger(q.answer)?q.answer:q.answer?.index;
+ if(q.questionType==='multiple_choice')return Array.isArray(q.answer)?q.answer:q.answer?.indices;
+ if(q.questionType==='fill_blank')return Array.isArray(q.answer)?q.answer:q.answer?.cells;
+ if(q.questionType==='numeric')return q.answer?.value??q.answer;
+ return q.answer?.reference??q.answer;
+}
+function answered(value,q){if(q.questionType==='multiple_choice'||q.questionType==='fill_blank')return Array.isArray(value)&&value.length>0;return value!==undefined&&value!==null&&String(value).trim()!=='';}
+function equalAnswer(q,value){
+ const key=answerKey(q);
+ if(q.questionType==='multiple_choice')return Array.isArray(value)&&Array.isArray(key)&&value.map(Number).sort((a,b)=>a-b).join(',')===key.map(Number).sort((a,b)=>a-b).join(',');
+ if(q.questionType==='fill_blank')return Array.isArray(value)&&Array.isArray(key)&&value.length===key.length&&value.every((x,i)=>String(x).trim()===String(key[i]).trim());
+ if(q.questionType==='numeric'){const n=Number(value),k=Number(key);return Number.isFinite(n)&&Number.isFinite(k)&&Math.abs(n-k)<=Number(q.tolerance||0);}
+ if(q.questionType==='short_answer'||q.questionType==='essay')return null;
+ return Number(value)===Number(key);
+}
+function formatAnswer(q){
+ const key=answerKey(q);
+ if(q.questionType==='single_choice')return Number.isInteger(key)?String.fromCharCode(65+key):'—';
+ if(q.questionType==='multiple_choice')return Array.isArray(key)?key.map(x=>String.fromCharCode(65+Number(x))).join('、'):'—';
+ if(q.questionType==='fill_blank')return Array.isArray(key)?key.join('、'):'—';
+ return key==null?'人工批改':String(key);
+}
 function errors(q){
  const out=[];
  for(const f of ['id','subject','grade','category','unit','questionType','stem','sourceType'])if(q[f]==null||q[f]==='')out.push(f);
  if(!root.SubjectRegistry.sourceTypes.includes(q.sourceType))out.push('sourceType');
  if(![1,2,3].includes(q.grade))out.push('grade');
- if(q.questionType!=='single_choice')out.push('unsupported questionType');
- if(!Array.isArray(q.options)||q.options.length<2||new Set(q.options).size!==q.options.length)out.push('options');
- if(q.answer_available!==false&&(!Number.isInteger(q.answer)||q.answer<0||q.answer>=q.options?.length||!q.explanation))out.push('answer');
+ if(!supportedQuestionTypes.has(q.questionType))out.push('unsupported questionType');
+ if(['single_choice','multiple_choice'].includes(q.questionType)&&(!Array.isArray(q.options)||q.options.length<2||new Set(q.options).size!==q.options.length))out.push('options');
+ if(q.answer_available!==false){
+  const key=answerKey(q);
+  if(q.questionType==='single_choice'&&(!Number.isInteger(key)||key<0||key>=q.options?.length))out.push('answer');
+  if(q.questionType==='multiple_choice'&&(!Array.isArray(key)||!key.length||key.some(x=>!Number.isInteger(Number(x))||Number(x)<0||Number(x)>=q.options?.length)))out.push('answer');
+  if(q.questionType==='fill_blank'&&(!Array.isArray(key)||!key.length))out.push('answer');
+  if(q.questionType==='numeric'&&!Number.isFinite(Number(key)))out.push('answer');
+  if(!q.explanation)out.push('answer');
+ }
  if(genuine.has(q.sourceType)){
   if(!safeUrl(q.source_url)||!q.source_title||!Number.isInteger(Number(q.academic_year))||Number(q.academic_year)<=0||!q.question_number)out.push('provenance');
   if(q.sourceType!=='ceec_official'&&!root.LearningCatalog.schools.includes(q.school))out.push('school');
@@ -58,5 +89,5 @@ async function paged(query,{pageSize=500,isCurrent=()=>true,timeoutMs=5000,onPag
  return null;
 }
 function fromMath(q){return normalize({...q,subject:'math',grade:q.grade||1,course:q.courseId||'math-108-g1',unit:q.chapterId||q.topic,chapter:q.chapterId||q.topic,category:q.topic,skill:q.sub||q.topic,sourceType:q.sourceType||(q.isOriginal?'platform_simulated':'unknown'),mathMetadata:{chapterId:q.chapterId,requiredChapterIds:q.requiredChapterIds,curriculumTrack:q.curriculumTrack}});}
-root.LearningCore={normalize,fromMath,errors,isVerified,playable,textLinks,filter,pick,coverage,paged,safeUrl};
+root.LearningCore={normalize,fromMath,errors,isVerified,playable,textLinks,filter,pick,coverage,paged,safeUrl,supportedQuestionTypes,answerKey,answered,equalAnswer,formatAnswer};
 })(typeof window!=='undefined'?window:globalThis);
