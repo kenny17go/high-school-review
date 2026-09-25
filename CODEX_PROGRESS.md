@@ -135,3 +135,13 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - 所有來源共用完整題面、作答、「我不會／問 ChatGPT／詳解看不懂」、分層詳解、錯題與學習紀錄。
 - 整份計分是 session/mode：單元練習逐題回饋；整份模考／整份考卷才交卷後計分。
 - 現有 115 數A來源專用 UI 為過渡實作，後續應收斂進共用 Question Bank/renderer，不再擴張獨立 GSAT UI。
+
+## 2026-09-25 Unified Question Bank implementation batch 1
+- 使用者明確授權「開始進行更新」。
+- 新增 unified-question-bank.js runtime bridge；115數A首批已確認可安全轉成既有單選 renderer 的 Q1/Q2/Q3/Q4/Q6/Q18 直接併入共用題庫流程。
+- 「大量題庫」新增來源（全部／學測真題／學校與平台題）及年份 filter；CEEC 題使用既有題目卡、作答、我不會、問 ChatGPT、詳解看不懂、錯題／紀錄流程，不再只依賴獨立 GSAT 卡片。
+- app.js 已支援字串 question id，避免 ceec-115-matha-* 與舊數字 id 衝突。
+- build 更新為 5.0-unified-bank-1。
+- 本批未寫 Supabase；正式資料庫完全未變更。
+- 為避免未核對公式／圖形就發布，目前只接入首批單選 Golden Sample；Q5/Q8/Q10/Q11/Q12 等公式／圖形題仍保留 staging/needs_review。多選、選填、非選共用 renderer 尚待下一批擴充。
+- 已新增 regression assertions，但本輪透過 GitHub connector 修改，未在本機執行完整 npm test；不得把完整 regression 宣稱為 PASS。
