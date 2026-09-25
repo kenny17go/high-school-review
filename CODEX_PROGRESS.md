@@ -127,3 +127,11 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - build: `5.0-gsat-115-2`；新增 unified-bank regression assertions。
 - 驗證限制：本輪透過 GitHub connector 修改，未在本機 clone 執行完整 npm test；需以 GitHub Actions/Pages 實際結果確認部署與 regression，不能把未執行測試寫成 PASS。
 - Next: 先驗證 Pages；之後 114–111 數A沿用同一 unified schema 批次匯入，不重建另一套題庫。
+
+## 2026-09-25 Unified Question Bank architecture locked
+- 使用者明確要求寫入 GitHub，避免後續開發走偏。
+- 永久核心：所有題目只存在一個 Question Bank；學測、學校段考／校內考題、平台題只是 source metadata，不得建立來源專用平行題庫或不同 renderer。
+- 「學測／學校／年份／段考／單元／弱點」全部是同一題庫的 filter/view。選定一份考卷時依 original question number 顯示全部已收錄題目。
+- 所有來源共用完整題面、作答、「我不會／問 ChatGPT／詳解看不懂」、分層詳解、錯題與學習紀錄。
+- 整份計分是 session/mode：單元練習逐題回饋；整份模考／整份考卷才交卷後計分。
+- 現有 115 數A來源專用 UI 為過渡實作，後續應收斂進共用 Question Bank/renderer，不再擴張獨立 GSAT UI。
