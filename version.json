@@ -1,7 +1,7 @@
 {
   "version": "5.0",
-  "build": "5.0-unified-bank-2",
-  "name": "全科目核心架構＋統一題庫＋共用題組",
+  "build": "5.0-unified-bank-3",
+  "name": "全科目核心架構＋統一題庫＋共用混合題型 Renderer",
   "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
   "observedBasePageVersion": "4.9.7.1",
