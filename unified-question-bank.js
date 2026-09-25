@@ -1,13 +1,16 @@
 (function(root){"use strict";
 const source=root.GSAT_UNIFIED_BANK_115_MATHA;
 if(!source){root.UnifiedQuestionBank=root.UnifiedQuestionBank||{all:()=>[]};return;}
+const groups={
+"ceec-115-matha-g18-20":{id:"ceec-115-matha-g18-20",subject:"math",sourceType:"ceec_official",sourceId:"ceec-115-matha",academic_year:115,exam:"學測",variant:"數學A",question_numbers:[18,19,20],title:"第18～20題共用題組",stem:"坐標空間中有一平行六面體，已知 AB×AD=(-5,5,5)、AD×AP=(-2,0,-4)、AP×AB=(6,-10,-8)，且 |AP|=6。",source_page:6,display_mode:"shared_context",depends_on:[]}
+};
 const content={
 "ceec-115-matha-01":{stem:"財神廟抽獎：參加者抽兩次籤，每次抽到「吉」與「祥」的機率都為 1/3。兩次皆「吉」得180元，兩次皆「祥」得90元，其餘0元。獎金期望值為何？",options:["20元","30元","45元","60元","90元"]},
 "ceec-115-matha-02":{stem:"對任一實數 a，以 [a] 表示不大於 a 的最大整數。令 f(x)=[x-99]+[x+99]，-99≤x≤99。比較 f(-20)、f(0)、f(1) 的大小關係。",options:["f(-20)≤f(0)<f(1)","f(-20)<f(1)≤f(0)","f(1)<f(-20)≤f(0)","f(0)<f(-20)≤f(1)","f(0)≤f(1)<f(-20)"]},
 "ceec-115-matha-03":{stem:"設 f(x)=a^x，a為正實數。c1,c2,c3為公差10/3的等差數列，且 f(c1),f(c2),f(c3) 為公比4的等比數列。求等比數列 f(10),f(8),f(6) 的公比。",options:["2^(-6/5)","2^(-3/5)","2^(3/5)","2^(6/5)","2^(5/3)"]},
 "ceec-115-matha-04":{stem:"某網遊有16種材料，其中6種基本材料、10種進階材料。任選3種不同材料合成道具：三種皆基本材料時結果固定為同一種草藥；兩種基本加一種進階時，只由進階材料決定食物種類；其餘材料組合都得到彼此不同的藥水。總共可合成多少種道具？",options:["256","370","401","455","560"]},
 "ceec-115-matha-06":{stem:"坐標平面上 A=(2,-2)、B=(-1,2)。直線 y=-6 上有多少個點 C，使三角形 ABC 為等腰三角形？",options:["1","2","3","4","5"]},
-"ceec-115-matha-18":{stem:"第18～20題共用題組：坐標空間中有一平行六面體，已知 AB×AD=(-5,5,5)、AD×AP=(-2,0,-4)、AP×AB=(6,-10,-8)，且 |AP|=6。第18題：平行四邊形 ABCD 的面積為何？",options:["2√5","5√2","5√3","6√3","10√2"]}
+"ceec-115-matha-18":{stem:"平行四邊形 ABCD 的面積為何？",options:["2√5","5√2","5√3","6√3","10√2"],group_id:"ceec-115-matha-g18-20"}
 };
 function detailed(q){
  const e=q.explanation||{};
@@ -20,7 +23,7 @@ function detailed(q){
 const questions=source.questions.map(q=>{
  const c=content[q.id];if(!c)return null;
  const answer=q.answer?.index;
- return {id:q.id,subject:"math",subjectId:"math",grade:3,course:"gsat-matha",category:q.primary_unit,unit:q.primary_unit,chapter:q.primary_unit,topic:q.primary_unit,skill:q.skill_tags?.[0]||q.primary_unit,questionType:"single_choice",stem:c.stem,options:c.options,answer,q:c.stem,o:c.options,a:answer,explanation:detailed(q),e:detailed(q),difficulty:"學測",level:"學測",sourceType:"ceec_official",sourceId:"ceec-115-matha",source_title:q.source_title,source_url:q.source_url,answer_url:q.answer_url,academic_year:115,exam:"學測",variant:"數學A",question_number:q.question_number,classification_status:q.classification_status,verified_at:q.classification_status==="verified"?"2026-09-25":null,origin:"local-official",explanation_detail:q.explanation};
+ return {id:q.id,subject:"math",subjectId:"math",grade:3,course:"gsat-matha",category:q.primary_unit,unit:q.primary_unit,chapter:q.primary_unit,topic:q.primary_unit,skill:q.skill_tags?.[0]||q.primary_unit,questionType:"single_choice",stem:c.stem,options:c.options,answer,q:c.stem,o:c.options,a:answer,explanation:detailed(q),e:detailed(q),difficulty:"學測",level:"學測",sourceType:"ceec_official",sourceId:"ceec-115-matha",source_title:q.source_title,source_url:q.source_url,answer_url:q.answer_url,academic_year:115,exam:"學測",variant:"數學A",question_number:q.question_number,classification_status:q.classification_status,group_id:c.group_id||null,verified_at:q.classification_status==="verified"?"2026-09-25":null,origin:"local-official",explanation_detail:q.explanation};
  }).filter(q=>q&&Number.isInteger(q.answer));
-root.UnifiedQuestionBank=Object.freeze({version:"1",questions,all(){return questions.slice();},filter(f={}){return questions.filter(q=>(!f.subject||q.subject===f.subject)&&(!f.sourceType||q.sourceType===f.sourceType)&&(!f.academic_year||q.academic_year===Number(f.academic_year))&&(!f.unit||q.unit===f.unit));}});
+root.UnifiedQuestionBank=Object.freeze({version:"1.1",questions,groups,all(){return questions.slice();},group(id){return groups[id]||null;},context(q){return q?.group_id?groups[q.group_id]||null:null;},filter(f={}){return questions.filter(q=>(!f.subject||q.subject===f.subject)&&(!f.sourceType||q.sourceType===f.sourceType)&&(!f.academic_year||q.academic_year===Number(f.academic_year))&&(!f.unit||q.unit===f.unit));}});
 })(window);
