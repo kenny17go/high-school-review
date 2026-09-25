@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-gsat-115-2";
+window.V500_BUILD="5.0-unified-bank-1";
 
 (function(){
 "use strict";
@@ -26,7 +26,8 @@ function learningSelection(){return {subjectId:subjectId(),courseId:adapter()?su
   academic_year:Number($("year").value),academicYear:Number($("year").value),semester:termNumber(),exam:$("exam").value};}
 function grade2CourseLabel(){return catalog.courses.find(c=>c.id===learningSelection().courseId)?.label||"高二數學";}
 function currentScope(){const s=learningSelection();return adapter()?adapter().scope(s):catalog.resolve(s,scopeOverrides.get(catalog.key(s))||[]);}
-function allQuestions(){return [...questions,...grade2Cloud,...grade2Fallback,...registry.enabled().flatMap(s=>s.adapter?.all()||[])];}
+function unifiedQuestions(){return window.UnifiedQuestionBank?.all?.()||[];}
+function allQuestions(){return [...questions,...grade2Cloud,...grade2Fallback,...registry.enabled().flatMap(s=>s.adapter?.all()||[]),...unifiedQuestions()];}
 function findQuestion(id,subject=subjectId()){return [...current,...mock,...allQuestions()].find(q=>q.id===id&&(q.subject||q.subjectId||'math')===subject);}
 function scopeSummary(scope){if(adapter())return subjectScopeSummary(scope);return `${scope.label}｜${catalog.labels[scope.sourceType]}｜${catalog.courses.find(c=>c.id===scope.courseId)?.label||""}｜${scope.school} ${scope.academicYear} ${scope.semester===1?"上":"下"}學期 第${scope.exam}次段考`;}
 function updateTopicFilters(){
@@ -405,27 +406,31 @@ document.addEventListener("click",e=>{
 });
 
 function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now());
-  practiceScope=adapter()||selectedGrade()===2?currentScope():null;
+  const source=$("practiceSource")?.value||"all",sourceYear=$("practiceYear")?.value||"全部";
+  practiceScope=source==="ceec"?null:(adapter()||selectedGrade()===2?currentScope():null);
   if(practiceScope)updateTopicFilters();
   const t=$("topicFilter").value,l=$("levelFilter").value,qty=+$("qtyFilter").value;
-  const basePool=getSchoolPool();const pool=basePool.filter(q=>(t==="全部"||q.topic===t)&&(l==="全部"||q.level===l));
+  const localPool=getSchoolPool(),officialPool=unifiedQuestions().filter(q=>q.subject===subjectId());
+  const basePool=source==="ceec"?officialPool:source==="platform"?localPool:[...new Map([...localPool,...officialPool].map(q=>[String(q.id),q])).values()];
+  const pool=basePool.filter(q=>(sourceYear==="全部"||String(q.academic_year)===String(sourceYear))&&(t==="全部"||q.topic===t)&&(l==="全部"||q.level===l));
   current=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));answers={};renderQuiz();
-  $("countText").textContent=`目前產生 ${current.length} 題（${$("school").value} 題池符合條件共 ${pool.length} 題）｜資料來源：${dbMode==="cloud"?"Supabase 學校分流":"本機備援"}`;
+  const sourceLabel=source==="ceec"?"學測真題":source==="platform"?"學校／平台題":"全部來源";
+  $("countText").textContent=`目前產生 ${current.length} 題（符合條件共 ${pool.length} 題）｜來源：${sourceLabel}${sourceYear!=="全部"?"｜"+sourceYear+"學年度":""}`;
   if(practiceScope)$("countText").textContent=`本次範圍：${scopeSummary(practiceScope)}｜${current.length} 題（符合條件 ${pool.length} 題）${current.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${practiceScope.note}`;
   $("result").textContent="";
 }
-function questionSourceMarkup(q){return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
+function questionSourceMarkup(q){if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
 function renderQuiz(){
  const passageSeen=new Set();
   $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
   const b=e.target.closest(".opt"); if(!b)return;
-  const id=+b.dataset.q,opt=+b.dataset.opt,q=current.find(x=>x.id===id);if(!q)return;answers[id]=opt;
-  document.querySelectorAll(`.opt[data-q="${id}"]`).forEach(x=>x.classList.remove("selected","correct","wrong"));
+  const id=b.dataset.q,opt=+b.dataset.opt,q=current.find(x=>String(x.id)===String(id));if(!q)return;answers[id]=opt;
+  document.querySelectorAll(`.opt[data-q="${CSS.escape(String(id))}"]`).forEach(x=>x.classList.remove("selected","correct","wrong"));
   b.classList.add("selected",opt===q.a?"correct":"wrong");
   if(opt!==q.a)markNeedHelp(q,`答錯：我選 ${String.fromCharCode(65+opt)}，正確答案是 ${String.fromCharCode(65+q.a)}`,"",opt);
-  const c=document.querySelector(`.opt[data-q="${id}"][data-opt="${q.a}"]`); if(c)c.classList.add("correct");
+  const c=document.querySelector(`.opt[data-q="${CSS.escape(String(id))}"][data-opt="${q.a}"]`); if(c)c.classList.add("correct");
   $("exp"+id).classList.add("show");
 });
 async function finishPractice(){
