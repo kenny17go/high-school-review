@@ -42,6 +42,22 @@ for(const academic_year of ['unknown',null,0,114.5])assert.equal(C.isVerified({.
 assert.equal(C.isVerified({...real,academic_year:'114'}),true);
 const mult=D.questions.find(q=>q.chineseMetadata.text_ids.length>1);assert.ok(mult);for(const id of mult.chineseMetadata.text_ids)assert.ok(C.filter([mult],{textIds:[id]},D.question_text_links).length);
 const school={...real,sourceType:'school_exam_verified',school:null};assert.ok(C.errors(school).includes('school'));
+// Common renderer contract supports all current answer families without source-specific schemas.
+const fixtures=[
+ C.normalize({...q,id:'fx-single',questionType:'single_choice',options:['A','B'],answer:1,explanation:'fixture',sourceType:'platform_simulated'}),
+ C.normalize({...q,id:'fx-multi',questionType:'multiple_choice',options:['A','B','C'],answer:[0,2],explanation:'fixture',sourceType:'platform_simulated'}),
+ C.normalize({...q,id:'fx-blank',questionType:'fill_blank',options:undefined,answer:['3','5','2'],explanation:'fixture',sourceType:'platform_simulated'}),
+ C.normalize({...q,id:'fx-num',questionType:'numeric',options:undefined,answer:1.5,explanation:'fixture',sourceType:'platform_simulated'}),
+ C.normalize({...q,id:'fx-short',questionType:'short_answer',options:undefined,answer:{reference:'x-y-z=-1'},explanation:'fixture',sourceType:'platform_simulated'})
+];
+for(const x of fixtures)assert.deepEqual(Array.from(C.errors(x)),[],x.id);
+assert.equal(C.equalAnswer(fixtures[0],1),true);assert.equal(C.equalAnswer(fixtures[0],0),false);
+assert.equal(C.equalAnswer(fixtures[1],[2,0]),true);assert.equal(C.equalAnswer(fixtures[1],[0,1]),false);
+assert.equal(C.equalAnswer(fixtures[2],['3','5','2']),true);assert.equal(C.equalAnswer(fixtures[2],['3','5']),false);
+assert.equal(C.equalAnswer(fixtures[3],'1.5'),true);
+assert.equal(C.equalAnswer(fixtures[4],'student reasoning'),null);
+assert.equal(C.formatAnswer(fixtures[1]),'A、C');assert.equal(C.formatAnswer(fixtures[2]),'3、5、2');
+const mixedStore=W.LearningStorage.create({getItem(){return null},setItem(k,v){this[k]=v;}});
 console.log('PASS: V5 30 texts, 150 original questions, 288 exam mappings, many-to-many, provenance, migration, isolated analytics.');
 (async()=>{
  let calls=0;const rows=await C.paged(()=>({range(from,to){calls++;return Promise.resolve({data:Array.from({length:Math.min(500,1201-from)},(_,i)=>({id:from+i})),error:null});}}));assert.equal(rows.length,1201);assert.equal(calls,3);
