@@ -145,3 +145,11 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - 本批未寫 Supabase；正式資料庫完全未變更。
 - 為避免未核對公式／圖形就發布，目前只接入首批單選 Golden Sample；Q5/Q8/Q10/Q11/Q12 等公式／圖形題仍保留 staging/needs_review。多選、選填、非選共用 renderer 尚待下一批擴充。
 - 已新增 regression assertions，但本輪透過 GitHub connector 修改，未在本機執行完整 npm test；不得把完整 regression 宣稱為 PASS。
+## 2026-09-25 Question Group architecture implemented
+- 使用者同意題組方案並要求繼續。
+- Question = 最小作答／評分／學習紀錄單位；Question Group = 共用閱讀情境單位，已寫入 AGENTS 永久規則。
+- unified-question-bank.js schema 升為 1.1，新增 groups/group()/context()；115數A Q18–20 已建立 ceec-115-matha-g18-20。
+- 共用 practice renderer 已能在單題被抽出時自動帶出 group context；同組連續題避免重複完整題幹。
+- build 5.0-unified-bank-2；未寫 Supabase。
+- regression assertions 已加入 tests/gsat-115.test.cjs；本輪 GitHub connector 無本機工作樹，因此尚未執行完整 npm test / 390px browser regression，狀態仍 IN PROGRESS。
+
