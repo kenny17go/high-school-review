@@ -174,3 +174,15 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - Raw / Staging / Published 分層；Importer 不直接寫 production Supabase。本批只有文件／架構規則更新，沒有 Supabase 寫入、沒有題庫資料改動。
 - 115 Golden Sample 端到端穩定後凍結 Unified Question Schema V1，再批次跑 114→111 數A；新科目先以20–50題 Golden Sample 驗證特殊題型後擴大量。
 
+## 2026-09-25 Batch Importer V1 implemented
+- 使用者明確授權「更新 GitHub」。
+- 新增 `scripts/batch-exam-import.mjs`，把已鎖定的整份試卷流程落成可執行 staging importer；輸入是一整份 exam + groups + questions JSON，輸出統一 staging artifact、review_summary、exception_queue。
+- Importer V1 統一 normalize source/year/exam/variant/question number/type/group/unit/skill/explanation metadata；支援 single_choice / multiple_choice / fill_blank / numeric / short_answer / essay。
+- 自動 validation 會攔截：缺來源／題號、未知題型、CEEC 非官方網域、110前學測、答案 shape/index 錯誤、缺題組 context；缺單元／skill／四層詳解則進 warning/exception queue。
+- 所有自動處理題即使零 warning 仍固定 `classification_status=needs_review`；只有 `approveBatch()` 接到 reviewer + evidence 才能 verified。Blocking error 不可人工強行 approve。
+- `publishArtifact()` 只產生已驗證的發布 artifact，不連線、不寫入 Supabase，維持 Raw / Staging / Published 分層。
+- 新增 `tests/batch-exam-import.test.mjs`：涵蓋單選、多選、選填、非選題組、exception queue、CEEC provenance blocking、人工 review gate、publish gate。
+- `package.json` 新增 `test:batch-import` 並納入完整 npm test。
+- 本輪 GitHub connector 無本機工作樹，因此測試程式已加入但尚未實際執行；不得宣稱 PASS。沒有 Supabase 寫入，沒有修改既有題庫或 renderer。
+- 下一步：用115數A現有20題 metadata 建第一份 importer fixture/staging artifact；先修正/驗證公式圖形與完整題面 exceptions，再讓整份115數A通過同一 review summary。之後凍結 Unified Question Schema V1，批次跑114→111。
+
