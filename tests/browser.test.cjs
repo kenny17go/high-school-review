@@ -41,7 +41,7 @@ const server=http.createServer((req,res)=>{
  assert.equal(await page.locator('#doneN').innerText(),'1');
  // Unified Question Bank: selecting each official paper must render all 20 questions in source order.
  await page.locator('#home button[data-open="practice"]:not([data-subject-mode])').click();
- for(const year of [113,114]){
+ for(const year of [112,113,114]){
   await page.selectOption('#practiceSource','ceec');await page.selectOption('#practiceYear',String(year));await page.selectOption('#qtyFilter','20');
   await page.locator('#applyFilter').click();
   assert.equal(await page.locator('#quiz .qcard').count(),20);

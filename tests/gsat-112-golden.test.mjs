@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
-import {buildGoldenArtifacts} from '../scripts/build-gsat-113-golden.mjs';
+import {buildGoldenArtifacts} from '../scripts/build-gsat-112-golden.mjs';
 
 const {raw,staging}=buildGoldenArtifacts();
 assert.equal(raw.questions.length,20);
@@ -12,10 +12,9 @@ assert.equal(raw.questions.every(q=>q.answer_match&&q.stem&&q.source_url.include
 assert.equal(raw.questions.filter(q=>['single_choice','multiple_choice'].includes(q.questionType)).every(q=>q.options?.length===5),true);
 assert.equal(raw.questions.filter(q=>q.group_id).length,3);
 assert.equal(raw.questions.filter(q=>[19,20].includes(q.question_number)).every(q=>q.grading_rubric&&q.rubric_url),true);
-assert.equal(JSON.stringify(raw.questions.find(q=>q.question_number===7).answer),JSON.stringify({indices:[2,3]}));
-assert.match(raw.questions.find(q=>q.question_number===7).review_evidence,/ceec\.edu\.tw/);
-assert.equal(JSON.stringify(raw.questions.find(q=>q.question_number===16).answer),JSON.stringify({cells:['2','5','5']}));
-assert.equal(raw.questions.find(q=>q.question_number===20).answer.reference,'2-2sqrt(3) <= c <= 2+2sqrt(3); min OP=4(sqrt(3)-1)');
+assert.equal(JSON.stringify(raw.questions.find(q=>q.question_number===9).answer),JSON.stringify({indices:[2,4]}));
+assert.equal(JSON.stringify(raw.questions.find(q=>q.question_number===14).answer),JSON.stringify({cells:['3','-','9']}));
+assert.equal(raw.questions.find(q=>q.question_number===20).answer.reference,'distance(A,BQ)=72/25; area(PABQ)=108/25');
 
 assert.equal(staging.review_summary.total,20);
 assert.equal(staging.review_summary.expected_question_count,20);
@@ -25,12 +24,12 @@ assert.deepEqual(staging.review_summary.by_type,{fill_blank:5,multiple_choice:6,
 assert.equal(staging.questions.every(q=>q.classification_status==='needs_review'&&q.pipeline_stage==='staging'&&!q.published),true);
 assert.equal(staging.review_summary.ready_for_human_review,true);
 assert.equal(staging.review_summary.ready_for_publish,false);
-assert.equal(staging.review_summary.clean,19);
-assert.equal(staging.review_summary.needs_review,1);
+assert.equal(staging.review_summary.clean,20);
+assert.equal(staging.review_summary.needs_review,0);
 assert.equal(staging.review_summary.error_count,0);
-assert.equal(staging.review_summary.warning_count,1);
-assert.deepEqual(staging.review_summary.by_reason,{official_answer_objection_resolved:1});
-assert.deepEqual(staging.exception_queue,[{id:'ceec-113-matha-07',question_number:7,reasons:['official_answer_objection_resolved'],source_page:2}]);
+assert.equal(staging.review_summary.warning_count,0);
+assert.deepEqual(staging.review_summary.by_reason,{});
+assert.deepEqual(staging.exception_queue,[]);
 
 const context={window:{}};
 vm.createContext(context);
@@ -40,9 +39,9 @@ assert.equal(runtime.version,'1.4');
 assert.equal(runtime.questions.length,80);
 assert.equal(new Set(runtime.questions.map(q=>q.id)).size,80);
 for(const year of [112,113,114,115])assert.equal(runtime.filter({sourceType:'ceec_official',academic_year:year}).length,20);
-const y113=runtime.filter({academic_year:113});
-assert.deepEqual(Object.fromEntries(['single_choice','multiple_choice','fill_blank','short_answer'].map(type=>[type,y113.filter(q=>q.questionType===type).length])),{single_choice:7,multiple_choice:6,fill_blank:5,short_answer:2});
-assert.equal(y113.every(q=>q.stem&&q.explanation&&q.sourceId==='ceec-113-matha'&&q.sync_disabled),true);
-assert.equal(runtime.questions.filter(q=>q.group_id==='ceec-113-matha-g18-20').length,3);
-assert.deepEqual(Array.from(runtime.group('ceec-113-matha-g18-20').question_numbers),[18,19,20]);
-console.log('GSAT 113 Math A Golden Sample, exception queue, and unified 80-question runtime PASS');
+const y112=runtime.filter({academic_year:112});
+assert.deepEqual(Object.fromEntries(['single_choice','multiple_choice','fill_blank','short_answer'].map(type=>[type,y112.filter(q=>q.questionType===type).length])),{single_choice:7,multiple_choice:6,fill_blank:5,short_answer:2});
+assert.equal(y112.every(q=>q.stem&&q.explanation&&q.sourceId==='ceec-112-matha'&&q.sync_disabled),true);
+assert.equal(runtime.questions.filter(q=>q.group_id==='ceec-112-matha-g18-20').length,3);
+assert.deepEqual(Array.from(runtime.group('ceec-112-matha-g18-20').question_numbers),[18,19,20]);
+console.log('GSAT 112 Math A Golden Sample and unified 80-question runtime PASS');

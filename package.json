@@ -7,14 +7,15 @@
     "validate": "node scripts/validate.mjs",
     "test:data": "node tests/routing.test.cjs",
     "test:browser": "node tests/browser.test.cjs",
-    "test": "npm run validate && npm run test:v5 && npm run test:gsat && npm run test:batch-import && npm run test:golden && npm run test:golden-114 && npm run test:golden-113 && npm run test:migration && npm run test:browser",
+    "test": "npm run validate && npm run test:v5 && npm run test:gsat && npm run test:batch-import && npm run test:golden && npm run test:golden-114 && npm run test:golden-113 && npm run test:golden-112 && npm run test:migration && npm run test:browser",
     "test:v5": "node tests/v5-data.test.cjs",
     "test:migration": "node tests/migration.test.mjs",
     "test:gsat": "node tests/gsat-115.test.cjs",
     "test:batch-import": "node tests/batch-exam-import.test.mjs",
     "test:golden": "node tests/gsat-115-golden.test.mjs",
     "test:golden-114": "node tests/gsat-114-golden.test.mjs",
-    "test:golden-113": "node tests/gsat-113-golden.test.mjs"
+    "test:golden-113": "node tests/gsat-113-golden.test.mjs",
+    "test:golden-112": "node tests/gsat-112-golden.test.mjs"
   },
   "engines": {
     "node": ">=20"

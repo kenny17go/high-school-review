@@ -31,11 +31,12 @@ assert.deepEqual(staging.exception_queue,[]);
 
 const context={window:{}};
 vm.createContext(context);
-for(const file of ['gsat-115-unified-bank.js','gsat-114-unified-bank.js','gsat-113-unified-bank.js','unified-question-bank.js'])vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
+for(const file of ['gsat-115-unified-bank.js','gsat-114-unified-bank.js','gsat-113-unified-bank.js','gsat-112-unified-bank.js','unified-question-bank.js'])vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
 const runtime=context.window.UnifiedQuestionBank;
-assert.equal(runtime.version,'1.3');
-assert.equal(runtime.questions.length,60);
-assert.equal(new Set(runtime.questions.map(q=>q.id)).size,60);
+assert.equal(runtime.version,'1.4');
+assert.equal(runtime.questions.length,80);
+assert.equal(new Set(runtime.questions.map(q=>q.id)).size,80);
+assert.equal(runtime.filter({sourceType:'ceec_official',academic_year:112}).length,20);
 assert.equal(runtime.filter({sourceType:'ceec_official',academic_year:113}).length,20);
 assert.equal(runtime.filter({sourceType:'ceec_official',academic_year:114}).length,20);
 assert.equal(runtime.filter({sourceType:'ceec_official',academic_year:115}).length,20);
@@ -44,4 +45,4 @@ assert.deepEqual(Object.fromEntries(['single_choice','multiple_choice','fill_bla
 assert.equal(y114.every(q=>q.stem&&q.explanation&&q.sourceId==='ceec-114-matha'&&q.sync_disabled),true);
 assert.equal(runtime.questions.filter(q=>q.group_id==='ceec-114-matha-g18-20').length,3);
 assert.deepEqual(Array.from(runtime.group('ceec-114-matha-g18-20').question_numbers),[18,19,20]);
-console.log('GSAT 114 Math A Golden Sample and unified 60-question runtime PASS');
+console.log('GSAT 114 Math A Golden Sample and unified 80-question runtime PASS');

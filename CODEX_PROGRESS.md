@@ -2,6 +2,17 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-25 112 數A完整20題跨年度 Batch milestone
+
+- 沿用現有 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；沒有新增112專用 importer、renderer或第二套題庫，也未連接或寫入正式 Supabase。
+- 依大考中心官方試卷8頁、選擇（填）題參考答案1頁、非選擇題滿分參考答案與評分原則3頁逐頁渲染核驗112數A 20題／100分；題型為單選7、多選6、選填5、非選2，Q18–Q20共用題組。
+- 新增 `gsat-112-unified-bank.js`、`scripts/build-gsat-112-golden.mjs`，產生 `data/raw/ceec-112-matha.json` 與 `data/staging/ceec-112-matha.batch-import-v1.json`。答案20/20與官方 manifest 一致，題號1–20無缺號。
+- Review Summary：clean 20、needs_review 0（指額外驗證例外為0）、error 0、warning 0、Exception Queue 0；整批20題的 `classification_status` 仍固定為 `needs_review`，`ready_for_publish=false`，runtime `sync_disabled`，不把自動內容假裝成人工核准。
+- Q19／Q20附官方評分原則；官方答案分別核對為 `Q=(-36/25,48/25)` 且 `BQ=2AP`，以及點線距離 `72/25`、四邊形面積 `108/25`。
+- 共用 runtime 擴為112／113／114／115數A共80題；大量題庫年份篩選新增112，選定年度依原題號取得完整20題。build/cache更新為 `5.0-batch-112-1`，新增112 Golden與80題唯一ID、題型分布、題組回歸，113／114回歸同步提升為80題。
+- `validate`、V5 data、115 GSAT、Batch Importer、115／114／113／112 Golden與PostgreSQL migration均PASS；`git diff --check` PASS。browser test已加入112／113／114各20題UI斷言，但本機仍缺少 `/opt/microsoft/msedge/msedge`，Playwright無法啟動，屬既知執行環境限制。
+- 本里程碑尚未獲得112數A commit／push／部署授權；目前保持本機未提交狀態，等待使用者明確授權。下一建議批次為111學測數A。
+
 ## 2026-09-25 113 數A完整20題跨年度 Batch milestone
 
 - 以最新已部署的114／115流程為基礎，沿用同一 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；未建立113專用 importer、renderer或第二套題庫，也未寫入正式 Supabase。

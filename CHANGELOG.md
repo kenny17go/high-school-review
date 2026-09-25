@@ -1,3 +1,10 @@
+## 5.0 — Batch Importer 112 數A跨年度批次（2026-09-25）
+
+- 沿用同一 Batch Importer V1、統一 Question Bank、Question Group 與共用 renderer，完成112學測數學A 20題／100分的 Raw、Staging、Review Summary、Exception Queue及 runtime 接線。
+- 依大考中心官方試卷、選擇（填）題答案與非選擇題評分原則逐頁渲染核對；答案20/20一致、題號無缺漏、Validation error 0／warning 0，Exception Queue為0。
+- 大量題庫新增112學年度篩選；112至115合計80題共用同一 renderer。新增112 Golden與跨四年度唯一ID、題型分布、題組及完整20題 regression assertions。
+- 全部自動分類與平台詳解仍為 `needs_review`、`ready_for_publish=false`、runtime `sync_disabled`；未寫入正式 Supabase，亦未 commit／push／部署。
+
 ## 5.0 — Batch Importer 113 數A跨年度批次（2026-09-25）
 
 - 沿用同一 Batch Importer V1、統一 Question Bank、Question Group 與共用 renderer，完成113學測數學A 20題／100分的 Raw、Staging、Review Summary、Exception Queue及 runtime 接線。
