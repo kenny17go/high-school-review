@@ -10,8 +10,8 @@
 - Review Summary：clean 19、needs_review 1、warning 1、Exception Queue 1。唯一例外為Q7 `official_answer_objection_resolved`：考後有人主張平移後圖形亦應算相同，但大考中心明確以坐標點集不同回覆並維持官方答案③④；資料保留官方回覆 URL 與原答案，不自行改答。
 - 所有20題分類與平台詳解均保持 `needs_review`、`ready_for_publish=false`；runtime 使用 `sync_disabled`。Q19／Q20附官方評分原則，Q16填答經版面核對為 `2√5/5`。
 - 共用 runtime 現含113／114／115數A共60題；大量題庫年份篩選新增113，選定年度依原題號取得完整20題。build/cache 更新為 `5.0-batch-113-1`，新增113 Golden／Exception Queue／60題唯一ID與題型分布回歸，114回歸同步提升為60題。
-- Validate、V5 data、115 GSAT、Batch Importer、115／114／113 Golden與PostgreSQL migration均PASS。browser test已加入113與114各20題UI斷言，但本執行環境沒有Edge／Chromium，故 Playwright 無法啟動，瀏覽器回歸未實際完成。
-- 本里程碑尚未 commit、push或部署；需使用者另行明確授權。下一建議批次為112學測數A。
+- Validate、V5 data、115 GSAT、Batch Importer、115／114／113 Golden與PostgreSQL migration均PASS。browser test已加入113與114各20題UI斷言；本機環境沒有Edge／Chromium，故本機 Playwright 無法啟動，但部署後已用線上瀏覽器實測113篩選可產生完整20題且題號01–20連續。
+- 使用者已明確授權113數A commit／push／部署；主里程碑提交 `2e1fd45` 已推送 main，GitHub Pages `pages-build-deployment #104` 成功。線上 build 為 `5.0-batch-113-1`，實測113／114／115共用 runtime，113篩選顯示20題、來源與年度文字正確。下一建議批次為112學測數A。
 
 ## 2026-09-25 114 數A完整20題跨年度 Batch milestone
 
