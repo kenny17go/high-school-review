@@ -13,3 +13,12 @@ for(const x of unified.questions){assert.ok(x.primary_unit);assert.ok(x.secondar
 assert.deepEqual(Array.from(unified.questions.filter(x=>x.classification_status==="needs_review"),x=>x.question_number),[5,8,10,11,12]);
 assert.equal(unified.questions.find(x=>x.question_number===20).answer.reference,"volume=30; maxDistance=sqrt(94)");
 console.log("GSAT 115 Math A unified bank PASS");
+
+// Unified runtime bridge: official questions must join the same question-bank contract.
+context.window=context;
+vm.runInContext(fs.readFileSync(path.join(root,'unified-question-bank.js'),'utf8'),context);
+const runtime=context.UnifiedQuestionBank;
+assert(runtime,'UnifiedQuestionBank runtime should exist');
+assert(runtime.questions.length>=6,'first integration batch should expose playable CEEC questions');
+assert(runtime.questions.every(q=>q.sourceType==='ceec_official'&&q.stem&&Array.isArray(q.options)&&q.explanation),'runtime questions need common renderer fields');
+assert(runtime.filter({sourceType:'ceec_official',academic_year:115}).length===runtime.questions.length,'source/year filters should operate on the common bank');
