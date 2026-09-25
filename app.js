@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-unified-bank-2";
+window.V500_BUILD="5.0-unified-bank-3";
 
 (function(){
 "use strict";
@@ -426,22 +426,44 @@ function questionGroupMarkup(q,seen){
  return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">共用題幹</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div></section>`;
 }
 function questionSourceMarkup(q){if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
+function qAnswered(q,value){return window.LearningCore?.answered?.(value,q)??value!==undefined;}
+function qCorrect(q,value){return window.LearningCore?.equalAnswer?.(q,value)??value===q.a;}
+function qAnswerText(q){return window.LearningCore?.formatAnswer?.(q)??(Number.isInteger(q.a)?String.fromCharCode(65+q.a):String(q.a??"人工批改"));}
+function questionInputMarkup(q,prefix=""){
+ const id=escapeText(String(q.id)),cls=prefix?"mock":"practice";
+ if(q.questionType==="multiple_choice")return `<div class="opts">${(q.o||[]).map((x,j)=>`<label class="multiOpt"><input type="checkbox" data-${cls}-multi="${id}" value="${j}"><span>${String.fromCharCode(65+j)}. ${escapeText(x)}</span></label>`).join("")}</div><button class="soft" data-${cls}-check="${id}">確認答案</button>`;
+ if(q.questionType==="fill_blank")return `<div class="blankInputs">${(q.input_spec?.cells||q.a||[""]).map((_,j)=>`<input data-${cls}-blank="${id}" data-cell="${j}" inputmode="text" placeholder="第${j+1}格">`).join("")}</div><button class="soft" data-${cls}-check="${id}">確認答案</button>`;
+ if(["numeric","short_answer","essay"].includes(q.questionType))return `<textarea class="answerText" data-${cls}-text="${id}" placeholder="${q.questionType==="numeric"?"輸入答案":"寫下你的作答"}"></textarea><button class="soft" data-${cls}-check="${id}">${["short_answer","essay"].includes(q.questionType)?"儲存作答":"確認答案"}</button>`;
+ return `<div class="opts">${(q.o||[]).map((x,j)=>`<button class="opt ${prefix?"mockopt":""}" data-q="${id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div>`;
+}
+function readStructuredAnswer(q,root,prefix=""){
+ const id=CSS.escape(String(q.id)),cls=prefix?"mock":"practice";
+ if(q.questionType==="multiple_choice")return [...root.querySelectorAll(`[data-${cls}-multi="${id}"]:checked`)].map(x=>+x.value);
+ if(q.questionType==="fill_blank")return [...root.querySelectorAll(`[data-${cls}-blank="${id}"]`)].sort((x,y)=>+x.dataset.cell-+y.dataset.cell).map(x=>x.value.trim());
+ const t=root.querySelector(`[data-${cls}-text="${id}"]`);return t?t.value.trim():undefined;
+}
+function revealPractice(q,id,value){
+ const ok=qCorrect(q,value),exp=$("exp"+id);if(exp)exp.classList.add("show");
+ if(ok===false)markNeedHelp(q,`答錯：我的答案 ${Array.isArray(value)?value.join("、"):value}，正確答案是 ${qAnswerText(q)}`,"",value);
+}
 function renderQuiz(){
  const passageSeen=new Set(),groupSeen=new Set();
-  $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionInputMarkup(q)}<div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${escapeText(qAnswerText(q))}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
-  const b=e.target.closest(".opt"); if(!b)return;
-  const id=b.dataset.q,opt=+b.dataset.opt,q=current.find(x=>String(x.id)===String(id));if(!q)return;answers[id]=opt;
-  document.querySelectorAll(`.opt[data-q="${CSS.escape(String(id))}"]`).forEach(x=>x.classList.remove("selected","correct","wrong"));
-  b.classList.add("selected",opt===q.a?"correct":"wrong");
-  if(opt!==q.a)markNeedHelp(q,`答錯：我選 ${String.fromCharCode(65+opt)}，正確答案是 ${String.fromCharCode(65+q.a)}`,"",opt);
-  const c=document.querySelector(`.opt[data-q="${CSS.escape(String(id))}"][data-opt="${q.a}"]`); if(c)c.classList.add("correct");
-  $("exp"+id).classList.add("show");
+ const check=e.target.closest("[data-practice-check]");
+ if(check){const id=check.dataset.practiceCheck,q=current.find(x=>String(x.id)===String(id));if(!q)return;const value=readStructuredAnswer(q,$("quiz"));if(!qAnswered(q,value)){toast("請先作答。");return;}answers[q.id]=value;revealPractice(q,id,value);return;}
+ const b=e.target.closest(".opt");if(!b||b.classList.contains("mockopt"))return;
+ const id=b.dataset.q,opt=+b.dataset.opt,q=current.find(x=>String(x.id)===String(id));if(!q)return;answers[q.id]=opt;
+ document.querySelectorAll(`.opt[data-q="${CSS.escape(String(id))}"]:not(.mockopt)`).forEach(x=>x.classList.remove("selected","correct","wrong"));
+ b.classList.add("selected",qCorrect(q,opt)?"correct":"wrong");
+ if(!qCorrect(q,opt))markNeedHelp(q,`答錯：我選 ${String.fromCharCode(65+opt)}，正確答案是 ${qAnswerText(q)}`,"",opt);
+ const key=window.LearningCore?.answerKey?.(q)??q.a,c=document.querySelector(`.opt[data-q="${CSS.escape(String(id))}"][data-opt="${key}"]:not(.mockopt)`);if(c)c.classList.add("correct");
+ $("exp"+id)?.classList.add("show");
 });
 async function finishPractice(){
   let done=0,correct=0,wrong=[];
-  current.forEach(q=>{if(answers[q.id]!==undefined){done++;if(answers[q.id]===q.a)correct++;else wrong.push(q.id)}});
+  current.forEach(q=>{if(qAnswered(q,answers[q.id])){done++;const ok=qCorrect(q,answers[q.id]);if(ok===true)correct++;else if(ok===false)wrong.push(q.id)}});
   const score=done?Math.round(correct/done*100):0;
   saveLocalSession(done,score,wrong,current,answers);
   if(db&&user) await syncAttempts(current,answers,"practice");
@@ -460,7 +482,7 @@ function saveLocalSession(done,score,wrong,set,ans){
 }
 async function syncAttempts(set,ans,mode){
   if(!db||!user)return;
-  set=set.filter(q=>q.origin!=="local");
+  set=set.filter(q=>q.origin!=="local"&&!q.sync_disabled&&q.questionType==="single_choice");
   const rows=set.filter(q=>ans[q.id]!==undefined).map(q=>({
     user_id:user.id,question_id:q.id,selected_index:q.optionOrder?.[ans[q.id]]??ans[q.id],is_correct:ans[q.id]===q.a,mode,
     school_name:$("school").value,academic_year:+$("year").value,exam_name:$("exam").value
