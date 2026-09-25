@@ -176,3 +176,35 @@
 今天新增一科，不應讓明天新增下一科更困難。
 
 所有開發都應讓 high-school-review 保持：**穩定、可擴充、可維護、資料安全、內容正確、適合學生使用。**
+
+## 20. 統一題庫與來源模型（永久核心規則）
+
+**所有考題只有一個 Question Bank。學測、分科／其他官方考試、學校段考、校內考題、平台自製題，都只是題庫的不同來源（source），不得各自建立平行題庫、平行作答 UI 或不同學習流程。**
+
+### 20.1 題目是核心，來源是 metadata
+每一題都使用同一份共用題目契約與 renderer：題幹／題組 → 選項或輸入 → 作答 → 我不會 → 問 ChatGPT → 詳解看不懂 → 作答結果 → 分層詳解 → 錯題／學習紀錄。來源不得改變這套基本互動。
+
+題目至少可掛下列來源資訊：
+- sourceType: ceec_official / school_official / school_exam_verified / platform_generated / platform_simulated / unknown
+- sourceId / source title / source URL / source page / original question number
+- 官方考試：exam type、academic_year、subject/variant
+- 學校考題：school、academic_year、semester、grade、exam/段考次別
+- 驗證狀態與官方答案來源
+
+### 20.2 所有入口都只是同一題庫的篩選器
+- 「大量題庫」：可依科目、年級、單元、難度、題型、來源等篩選。
+- 「學測」：不是另一套題庫；等價於 sourceType=ceec_official 再依年份／考科篩選。選某一年時應能按原題號列出該年全部已收錄題目。
+- 「學校／段考」：不是另一套題庫；依 school → academic_year → semester → exam 篩選。選定一份考卷時按原題號列出全部已收錄題目。
+- 「依單元練習」：可以跨來源混合抽題；例如同一單元可同時包含平台題、學測題、建中段考題。
+- 「錯題／弱點」：同樣從統一題庫依作答紀錄回查，不建立來源專用錯題庫。
+
+### 20.3 顯示與作答規則必須一致
+不論題目來自學測、學校或平台，前端使用相同題目卡、相同作答元件、相同「我不會／問 ChatGPT／詳解看不懂」、相同分層詳解、相同錯題與學習紀錄。不得出現「學測只顯示題號與答案、一般題庫才顯示完整題目」等分裂體驗。
+
+依單元／弱點練習以逐題學習為主，不強調總分；只有使用者進入「整份模擬考／整份考卷」模式時，才隱藏答案與詳解至交卷後並進行整份計分。
+
+### 20.4 匯入規則
+新增 115、114、113… 學測或任何學校考卷時，流程都是：**匯入同一 Question Bank → 標記來源 metadata → 單元／能力分類 → 驗證 → 由既有共用 UI 顯示。** 不得因新來源新增 gsat-only、school-only 等獨立 renderer/app；若舊程式已有來源專用 UI，後續應逐步收斂成共用篩選器，而不是繼續擴張。
+
+### 20.5 開發判斷
+任何新題源需求先問：「能否只新增資料與 filter，而完全沿用既有 Question Bank / renderer / progress？」答案若是可以，就禁止建立新頁面邏輯。只有題型本身需要新 renderer（例如非選、作圖、實驗題）時，才擴充共用 renderer，而且擴充後所有來源都能使用。
