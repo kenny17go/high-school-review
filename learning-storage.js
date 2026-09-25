@@ -22,8 +22,8 @@ function create(storage){
  function record(set,answers,sessionId,mode){
   const a=attempts(),seen=new Set(a.map(x=>x.eventId));
   for(const q of set){if(answers[q.id]==null)continue;const eventId=sessionId+':'+key(q);if(seen.has(eventId))continue;
-   a.push({eventId,question_id:q.id,subject:q.subject||q.subjectId||'math',text_ids:q.chineseMetadata?.text_ids||[],skills:q.chineseMetadata?.skills||[q.skill||q.topic],category:q.category||q.topic,correct:answers[q.id]===q.a,mode,at:new Date().toISOString()});seen.add(eventId);
-   if(answers[q.id]!==q.a)help(q,'答錯');
+   a.push({eventId,question_id:q.id,subject:q.subject||q.subjectId||'math',text_ids:q.chineseMetadata?.text_ids||[],skills:q.chineseMetadata?.skills||[q.skill||q.topic],category:q.category||q.topic,correct:(root.LearningCore?.equalAnswer?.(q,answers[q.id])??answers[q.id]===q.a)===true,mode,at:new Date().toISOString()});seen.add(eventId);
+   if((root.LearningCore?.equalAnswer?.(q,answers[q.id])??answers[q.id]===q.a)===false)help(q,'答錯');
   }
   write('v5_attempts',a);
  }
