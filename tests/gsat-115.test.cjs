@@ -21,3 +21,12 @@ assert(runtime,'UnifiedQuestionBank runtime should exist');
 assert(runtime.questions.length>=6,'first integration batch should expose playable CEEC questions');
 assert(runtime.questions.every(q=>q.sourceType==='ceec_official'&&q.stem&&Array.isArray(q.options)&&q.explanation),'runtime questions need common renderer fields');
 assert(runtime.filter({sourceType:'ceec_official',academic_year:115}).length===runtime.questions.length,'source/year filters should operate on the common bank');
+
+// Shared question-group contract: questions remain independent while context is reusable.
+const grouped=runtime.questions.find(q=>q.question_number===18);
+assert.equal(grouped.group_id,'ceec-115-matha-g18-20');
+const shared=runtime.context(grouped);
+assert(shared,'shared group context should resolve');
+assert.deepEqual(Array.from(shared.question_numbers),[18,19,20]);
+assert(shared.stem.includes('平行六面體'),'group must carry shared stem instead of duplicating it into Q18');
+assert(!grouped.stem.includes('第18～20題共用題組'),'individual question stem should not duplicate group heading/context');
