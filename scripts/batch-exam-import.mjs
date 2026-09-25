@@ -9,6 +9,7 @@ export const REQUIRED_EXPLANATION=['concept','key_insight','solution','common_er
 const clean=v=>typeof v==='string'?v.trim():v;
 const asArray=v=>Array.isArray(v)?v:[];
 const unique=a=>[...new Set(a)];
+const countBy=(items,key)=>Object.fromEntries([...new Set(items.map(x=>x[key]??'unknown'))].sort().map(value=>[value,items.filter(x=>(x[key]??'unknown')===value).length]));
 
 export function normalizeQuestion(raw,exam={}){
  const q={...raw};
@@ -23,7 +24,7 @@ export function normalizeQuestion(raw,exam={}){
  q.source_url=clean(q.source_url||exam.source_url);
  q.answer_url=clean(q.answer_url||exam.answer_url);
  q.source_title=clean(q.source_title||exam.source_title);
- q.source_page=q.source_page==null?null:Number(q.source_page);
+ q.source_page=q.source_page==null?(exam.source_page==null?null:Number(exam.source_page)):Number(q.source_page);
  q.group_id=clean(q.group_id||q.groupId)||null;
  q.depends_on=asArray(q.depends_on).map(String);
  q.primary_unit=clean(q.primary_unit)||null;
@@ -31,6 +32,10 @@ export function normalizeQuestion(raw,exam={}){
  q.skill_tags=unique(asArray(q.skill_tags).map(clean).filter(Boolean));
  q.explanation=q.explanation&&typeof q.explanation==='object'?q.explanation:null;
  q.explanation_source=q.explanation_source||'platform_authored';
+ q.review_flags=unique(asArray(q.review_flags).map(clean).filter(Boolean));
+ q.parse_confidence=Number.isFinite(Number(q.parse_confidence))?Number(q.parse_confidence):null;
+ q.classification_confidence=Number.isFinite(Number(q.classification_confidence))?Number(q.classification_confidence):null;
+ q.answer_match=q.answer_match===false?false:true;
  q.classification_status='needs_review';
  q.pipeline_stage='staging';
  q.published=false;
@@ -58,6 +63,7 @@ export function validateQuestion(q,groups=new Map()){
  need(SOURCE_TYPES.has(q.sourceType)&&q.sourceType!=='unknown','invalid_source_type');
  need(Boolean(q.source_title),'missing_source_title');
  need(Boolean(q.source_url),'missing_source_url');
+ need(Boolean(clean(q.stem)),'missing_question_stem');
  if(q.source_url){
   try{
    const u=new URL(q.source_url);
@@ -66,6 +72,15 @@ export function validateQuestion(q,groups=new Map()){
   }catch{errors.push('invalid_source_url');}
  }
  if(q.sourceType==='ceec_official')need(q.academic_year>=110,'pre_110_ceec_blocked');
+ if(q.sourceType==='ceec_official')need(Boolean(q.answer_url),'missing_answer_url');
+ if(q.answer_url){
+  try{
+   const u=new URL(q.answer_url);
+   need(['http:','https:'].includes(u.protocol),'unsafe_answer_url');
+   if(q.sourceType==='ceec_official')need(u.hostname==='ceec.edu.tw'||u.hostname.endsWith('.ceec.edu.tw'),'invalid_ceec_answer_domain');
+  }catch{errors.push('invalid_answer_url');}
+ }
+ need(q.answer_match!==false,'official_answer_mismatch');
  need(answerShapeOk(q),'invalid_answer_shape');
  if(['single_choice','multiple_choice'].includes(q.questionType)){
   need(Array.isArray(q.options)&&q.options.length>=2,'missing_options');
@@ -76,6 +91,13 @@ export function validateQuestion(q,groups=new Map()){
   }
  }
  if(q.group_id&&!groups.has(q.group_id))errors.push('missing_group_context');
+ if(['short_answer','essay'].includes(q.questionType)&&q.sourceType==='ceec_official'&&!q.grading_rubric)warnings.push('missing_grading_rubric');
+ if(q.source_page==null||!Number.isInteger(q.source_page)||q.source_page<1)warnings.push('missing_source_page');
+ if(q.parse_confidence!=null&&(q.parse_confidence<0||q.parse_confidence>1))errors.push('invalid_parse_confidence');
+ else if(q.parse_confidence!=null&&q.parse_confidence<0.9)warnings.push('low_parse_confidence');
+ if(q.classification_confidence!=null&&(q.classification_confidence<0||q.classification_confidence>1))errors.push('invalid_classification_confidence');
+ else if(q.classification_confidence!=null&&q.classification_confidence<0.8)warnings.push('low_classification_confidence');
+ warnings.push(...q.review_flags);
  if(!q.primary_unit)warnings.push('missing_primary_unit');
  if(!q.skill_tags.length)warnings.push('missing_skill_tags');
  if(!q.explanation)warnings.push('missing_explanation');
@@ -99,6 +121,12 @@ export function prepareExamBatch(input){
  });
  const exceptions=questions.filter(q=>q.review_required);
  const cleanQuestions=questions.filter(q=>!q.review_required);
+ const expectedCount=Number(exam.expected_question_count||0)||null;
+ const numbers=questions.map(q=>q.question_number).filter(Number.isInteger).sort((a,b)=>a-b);
+ const missingNumbers=expectedCount?[...Array(expectedCount)].map((_,i)=>i+1).filter(n=>!numbers.includes(n)):[];
+ const examErrors=[];
+ if(expectedCount&&questions.length!==expectedCount)examErrors.push('question_count_mismatch');
+ if(missingNumbers.length)examErrors.push('missing_question_numbers');
  const summary={
   exam_id:exam.id||null,
   total:questions.length,
@@ -107,15 +135,21 @@ export function prepareExamBatch(input){
   error_count:questions.filter(q=>q.validation.errors.length).length,
   warning_count:questions.filter(q=>q.validation.warnings.length).length,
   groups:groups.size,
+  expected_question_count:expectedCount,
+  missing_question_numbers:missingNumbers,
+  exam_errors:examErrors,
+  by_type:countBy(questions,'questionType'),
+  by_status:countBy(questions,'classification_status'),
   by_reason:Object.fromEntries(unique(exceptions.flatMap(q=>q.review_reasons)).sort().map(reason=>[reason,exceptions.filter(q=>q.review_reasons.includes(reason)).length])),
-  ready_for_human_review:true,
+  ready_for_human_review:examErrors.length===0,
   ready_for_publish:false
  };
- return {schema_version:'batch-import-v1',exam,groups:[...groups.values()],questions,review_summary:summary,exception_queue:exceptions.map(q=>({id:q.id,question_number:q.question_number,reasons:q.review_reasons}))};
+ return {schema_version:'batch-import-v1',exam,groups:[...groups.values()],questions,review_summary:summary,exception_queue:exceptions.map(q=>({id:q.id,question_number:q.question_number,reasons:q.review_reasons,source_page:q.source_page}))};
 }
 
 export function approveBatch(batch,review){
  if(!review?.reviewer||!review?.evidence)throw Error('Reviewer and evidence required');
+ if(batch.review_summary?.exam_errors?.length)throw Error('Blocking exam-level validation errors remain');
  if(batch.questions.some(q=>q.validation?.errors?.length))throw Error('Blocking validation errors remain');
  if(batch.questions.some(q=>q.review_required&&!review.approved_question_ids?.includes(q.id)))throw Error('All exceptions require explicit approval');
  const verified_at=new Date().toISOString();

@@ -13,6 +13,6 @@ window.GSAT115_READY=Object.freeze({
     {n:15,type:"fill_blank",points:5,answer:{cells:["3","2"]}},{n:16,type:"fill_blank",points:5,answer:{cells:["3","5","2"]}},
     {n:17,type:"fill_blank",points:5,answer:{cells:["3","1","1"]}},{n:18,type:"single_choice",points:3,answer:{index:2},groupId:"115-matha-18-20"},
     {n:19,type:"manual",points:4,answer:{grading:"manual_required",reference:"x-y-z=-1"},groupId:"115-matha-18-20"},
-    {n:20,type:"manual",points:8,answer:{grading:"manual_required"},groupId:"115-matha-18-20"}
+    {n:20,type:"manual",points:8,answer:{grading:"manual_required",reference:"volume=10; maxDistance=sqrt(94)"},groupId:"115-matha-18-20"}
   ]
 });

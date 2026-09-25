@@ -74,3 +74,13 @@
 ## V4.9.7.6 — 2026-09-12
 - 建立 Codex-ready 發布結構、維護規則與 npm test。
 - 保護 config.js、fallback-data.js，核心功能延續 V4.9.7.5。
+## 5.0 — Batch Importer 115 數A Golden Sample（2026-09-25）
+
+- 將 115 學測數學A 20題／100分完整送入 Batch Importer V1，產生可重現的 Raw、Staging、Review Summary 與 Exception Queue；沒有寫入正式 Supabase。
+- 新增整份考卷層級檢查：預期題數、缺號、題型分布、官方答案 manifest、答案來源 URL、頁碼、解析／分類信心與題目 review flags。
+- 官方答案 1–20 全數吻合，Q18–20 共用題組關聯完整；所有自動資料仍維持 needs_review，不會自行升格 verified/published。
+- Exception Queue 明確攔截既有 metadata 缺選項、公式／圖形視覺核對與非選評分規準，不以假內容通過發布閘門。
+- 修正共用題庫 Q2 最大整數函數題幹的 `99-x` 符號錯誤，並補齊既有版本／快取一致性。
+- 補齊 Q5、Q7–Q17、Q19–Q20 題面與 Q5、Q7–Q12 完整選項；以官方 PDF 渲染頁面視覺核對矩陣、向量、三角函數、多項式與題組附圖。
+- 修正 Q10 面積選項為 `65/3`；依官方非選評分原則修正 Q20 體積由錯誤的30改為10、AP向量為(4,4,-2)，並加入 Q19／Q20 滿分與部分給分規準。
+- 修正後 review summary 為 clean 20、blocking error 0、warning 0、Exception Queue 0；自動資料仍全部維持 needs_review，未發布或寫入 Supabase。

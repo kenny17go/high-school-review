@@ -758,7 +758,7 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
       "points": 8,
       "answer": {
         "grading": "manual_required",
-        "reference": "volume=30; maxDistance=sqrt(94)"
+        "reference": "volume=10; maxDistance=sqrt(94)"
       },
       "sourceType": "ceec_official",
       "source_title": "115學年度學科能力測驗數學A考科",
@@ -769,7 +769,7 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
       "explanation": {
         "concept": "外積；混合積；平行六面體體積；空間最遠距離",
         "key_insight": "體積用 |(AB×AD)·AP|；最遠距離比較各頂點。",
-        "solution": "由題設可得 AP=(3,4,-3)、AD=(2,3,-1)、AB=(1,-1,2)。體積=30；最遠頂點向量(6,7,-3)，距離√94。",
+        "solution": "由題設可得 AP=(4,4,-2)、AD=(2,3,-1)、AB=(1,-1,2)。體積=|(AB×AD)·AP|=10；比較各頂點到A的距離，AS²=94最大，所以最長距離為√94。",
         "common_errors": "直接用底面積乘 |AP|；或只比較三條棱長。"
       },
       "explanation_source": "platform_authored",

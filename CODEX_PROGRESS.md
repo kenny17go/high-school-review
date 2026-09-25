@@ -2,6 +2,20 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-25 Batch Importer V1 — 115 數A Golden Sample milestone
+
+- 以最新 HEAD `9ce30d7` 為基準，在本機完整執行 Batch Importer V1；沒有重做既有架構，也沒有寫入正式 Supabase。
+- 新增 `scripts/build-gsat-115-golden.mjs`，將既有 115 數A 20題 metadata、共用 runtime 題面與獨立官方答案 manifest 組成可重現 Raw input，再輸出 Staging artifact。
+- 產物：`data/raw/ceec-115-matha.json`、`data/staging/ceec-115-matha.batch-import-v1.json`；20題／100分、1–20無缺號、答案20/20一致、Q18–20題組完整。
+- Importer 加入整卷題數／缺號、答案 URL、官方答案 mismatch、頁碼、解析／分類 confidence、review flags 與題型／狀態統計；所有自動題仍固定 needs_review。
+- 初次 Review Summary：clean 9、Exception Queue 11、blocking error 7、warning 9。接續補齊題面／選項並以官方 PDF 渲染視覺核對後，最新結果為 clean 20、Exception Queue 0、blocking error 0、warning 0；仍因全卷保持 needs_review 而 `ready_for_publish=false`。
+- 找到並納入大考中心 Q19／Q20 官方非選評分原則。修正重大內容錯誤：Q20 `AP=(4,4,-2)`、體積10、最長距離√94；原資料錯寫 AP=(3,4,-3)、體積30。另修正 Q10 第四選項為65/3。
+- 修正共用 runtime Q2 題幹符號為 `f(x)=[99-x]+[99+x]`；同步 build/cache 為 `5.0-batch-golden-2`，並修復本輪開始即存在的 version name/cache validation 不一致。
+- 新增 `tests/gsat-115-golden.test.mjs` 並納入 `npm test`。validate、V5、GSAT、Batch Importer、Golden、PostgreSQL migration 全部 PASS。
+- Browser regression 尚未在本環境完成：repository 預設 Edge 不存在；Playwright Chromium 下載因執行環境回傳 0 MiB 非 zip 而失敗。既有 browser test 未因產品 assertion 失敗，需由 GitHub Actions 或具瀏覽器環境重跑。
+- 使用者已於 2026-09-25 明確授權本里程碑 commit、push、部署；提交與 Pages 結果須以 Git/GitHub 實際狀態核對。
+- Next：由教師／內容審核者覆核20題分類與平台四層詳解，才可 approve/publish artifact；下一資料批次建議沿用相同 pipeline 處理114學測數學A。不可建立 GSAT 專用題庫或 renderer。
+
 ## Current Task
 2026-09-20：DONE（內容與測試）— 國文既有150題內容檢查，補強124題詳解、修正語意與用字，完成回歸與相容性比對。未新增科目或真題。
 
@@ -185,4 +199,3 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - `package.json` 新增 `test:batch-import` 並納入完整 npm test。
 - 本輪 GitHub connector 無本機工作樹，因此測試程式已加入但尚未實際執行；不得宣稱 PASS。沒有 Supabase 寫入，沒有修改既有題庫或 renderer。
 - 下一步：用115數A現有20題 metadata 建第一份 importer fixture/staging artifact；先修正/驗證公式圖形與完整題面 exceptions，再讓整份115數A通過同一 review summary。之後凍結 Unified Question Schema V1，批次跑114→111。
-

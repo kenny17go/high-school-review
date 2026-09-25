@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-unified-bank-3";
+window.V500_BUILD="5.0-batch-golden-2";
 
 (function(){
 "use strict";

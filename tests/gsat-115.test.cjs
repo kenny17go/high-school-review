@@ -11,7 +11,7 @@ assert.equal(unified.questions.length,20);assert.equal(unified.questions.reduce(
 assert.equal(new Set(unified.questions.map(x=>x.question_number)).size,20);
 for(const x of unified.questions){assert.ok(x.primary_unit);assert.ok(x.secondary_concepts.length);assert.ok(x.skill_tags.length);assert.ok(x.source_url.includes("ceec.edu.tw"));assert.ok(x.explanation.concept);assert.ok(x.explanation.key_insight);assert.ok(x.explanation.solution);assert.ok(x.explanation.common_errors);}
 assert.deepEqual(Array.from(unified.questions.filter(x=>x.classification_status==="needs_review"),x=>x.question_number),[5,8,10,11,12]);
-assert.equal(unified.questions.find(x=>x.question_number===20).answer.reference,"volume=30; maxDistance=sqrt(94)");
+assert.equal(unified.questions.find(x=>x.question_number===20).answer.reference,"volume=10; maxDistance=sqrt(94)");
 console.log("GSAT 115 Math A unified bank PASS");
 
 // Unified runtime bridge: official questions must join the same question-bank contract.
