@@ -1,3 +1,11 @@
+## 5.0 — 共用混合題型 Renderer（2026-09-25）
+- 共用 Question Contract 擴充 single_choice / multiple_choice / fill_blank / numeric / short_answer / essay，不建立學測專用 renderer。
+- 練習模式加入多選勾選、選填多格輸入、數值與非選文字作答；單選既有操作維持。
+- 模考模式同步支援混合題型，答案與詳解維持交卷後才顯示；short_answer / essay 保留作答但不假裝自動判分。
+- LearningStorage 改用共用答案判定，錯題紀錄可正確處理多選與選填。
+- staging 的 CEEC runtime 題目標記 sync_disabled，避免正式 Supabase schema 尚未升級時誤寫 production。
+- 新增 mixed question contract regression fixtures；本批未寫入 Supabase。
+
 ## 5.0 — 共用題組 Question Group（2026-09-25）
 - 統一題庫加入 Question Group：Question 負責獨立作答／評分／詳解／錯題，Group 負責共用題幹／公式／圖片等閱讀情境。
 - 115數A Q18–20 建立永久 group_id；Q18 不再把共用題幹複製進自己的 stem。
