@@ -10,7 +10,7 @@
 - 所有自動分類與平台詳解仍保持 `needs_review`，`ready_for_publish=false`；runtime 使用 `sync_disabled`，沒有寫入正式 Supabase，也沒有假造人工 verified/published。
 - 共用 runtime 現含115與114數A共40題；大量題庫年份篩選新增114，選定年度可依原題號取完整20題。新增114 Golden/regression test並保留115回歸。
 - build 更新為 `5.0-batch-114-1`。Validate、V5 data、115 GSAT、Batch Importer、115/114 Golden與PostgreSQL migration均PASS；browser test已加入114完整20題UI斷言，但執行環境缺少Edge/Chromium，且Playwright下載被截斷，故瀏覽器回歸未實際完成。
-- 本輪尚未獲得114批次 commit／push／部署授權；保持本機變更，下一建議批次為113學測數A。
+- 使用者已明確授權114數A commit／push／部署；主里程碑提交 `169908d` 已推送 main，GitHub Pages run #102 成功。線上 `version.json` 為 `5.0-batch-114-1`，實際載入線上114／115／runtime腳本驗證為40題（114與115各20題），114題號01–20與Q18–Q20題組完整。下一建議批次為113學測數A。
 
 ## 2026-09-25 115 數A完整20題 runtime 接線修正
 
