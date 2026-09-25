@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-unified-bank-1";
+window.V500_BUILD="5.0-unified-bank-2";
 
 (function(){
 "use strict";
@@ -419,10 +419,16 @@ function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now(
   if(practiceScope)$("countText").textContent=`本次範圍：${scopeSummary(practiceScope)}｜${current.length} 題（符合條件 ${pool.length} 題）${current.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${practiceScope.note}`;
   $("result").textContent="";
 }
+function questionGroupMarkup(q,seen){
+ const g=window.UnifiedQuestionBank?.context?.(q);if(!g)return"";
+ if(seen?.has(g.id))return`<div class="questionGroupRef">↳ 延續「${escapeText(g.title||"共用題組")}」</div>`;
+ seen?.add(g.id);
+ return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">共用題幹</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div></section>`;
+}
 function questionSourceMarkup(q){if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
 function renderQuiz(){
- const passageSeen=new Set();
-  $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ const passageSeen=new Set(),groupSeen=new Set();
+  $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div><div class="opts">${q.o.map((x,j)=>`<button class="opt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
   const b=e.target.closest(".opt"); if(!b)return;
