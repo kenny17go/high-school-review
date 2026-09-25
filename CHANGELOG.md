@@ -1,3 +1,10 @@
+## 5.0 — 共用題組 Question Group（2026-09-25）
+- 統一題庫加入 Question Group：Question 負責獨立作答／評分／詳解／錯題，Group 負責共用題幹／公式／圖片等閱讀情境。
+- 115數A Q18–20 建立永久 group_id；Q18 不再把共用題幹複製進自己的 stem。
+- 共用練習 renderer 遇到 group_id 自動帶出題組情境；同一批連續題只完整顯示一次，後續題標示延續題組。
+- 加入 depends_on 設計規則：只有後題真的依賴前題作答結果時才整組抽題。
+- 本批仍未寫入 Supabase。
+
 ## 5.0 — 統一題庫來源整合第一階段（2026-09-25）
 - 「大量題庫」新增來源與年份篩選；學測不再只能走獨立展示頁。
 - 新增 unified-question-bank.js runtime bridge，將115數A已完成題面核對的首批單選真題轉成共用 question contract，直接使用既有題庫卡、作答、我不會、問 ChatGPT、詳解看不懂與錯題流程。
