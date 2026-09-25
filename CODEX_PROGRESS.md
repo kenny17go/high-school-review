@@ -2,6 +2,17 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-25 113 數A完整20題跨年度 Batch milestone
+
+- 以最新已部署的114／115流程為基礎，沿用同一 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；未建立113專用 importer、renderer或第二套題庫，也未寫入正式 Supabase。
+- 依大考中心官方試卷、選擇（填）題參考答案、非選擇題評分原則及第7題試題／答案反映意見回覆，逐頁渲染核驗113數A 20題／100分；題型為單選7、多選6、選填5、非選2，Q18–Q20共用題組。
+- 新增 `gsat-113-unified-bank.js`、`scripts/build-gsat-113-golden.mjs`，產生 `data/raw/ceec-113-matha.json` 與 `data/staging/ceec-113-matha.batch-import-v1.json`。答案20/20與官方 manifest 一致，題號1–20無缺號、error 0。
+- Review Summary：clean 19、needs_review 1、warning 1、Exception Queue 1。唯一例外為Q7 `official_answer_objection_resolved`：考後有人主張平移後圖形亦應算相同，但大考中心明確以坐標點集不同回覆並維持官方答案③④；資料保留官方回覆 URL 與原答案，不自行改答。
+- 所有20題分類與平台詳解均保持 `needs_review`、`ready_for_publish=false`；runtime 使用 `sync_disabled`。Q19／Q20附官方評分原則，Q16填答經版面核對為 `2√5/5`。
+- 共用 runtime 現含113／114／115數A共60題；大量題庫年份篩選新增113，選定年度依原題號取得完整20題。build/cache 更新為 `5.0-batch-113-1`，新增113 Golden／Exception Queue／60題唯一ID與題型分布回歸，114回歸同步提升為60題。
+- Validate、V5 data、115 GSAT、Batch Importer、115／114／113 Golden與PostgreSQL migration均PASS。browser test已加入113與114各20題UI斷言，但本執行環境沒有Edge／Chromium，故 Playwright 無法啟動，瀏覽器回歸未實際完成。
+- 本里程碑尚未 commit、push或部署；需使用者另行明確授權。下一建議批次為112學測數A。
+
 ## 2026-09-25 114 數A完整20題跨年度 Batch milestone
 
 - 以115數A已完成流程為基礎，沿用同一 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；沒有新增114專用 importer、renderer或第二套題庫。

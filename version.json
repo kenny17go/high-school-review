@@ -1,7 +1,7 @@
 {
   "version": "5.0",
-  "build": "5.0-batch-114-1",
-  "name": "統一題庫＋114數A Batch Golden Sample",
+  "build": "5.0-batch-113-1",
+  "name": "統一題庫＋113數A Batch",
   "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
   "observedBasePageVersion": "4.9.7.1",
@@ -36,6 +36,7 @@
     "learning-storage.js",
     "subject-adapters.js",
     "chinese-data.js",
+    "gsat-113-unified-bank.js",
     "gsat-114-unified-bank.js",
     "gsat-115-ready-data.js",
     "gsat-115-engine.js",
