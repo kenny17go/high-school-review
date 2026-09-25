@@ -1,6 +1,6 @@
 (function(root){"use strict";
-const source=root.GSAT_UNIFIED_BANK_115_MATHA;
-if(!source){root.UnifiedQuestionBank=root.UnifiedQuestionBank||{all:()=>[]};return;}
+const sources=[root.GSAT_UNIFIED_BANK_115_MATHA,root.GSAT_UNIFIED_BANK_114_MATHA].filter(Boolean);
+if(!sources.length){root.UnifiedQuestionBank=root.UnifiedQuestionBank||{all:()=>[]};return;}
 const groups={
 "ceec-115-matha-g18-20":{id:"ceec-115-matha-g18-20",subject:"math",sourceType:"ceec_official",sourceId:"ceec-115-matha",academic_year:115,exam:"學測",variant:"數學A",question_numbers:[18,19,20],title:"第18～20題共用題組",stem:"坐標空間中有一平行六面體，已知 AB×AD=(-5,5,5)、AD×AP=(-2,0,-4)、AP×AB=(6,-10,-8)，且 |AP|=6。",source_page:6,display_mode:"shared_context",depends_on:[]}
 };
@@ -34,13 +34,16 @@ function detailed(q){
  if(q.id==="ceec-115-matha-18")return "平行四邊形 ABCD 的兩鄰邊為 AB、AD，面積就是 |AB×AD|。已知 AB×AD=(-5,5,5)，所以面積=√[(-5)^2+5^2+5^2]=√75=5√3，因此選③。常見錯誤是把外積向量的某一個分量當成面積；面積要取外積向量的長度。";
  return e.solution||"依題目條件逐步整理並代入計算。";
 }
-const questions=source.questions.map(q=>{
- const c=content[q.id];if(!c)return null;
+for(const source of sources)for(const group of source.groups||[])groups[group.id]={...group,subject:"math",sourceType:"ceec_official",sourceId:`ceec-${source.meta.academicYear}-matha`,academic_year:source.meta.academicYear,exam:"學測",variant:"數學A"};
+const questions=sources.flatMap(source=>source.questions.map(q=>{
+ const c=q.stem?q:content[q.id];if(!c)return null;
  const questionType=q.questionType==="manual"?"short_answer":q.questionType;
  const answer=questionType==="single_choice"?q.answer?.index:questionType==="multiple_choice"?q.answer?.indices:questionType==="fill_blank"?q.answer?.cells:q.answer;
  const options=c.options||[];
  const input_spec=questionType==="fill_blank"?{cells:(q.answer?.cells||[]).map((_,index)=>({index}))}:undefined;
- return {id:q.id,subject:"math",subjectId:"math",grade:3,course:"gsat-matha",category:q.primary_unit,unit:q.primary_unit,chapter:q.primary_unit,topic:q.primary_unit,skill:q.skill_tags?.[0]||q.primary_unit,questionType,stem:c.stem,options,answer,q:c.stem,o:options,a:answer,input_spec,answer_available:true,explanation:detailed(q),e:detailed(q),difficulty:"學測",level:"學測",sourceType:"ceec_official",sourceId:"ceec-115-matha",source_title:q.source_title,source_url:q.source_url,answer_url:q.answer_url,source_page:q.source_page,academic_year:115,exam:"學測",variant:"數學A",question_number:q.question_number,classification_status:q.classification_status,group_id:c.group_id||null,verified_at:q.classification_status==="verified"?"2026-09-25":null,origin:"local-official",sync_disabled:true,explanation_detail:q.explanation};
- }).filter(Boolean);
-root.UnifiedQuestionBank=Object.freeze({version:"1.1",questions,groups,all(){return questions.slice();},group(id){return groups[id]||null;},context(q){return q?.group_id?groups[q.group_id]||null:null;},filter(f={}){return questions.filter(q=>(!f.subject||q.subject===f.subject)&&(!f.sourceType||q.sourceType===f.sourceType)&&(!f.academic_year||q.academic_year===Number(f.academic_year))&&(!f.unit||q.unit===f.unit));}});
+ const year=Number(q.academic_year||source.meta.academicYear);
+ const explanation=year===115?detailed(q):(q.explanation?.solution?`${q.explanation.solution}${q.explanation.common_errors?` 常見錯誤：${q.explanation.common_errors}`:""}`:detailed(q));
+ return {id:q.id,subject:"math",subjectId:"math",grade:3,course:"gsat-matha",category:q.primary_unit,unit:q.primary_unit,chapter:q.primary_unit,topic:q.primary_unit,skill:q.skill_tags?.[0]||q.primary_unit,questionType,stem:c.stem,options,answer,q:c.stem,o:options,a:answer,input_spec,answer_available:true,explanation,e:explanation,difficulty:"學測",level:"學測",sourceType:"ceec_official",sourceId:`ceec-${year}-matha`,source_title:q.source_title,source_url:q.source_url,answer_url:q.answer_url,source_page:q.source_page,academic_year:year,exam:"學測",variant:"數學A",question_number:q.question_number,classification_status:q.classification_status,group_id:c.group_id||q.group_id||null,verified_at:q.classification_status==="verified"?"2026-09-25":null,origin:"local-official",sync_disabled:true,explanation_detail:q.explanation};
+ })).filter(Boolean);
+root.UnifiedQuestionBank=Object.freeze({version:"1.2",questions,groups,all(){return questions.slice();},group(id){return groups[id]||null;},context(q){return q?.group_id?groups[q.group_id]||null:null;},filter(f={}){return questions.filter(q=>(!f.subject||q.subject===f.subject)&&(!f.sourceType||q.sourceType===f.sourceType)&&(!f.academic_year||q.academic_year===Number(f.academic_year))&&(!f.unit||q.unit===f.unit));}});
 })(window);

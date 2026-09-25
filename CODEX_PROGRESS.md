@@ -2,6 +2,16 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-25 114 數A完整20題跨年度 Batch milestone
+
+- 以115數A已完成流程為基礎，沿用同一 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；沒有新增114專用 importer、renderer或第二套題庫。
+- 依大考中心官方試卷、參考答案及非選擇題評分原則，建立114數A 20題／100分完整資料與獨立答案 manifest；題型為單選7、多選6、選填5、非選2，Q18–Q20共用題組。
+- 產生 `data/raw/ceec-114-matha.json` 與 `data/staging/ceec-114-matha.batch-import-v1.json`；Review Summary 為 clean 20、error 0、warning 0、Exception Queue 0、缺號0、答案20/20一致。
+- 所有自動分類與平台詳解仍保持 `needs_review`，`ready_for_publish=false`；runtime 使用 `sync_disabled`，沒有寫入正式 Supabase，也沒有假造人工 verified/published。
+- 共用 runtime 現含115與114數A共40題；大量題庫年份篩選新增114，選定年度可依原題號取完整20題。新增114 Golden/regression test並保留115回歸。
+- build 更新為 `5.0-batch-114-1`。Validate、V5 data、115 GSAT、Batch Importer、115/114 Golden與PostgreSQL migration均PASS；browser test已加入114完整20題UI斷言，但執行環境缺少Edge/Chromium，且Playwright下載被截斷，故瀏覽器回歸未實際完成。
+- 本輪尚未獲得114批次 commit／push／部署授權；保持本機變更，下一建議批次為113學測數A。
+
 ## 2026-09-25 115 數A完整20題 runtime 接線修正
 
 - 使用者回報「大量題庫」篩選學測真題／115學年度只顯示6題。實際核對確認 Raw 與 Staging 均為完整20題，問題位於 `unified-question-bank.js`：content map 只有 Q1、Q2、Q3、Q4、Q6、Q18，且最後只保留整數單選答案，因而排除所有多選、選填、非選題。

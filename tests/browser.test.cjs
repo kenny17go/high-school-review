@@ -39,6 +39,14 @@ const server=http.createServer((req,res)=>{
  assert.ok(await page.evaluate(()=>JSON.parse(localStorage.studyQueue).length)>0);
  await page.locator('#practice [data-home]').click();
  assert.equal(await page.locator('#doneN').innerText(),'1');
+ // Unified Question Bank: selecting one official paper must render all 20 questions in source order.
+ await page.locator('#home button[data-open="practice"]:not([data-subject-mode])').click();
+ await page.selectOption('#practiceSource','ceec');await page.selectOption('#practiceYear','114');await page.selectOption('#qtyFilter','20');
+ await page.locator('#applyFilter').click();
+ assert.equal(await page.locator('#quiz .qcard').count(),20);
+ assert.match(await page.locator('#countText').innerText(),/目前產生 20 題（符合條件共 20 題）.*114學年度/);
+ assert.deepEqual(await page.locator('#quiz .qcard').evaluateAll(cards=>cards.map(card=>card.querySelector('[data-dontknow-q]')?.dataset.dontknowQ)),Array.from({length:20},(_,i)=>`ceec-114-matha-${String(i+1).padStart(2,'0')}`));
+ await page.locator('#practice [data-home]').click();
  await page.locator('#home button[data-open="mock"]:not([data-subject-mode])').click();await page.locator('#startMock').click();
  assert.equal(await page.locator('#mockQuiz .qcard').count(),20);
  await page.locator('#mockQuiz .opt').filter({visible:true}).first().click();await page.locator('#submitMock').click();

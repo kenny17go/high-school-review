@@ -1,0 +1,1232 @@
+{
+  "exam": {
+    "id": "ceec-114-matha",
+    "subject": "math",
+    "academic_year": 114,
+    "exam": "學測",
+    "variant": "數學A",
+    "sourceType": "ceec_official",
+    "source_title": "114學年度學科能力測驗數學A考科",
+    "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+    "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+    "expected_question_count": 20,
+    "total_points": 100,
+    "raw_layer": "official_pdf_reference"
+  },
+  "groups": [
+    {
+      "id": "ceec-114-matha-g18-20",
+      "question_numbers": [
+        18,
+        19,
+        20
+      ],
+      "title": "第18～20題共用題組",
+      "stem": "A、B皆為以原點O為中心、逆時針旋轉一銳角的旋轉矩陣，且A²=B³=[[0,c],[1,d]]。點P=(1,1)經A³變換後為Q，Q再經B⁴變換後為R。",
+      "source_page": 6,
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "review_flags": []
+    }
+  ],
+  "answer_manifest": {
+    "1": {
+      "index": 4
+    },
+    "2": {
+      "index": 1
+    },
+    "3": {
+      "index": 3
+    },
+    "4": {
+      "index": 2
+    },
+    "5": {
+      "index": 0
+    },
+    "6": {
+      "index": 2
+    },
+    "7": {
+      "indices": [
+        1,
+        3
+      ]
+    },
+    "8": {
+      "indices": [
+        2,
+        4
+      ]
+    },
+    "9": {
+      "indices": [
+        1,
+        3,
+        4
+      ]
+    },
+    "10": {
+      "indices": [
+        0,
+        3,
+        4
+      ]
+    },
+    "11": {
+      "indices": [
+        2,
+        3,
+        4
+      ]
+    },
+    "12": {
+      "indices": [
+        0,
+        2,
+        3,
+        4
+      ]
+    },
+    "13": {
+      "cells": [
+        "-",
+        "6",
+        "3"
+      ]
+    },
+    "14": {
+      "cells": [
+        "-",
+        "1",
+        "1"
+      ]
+    },
+    "15": {
+      "cells": [
+        "4",
+        "0",
+        "5"
+      ]
+    },
+    "16": {
+      "cells": [
+        "2",
+        "4",
+        "5"
+      ]
+    },
+    "17": {
+      "cells": [
+        "3",
+        "2"
+      ]
+    },
+    "18": {
+      "index": 1
+    },
+    "19": {
+      "grading": "manual_required",
+      "reference": "Q=(-sqrt(2),0); angle(OR,(1,0))=60deg"
+    },
+    "20": {
+      "grading": "manual_required",
+      "reference": "angle OSP=60deg; S=(-sqrt(3)/3,1)"
+    }
+  },
+  "visual_review": {
+    "questions": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20
+    ],
+    "paper_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "method": "rendered_official_pdf",
+    "reviewed_on": "2026-09-25"
+  },
+  "questions": [
+    {
+      "id": "ceec-114-matha-01",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 1,
+      "primary_unit": "機率與統計",
+      "secondary_concepts": [
+        "獨立事件",
+        "列聯表"
+      ],
+      "skill_tags": [
+        "由獨立條件反推未知數"
+      ],
+      "questionType": "single_choice",
+      "points": 5,
+      "answer": {
+        "index": 4
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 1,
+      "classification_status": "needs_review",
+      "stem": "袋中藍、綠色球依編號1、2的顆數為：藍色1號2顆、藍色2號3顆、綠色1號4顆、綠色2號k顆。若抽到藍色球與抽到1號球互相獨立，求k。",
+      "options": [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "獨立事件與列聯表",
+        "key_insight": "用P(藍且1號)=P(藍)P(1號)。",
+        "solution": "總球數為9+k。由2/(9+k)=[5/(9+k)]·[6/(9+k)]，得2(9+k)=30，所以k=6，選⑤。",
+        "common_errors": "把獨立誤認為互斥，或漏算綠色2號的k顆。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-02",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 2,
+      "primary_unit": "坐標幾何",
+      "secondary_concepts": [
+        "直線斜率",
+        "截距三角形面積"
+      ],
+      "skill_tags": [
+        "以斜率表示截距"
+      ],
+      "questionType": "single_choice",
+      "points": 5,
+      "answer": {
+        "index": 1
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 1,
+      "classification_status": "needs_review",
+      "stem": "P=(a,0)為x軸上一點，a>0。通過P且斜率分別為-4/3、-3/2的直線L₁、L₂，各與兩坐標軸圍成直角三角形；兩面積差為3，求a。",
+      "options": [
+        "3√2",
+        "6",
+        "6√2",
+        "9",
+        "8√2"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "直線截距與三角形面積",
+        "key_insight": "通過(a,0)、斜率m的直線，其y截距絕對值為|m|a。",
+        "solution": "兩面積差為(1/2)a²(3/2-4/3)=a²/12=3，故a²=36。因a>0，a=6，選②。",
+        "common_errors": "忘記三角形面積的1/2，或沒有使用a>0排除負根。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-03",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 3,
+      "primary_unit": "排列組合",
+      "secondary_concepts": [
+        "分組排列",
+        "限制排列"
+      ],
+      "skill_tags": [
+        "先排類別區塊再排曲目"
+      ],
+      "questionType": "single_choice",
+      "points": 5,
+      "answer": {
+        "index": 3
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 1,
+      "classification_status": "needs_review",
+      "stem": "音樂會有5個不同鋼琴曲目、4個不同小提琴曲目、3個不同歌唱曲目。同類表演排在一起，且歌唱必須排在鋼琴之後或小提琴之後，共有多少種排列？",
+      "options": [
+        "5!×4!×3!",
+        "2×5!×4!×3!",
+        "3×5!×4!×3!",
+        "4×5!×4!×3!",
+        "6×5!×4!×3!"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "分組排列與限制條件",
+        "key_insight": "三類先視為三個區塊；歌唱區塊不能排第一。",
+        "solution": "三個區塊共有6種次序，其中歌唱排第一有2種，故可用4種。各區塊內再排列，總數為4×5!×4!×3!，選④。",
+        "common_errors": "直接使用3!而沒有排除歌唱在最前面的兩種次序。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-04",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 4,
+      "primary_unit": "對數函數",
+      "secondary_concepts": [
+        "對數圖形",
+        "格子點計數"
+      ],
+      "skill_tags": [
+        "分層計數整數點"
+      ],
+      "questionType": "single_choice",
+      "points": 5,
+      "answer": {
+        "index": 2
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 2,
+      "classification_status": "needs_review",
+      "stem": "求y=log₂x、x軸與直線x=61/2所圍有界區域內部（不含邊界）的格子點數。",
+      "options": [
+        "88",
+        "89",
+        "90",
+        "91",
+        "92"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "對數函數圖形與格子點",
+        "key_insight": "依整數y逐層計算滿足2ʸ<x<61/2的整數x。",
+        "solution": "y=1、2、3、4時，整數x數分別為28、26、22、14；更高的y沒有點。合計28+26+22+14=90，選③。",
+        "common_errors": "把邊界x=2ʸ上的點算入，或把x=61/2誤看成61。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-05",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 5,
+      "primary_unit": "三角函數",
+      "secondary_concepts": [
+        "倍角",
+        "三角不等式"
+      ],
+      "skill_tags": [
+        "求共同解區間"
+      ],
+      "questionType": "single_choice",
+      "points": 5,
+      "answer": {
+        "index": 0
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 2,
+      "classification_status": "needs_review",
+      "stem": "設0≤θ≤2π。所有同時滿足sin2θ>sinθ且cos2θ>cosθ的θ可寫為aπ<θ<bπ，求b-a。",
+      "options": [
+        "1/3",
+        "1/2",
+        "2/3",
+        "3/4",
+        "1"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "三角函數不等式",
+        "key_insight": "分別化簡兩不等式，再取解集交集。",
+        "solution": "將sin2θ-sinθ與cos2θ-cosθ因式化並作符號判斷，交集為π<θ<4π/3，因此b-a=1/3，選①。",
+        "common_errors": "分別求出區間後忘記取交集，或忽略端點為嚴格不等式。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-06",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 6,
+      "primary_unit": "空間向量",
+      "secondary_concepts": [
+        "互相垂直向量",
+        "平行六面體體積"
+      ],
+      "skill_tags": [
+        "由差向量反求長度"
+      ],
+      "questionType": "single_choice",
+      "points": 5,
+      "answer": {
+        "index": 2
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 2,
+      "classification_status": "needs_review",
+      "stem": "空間中u、v、w彼此互相垂直，且u-v=(2,-1,0)、v-w=(-1,2,3)。求u、v、w所張平行六面體的體積。",
+      "options": [
+        "2√5",
+        "5√2",
+        "2√10",
+        "4√5",
+        "4√10"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "正交向量與體積",
+        "key_insight": "用差向量長度與內積求|u|²、|v|²、|w|²。",
+        "solution": "|u-v|²=5=|u|²+|v|²；|v-w|²=14=|v|²+|w|²；兩差向量內積為-4=-|v|²，故三者平方長度為1、4、10。體積=1·2·√10=2√10，選③。",
+        "common_errors": "直接把兩個已知差向量做外積，或漏用三向量互相垂直。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-07",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 7,
+      "primary_unit": "數列",
+      "secondary_concepts": [
+        "遞回數列",
+        "等比縮放"
+      ],
+      "skill_tags": [
+        "逐項驗證敘述"
+      ],
+      "questionType": "multiple_choice",
+      "points": 5,
+      "answer": {
+        "indices": [
+          1,
+          3
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 2,
+      "classification_status": "needs_review",
+      "stem": "數列<aₙ>滿足3aₙ₊₁=aₙ+n（n為正整數），且a₁=2。令bₙ=aₙ-n/2+3/4，選出正確敘述。",
+      "options": [
+        "a₂=2",
+        "b₂=3/4",
+        "<bₙ>是公比2/3的等比數列",
+        "對任意正整數n，3ⁿaₙ皆為正整數",
+        "b₁₀<10⁻⁴"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "線性遞回與數列變換",
+        "key_insight": "先算初值，再用遞回檢驗整數量與長期行為。",
+        "solution": "由遞回得a₂=1，故b₂=1-1+3/4=3/4，②正確。反覆代入可知3ⁿaₙ保持正整數，④正確；其餘敘述不成立。",
+        "common_errors": "把3aₙ₊₁=aₙ+n誤讀為aₙ₊₁=3aₙ+n。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-08",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 8,
+      "primary_unit": "指數函數",
+      "secondary_concepts": [
+        "指數方程式",
+        "圓方程式"
+      ],
+      "skill_tags": [
+        "同底數比較指數"
+      ],
+      "questionType": "multiple_choice",
+      "points": 5,
+      "answer": {
+        "indices": [
+          2,
+          4
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 3,
+      "classification_status": "needs_review",
+      "stem": "坐標平面上的點P(x,y)滿足2^(x²)/8=4^x/2^(y²)，選出正確敘述。",
+      "options": [
+        "x=3時有相異2個解",
+        "若(a,b)滿足，則(-a,-b)也滿足",
+        "所有點構成一個圓",
+        "點P可能在直線x+y=4上",
+        "x-y的最大值為1+2√2"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "指數式化為圓方程",
+        "key_insight": "全部改寫成底數2後比較指數。",
+        "solution": "方程化為x²-3=2x-y²，即(x-1)²+y²=4，是圓心(1,0)、半徑2的圓。線性函數x-y最大值為1+2√2，故③⑤。",
+        "common_errors": "移項時漏掉配方常數，得到圓心錯誤。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-09",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 9,
+      "primary_unit": "多項式",
+      "secondary_concepts": [
+        "二次方程式",
+        "判別式"
+      ],
+      "skill_tags": [
+        "由有無實根夾出參數"
+      ],
+      "questionType": "multiple_choice",
+      "points": 5,
+      "answer": {
+        "indices": [
+          1,
+          3,
+          4
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 3,
+      "classification_status": "needs_review",
+      "stem": "b、c為實數。x²+bx+c=0有實根，但x²+(b+2)x+c=0沒有實根，選出正確敘述。",
+      "options": [
+        "c<0",
+        "b<0",
+        "x²+(b+1)x+c=0有實根",
+        "x²+(b+2)x-c=0有實根",
+        "x²+(b-2)x+c=0有實根"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "判別式與參數範圍",
+        "key_insight": "同時使用b²-4c≥0與(b+2)²-4c<0。",
+        "solution": "兩式推出b²>(b+2)²，所以b<-1，②成立；又c>0，使(b+2)²+4c>0，④成立；且(b-2)²>b²≥4c，⑤成立。",
+        "common_errors": "只檢查一個判別式，或把“沒有實根”寫成判別式≤0。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-10",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 10,
+      "primary_unit": "三角函數",
+      "secondary_concepts": [
+        "正弦圖形",
+        "周期與對稱"
+      ],
+      "skill_tags": [
+        "以交點位置表示解"
+      ],
+      "questionType": "multiple_choice",
+      "points": 5,
+      "answer": {
+        "indices": [
+          0,
+          3,
+          4
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 3,
+      "classification_status": "needs_review",
+      "stem": "Γ為y=sin(πx)在0≤x≤3的圖形，水平線L:y=k與Γ相交，其中三交點P(x₁,k)、Q(x₂,k)、R(x₃,k)滿足x₁<x₂<1<x₃。選出正確敘述。",
+      "options": [
+        "k>0",
+        "L與Γ恰有3個交點",
+        "x₁+x₂<1",
+        "若2PQ=QR，則k=1/2",
+        "L與Γ所有交點x坐標之和大於5"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "正弦圖形的周期與對稱",
+        "key_insight": "前三個交點可寫成x₁、1-x₁、2+x₁。",
+        "solution": "條件迫使k>0，且全區間共有4個交點。由2PQ=QR得x₁=1/6，所以k=sin(π/6)=1/2；四交點横坐標和為6>5。故①④⑤。",
+        "common_errors": "只數題目點名的三個交點，忽略(2,3)間還有另一個交點。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-11",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 11,
+      "primary_unit": "平面向量",
+      "secondary_concepts": [
+        "角平分線",
+        "向量分點",
+        "面積與內積"
+      ],
+      "skill_tags": [
+        "坐標化逐項檢驗"
+      ],
+      "questionType": "multiple_choice",
+      "points": 5,
+      "answer": {
+        "indices": [
+          2,
+          3,
+          4
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 4,
+      "classification_status": "needs_review",
+      "stem": "△ABC中AB=6、AC=5、BC=4。D為AB中點，P為∠ABC的角平分線與CD的交點。選出正確敘述。",
+      "options": [
+        "CP=(3/7)CD",
+        "AP=(3/7)AB+(2/7)AC",
+        "cos∠BAC=3/4",
+        "△ACP面積為15√7/14",
+        "向量AP·AC=120/7"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "角平分線與向量幾何",
+        "key_insight": "建立A、B坐標，並用角平分線比例求P。",
+        "solution": "由餘弦定理得cosA=3/4；再用角平分線與直線CD求交點，可得△ACP面積15√7/14及AP·AC=120/7。正確為③④⑤。",
+        "common_errors": "把P誤當成BC上的角平分線分點，直接套BP:PC=AB:AC。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-12",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 12,
+      "primary_unit": "機率與統計",
+      "secondary_concepts": [
+        "線性資料轉換",
+        "回歸直線",
+        "標準差"
+      ],
+      "skill_tags": [
+        "單位與變量轉換"
+      ],
+      "questionType": "multiple_choice",
+      "points": 5,
+      "answer": {
+        "indices": [
+          0,
+          2,
+          3,
+          4
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 4,
+      "classification_status": "needs_review",
+      "stem": "20筆資料(xₖ,yₖ)的回歸直線為y=21.3x-40，其中x為甲占比百分數、y為奈米。改以乙占比u與波長微米v表示，回歸直線為v=au+b。選出正確敘述。",
+      "options": [
+        "uₖ=100-xₖ",
+        "vₖ=1000yₖ",
+        "u的標準差等於x的標準差",
+        "b=2.09",
+        "加入一個恰在原回歸直線上的新點後，回歸直線仍相同"
+      ],
+      "group_id": null,
+      "explanation": {
+        "concept": "變量線性轉換與回歸",
+        "key_insight": "u=100-x，v=y/1000。",
+        "solution": "代入得v=(21.3(100-u)-40)/1000=-0.0213u+2.09。平移與乘-1不改變標準差；加入殘差為0的點仍滿足正規方程。故①③④⑤。",
+        "common_errors": "奈米換微米方向寫反，誤寫成v=1000y。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-13",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 13,
+      "primary_unit": "多項式函數",
+      "secondary_concepts": [
+        "多項式除法",
+        "三次函數對稱中心"
+      ],
+      "skill_tags": [
+        "平移變量識別奇函數結構"
+      ],
+      "questionType": "fill_blank",
+      "points": 5,
+      "answer": {
+        "cells": [
+          "-",
+          "6",
+          "3"
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 4,
+      "classification_status": "needs_review",
+      "stem": "實系數三次多項式f(x)除以x+6得商q(x)、餘式3。若q(x)在x=-6有最大值8，求y=f(x)圖形的對稱中心坐標。",
+      "group_id": null,
+      "explanation": {
+        "concept": "三次函數對稱中心",
+        "key_insight": "令t=x+6，把q寫成頂點在t=0的二次式。",
+        "solution": "q(x)=at²+8（a<0），而f=(x+6)q+3=at³+8t+3。以t=0為中心呈奇對稱，所以中心為(-6,3)。",
+        "common_errors": "把q的頂點直接當成f的對稱中心，漏看餘式3決定縱坐標。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-14",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 14,
+      "primary_unit": "空間向量",
+      "secondary_concepts": [
+        "點到平面距離",
+        "聯立方程"
+      ],
+      "skill_tags": [
+        "依坐標符號去絕對值"
+      ],
+      "questionType": "fill_blank",
+      "points": 5,
+      "answer": {
+        "cells": [
+          "-",
+          "1",
+          "1"
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 5,
+      "classification_status": "needs_review",
+      "stem": "A=(a,b,c)，a、b、c皆小於0。A到平面E₁:4y+3z=2、E₂:3y+4z=-5、E₃:x+2y+2z=-2的距離皆為6，求a+b+c。",
+      "group_id": null,
+      "explanation": {
+        "concept": "點到平面距離",
+        "key_insight": "利用a、b、c皆負判斷絕對值的符號。",
+        "solution": "前三式依距離公式化為4b+3c=-28、3b+4c=-35、a+2b+2c=-20，解得(a,b,c)=(-2,-1,-8)，故總和-11。",
+        "common_errors": "去絕對值時任意選正負號，沒有利用三坐標皆小於0。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-15",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 15,
+      "primary_unit": "機率與統計",
+      "secondary_concepts": [
+        "二項分配",
+        "期望值"
+      ],
+      "skill_tags": [
+        "依第三次正面出現時點分類"
+      ],
+      "questionType": "fill_blank",
+      "points": 5,
+      "answer": {
+        "cells": [
+          "4",
+          "0",
+          "5"
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 5,
+      "classification_status": "needs_review",
+      "stem": "均勻硬幣至多投5次：第3、4、5次才累計3個正面時，玩偶價格分別為240、320、400元；5次後仍少於3個正面則480元。求付款金額期望值。",
+      "group_id": null,
+      "explanation": {
+        "concept": "二項計數與期望值",
+        "key_insight": "依第三個正面首次出現在第3、4、5次或未出現分類。",
+        "solution": "四類機率為1/8、3/16、3/16、1/2。期望值=240/8+320·3/16+400·3/16+480/2=405元。",
+        "common_errors": "把“第4次才累計3個正面”誤算成前4次任意3個正面，未要求第4次為正面。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-16",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 16,
+      "primary_unit": "坐標幾何",
+      "secondary_concepts": [
+        "點到直線距離",
+        "圓的弦長"
+      ],
+      "skill_tags": [
+        "由相切條件求半徑"
+      ],
+      "questionType": "fill_blank",
+      "points": 5,
+      "answer": {
+        "cells": [
+          "2",
+          "4",
+          "5"
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 5,
+      "classification_status": "needs_review",
+      "stem": "L₁、L₂通過(3,1)，斜率分別為m、-m。圓Γ圓心為原點；Γ與L₁交於A、B，圓心到L₁距離為1，且Γ與L₂相切。求弦AB長度（最簡分數）。",
+      "group_id": null,
+      "explanation": {
+        "concept": "直線距離、切線與弦長",
+        "key_insight": "先由L₁距離為1求m，再由L₂相切求半徑。",
+        "solution": "距離條件給(1-3m)²=m²+1，排除使兩線重合的m=0，得m=3/4。圓半徑為13/5，弦長=2√[(13/5)²-1²]=24/5。",
+        "common_errors": "保留m=0卻忽略此時L₁與L₂重合，無法同時一條割圓、一條相切。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-17",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 17,
+      "primary_unit": "三角函數",
+      "secondary_concepts": [
+        "圓內接四邊形",
+        "托勒密定理",
+        "餘弦定理"
+      ],
+      "skill_tags": [
+        "聯立和與積"
+      ],
+      "questionType": "fill_blank",
+      "points": 5,
+      "answer": {
+        "cells": [
+          "3",
+          "2"
+        ]
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "classification_status": "needs_review",
+      "stem": "△ABC中AB=BC=3、cos∠ABC=-1/8。外接圓上一點D滿足BD=4且AD≤CD，求CD（最簡根式）。",
+      "group_id": null,
+      "explanation": {
+        "concept": "圓內接四邊形與弦長",
+        "key_insight": "先由餘弦定理求AC，再用托勒密與對角互補角建立AD、CD關系。",
+        "solution": "AC=9/2。托勒密定理得AD+CD=6；又∠ADC與∠ABC互補，餘弦定理推出AD·CD=7。因此兩者為3±√2，且AD≤CD，故CD=3+√2。",
+        "common_errors": "由AD+CD=6就直接猜兩弦相等，或忘記用AD≤CD選擇較大根給CD。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-18",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 18,
+      "primary_unit": "矩陣",
+      "secondary_concepts": [
+        "旋轉矩陣",
+        "矩陣乘方"
+      ],
+      "skill_tags": [
+        "由旋轉角判斷矩陣元素"
+      ],
+      "questionType": "single_choice",
+      "points": 3,
+      "answer": {
+        "index": 1
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "classification_status": "needs_review",
+      "stem": "求矩陣A²=B³=[[0,c],[1,d]]中的c。",
+      "options": [
+        "0",
+        "-1",
+        "1",
+        "-1/2",
+        "1/2"
+      ],
+      "group_id": "ceec-114-matha-g18-20",
+      "explanation": {
+        "concept": "旋轉矩陣",
+        "key_insight": "左下元素為1且為旋轉矩陣，代表旋轉90°。",
+        "solution": "A²=B³為旋轉90°矩陣[[0,-1],[1,0]]，所以c=-1，選②。",
+        "common_errors": "只看左上角為0，未結合A、B旋轉銳角及左下角為1判斷方向。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": null,
+      "rubric_url": null
+    },
+    {
+      "id": "ceec-114-matha-19",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 19,
+      "primary_unit": "矩陣",
+      "secondary_concepts": [
+        "旋轉矩陣",
+        "矩陣乘方",
+        "向量夾角"
+      ],
+      "skill_tags": [
+        "連續旋轉追蹤坐標"
+      ],
+      "questionType": "short_answer",
+      "points": 6,
+      "answer": {
+        "grading": "manual_required",
+        "reference": "Q=(-sqrt(2),0); angle(OR,(1,0))=60deg"
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "classification_status": "needs_review",
+      "stem": "求點Q的坐標，以及向量OR與向量(1,0)的夾角。",
+      "group_id": "ceec-114-matha-g18-20",
+      "explanation": {
+        "concept": "旋轉矩陣與夾角",
+        "key_insight": "A為旋轉45°、B為旋轉30°，直接累加旋轉角。",
+        "solution": "P=(1,1)長度√2、方向角45°；經A³旋轉135°後，Q=(-√2,0)。再經B⁴旋轉120°，OR方向角為300°，與(1,0)的夾角為60°。",
+        "common_errors": "把方向角300°直接當成兩向量夾角，而未取較小夾角60°。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": {
+        "url": "https://www.ceec.edu.tw/files/file_pool/1/0P052332221548018933/04-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E8%80%83%E7%A7%91%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "full_score": [
+          "正確求得 Q=(-√2,0)",
+          "正確求得向量 OR 與 (1,0) 的夾角為 60°"
+        ],
+        "partial_score": [
+          "旋轉方向與角度方法正確，但坐標或夾角計算未完成"
+        ]
+      },
+      "rubric_url": "https://www.ceec.edu.tw/files/file_pool/1/0P052332221548018933/04-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E8%80%83%E7%A7%91%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf"
+    },
+    {
+      "id": "ceec-114-matha-20",
+      "academic_year": 114,
+      "exam": "學測",
+      "subject": "math",
+      "variant": "數學A",
+      "question_number": 20,
+      "primary_unit": "矩陣",
+      "secondary_concepts": [
+        "旋轉矩陣",
+        "直線交點",
+        "向量夾角"
+      ],
+      "skill_tags": [
+        "由前題結果建立直線"
+      ],
+      "questionType": "short_answer",
+      "points": 6,
+      "answer": {
+        "grading": "manual_required",
+        "reference": "angle OSP=60deg; S=(-sqrt(3)/3,1)"
+      },
+      "sourceType": "ceec_official",
+      "source_title": "114學年度學科能力測驗數學A考科",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0p056503510203248955/03-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E9%A1%8C.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0P019609011568488076/114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "classification_status": "needs_review",
+      "stem": "L為過P且與直線OQ平行的直線，S為L與直線OR的交點。求∠OSP及S坐標。",
+      "group_id": "ceec-114-matha-g18-20",
+      "explanation": {
+        "concept": "直線交點與幾何夾角",
+        "key_insight": "OQ為水平線；OR方向角300°，斜率為-√3。",
+        "solution": "L過P=(1,1)且平行OQ，所以L:y=1；OR:y=-√3x。聯立得S=(-√3/3,1)。由OR與水平線的夾角可得∠OSP=60°。",
+        "common_errors": "把S到P的方向與P到S混淆，或把x坐標有理化時漏掉負號。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "answer_match": true,
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "review_flags": [],
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "grading_rubric": {
+        "url": "https://www.ceec.edu.tw/files/file_pool/1/0P052332221548018933/04-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E8%80%83%E7%A7%91%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "full_score": [
+          "正確求得 ∠OSP=60°",
+          "正確求得 S=(-√3/3,1)"
+        ],
+        "partial_score": [
+          "正確建立直線 L 或 OR，但交點或夾角計算未完成"
+        ]
+      },
+      "rubric_url": "https://www.ceec.edu.tw/files/file_pool/1/0P052332221548018933/04-114%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E8%80%83%E7%A7%91%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf"
+    }
+  ]
+}

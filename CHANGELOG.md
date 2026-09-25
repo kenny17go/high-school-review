@@ -1,3 +1,9 @@
+## 5.0 — Batch Importer 114 數A跨年度批次（2026-09-25）
+
+- 沿用同一 Batch Importer V1 與統一 Question Bank，完成114學測數學A 20題／100分的 Raw、Staging、Review Summary、Exception Queue及共用 runtime接線。
+- 依官方試卷、答案與非選評分原則核對20題；Validation為error 0、warning 0、缺號0、Exception Queue 0，所有自動內容仍保持needs_review且不寫入正式Supabase。
+- 大量題庫新增114學年度篩選；115與114合計40題共用同一renderer，並新增跨年度ID、題型分布、題組與完整20題回歸測試。
+
 ## 5.0 — 115 數A完整20題共用題庫接線修正（2026-09-25）
 
 - 修正 Batch Importer 已有20題、但 `unified-question-bank.js` runtime bridge 只提供6題單選，導致「大量題庫」顯示6題的漏接問題。
