@@ -118,3 +118,36 @@ Migration 未套用時 CHIN disabled，國文使用本機資料；數學沿用�
 整份計分屬於 session/mode，不屬於 source：單元練習逐題回饋；整份模考／整份考卷才在交卷後統一計分。
 
 現有 115 數A來源專用模組視為過渡資料／接線，不應成為長期第二套題庫架構；後續工作應把其題目資料匯入共用 Question Bank 並由既有 renderer 呈現，再移除重複顯示層。
+
+## Batch Exam Import + Explanation Pipeline
+
+115 學測數A是第一份 Golden Sample。目標不是用人工方式完成單一年度，而是驗證一條可重複使用的整份試卷生產線：
+
+```text
+Official PDF / answer key
+  → Raw source archive + traceability
+  → Parse / split questions + question groups
+  → Detect question type
+  → Match official answer
+  → Classify unit / topic / skill
+  → Batch Explanation Pipeline
+  → Automated validation
+  → Staging: needs_review
+  → Exception review
+  → verified
+  → Batch publish to the unified Question Bank
+```
+
+### Data layers
+- **Raw**：官方來源、PDF/答案來源、原題號／頁碼與未處理資料；不直接成為 production question。
+- **Staging**：normalize 後的 JSON/JSONL、題組、分類、平台詳解、confidence、validation results；預設 needs_review。
+- **Published**：人工確認後才進入統一 Question Bank。production 不另建 GSAT/school/source-specific bank。
+
+Importer 的輸出應包含 review summary / exception queue，讓人工集中處理答案不一致、低信心公式／圖片、題組切割、來源缺漏等異常，而不是重新閱讀所有正常題。Importer 不直接寫正式 Supabase；正式 publish 是獨立、可審核的步驟。
+
+### Explanation contract
+每題平台詳解固定包含：**考什麼 → 破題關鍵 → 完整步驟 → 常見錯誤**。批次產生後以規則核對官方答案、answer type、必要 group context、基本數值／公式一致性與 source metadata。AI 產生內容永遠是 platform-authored，不是 CEEC／學校官方詳解；未經人工覆核保持 needs_review。
+
+### Scaling rule
+115 Golden Sample 端到端穩定後，先凍結 Unified Question Schema V1，再批次處理 114→111 數A；新科目先取20–50題 Golden Sample 驗證科目特有題型，再擴大量。擴充新來源原則上只增加資料、分類與 filter；只有真正的新題型才擴充共用 renderer。
+
