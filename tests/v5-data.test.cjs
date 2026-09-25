@@ -46,9 +46,9 @@ const school={...real,sourceType:'school_exam_verified',school:null};assert.ok(C
 const fixtures=[
  C.normalize({...q,id:'fx-single',questionType:'single_choice',options:['A','B'],answer:1,explanation:'fixture',sourceType:'platform_simulated'}),
  C.normalize({...q,id:'fx-multi',questionType:'multiple_choice',options:['A','B','C'],answer:[0,2],explanation:'fixture',sourceType:'platform_simulated'}),
- C.normalize({...q,id:'fx-blank',questionType:'fill_blank',options:undefined,answer:['3','5','2'],explanation:'fixture',sourceType:'platform_simulated'}),
- C.normalize({...q,id:'fx-num',questionType:'numeric',options:undefined,answer:1.5,explanation:'fixture',sourceType:'platform_simulated'}),
- C.normalize({...q,id:'fx-short',questionType:'short_answer',options:undefined,answer:{reference:'x-y-z=-1'},explanation:'fixture',sourceType:'platform_simulated'})
+ C.normalize({...q,id:'fx-blank',questionType:'fill_blank',options:undefined,o:undefined,answer:['3','5','2'],explanation:'fixture',sourceType:'platform_simulated'}),
+ C.normalize({...q,id:'fx-num',questionType:'numeric',options:undefined,o:undefined,answer:1.5,explanation:'fixture',sourceType:'platform_simulated'}),
+ C.normalize({...q,id:'fx-short',questionType:'short_answer',options:undefined,o:undefined,answer:{reference:'x-y-z=-1'},explanation:'fixture',sourceType:'platform_simulated'})
 ];
 for(const x of fixtures)assert.deepEqual(Array.from(C.errors(x)),[],x.id);
 assert.equal(C.equalAnswer(fixtures[0],1),true);assert.equal(C.equalAnswer(fixtures[0],0),false);
