@@ -496,34 +496,36 @@ async function syncAttempts(set,ans,mode){
   }
 }
 function startMock(){sessionStorage.setItem("v471_session","mock-"+Date.now());
-  mockScope=adapter()||selectedGrade()===2?currentScope():null;
-  const qty=+$("mockQty").value,pool=getSchoolPool();mock=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));mockAnswers={};
-  const passageSeen=new Set();
-  $("mockQuiz").innerHTML=mock.map((q,i)=>`${passageMarkup(q,passageSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div><div class="opts">${q.o.map((x,j)=>`<button class="opt mockopt" data-q="${q.id}" data-opt="${j}">${String.fromCharCode(65+j)}. ${escapeText(x)}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
-  $("mockSubmitBox").style.display="block";$("mockResult").innerHTML="";
-  $("mockScopeText").textContent=mockScope?`本次範圍：${scopeSummary(mockScope)}｜${mock.length} 題${mock.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${mockScope.note}`:"高一既有學校模擬題池";
-  if(!mock.length){$("mockSubmitBox").style.display="none";toast("目前範圍沒有符合條件的題目。");}
+ mockScope=adapter()||selectedGrade()===2?currentScope():null;
+ const qty=+$("mockQty").value,pool=getSchoolPool();mock=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));mockAnswers={};
+ const passageSeen=new Set(),groupSeen=new Set();
+ $("mockQuiz").innerHTML=mock.map((q,n)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${n+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionInputMarkup(q,"mock")}<div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${escapeText(qAnswerText(q))}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ $("mockSubmitBox").style.display="block";$("mockResult").innerHTML="";
+ $("mockScopeText").textContent=mockScope?`本次範圍：${scopeSummary(mockScope)}｜${mock.length} 題${mock.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${mockScope.note}`:"高一既有學校模擬題池";
+ if(!mock.length){$("mockSubmitBox").style.display="none";toast("目前範圍沒有符合條件的題目。");}
 }
 $("mockQuiz").addEventListener("click",e=>{
  const dk=e.target.closest("[data-mock-dk]"),ask=e.target.closest("[data-mock-ask]");
- if(dk||ask){const id=+(dk?.dataset.mockDk||ask?.dataset.mockAsk),q=mock.find(x=>x.id===id);if(q){if(dk)markNeedHelp(q,"我不會");else queueForChatGPT(q,"我想請 ChatGPT 再解釋");}return;}
-
-  const b=e.target.closest(".mockopt");if(!b)return;const id=+b.dataset.q;mockAnswers[id]=+b.dataset.opt;
-  document.querySelectorAll(`.mockopt[data-q="${id}"]`).forEach(x=>x.classList.remove("selected"));b.classList.add("selected");
+ if(dk||ask){const id=dk?.dataset.mockDk||ask?.dataset.mockAsk,q=mock.find(x=>String(x.id)===String(id));if(q){if(dk)markNeedHelp(q,"我不會");else queueForChatGPT(q,"我想請 ChatGPT 再解釋");}return;}
+ const check=e.target.closest("[data-mock-check]");
+ if(check){const id=check.dataset.mockCheck,q=mock.find(x=>String(x.id)===String(id));if(!q)return;const value=readStructuredAnswer(q,$("mockQuiz"),"mock");if(!qAnswered(q,value)){toast("請先作答。");return;}mockAnswers[q.id]=value;check.textContent="已儲存";return;}
+ const opt=e.target.closest(".mockopt");if(!opt)return;const id=opt.dataset.q,q=mock.find(x=>String(x.id)===String(id));if(!q)return;mockAnswers[q.id]=+opt.dataset.opt;
+ document.querySelectorAll(`.mockopt[data-q="${CSS.escape(String(id))}"]`).forEach(x=>x.classList.remove("selected"));opt.classList.add("selected");
 });
 async function submitMock(){
-  if(!mock.length)return;
-  let correct=0,wrong=[];
-  mock.forEach(q=>{
-    if(mockAnswers[q.id]===q.a)correct++;else if(mockAnswers[q.id]!==undefined){wrong.push(q.id);markNeedHelp(q,`答錯：我選 ${String.fromCharCode(65+mockAnswers[q.id])}，正確答案是 ${String.fromCharCode(65+q.a)}`,"",mockAnswers[q.id]);}
-    document.querySelectorAll(`.mockopt[data-q="${q.id}"]`).forEach(x=>{const op=+x.dataset.opt;if(op===q.a)x.classList.add("correct");if(mockAnswers[q.id]===op&&op!==q.a)x.classList.add("wrong")});
-    $("mexp"+q.id).classList.add("show");
-    const card=$("mexp"+q.id).parentElement;if(!card.querySelector("[data-mock-explain]")){const bt=document.createElement("button");bt.className="soft";bt.dataset.mockExplain=q.id;bt.textContent="詳解看不懂";bt.onclick=()=>{const note=prompt("哪一段詳解看不懂？","");markNeedHelp(q,"詳解看不懂",note||"");};card.appendChild(bt);}
-  });
-  const done=mock.filter(q=>mockAnswers[q.id]!==undefined).length,score=done?Math.round(correct/done*100):0;
-  saveLocalSession(done,score,wrong,mock,mockAnswers);
-  if(db&&user)await syncAttempts(mock,mockAnswers,"mock");
-  $("mockResult").innerHTML=`<h3>模擬考：${score} 分</h3><p>已作答 ${done} 題，答對 ${correct} 題。</p>`;refreshStats();
+ if(!mock.length)return;
+ let correct=0,wrong=[];
+ mock.forEach(q=>{
+  const value=mockAnswers[q.id],ok=qCorrect(q,value);
+  if(ok===true)correct++;else if(qAnswered(q,value)&&ok===false){wrong.push(q.id);markNeedHelp(q,`答錯：我的答案 ${Array.isArray(value)?value.join("、"):value}，正確答案是 ${qAnswerText(q)}`,"",value);}
+  if(q.questionType==="single_choice")document.querySelectorAll(`.mockopt[data-q="${CSS.escape(String(q.id))}"]`).forEach(x=>{const op=+x.dataset.opt,key=window.LearningCore?.answerKey?.(q)??q.a;if(op===key)x.classList.add("correct");if(value===op&&op!==key)x.classList.add("wrong")});
+  $("mexp"+q.id)?.classList.add("show");
+  const card=$("mexp"+q.id)?.parentElement;if(card&&!card.querySelector("[data-mock-explain]")){const bt=document.createElement("button");bt.className="soft";bt.dataset.mockExplain=q.id;bt.textContent="詳解看不懂";bt.onclick=()=>{const note=prompt("哪一段詳解看不懂？","");markNeedHelp(q,"詳解看不懂",note||"");};card.appendChild(bt);}
+ });
+ const done=mock.filter(q=>qAnswered(q,mockAnswers[q.id])).length,gradable=mock.filter(q=>qAnswered(q,mockAnswers[q.id])&&qCorrect(q,mockAnswers[q.id])!==null).length,score=gradable?Math.round(correct/gradable*100):0;
+ saveLocalSession(done,score,wrong,mock,mockAnswers);
+ if(db&&user)await syncAttempts(mock,mockAnswers,"mock");
+ $("mockResult").innerHTML=`<h3>模擬考：${score} 分</h3><p>已作答 ${done} 題；可自動評分 ${gradable} 題，答對 ${correct} 題。${done>gradable?" 非選題保留作答內容，需人工／規準批改。":""}</p>`;refreshStats();
 }
 function termNumber(){ return $("term").value==="上學期"?1:2; }
 let allHistoricalV4961=[];
