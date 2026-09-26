@@ -1,3 +1,10 @@
+## 2026-09-26 Explanation V2 release checkpoint
+
+- 基準 main 5da692e0；暫存 tree 00ad2f8534f1a1691bbf03bf408d4d64bb3e4773。115 國綜36題 V2、33題選項解析、Q32–34分項作答要點已接入共用 renderer；Golden manifest 答案36/36一致。
+- 新增 tests/gsat-115-chinese-explanation-v2.test.mjs，package.json 納入 test:explanation-v2。程式語法與資料映射檢查通過；完整 npm test、Playwright/iPhone 實測尚未執行。
+- 全部平台詳解仍 draft_review_required、needs_review、sync_disabled；官方 PDF 本輪未重取，未進行新的逐題原文覆核，不寫 Supabase。
+- build 5.0-explanation-v2-2；HTML 的變更腳本 cache-busting 同步更新。
+
 # CODEX_PROGRESS.md
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。

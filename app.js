@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-global-subject-nav-1";
+window.V500_BUILD="5.0-explanation-v2-2";
 
 (function(){
 "use strict";
@@ -465,6 +465,16 @@ function questionGroupMarkup(q,seen){
  const link=linked&&official?`<p class="small"><a href="${escapeText(official)}" target="_blank" rel="noopener noreferrer">開啟官方試卷第 ${escapeText(g.source_page||"?")} 頁查看完整文本（PDF）</a></p><p class="small">本站僅提供內容摘要；平台詳解與分類仍待人工審閱。</p>`:"";
  return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">${contextLabel}</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div>${link}</section>`;
 }
+function explanationMarkup(q){
+ const e=q.explanation_v2||q.explanation_detail||q.explanation;
+ if(!e||typeof e==="string")return '<b>答案：</b>'+escapeText(qAnswerText(q))+'<br><b>詳解：</b>'+escapeText(e||q.e||"");
+ const options=Array.isArray(e.option_analysis)?e.option_analysis:[];
+ const section=(label,value)=>value?'<div class="explainSection"><span class="explainLabel">'+label+'</span>'+escapeText(value)+'</div>':"";
+ return '<div class="explainV2">'+section("正確答案",qAnswerText(q))+
+  section("考點",e.concept)+section("破題關鍵",e.key_insight)+
+  (options.length?'<div class="explainSection"><span class="explainLabel">逐選項解析</span><div class="optionAnalysis">'+options.map((x,i)=>'<div><b>'+String.fromCharCode(65+i)+'.</b> '+escapeText(x)+'</div>').join("")+'</div></div>':"")+
+  section("完整推理",e.reasoning||e.solution)+(Array.isArray(e.answer_elements)&&e.answer_elements.length?'<div class="explainSection"><span class="explainLabel">非選擇題作答要點</span><ol>'+e.answer_elements.map(x=>'<li>'+escapeText(x)+'</li>').join("")+'</ol><small>'+escapeText(e.scoring_notice||"平台整理，實際配分以官方公告為準。")+'</small></div>':"")+section("易錯原因",e.common_errors)+section("解題技巧",e.strategy)+section("延伸複習",e.review)+'</div>';
+}
 function questionSourceMarkup(q){if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>${q.explanation_status==="draft_review_required"?'<span class="tag">平台詳解待審閱</span>':''}`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
 function qAnswered(q,value){return window.LearningCore?.answered?.(value,q)??value!==undefined;}
 function qCorrect(q,value){return window.LearningCore?.equalAnswer?.(q,value)??value===q.a;}
@@ -493,7 +503,7 @@ function questionVisualMarkup(q){
 }
 function renderQuiz(){
  const passageSeen=new Set(),groupSeen=new Set();
- $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionVisualMarkup(q)}${questionInputMarkup(q)}<div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${escapeText(qAnswerText(q))}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionVisualMarkup(q)}${questionInputMarkup(q)}<div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}">${explanationMarkup(q)}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
  const check=e.target.closest("[data-practice-check]");
@@ -544,7 +554,7 @@ function startMock(){sessionStorage.setItem("v471_session","mock-"+Date.now());
  mockScope=adapter()||selectedGrade()===2?currentScope():null;
  const qty=+$("mockQty").value,pool=getSchoolPool();mock=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));mockAnswers={};
  const passageSeen=new Set(),groupSeen=new Set();
- $("mockQuiz").innerHTML=mock.map((q,n)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${n+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionVisualMarkup(q)}${questionInputMarkup(q,"mock")}<div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${escapeText(qAnswerText(q))}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ $("mockQuiz").innerHTML=mock.map((q,n)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${n+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionVisualMarkup(q)}${questionInputMarkup(q,"mock")}<div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}">${explanationMarkup(q)}</div></div>`).join("");
  $("mockSubmitBox").style.display="block";$("mockResult").innerHTML="";
  $("mockScopeText").textContent=mockScope?`本次範圍：${scopeSummary(mockScope)}｜${mock.length} 題${mock.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${mockScope.note}`:"高一既有學校模擬題池";
  if(!mock.length){$("mockSubmitBox").style.display="none";toast("目前範圍沒有符合條件的題目。");}
