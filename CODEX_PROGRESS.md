@@ -7,7 +7,7 @@
 - 使用者實際截圖顯示 `practiceVariant` 選單只包含「全部考科」，且畫面仍抽出數學題。這證明上一 checkpoint 將「欄位存在」誤判為「國綜可選」；問題並非手機快取。
 - 根因：variant 選項只在部分範圍／科目初始化時更新，且只從目前首頁科目取值。數學首頁時沒有國綜選項。
 - 本地修正：從統一 Question Bank 所有學測真題產生考科選項；可在數學首頁直接選「國綜」，此選擇會改以國綜真題集篩選；考科改變時章節 checkbox 清單同步採該考科實際 topic。
-- build/cache更新為`5.0-batch-chinese-115-3`；瀏覽器 regression 增加「數學首頁直接選國綜並取得36題」斷言。Validate、V5 data、GSAT各Golden、Batch Importer、migration均PASS，`git diff --check`與`node --check app.js` PASS；`npm test`僅最後 browser 階段無法啟動，環境缺`/opt/microsoft/msedge/msedge`。本地修正尚未commit、push或部署，未寫Supabase。
+- build/cache更新為`5.0-batch-chinese-115-3`；瀏覽器 regression 增加「數學首頁直接選國綜並取得36題」斷言。Validate、V5 data、GSAT各Golden、Batch Importer、migration均PASS，`git diff --check`與`node --check app.js` PASS；`npm test`僅最後 browser 階段無法啟動，環境缺`/opt/microsoft/msedge/msedge`。使用者已授權提交與部署，功能 commit `f3975b6` 已推送；線上版本、考科篩選程式及國綜runtime 36題／9組已核對。尚未寫Supabase；真機互動仍待使用者確認，因本機無Edge無法執行Playwright。
 
 ## 2026-09-26 115 國綜線上篩選修正 checkpoint
 
