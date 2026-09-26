@@ -12,8 +12,9 @@
 - 最新Review Summary：total 36、clean 22、question needs_review 14、group_needs_review 7、error 0、warning 14、題號缺漏0、exam_errors 0；14筆逐題warning均為官方異議已回覆，7組題組例外均為`rights_review_required`＋`external_context_required`。Q14–15結構化量詞資料及Q22–24古典文本不列入現代全文權利例外。
 - 使用者已決定採「官方PDF連結模式」。未釐清權利的現代文章不複製全文，只顯示平台摘要、官方PDF指定頁面連結與「平台詳解／分類待審閱」揭露；共用renderer已支援此模式，未另建國文專用題面。
 - `UnifiedQuestionBank` bridge已由數學硬編碼泛化為依來源科目映射，115國綜36題與9組Question Group已接入本機runtime；選擇國文／學測真題／115年度可依原題號載入完整36題。runtime內容仍保留`classification_status=needs_review`、`explanation_status=draft_review_required`與`sync_disabled`。
-- 本批仍為`ready_for_human_review=true`、`ready_for_publish=false`；尚未完成逐題／題組人工approval，未寫入正式Supabase，也未commit／push／部署。線上build仍是111數A版本。
+- 部署前審查時本批為`ready_for_human_review=true`、`ready_for_publish=false`；尚未完成逐題／題組人工approval，亦未寫入正式Supabase。前端可顯示題目，但不因此把AI內容冒充為人工verified。
 - 測試：115國綜Golden runtime（與111–115數A共存136題）、validate、V5 data、Batch Importer、既有115數A與跨年度Golden、migration均PASS，`git diff --check` PASS。Playwright browser仍因環境缺少`/opt/microsoft/msedge/msedge`無法啟動；browser suite已加入國文36題、9題組、8個PDF連結及36個待審閱標籤斷言，須在有Edge／Chromium環境執行。
+- 使用者已明確授權115國綜commit／push／部署；主里程碑提交`8a88366`已推送`main`。GitHub Pages線上`version.json`為`5.0-batch-chinese-115-1`，新題庫腳本HTTP 200；線上runtime核對為36題、9題組，部署完成。此處的「已部署」不等於把AI分類／詳解改標人工verified，資料審閱狀態仍照實保留。
 - Next: 完成必要人工Review與browser UI回歸後才可把本批標為Published；不可為了顯示完整試卷而違反現代文章rights規則。
 
 ## 2026-09-26 Repository Reality Check + 111 數A checkpoint
