@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-batch-chinese-115-3";
+window.V500_BUILD="5.0-global-subject-nav-1";
 
 (function(){
 "use strict";
@@ -7,6 +7,14 @@ const $=id=>document.getElementById(id);
 const catalog=window.LearningCatalog;
 const registry=window.SubjectRegistry,core=window.LearningCore,progress=window.LearningProgress;
 const subjectId=()=>$("subject")?.value||"math";
+const subjectNavLabel=id=>id==="chinese"?"國綜":"數學";
+function syncGlobalSubjectUI(){
+ const id=subjectId(),label=subjectNavLabel(id);
+ document.querySelectorAll("[data-subject-switch]").forEach(b=>{const active=b.dataset.subjectSwitch===id;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active));});
+ if($("subjectContext"))$("subjectContext").textContent="目前："+label;
+ if($("wrongSubject"))$("wrongSubject").value=id;
+ if($("wrongSubjectLabel"))$("wrongSubjectLabel").textContent="目前科目："+label;
+}
 const subjectInfo=()=>registry.get(subjectId());
 const adapter=()=>subjectInfo().adapter;
 let questionLoadSeq=0;
@@ -391,7 +399,7 @@ async function loadCoverageV49617(){
 function openPanel(id){
   if(id==="classicalPanel"){adapter()?.setMode("classical");adapter()?.render();}
   if(id==="learningAnalytics")renderSubjectAnalytics();
-  if(id==="wrong"&&!$("wrong").classList.contains("active"))$("wrongSubject").value=subjectId();
+  if(id==="wrong"){ $("wrongSubject").value=subjectId(); syncGlobalSubjectUI(); }
   const panel=$(id);
   if(!panel){toast("此功能頁目前無法開啟。");return;}
   $("home").style.display="none";
@@ -416,6 +424,13 @@ function goHome(){
   $("home").style.display="block";refreshStats();window.scrollTo(0,0);
 }
 document.addEventListener("click",e=>{
+  const subjectSwitch=e.target.closest("[data-subject-switch]");
+  if(subjectSwitch){
+    const next=subjectSwitch.dataset.subjectSwitch;
+    if(next&&registry.get(next)?.enabled&&next!==subjectId()){$("subject").value=next;switchSubject();}
+    else syncGlobalSubjectUI();
+    return;
+  }
   const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;refreshSchool();loadSchoolBankStatus();openPanel("practice");chooseSet();return}
   const o=e.target.closest("[data-open]"); if(o){if(o.dataset.subjectMode)adapter()?.setMode(o.dataset.subjectMode);openPanel(o.dataset.open);return}
   const h=e.target.closest("[data-home]"); if(h)goHome();
@@ -1090,6 +1105,7 @@ function renderSubjectSources(){
 }
 let subjectSwitchSeq=0;
 async function switchSubject(){
+ localStorage.setItem("hsr_active_subject",subjectId());syncGlobalSubjectUI();
  const seq=++subjectSwitchSeq; ++questionLoadSeq;++scopeRequest;++v494Seq;++historicalLoadSeq;++gsatLoadSeq;++coverageLoadSeq;
  selectedPracticeTopics.clear();
  adapter()?.clearCloud();
@@ -1108,6 +1124,9 @@ async function switchSubject(){
  try{await adapter()?.ensure();if(seq!==subjectSwitchSeq)return;updatePracticeVariant(true);adapter()?.setMode('exam');selectionChanged();renderSources();refreshStats();await loadCurrentSubjectQuestions();}
  catch(e){if(seq===subjectSwitchSeq)toast(e.message);}
 }
+const savedSubject=localStorage.getItem("hsr_active_subject");
+if(savedSubject&&registry.get(savedSubject)?.enabled)$("subject").value=savedSubject;
+syncGlobalSubjectUI();
 registry.enabled().forEach(s=>s.adapter?.init({selection:learningSelection,startPractice:()=>openPanel('practice'),open:openPanel,refreshStats}));
 $("wrongText").replaceChildren(new Option('全部篇目',''),...window.ClassicalTexts.map(t=>new Option(t.title,t.text_id)));
 $("wrongSkill").replaceChildren(new Option('全部能力',''),...registry.skills.map(s=>new Option(s.name,s.id)));

@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-batch-chinese-115-3",
+  "build": "5.0-global-subject-nav-1",
   "name": "學測考科選擇與國綜跨科篩選",
   "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
@@ -63,5 +63,9 @@
     "math": "stable",
     "chinese": "phase1",
     "physics": "planned"
-  }
+  },
+  "updatedAt": "2026-09-26",
+  "notes": [
+    "全站科目提升至最上層：數學 A／國綜共用 Global Subject Context；首頁、題庫、模考、錯題同步跟隨目前科目。"
+  ]
 }
