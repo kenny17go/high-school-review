@@ -1,7 +1,4 @@
-Warning: truncated output (original token count: 24918)
-Total output lines: 1260
-
-window.V500_BUILD="5.0-114-matha-explanation-v2";
+window.V500_BUILD="5.0-113-matha-explanation-v2";
 
 (function(){
 "use strict";
@@ -502,7 +499,8 @@ function revealPractice(q,id,value){
 function questionVisualMarkup(q){
  const figure=q?.visual_stimulus,asset=figure?.asset;
  if(!figure||typeof asset!=="string"||!/^assets\/[\w./-]+\.(?:png|webp|jpe?g)$/i.test(asset)||asset.includes(".."))return"";
- return `<figure class="questionFigure" style="margin:10px 0;max-width:100%;text-align:center"><img src="${asset}" alt="${escapeText(figure.alt||"題目附圖")}" loading="lazy" style="display:block;max-width:100%;height:auto;max-height:360px;margin:auto"><figcaption class="small">官方試卷圖示（第${Number(figure.source_page)||"?"}頁）</figcaption></figure>`;
+ const caption=figure.kind==="platform_redraw"?"平台依官方題目重繪示意圖":"官方試卷圖示";
+ return `<figure class="questionFigure" style="margin:10px 0;max-width:100%;text-align:center"><img src="${asset}" alt="${escapeText(figure.alt||"題目附圖")}" loading="lazy" style="display:block;max-width:100%;height:auto;max-height:360px;margin:auto"><figcaption class="small">${caption}（第${Number(figure.source_page)||"?"}頁）</figcaption></figure>`;
 }
 function renderQuiz(){
  const passageSeen=new Set(),groupSeen=new Set();
@@ -557,7 +555,227 @@ function startMock(){sessionStorage.setItem("v471_session","mock-"+Date.now());
  mockScope=adapter()||selectedGrade()===2?currentScope():null;
  const qty=+$("mockQty").value,pool=getSchoolPool();mock=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));mockAnswers={};
  const passageSeen=new Set(),groupSeen=new Set();
- $("mockQuiz").innerHTML=mock.map((q,n)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${n+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${…4918 tokens truncated…[q.topic]||"計算前未檢查條件與符號。";
+ $("mockQuiz").innerHTML=mock.map((q,n)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${n+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionVisualMarkup(q)}${questionInputMarkup(q,"mock")}<div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}">${explanationMarkup(q)}</div></div>`).join("");
+ $("mockSubmitBox").style.display="block";$("mockResult").innerHTML="";
+ $("mockScopeText").textContent=mockScope?`本次範圍：${scopeSummary(mockScope)}｜${mock.length} 題${mock.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${mockScope.note}`:"高一既有學校模擬題池";
+ if(!mock.length){$("mockSubmitBox").style.display="none";toast("目前範圍沒有符合條件的題目。");}
+}
+$("mockQuiz").addEventListener("click",e=>{
+ const dk=e.target.closest("[data-mock-dk]"),ask=e.target.closest("[data-mock-ask]");
+ if(dk||ask){const id=dk?.dataset.mockDk||ask?.dataset.mockAsk,q=mock.find(x=>String(x.id)===String(id));if(q){if(dk)markNeedHelp(q,"我不會");else queueForChatGPT(q,"我想請 ChatGPT 再解釋");}return;}
+ const check=e.target.closest("[data-mock-check]");
+ if(check){const id=check.dataset.mockCheck,q=mock.find(x=>String(x.id)===String(id));if(!q)return;const value=readStructuredAnswer(q,$("mockQuiz"),"mock");if(!qAnswered(q,value)){toast("請先作答。");return;}mockAnswers[q.id]=value;check.textContent="已儲存";return;}
+ const opt=e.target.closest(".mockopt");if(!opt)return;const id=opt.dataset.q,q=mock.find(x=>String(x.id)===String(id));if(!q)return;mockAnswers[q.id]=+opt.dataset.opt;
+ document.querySelectorAll(`.mockopt[data-q="${CSS.escape(String(id))}"]`).forEach(x=>x.classList.remove("selected"));opt.classList.add("selected");
+});
+async function submitMock(){
+ if(!mock.length)return;
+ let correct=0,wrong=[];
+ mock.forEach(q=>{
+  const value=mockAnswers[q.id],ok=qCorrect(q,value);
+  if(ok===true)correct++;else if(qAnswered(q,value)&&ok===false){wrong.push(q.id);markNeedHelp(q,`答錯：我的答案 ${Array.isArray(value)?value.join("、"):value}，正確答案是 ${qAnswerText(q)}`,"",value);}
+  if(q.questionType==="single_choice")document.querySelectorAll(`.mockopt[data-q="${CSS.escape(String(q.id))}"]`).forEach(x=>{const op=+x.dataset.opt,key=window.LearningCore?.answerKey?.(q)??q.a;if(op===key)x.classList.add("correct");if(value===op&&op!==key)x.classList.add("wrong")});
+  $("mexp"+q.id)?.classList.add("show");
+  const card=$("mexp"+q.id)?.parentElement;if(card&&!card.querySelector("[data-mock-explain]")){const bt=document.createElement("button");bt.className="soft";bt.dataset.mockExplain=q.id;bt.textContent="詳解看不懂";bt.onclick=()=>{const note=prompt("哪一段詳解看不懂？","");markNeedHelp(q,"詳解看不懂",note||"");};card.appendChild(bt);}
+ });
+ const done=mock.filter(q=>qAnswered(q,mockAnswers[q.id])).length,gradable=mock.filter(q=>qAnswered(q,mockAnswers[q.id])&&qCorrect(q,mockAnswers[q.id])!==null).length,score=gradable?Math.round(correct/gradable*100):0;
+ saveLocalSession(done,score,wrong,mock,mockAnswers);
+ if(db&&user)await syncAttempts(mock,mockAnswers,"mock");
+ $("mockResult").innerHTML=`<h3>模擬考：${score} 分</h3><p>已作答 ${done} 題；可自動評分 ${gradable} 題，答對 ${correct} 題。${done>gradable?" 非選題保留作答內容，需人工／規準批改。":""}</p>`;refreshStats();
+}
+function termNumber(){ return $("term").value==="上學期"?1:2; }
+let allHistoricalV4961=[];
+function uniqSorted(a,desc=false){
+  const v=[...new Set(a.filter(x=>x!==null&&x!==undefined&&x!==""))];
+  return v.sort((a,b)=>desc?Number(b)-Number(a):String(a).localeCompare(String(b),"zh-Hant"));
+}
+function fillHistoricalFiltersV4961(list){
+ const schoolSel=$("histSchool"),yearSel=$("histYear"),examSel=$("histExam");
+ const keepS=schoolSel?.value||"全部",keepY=yearSel?.value||"全部",keepE=examSel?.value||"全部";
+ if(schoolSel){
+   const dbNames=uniqSorted(list.map(x=>x.schools?.name||"成功高中"));
+   const fixed=["建國中學","北一女中","師大附中","成功高中","中山女高","松山高中","延平高中","薇閣高中"];
+   const vals=[...new Set([...fixed,...dbNames])];
+   schoolSel.innerHTML='<option value="全部">全部學校</option>'+vals.map(x=>`<option>${x}</option>`).join("");
+   if(vals.includes(keepS))schoolSel.value=keepS;
+ }
+ if(yearSel){
+   const dbYears=uniqSorted(list.map(x=>x.academic_year),true).map(Number);
+   const fixedYears=[];
+   for(let y=115;y>=110;y--)fixedYears.push(y);
+   const vals=[...new Set([...fixedYears,...dbYears.filter(y=>Number(y)>=110)])].sort((a,b)=>b-a);
+   yearSel.innerHTML='<option value="全部">全部學年度</option>'+vals.map(x=>`<option value="${x}">${x} 學年度</option>`).join("");
+   if(vals.map(String).includes(String(keepY)))yearSel.value=keepY;
+ }
+ if(examSel){
+   const vals=uniqSorted(list.map(x=>x.exam_name));
+   const fixed=["第一次段考","第二次段考","第三次段考／期末"];
+   const all=[...new Set([...fixed,...vals])];
+   examSel.innerHTML='<option value="全部">全部考試</option>'+all.map(x=>`<option>${x}</option>`).join("");
+   if(all.includes(keepE))examSel.value=keepE;
+ }
+}
+function filterHistoricalV4961(){
+ renderSubjectHistory();
+ const s=$("histSchool")?.value||"全部",y=$("histYear")?.value||"全部",t=$("histTerm")?.value||"全部",e=$("histExam")?.value||"全部";
+ const list=allHistoricalV4961.filter(x=>
+   (s==="全部"||(x.schools?.name||"成功高中")===s)&&
+   (y==="全部"||String(x.academic_year)===String(y))&&
+   (t==="全部"||String(x.term)===String(t))&&
+   (e==="全部"||x.exam_name===e)&&(!adapter()||!$('histGrade').value||Number(x.grade)===Number($('histGrade').value))
+ );
+ renderHistorical(list);
+}
+function renderHistorical(list){
+ const box=$("historicalList");
+ if(!list.length){
+   box.innerHTML='<div class="card sourcecard">目前沒有符合條件的歷屆來源。請改選「全部學年度」或「全部考試」。</div>';
+   return;
+ }
+ const typeMap={exam_index:"官方考卷／索引",scope:"官方考試範圍",answer:"官方答案"};
+ box.innerHTML=list.map((x,i)=>{
+   const school=x.schools?.name||"成功高中";
+   const url=String(x.source_url||"");
+   return `<div class="card sourcecard historicalPick" data-hist-card="${i}">
+     <div class="sourcehead"><div><h3 style="margin:0">${x.title}</h3>
+     <div class="sourcemeta"><span>${school}</span><span>${x.academic_year}學年度</span><span>${x.term===1?"上學期":"下學期"}</span><span>${x.exam_name}</span></div></div>
+     <span class="sourcetype">${typeMap[x.document_type]||x.document_type}</span></div>
+     <p class="small">${x.scope_text||""}</p>
+     <div class="historicalActions">
+       <button class="primary" data-hist-open="${i}" ${url?"":"disabled"}>🔗 開啟官方來源</button>
+       <button class="soft" data-hist-practice="${i}">✏️ 用此範圍練習</button>
+     </div></div>`;
+ }).join("");
+
+ document.querySelectorAll("[data-hist-open]").forEach(b=>b.onclick=()=>{
+   const x=list[+b.dataset.histOpen],url=x?.source_url;
+   if(!url){toast("這筆資料目前沒有可開啟的來源網址。");return;}
+   const w=window.open(url,"_blank");
+   if(!w) location.href=url;
+ });
+ document.querySelectorAll("[data-hist-practice]").forEach(b=>b.onclick=()=>{
+   const x=list[+b.dataset.histPractice]; if(!x)return;
+   if(x.grade!=null&&![1,2].includes(Number(x.grade))){toast("此年級尚未建立練習題池。");return;}
+   $("grade").value=String(x.grade||1);updateTopicFilters();
+   const school=x.schools?.name||"成功高中";
+   $("school").value=school;
+   // Older years may not exist on home dropdown. Add it dynamically.
+   if(!$("year").querySelector(`option[value="${x.academic_year}"]`)){
+     const op=document.createElement("option");op.value=String(x.academic_year);op.textContent=String(x.academic_year);$("year").appendChild(op);
+   }
+   $("year").value=String(x.academic_year);
+   $("term").value=x.term===1?"上學期":"下學期";
+   if(!$("exam").querySelector(`option[value="${CSS.escape(x.exam_name)}"]`)){
+     const op=document.createElement("option");op.value=x.exam_name;op.textContent=x.exam_name;$("exam").appendChild(op);
+   }
+   $("exam").value=x.exam_name;
+   refreshSchool();loadSchoolBankStatus();openPanel("practice");chooseSet();
+ });
+}
+let historicalDbV4963=null;
+async function getHistoricalDbV4963(){
+  const c=cfg();
+  if(!c.url||!c.key)throw new Error("尚未設定 Project URL / Publishable key");
+  const sdkOk=await ensureSupabaseSdkV496();
+  if(!sdkOk||!window.supabase)throw new Error("Supabase SDK 載入失敗");
+  if(!historicalDbV4963)historicalDbV4963=window.supabase.createClient(c.url,c.key);
+  return historicalDbV4963;
+}
+
+
+const V4967_HISTORICAL_SCHOOLS=["建國中學","北一女中","師大附中","成功高中","中山女高","松山高中","延平高中","薇閣高中"];
+function fillHistoricalSchoolsV4967(){
+ const sel=$("histSchool");if(!sel)return;
+ const current=sel.value||"全部";
+ const dbNames=[...new Set((allHistoricalV4961||[]).map(x=>x.schools?.name).filter(Boolean))];
+ const names=[...new Set([...V4967_HISTORICAL_SCHOOLS,...dbNames])];
+ sel.innerHTML='<option value="全部">全部學校</option>'+names.map(n=>`<option value="${n}">${n}</option>`).join("");
+ sel.value=names.includes(current)?current:"全部";
+}
+async function loadGsatV4967(){
+ const seq=++gsatLoadSeq,requestedSubject=subjectId(),requestedName=subjectInfo().name;
+ const status=$("gsatStatus"),list=$("gsatList");if(!status||!list)return;
+ status.textContent="讀取大考中心官方學測來源中…";
+ try{
+  const hdb=await getHistoricalDbV4963();
+  const {data,error}=await hdb.from("national_exam_sources").select("*").eq("subject",requestedName).order("academic_year",{ascending:false});
+  if(error)throw error;if(seq!==gsatLoadSeq||requestedSubject!==subjectId())return;
+  const rows=(data||[]).filter(x=>(x.subject||"數學")===requestedName&&Number(x.academic_year)>=110),ys=[...new Set(rows.map(x=>x.academic_year))],vs=[...new Set(rows.map(x=>x.subject_variant))];
+  const ysel=$("gsatYear"),vsel=$("gsatVariant");
+  if(ysel&&ysel.options.length<=1)ysel.innerHTML='<option value="全部">全部學年度</option>'+ys.map(y=>`<option value="${y}">${y} 學年度</option>`).join("");
+  if(vsel&&vsel.options.length<=1)vsel.innerHTML='<option value="全部">全部'+escapeText(requestedName)+'類別</option>'+vs.filter(Boolean).map(v=>`<option value="${escapeText(v)}">${escapeText(v)}</option>`).join("");
+  const y=ysel?.value||"全部",v=vsel?.value||"全部";
+  const filtered=rows.filter(x=>(y==="全部"||String(x.academic_year)===String(y))&&(v==="全部"||x.subject_variant===v));
+  status.textContent=`找到 ${filtered.length} 筆大考中心官方來源。`;
+  list.innerHTML=filtered.length?filtered.map(x=>`<div class="item"><b>${x.academic_year} ${x.exam_type}・${x.subject_variant}</b><div class="small">${x.scope_note||""}</div><div style="margin-top:8px"><a class="btnLink" href="${x.source_url}" target="_blank" rel="noopener">開啟大考中心官方來源</a></div></div>`).join(""):'<div class="empty">目前沒有符合條件的學測來源。</div>';
+ }catch(e){if(seq!==gsatLoadSeq||requestedSubject!==subjectId())return;console.error(e);status.textContent="學測官方來源讀取失敗："+(e.message||e);list.innerHTML="";}
+}
+
+async function loadHistorical(showAll=false){
+  const seq=++historicalLoadSeq,requestedSubject=subjectId(),requestedName=subjectInfo().name;
+  const status=$("historicalStatus");
+  renderSubjectHistory();
+  if(adapter()&&!db){allHistoricalV4961=[];fillHistoricalFiltersV4961([]);status.textContent='目前使用本機資料；國文官方來源索引尚未載入。';renderHistorical([]);return;}
+  status.textContent="讀取歷屆來源中…";
+  try{
+    const hdb=await getHistoricalDbV4963();
+    const query=hdb.from("source_documents").select("*,schools(name)").order("academic_year",{ascending:false});
+    const timeout=new Promise((_,reject)=>setTimeout(()=>reject(new Error("歷屆來源查詢逾時")),5000));
+    const {data,error}=await Promise.race([query,timeout]);
+    if(error)throw error;
+    if(seq!==historicalLoadSeq||requestedSubject!==subjectId())return;
+    allHistoricalV4961=(data||[]).filter(x=>(x.subject||"數學")===requestedName);
+    fillHistoricalFiltersV4961(allHistoricalV4961); fillHistoricalSchoolsV4967();
+    if(showAll){
+      if($("histSchool"))$("histSchool").value="全部";
+      if($("histYear"))$("histYear").value="全部";
+      if($("histTerm"))$("histTerm").value="全部";
+      if($("histExam"))$("histExam").value="全部";
+    }
+    status.textContent=`資料庫共收錄 ${allHistoricalV4961.length} 筆歷屆官方來源；可直接用上方四個選單篩選。`;
+    filterHistoricalV4961();
+  }catch(e){
+    if(seq!==historicalLoadSeq||requestedSubject!==subjectId())return;
+    console.error(e);
+    status.textContent="歷屆來源讀取失敗："+(e.message||e)+"。請按右上「資料庫設定」確認 Project URL / Publishable key。";
+    renderHistorical([]);
+  }
+}
+
+
+let autoPaper=[],autoAnswers={},activeScope=null;
+async function getScopeProfile(){if(adapter())return null;if(selectedGrade()===2){const s=currentScope();return s.sourceType==="official"&&s.chapterIds.length?{...s,scope_label:s.label,source_url:s.sourceUrl,topic_weights:Object.fromEntries(s.chapterIds.map(id=>[catalog.chapters.find(c=>c.id===id).label,100/s.chapterIds.length]))}:null;}if(dbMode!=="cloud"||!db)return null;const {data:s}=await db.from("schools").select("id").eq("name",$("school").value).maybeSingle();if(!s)return null;const {data}=await db.from("exam_scope_profiles").select("*").eq("school_id",s.id).eq("academic_year",+$("year").value).eq("term",$("term").value==="上學期"?1:2).eq("exam_name",$("exam").value).eq("grade",1).eq("subject","數學").maybeSingle();return data||null;}
+async function showScopeProfile(){activeScope=await getScopeProfile();const box=$("scopeProfile");if(!activeScope){box.innerHTML="目前這個學校／學年度／段考尚未建立已核驗範圍。你仍可使用「原創練習」。";return;}const tw=activeScope.topic_weights||{},dw=activeScope.difficulty_weights||{};box.innerHTML=`<b>已核驗範圍：</b>${activeScope.scope_label}<div class="chips">${Object.entries(tw).map(([k,v])=>`<span class="chip">${k} ${v}%</span>`).join("")}</div><div class="small">難度配置：${Object.entries(dw).map(([k,v])=>`${k} ${v}%`).join("／")}</div>${activeScope.source_url?`<p><a class="linkbtn soft" target="_blank" rel="noopener" href="${activeScope.source_url}">查看官方範圍來源</a></p>`:""}`;}
+function weightedPick(pool,weights,key,n){let result=[],used=new Set();for(const [label,pct] of Object.entries(weights||{})){const want=Math.round(n*(+pct)/100),candidates=pool.filter(q=>q[key]===label&&!used.has(q.id));shuffle(candidates).slice(0,want).forEach(q=>{result.push(q);used.add(q.id)});}return result.concat(shuffle(pool.filter(q=>!used.has(q.id))).slice(0,Math.max(0,n-result.length))).slice(0,n);}
+async function buildAutoPaper(){sessionStorage.setItem("v471_session","auto-"+Date.now());activeScope=await getScopeProfile();if(!activeScope){toast("這組條件尚無已核驗官方範圍");return;}const n=+$("autoQty").value,topics=Object.keys(activeScope.topic_weights||{}),pool=(selectedGrade()===2?getSchoolPool():questions).filter(q=>topics.includes(q.topic));autoPaper=weightedPick(pool,activeScope.topic_weights,"topic",n).map(q=>q.grade===2?catalog.shuffleOptions(q):q);autoAnswers={};renderAutoPaper();$("autoSubmitBox").style.display="block";}
+function renderAutoPaper(){$("autoQuiz").innerHTML=autoPaper.map((q,i)=>`<div class="card qcard"><div class="small">第 ${i+1} 題 · ${q.topic} · ${q.level}</div><div class="qtitle">${escapeText(q.q)}</div><div class="opts">${q.o.map((o,j)=>`<button class="opt" data-ai="${i}" data-aj="${j}">${String.fromCharCode(65+j)}. ${escapeText(o)}</button>`).join("")}</div><div class="inlineTools"><button class="soft" data-auto-dk="${i}">🙋 我不會</button><button class="soft" data-auto-ask="${i}">問 ChatGPT</button></div><div class="explain" id="aexp${i}"><b>答案：</b>${String.fromCharCode(65+q.a)}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{const i=+b.dataset.ai,j=+b.dataset.aj;autoAnswers[i]=j;b.parentElement.querySelectorAll(".opt").forEach(x=>x.classList.remove("selected"));b.classList.add("selected")});
+ document.querySelectorAll("[data-auto-dk]").forEach(b=>b.onclick=()=>{const q=autoPaper[+b.dataset.autoDk];markNeedHelp(q,"我不會");});
+ document.querySelectorAll("[data-auto-ask]").forEach(b=>b.onclick=()=>{const q=autoPaper[+b.dataset.autoAsk];queueForChatGPT(q,"我想請 ChatGPT 再解釋");});
+}
+
+async function submitAutoPaper(){let correct=0;autoPaper.forEach((q,i)=>{const card=$("aexp"+i).parentElement,opts=card.querySelectorAll(".opt");opts[q.a].classList.add("correct");if(autoAnswers[i]===q.a)correct++;else if(autoAnswers[i]!=null){opts[autoAnswers[i]].classList.add("wrong");markNeedHelp(q,`答錯：我選 ${String.fromCharCode(65+autoAnswers[i])}，正確答案是 ${String.fromCharCode(65+q.a)}`,"",autoAnswers[i]);}$("aexp"+i).classList.add("show");if(!card.querySelector("[data-auto-explain]")){const bt=document.createElement("button");bt.className="soft";bt.dataset.autoExplain=i;bt.textContent="詳解看不懂";bt.onclick=()=>{const note=prompt("哪一段詳解看不懂？","");markNeedHelp(q,"詳解看不懂",note||"");};card.appendChild(bt);}});const score=Math.round(correct/Math.max(1,autoPaper.length)*100);$("autoResult").innerHTML=`<h3>${$("school").value} ${$("year").value} ${$("term").value} ${$("exam").value} 模擬卷：${score} 分</h3><p class="small">${correct}/${autoPaper.length} 題正確 · 範圍：${activeScope.scope_label}</p>`;}
+
+let studyPool=[],studyIndex=0,studyReveal=0;
+function studyHint(q){
+ if(registry.get(q.subject)?.adapter)return "先找出文本中的語境與關鍵線索，再排除超出文本的推論。";
+ const hints={
+  "實數":"先整理數的性質、根式或絕對值條件，再決定運算順序。",
+  "多項式":"先觀察是否能因式分解、代入特殊值，或使用餘式／因式定理。",
+  "指數":"先把底數統一，再比較指數；注意指數律的使用條件。",
+  "對數":"先確認真數大於 0，再利用乘法、除法與次方的對數律。",
+  "綜合":"先判斷題目主要考哪個觀念，把已知條件轉成代數式。"
+ };return hints[q.topic]||"先圈出已知條件與要求的量，再選擇對應公式。";
+}
+function studyKey(q){
+ if(registry.get(q.subject)?.adapter)return registry.skills.find(s=>s.id===q.skill)?.name||q.category;
+ const map={"實數":"數與式的定義、運算性質與條件","多項式":"因式分解、餘式定理與代數運算","指數":"指數律、同底轉換與成長關係","對數":"對數定義、換底與對數律","綜合":"辨識核心觀念並串聯條件"};
+ return map[q.topic]||q.topic;
+}
+function studyMistake(q){
+ if(registry.get(q.subject)?.adapter)return "不要只憑篇名或單一字面作答；核對前後文，避免過度推論。";
+ const map={"實數":"忽略根式、分母或絕對值造成的條件限制。","多項式":"展開或移項時符號錯誤，或把餘式定理的代入值弄反。","指數":"把加法誤套成指數律，或底數未統一就直接比較。","對數":"忘記真數必須大於 0，或把 log(a+b) 錯拆成兩個對數。","綜合":"太快計算，沒有先確認題目真正要求的量。"};
+ return map[q.topic]||"計算前未檢查條件與符號。";
 }
 function startStudy(fromWrong=false){
  let pool=getSchoolPool();

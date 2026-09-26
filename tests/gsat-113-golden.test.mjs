@@ -45,4 +45,8 @@ assert.deepEqual(Object.fromEntries(['single_choice','multiple_choice','fill_bla
 assert.equal(y113.every(q=>q.stem&&q.explanation&&q.sourceId==='ceec-113-matha'&&q.sync_disabled),true);
 assert.equal(runtime.questions.filter(q=>q.group_id==='ceec-113-matha-g18-20').length,3);
 assert.deepEqual(Array.from(runtime.group('ceec-113-matha-g18-20').question_numbers),[18,19,20]);
+const sourceQ2=context.window.GSAT_UNIFIED_BANK_113_MATHA.questions.find(q=>q.question_number===2);
+assert.equal(sourceQ2.visual_stimulus?.kind,'platform_redraw');
+assert.ok(fs.existsSync(sourceQ2.visual_stimulus.asset));
+assert.deepEqual(Array.from(context.window.GSAT_UNIFIED_BANK_113_MATHA.questions.find(q=>q.question_number===7).review_flags),['official_answer_objection_resolved']);
 console.log('GSAT 113 Math A Golden Sample, exception queue, and unified 80-question runtime PASS');

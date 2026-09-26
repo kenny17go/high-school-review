@@ -1,3 +1,37 @@
+## 2026-09-26 113數A既有詳解增量優化（本機已提交，遠端發布中）
+
+### Current Task
+- 已完成113年度增量優化並建立本機提交 `0dad4b2`；shell push 因未設定 GitHub 憑證失敗，改以 GitHub 寫入介面發布。112、111尚未處理。
+
+### Completed
+- 工作起點從保留副本快轉至GitHub最新 `main` `a19e84c`；確認113數A原有20題、題號1–20、官方答案20/20、Q18–20共用題組與既有解答完整。未新增或重匯題目，未更動答案manifest。
+- 依官方試卷及參考答案核對題面與答案。原題Q2寫有「如圖」但網站未呈現正方體圖，補上標明平台重繪的示意圖；Q7官方回覆維持答案③④，原答案保留並記錄 `official_answer_objection_resolved`。
+- 對Q2、Q3–Q6、Q8–Q13、Q17共12題增補Explanation V2；逐步推理、考點、破題、常見錯誤、技巧與複習均補齊。有選項題附逐選項分析。其餘題目保留原解答；所有題目仍為 `needs_review`／`draft_review_required`，不將平台詳解冒充人工驗證。
+- 共用renderer映射V2、題圖與審閱旗標；圖說區分官方原圖與平台重繪。114年度已完成的共用字級、行距與窄螢幕排版沿用，未另改首頁或整體手機介面。
+- 發現GitHub `main` `a19e84c` 的 `app.js` 存在截斷文字並遺失模考及其後續共用功能。以最後完整版本 `4c9ffa4` 的 `app.js` 恢復，再套回113 build marker及題圖caption；未更動其他流程。
+- 更新build/cache、`version.json`、`CHANGELOG.md`；新增113 V2 regression test，並加強113 Golden對Q2圖與Q7旗標的檢查。未寫Supabase。
+
+### Tests
+- PASS：113 Golden、113 Explanation V2、111–114數A Golden、114 Explanation V2、V5 data、Batch Importer、115國綜Golden／Explanation V2、migration、`npm run validate`、`git diff --check`、`node --check app.js`、`node --check gsat-113-unified-bank.js`。
+- BLOCKED/FAIL：完整 `npm test` 在未修改的 `tests/gsat-115.test.cjs` 因實際needs_review題號多出Q2而中止；測試預期 `[5,8,10,11,12]`，資料實際為 `[2,5,8,10,11,12]`。
+- BLOCKED：`npm run test:browser` 因環境沒有 `/opt/microsoft/msedge/msedge` 無法啟動Playwright；未完成真機iPhone測試。
+
+### Modified / Important Files
+- `gsat-113-unified-bank.js`、`assets/gsat-113-q02-cube.png`：保留原題答案並增量加入V2／題圖。
+- `app.js`：恢復截斷遺失的共用程式；V2 renderer、題圖caption與build marker。
+- `tests/gsat-113-matha-explanation-v2.test.mjs`、`tests/gsat-113-golden.test.mjs`、`package.json`。
+- `index.html`、`subject-adapters.js`、`version.json`、`CHANGELOG.md`。
+
+### Remaining / Known Issues
+- 本機提交已完成；GitHub main 仍為 `a19e84c`，已確認可快轉。遠端發布及 Pages 部署驗證尚待完成。
+- 112、111年度尚未處理；維持原順序下一步先處理112，再處理111。
+- 115測試預期差異與本機缺少Edge是既有問題，本輪未修改115資料或正式Supabase。
+
+### Next Step
+- 透過 GitHub 寫入介面發布113提交，部署後確認GitHub Pages載入113題圖與V2詳解；之後開始112年度。
+
+---
+
 ## 2026-09-26 114數A既有詳解優化（已推送並部署）
 
 ### Current Task
