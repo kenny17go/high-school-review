@@ -8,7 +8,7 @@
 - 本機已新增`practiceVariant`考科篩選，依目前科目由Unified Question Bank產生選項：國文為國綜、數學為數學A；單一考科會自動選取。
 - `topicFilter`改為checkbox複選：未勾選代表全部章節，可同時選多個章節，出題採聯集。科目切換時清除前一科章節選擇，避免跨科殘留。
 - build/cache更新為`5.0-batch-chinese-115-2`並加入HTML no-cache提示。Validate、V5 data、Batch Importer、115國綜、111–115數A、migration與`git diff --check`均PASS；browser assertions已加入國綜考科與兩章節同時勾選，但本環境仍缺Edge，未實際啟動Playwright。
-- 本checkpoint尚未commit／push／部署，等待使用者確認授權；不寫入Supabase、不改題目答案或詳解內容。
+- 使用者已明確授權commit／push／部署；功能提交`8845168`已推送`main`。GitHub Pages線上build為`5.0-batch-chinese-115-2`，已核對國綜考科欄位、章節checkbox複選元件及線上115國綜36題／9題組。未寫入Supabase，也未改題目答案或詳解內容；本機仍缺Edge，故Playwright未啟動。
 
 ## 2026-09-26 115 國綜 Golden Sample + 官方 PDF 連結模式 checkpoint
 
