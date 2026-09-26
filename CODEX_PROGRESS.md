@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 11398)
-Total output lines: 382
-
 ## 2026-09-26 113數A既有詳解增量優化（已推送並部署）
 
 ### Current Task
@@ -157,7 +154,40 @@ Total output lines: 382
 ## 2026-09-25 113 數A完整20題跨年度 Batch milestone
 
 - 以最新已部署的114／115流程為基礎，沿用同一 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；未建立113專用 importer、renderer或第二套題庫，也未寫入正式 Supabase。
-- 依大考中心官方試卷、選擇（填）題參考答案、非選擇題評分原則及第7題試題／答案反映意見回覆，逐頁渲染核驗113數A 20題／100分；題型為…1398 tokens truncated…；20題／100分、1–20無缺號、答案20/20一致、Q18–20題組完整。
+- 依大考中心官方試卷、選擇（填）題參考答案、非選擇題評分原則及第7題試題／答案反映意見回覆，逐頁渲染核驗113數A 20題／100分；題型為單選7、多選6、選填5、非選2，Q18–Q20共用題組。
+- 新增 `gsat-113-unified-bank.js`、`scripts/build-gsat-113-golden.mjs`，產生 `data/raw/ceec-113-matha.json` 與 `data/staging/ceec-113-matha.batch-import-v1.json`。答案20/20與官方 manifest 一致，題號1–20無缺號、error 0。
+- Review Summary：clean 19、needs_review 1、warning 1、Exception Queue 1。唯一例外為Q7 `official_answer_objection_resolved`：考後有人主張平移後圖形亦應算相同，但大考中心明確以坐標點集不同回覆並維持官方答案③④；資料保留官方回覆 URL 與原答案，不自行改答。
+- 所有20題分類與平台詳解均保持 `needs_review`、`ready_for_publish=false`；runtime 使用 `sync_disabled`。Q19／Q20附官方評分原則，Q16填答經版面核對為 `2√5/5`。
+- 共用 runtime 現含113／114／115數A共60題；大量題庫年份篩選新增113，選定年度依原題號取得完整20題。build/cache 更新為 `5.0-batch-113-1`，新增113 Golden／Exception Queue／60題唯一ID與題型分布回歸，114回歸同步提升為60題。
+- Validate、V5 data、115 GSAT、Batch Importer、115／114／113 Golden與PostgreSQL migration均PASS。browser test已加入113與114各20題UI斷言；本機環境沒有Edge／Chromium，故本機 Playwright 無法啟動，但部署後已用線上瀏覽器實測113篩選可產生完整20題且題號01–20連續。
+- 使用者已明確授權113數A commit／push／部署；主里程碑提交 `2e1fd45` 已推送 main，GitHub Pages `pages-build-deployment #104` 成功。線上 build 為 `5.0-batch-113-1`，實測113／114／115共用 runtime，113篩選顯示20題、來源與年度文字正確。下一建議批次為112學測數A。
+
+## 2026-09-25 114 數A完整20題跨年度 Batch milestone
+
+- 以115數A已完成流程為基礎，沿用同一 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；沒有新增114專用 importer、renderer或第二套題庫。
+- 依大考中心官方試卷、參考答案及非選擇題評分原則，建立114數A 20題／100分完整資料與獨立答案 manifest；題型為單選7、多選6、選填5、非選2，Q18–Q20共用題組。
+- 產生 `data/raw/ceec-114-matha.json` 與 `data/staging/ceec-114-matha.batch-import-v1.json`；Review Summary 為 clean 20、error 0、warning 0、Exception Queue 0、缺號0、答案20/20一致。
+- 所有自動分類與平台詳解仍保持 `needs_review`，`ready_for_publish=false`；runtime 使用 `sync_disabled`，沒有寫入正式 Supabase，也沒有假造人工 verified/published。
+- 共用 runtime 現含115與114數A共40題；大量題庫年份篩選新增114，選定年度可依原題號取完整20題。新增114 Golden/regression test並保留115回歸。
+- build 更新為 `5.0-batch-114-1`。Validate、V5 data、115 GSAT、Batch Importer、115/114 Golden與PostgreSQL migration均PASS；browser test已加入114完整20題UI斷言，但執行環境缺少Edge/Chromium，且Playwright下載被截斷，故瀏覽器回歸未實際完成。
+- 使用者已明確授權114數A commit／push／部署；主里程碑提交 `169908d` 已推送 main，GitHub Pages run #102 成功。線上 `version.json` 為 `5.0-batch-114-1`，實際載入線上114／115／runtime腳本驗證為40題（114與115各20題），114題號01–20與Q18–Q20題組完整。下一建議批次為113學測數A。
+
+## 2026-09-25 115 數A完整20題 runtime 接線修正
+
+- 使用者回報「大量題庫」篩選學測真題／115學年度只顯示6題。實際核對確認 Raw 與 Staging 均為完整20題，問題位於 `unified-question-bank.js`：content map 只有 Q1、Q2、Q3、Q4、Q6、Q18，且最後只保留整數單選答案，因而排除所有多選、選填、非選題。
+- runtime bridge 已補齊 Q1–Q20 題面，並依既有共用 question contract 映射7題單選、6題多選、5題選填、2題非選；沒有建立 GSAT 專用 renderer。Q18–Q20保留同一 Question Group。
+- 選定學測年度並載入完整考卷時改依 `question_number` 顯示1–20；少量抽題仍維持原本隨機行為。
+- 全20題仍為本機官方來源資料，保留 `sync_disabled`；本次沒有寫入正式 Supabase，也沒有變更 Supabase schema。
+- regression 改為要求 runtime 恰好20題、題號1–20連續、題型分布／選項／答案 shape／題組關係正確，避免再退回6題。
+- 實際重建 Golden artifacts：20題、clean 20、Exception Queue 0、error 0、warning 0；20題仍全為 staging `needs_review`，所以 `ready_for_publish=false`，沒有藉本次前端修正偽造人工核准。
+- `validate`、V5 data、GSAT、Batch Importer、Golden Sample、PostgreSQL migration 與 `git diff --check` 全部 PASS。完整 `npm test` 只在既知環境限制中止：系統缺少 `/opt/microsoft/msedge/msedge`，產品 assertions 在此之前均通過。
+- build/cache 更新為 `5.0-batch-golden-3`。本節的 commit、push、Pages 與線上驗證結果須以本輪完成後的 Git/GitHub 實際狀態為準。
+
+## 2026-09-25 Batch Importer V1 — 115 數A Golden Sample milestone
+
+- 以最新 HEAD `9ce30d7` 為基準，在本機完整執行 Batch Importer V1；沒有重做既有架構，也沒有寫入正式 Supabase。
+- 新增 `scripts/build-gsat-115-golden.mjs`，將既有 115 數A 20題 metadata、共用 runtime 題面與獨立官方答案 manifest 組成可重現 Raw input，再輸出 Staging artifact。
+- 產物：`data/raw/ceec-115-matha.json`、`data/staging/ceec-115-matha.batch-import-v1.json`；20題／100分、1–20無缺號、答案20/20一致、Q18–20題組完整。
 - Importer 加入整卷題數／缺號、答案 URL、官方答案 mismatch、頁碼、解析／分類 confidence、review flags 與題型／狀態統計；所有自動題仍固定 needs_review。
 - 初次 Review Summary：clean 9、Exception Queue 11、blocking error 7、warning 9。接續補齊題面／選項並以官方 PDF 渲染視覺核對後，最新結果為 clean 20、Exception Queue 0、blocking error 0、warning 0；仍因全卷保持 needs_review 而 `ready_for_publish=false`。
 - 找到並納入大考中心 Q19／Q20 官方非選評分原則。修正重大內容錯誤：Q20 `AP=(4,4,-2)`、體積10、最長距離√94；原資料錯寫 AP=(3,4,-3)、體積30。另修正 Q10 第四選項為65/3。
