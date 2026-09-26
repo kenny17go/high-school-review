@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-112-matha-explanation-v2",
+  "build": "5.0-111-matha-explanation-v2",
   "name": "全站科目導覽",
   "status": "in_progress",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
@@ -69,8 +69,8 @@
   },
   "updatedAt": "2026-09-26",
   "notes": [
-    "保留112數A既有20題、題號、答案及原詳解，為16題增補Explanation V2。",
-    "恢復官方試卷第2題與第18至20題題組示意圖；保留原題組、答案與非選作答規準。",
-    "詳解及題庫維持平台自製、待人工審閱狀態；未寫入Supabase。"
+    "保留111數A既有20題、官方答案、原詳解與Q18–20題組，僅為11題增補Explanation V2。",
+    "保留官方Q3散布圖與Q11立體示意圖；選擇題V2補齊逐選項推理，Q19–20保留非選答案與評分依據。",
+    "平台詳解及分類仍維持draft_review_required／needs_review；未寫入Supabase。"
   ]
 }

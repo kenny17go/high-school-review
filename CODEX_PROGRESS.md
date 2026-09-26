@@ -1,3 +1,33 @@
+## 2026-09-26 111數A既有詳解增量優化（年度修改完成，部署待核對）
+
+### Current Task
+- 111年度依序接續112／113／114優化完成；本輪保留既有題庫與所有正確資料，增補11題Explanation V2。正式commit、push與Pages狀態以本輪完成後Git／線上核對為準。
+
+### Completed
+- 確認111數A既有20題、題號1–20、答案manifest 20/20、平台原詳解20/20、Q18–20同一題組，以及Q3散布圖、Q11立體圖均存在。沒有重匯試卷、新增題目、覆蓋原詳解或改答案。
+- 依大考中心111數A原卷、官方答案及非選評分原則檢查題面與解答。針對Q3、Q6–Q12、Q14、Q16、Q20中推理較短或需要展開的題目增加V2；多選題逐項分析，Q20補足官方面積分割。其餘9題沿用原解答。
+- Q11補上空間座標、平面法向量與線段角比較；Q14補齊消去矩陣回代與原式檢查；Q16說明正射影條件如何限定平面法向量；Q20依官方評分原則推導Ω及R的面積。沒有發現需更正的官方答案或已確認題目錯誤。
+- 共用renderer已讀取原有V2欄位；本輪只接入111資料的V2傳遞，不另改整體UI。延用114已完成的共用字級、行距與手機換行改善；Q3／Q11原圖、Q18–20題組維持不變。
+- V2與分類仍為`draft_review_required`／`needs_review`，同步仍關閉；未寫入正式Supabase。
+
+### Tests
+- PASS：111 Golden、111 Math A Explanation V2（保留20題答案、原解答、題組與圖片，新增11題V2及選項分析）、112–114 Golden與V2、`npm run validate`（432組範圍／420答案與ID檢查／22 browser scripts）、V5 data、Batch Importer、migration、語法及diff檢查。
+- BLOCKED/FAIL：完整`npm test`在既有`tests/gsat-115.test.cjs`因needs_review清單差異中止；測試預期`[5,8,10,11,12]`，實際`[2,5,8,10,11,12]`。本輪未修改115資料或測試。
+- 另行執行未被完整測試跑到的項目：115國綜Golden／V2通過；115數A Golden因既有「選擇題均須有五個選項」斷言失敗，115數A V2測試因資料狀態`reviewed`與舊測試期待`draft_review_required`不符失敗。
+- BLOCKED：`npm run test:browser`因環境缺少`/opt/microsoft/msedge/msedge`無法啟動；無法執行瀏覽器及實機iPhone Safari測試。
+
+### Modified / Important Files
+- `gsat-111-unified-bank.js`：僅新增11題Explanation V2欄位並傳遞至既有runtime mapping；原答案、原詳解、題組、分類、圖片不變。
+- `tests/gsat-111-matha-explanation-v2.test.mjs`、`package.json`：新增年度詳解保留與V2 regression並納入`npm test`。
+- `app.js`、`index.html`、`subject-adapters.js`、`version.json`：同步build/cache識別。
+- `CHANGELOG.md`：記錄本年度增量修改。
+
+### Remaining / Known Issues
+- 需在本輪push後核對GitHub Pages的`version.json`及111 runtime內容；部署完成不會把平台詳解自動標成人工審閱。
+- 完整npm test既有115斷言差異與本機缺少Edge仍待後續處理，與111內容無關。
+
+---
+
 ## 2026-09-26 112數A既有詳解增量優化（已推送並部署）
 
 ### Current Task

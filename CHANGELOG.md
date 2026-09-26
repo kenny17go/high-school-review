@@ -1,3 +1,12 @@
+## 5.0 — 111數A既有詳解增量優化（2026-09-26）
+
+- 保留111數A原有20題、官方答案、原詳解、Q18–20題組與Q3／Q11官方圖；未重匯、未新增題目或覆蓋原解答。
+- 為Q3、Q6–Q12、Q14、Q16、Q20共11題新增Explanation V2；選擇題補齊逐選項分析，Q20依官方評分原則列出面積分割與作答要點。
+- Q11展開空間座標與角度比較；Q14補齊回代計算；Q16補充正射影的法向量推理。其餘題目沿用原詳解。
+- 所有新增解答維持`draft_review_required`／`needs_review`；共用手機排版延用114年度改善，未寫入Supabase。
+- 新增111 Math A Explanation V2 regression並納入`npm test`；年度及跨年Golden、V2、validate通過。完整npm test遇到既有115斷言差異；Playwright缺少Edge。詳見`CODEX_PROGRESS.md`。
+- Build/cache標記為`5.0-111-matha-explanation-v2`。
+
 ## 5.0 — 112數A既有詳解增量優化（2026-09-26）
 
 - 保留112數A原有20題、答案manifest、題組、所有舊詳解與非選作答規準；僅為第2、5、7–20題增補16題Explanation V2。
