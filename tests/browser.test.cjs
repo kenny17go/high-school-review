@@ -81,6 +81,13 @@ const server=http.createServer((req,res)=>{
  assert.equal(await page.locator('#quiz .questionGroup a[href*="ceec.edu.tw"][href*="#page="]').count(),8);
  assert.equal(await page.locator('#quiz .qtitle .tag').filter({hasText:'平台詳解待審閱'}).count(),36);
  assert.match(await page.locator('#countText').innerText(),/目前產生 36 題（符合條件共 36 題）.*115學年度/);
+ await page.selectOption('#practiceYear','114');await page.locator('#applyFilter').click();
+ assert.equal(await page.locator('#quiz .qcard').count(),36,'114 國綜應按原題號顯示完整36題');
+ assert.equal(await page.locator('#quiz .questionGroup').count(),9);
+ assert.equal(await page.locator('#quiz .questionGroup a[href*="ceec.edu.tw"][href*="#page="]').count(),9);
+ assert.equal(await page.locator('#quiz .qcard a[href*="ceec.edu.tw"][href*="#page="]').count(),10,'114國綜獨立題也應連回官方PDF頁');
+ assert.ok((await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(node=>node.dataset.dontknowQ))).every(id=>id.startsWith('ceec-114-chinese-')));
+ await page.selectOption('#practiceYear','115');await page.locator('#applyFilter').click();
  await page.locator('#topicChoices [data-topic-value="白話文閱讀"]').check();
  await page.locator('#topicChoices [data-topic-value="文言文閱讀"]').check();
  assert.equal(await page.locator('#topicChoices [data-topic-value]:checked').count(),2,'chapter filter must support multiple checked topics');

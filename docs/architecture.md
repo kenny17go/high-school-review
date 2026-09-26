@@ -155,4 +155,6 @@ Importer 的輸出應包含 review summary / exception queue，讓人工集中�
 
 115 國綜是第一份跨科 Golden Sample：36題／100分、9組題組，題型為單選26、多選7、非選3。官方答案與非選評分原則已進Raw／Staging；逐題validation無異常。國文現代文章依rights規則只保存題組摘要、官方PDF與頁碼，7組未釐清全文權利的共用情境進入題組級Exception Queue。使用者已選擇「官方PDF連結模式」：共用renderer顯示摘要與官方PDF指定頁面連結，不內嵌現代文章全文；36題已接入本機runtime，但仍保留`needs_review`、`sync_disabled`且未標為Published。後續國文年度應沿用同一題組級審查，不得為每小題重複建立版權工作。
 
+114 國綜沿用同一題庫、題組與 renderer：36題／100分、9組題組；單選26、多選7、非選3。原卷圖像與表格（第8、13、14、23題）只透過官方PDF頁面呈現，列入逐題視覺複核；其餘現代文本採摘要與指定頁面連結。7組題組列入rights／外部文本審查，分類與詳解均維持待審閱，不對正式Supabase同步。
+
 新科目先取20–50題 Golden Sample 驗證科目特有題型，再擴大量。擴充新來源原則上只增加資料、分類與 filter；只有真正的新題型才擴充共用 renderer。

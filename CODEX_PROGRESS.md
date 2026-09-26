@@ -1,3 +1,30 @@
+## 2026-09-26 114 國綜題庫與詳解（已獲提交部署授權）
+
+### Current Task
+- 114國綜在起始main `e87cf9d` 中尚未建立；用既有115國綜官方PDF連結模式、新增資料並接入統一題庫。年度摘要與測試已回報，使用者已授權commit／push／部署。
+
+### Completed
+- 官方試卷12個PDF頁（封面及印刷頁1–11）、選擇題參考答案及非選評分原則已下載核對。建立36題／100分，單選26、多選7、非選3；9組共享情境，答案manifest 36/36相符；Q34–36以官方滿分參考答案與配分標註。
+- 36題Explanation V2均包含考點、破題、步驟、常見錯誤、策略與複習，33題選擇題均有逐選項分析。沒有複製未釐清版權的現代文章全文；原卷圖像或表格由官方PDF指定頁面呈現。
+- Raw／Staging透過既有batch importer生成：36題無validation error，4題（Q8、Q13、Q14、Q23）因圖像／表格情境列逐題exception，7組閱讀情境列題組級rights／外部原文exception。全部仍為needs_review／draft_review_required／sync_disabled。
+- 新資料加入共用bank與既有練習／模考路徑；版本及快取更新為`5.0-batch-chinese-114-1`。未更動舊年度內容、首頁設計或正式Supabase。
+- 共用題卡為無group_id的國綜單題補上官方PDF原頁連結；國綜其他年度亦可使用，題組既有連結不重複。
+
+### Tests
+- PASS：114國綜Golden（題數、配分、答案、9題組、4題圖表複核旗標、114／115國綜加111–115數A共172題runtime）、115國綜Golden／V2、111–114數A Golden與114 V2、validate（432組範圍及23個browser scripts）、V5資料、語法及diff檢查。
+- BLOCKED/FAIL：`npm test`於既有115數A測試needs_review預期清單遇到Q2差異；本輪未修改115資料。Playwright瀏覽器測試待有Edge／Chromium的環境執行。
+
+### Modified / Important Files
+- `gsat-114-chinese-unified-bank.js`、`data/raw/ceec-114-chinese.json`、`data/staging/ceec-114-chinese.batch-import-v1.json`、`scripts/build-gsat-114-chinese-golden.mjs`。
+- `unified-question-bank.js`、`index.html`、`app.js`、`subject-adapters.js`、`version.json`。
+- `tests/gsat-114-chinese-golden.test.mjs`、`tests/browser.test.cjs`、`scripts/validate.mjs`、`package.json`、`docs/architecture.md`、`CHANGELOG.md`。
+
+### Remaining / Known Issues
+- 人工複核Q8的籤詩卡片、Q13–14的MBTI圖表、Q23的五行圖與7組共用現代文本權利／外部上下文；詳解仍為平台稿。
+- 尚未執行實機iPhone Safari瀏覽器檢查。下一步推送並核對Pages 114篩選、PDF連結與詳解。
+
+---
+
 ## 2026-09-26 111數A既有詳解增量優化（已推送並部署）
 
 ### Current Task

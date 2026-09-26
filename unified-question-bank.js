@@ -1,5 +1,5 @@
 (function(root){"use strict";
-const sources=[root.GSAT_UNIFIED_BANK_115_MATHA,root.GSAT_UNIFIED_BANK_114_MATHA,root.GSAT_UNIFIED_BANK_113_MATHA,root.GSAT_UNIFIED_BANK_112_MATHA,root.GSAT_UNIFIED_BANK_111_MATHA,root.GSAT_UNIFIED_BANK_115_CHINESE].filter(Boolean);
+const sources=[root.GSAT_UNIFIED_BANK_115_MATHA,root.GSAT_UNIFIED_BANK_114_MATHA,root.GSAT_UNIFIED_BANK_113_MATHA,root.GSAT_UNIFIED_BANK_112_MATHA,root.GSAT_UNIFIED_BANK_111_MATHA,root.GSAT_UNIFIED_BANK_115_CHINESE,root.GSAT_UNIFIED_BANK_114_CHINESE].filter(Boolean);
 if(!sources.length){root.UnifiedQuestionBank=root.UnifiedQuestionBank||{all:()=>[]};return;}
 const groups={
 "ceec-115-matha-g18-20":{id:"ceec-115-matha-g18-20",subject:"math",sourceType:"ceec_official",sourceId:"ceec-115-matha",academic_year:115,exam:"學測",variant:"數學A",question_numbers:[18,19,20],title:"第18～20題共用題組",stem:"坐標空間中有一平行六面體，已知 AB×AD=(-5,5,5)、AD×AP=(-2,0,-4)、AP×AB=(6,-10,-8)，且 |AP|=6。",source_page:6,display_mode:"shared_context",depends_on:[]}
