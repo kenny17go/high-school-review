@@ -1,3 +1,10 @@
+## 2026-09-26 115數A Explanation V2 checkpoint
+
+- 以已部署 HEAD 88d6a0f 為基準，沿用國綜共用 Explanation V2 renderer；115數A先完成10題（1、3、4、5、6、7、13、14、18、19）的逐步解答，其他題保留舊詳解，不冒充已完成。
+- 第2題正規化題幹與官方答案 manifest 存在衝突，已在題目 metadata 標記 normalized_stem_answer_conflict，須優先核對官方原文，不更改 manifest。
+- 新增 tests/gsat-115-matha-explanation-v2.test.mjs 與 npm test script；完整 Node/browser tests 尚待執行；不寫 Supabase。
+- 本批僅建立未提交Git tree；未commit/push/deploy。
+
 ## 2026-09-26 Explanation V2 release checkpoint
 
 - 基準 main 5da692e0；暫存 tree 00ad2f8534f1a1691bbf03bf408d4d64bb3e4773。115 國綜36題 V2、33題選項解析、Q32–34分項作答要點已接入共用 renderer；Golden manifest 答案36/36一致。

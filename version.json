@@ -1,8 +1,8 @@
 {
   "version": "5.0",
-  "build": "5.0-explanation-v2-2",
-  "name": "115 國綜 Explanation V2 與非選作答要點",
-  "status": "released",
+  "build": "5.0-matha-explanation-v2-1",
+  "name": "115 數A Explanation V2 第一階段",
+  "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
   "observedBasePageVersion": "4.9.7.1",
   "catalogSchemaVersion": 3,
@@ -66,8 +66,8 @@
   },
   "updatedAt": "2026-09-26",
   "notes": [
-    "115 國綜36題逐選項 Explanation V2，與先前保存的官方答案 manifest 36/36 一致。",
-    "第32–34題分項作答要點為平台整理，非官方配分。",
-    "新增 Explanation V2 回歸測試並納入 npm test；所有平台詳解仍待人工審閱，未寫入 Supabase。"
+    "115數A第1、3、4、5、6、7、13、14、18、19題已完成V2詳解，共10題。",
+    "第2題保存的正規化題幹代入後三個值相等，與既有答案①矛盾，標記待核對；不修改官方答案。",
+    "沿用跨科共用renderer與原本題目、答案、錯題紀錄，未寫Supabase。"
   ]
 }
