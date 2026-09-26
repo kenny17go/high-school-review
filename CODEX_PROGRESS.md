@@ -1,4 +1,4 @@
-## 2026-09-26 115數A第2題核對與題卡修正（已授權推送）
+## 2026-09-26 115數A第2題核對與題卡修正（已推送並部署）
 
 ### Current Task / Completed
 - 使用者提供115數A第2題影片並指示相同答案即可pass。影片網頁已打開，無字幕與逐字稿，播放器未載入影格；因此未聲稱已查證影片結論。改依官方PDF試卷及參考答案核對，根號代入為18、18、19，官方答案①與現有答案一致。
@@ -10,7 +10,7 @@
 ### Tests / Remaining / Known Issues
 - PASS：115數A題庫、Explanation V2及Golden、111–114數A及114–115國綜跨年測試、validate、migration。
 - 完整 `npm test` 已執行至最後 browser test，環境缺少 `/opt/microsoft/msedge/msedge`，故瀏覽器測試尚未通過；待可用瀏覽器環境驗證互動。第2題影片本身無法直接核實。
-- `git diff --check` 與新 build 的 `npm run validate` 通過；使用者已明確授權本輪 commit、push 或部署；GitHub Pages 發布狀態需核對線上 build。
+- `git diff --check` 與新 build 的 `npm run validate` 通過；使用者已明確授權本輪 commit、push 或部署。功能已推送至 GitHub main `b95f52f`，Pages workflow 成功；線上 `version.json` 為 `5.0-115-matha-q02-official-check`，線上題庫、runtime 與首頁皆與本機檔案一致，第2題含兩個根號、五個選項、答案①，115年仍為20題。
 
 ## 2026-09-26 114 國綜題庫與詳解（已推送並部署）
 
