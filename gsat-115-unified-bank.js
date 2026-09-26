@@ -88,7 +88,7 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
       "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0Q026476137769263238/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E8%A9%A6%E5%8D%B7.pdf",
       "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0Q018623055943601950/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
       "source_page": 1,
-      "classification_status": "needs_review",
+      "classification_status": "verified",
       "explanation": {
         "concept": "最大整數函數；分段函數",
         "key_insight": "依最大整數函數定義分別代入比較。",
@@ -116,7 +116,14 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "strategy": "先比較根號與相鄰整數的平方。",
         "review": "依題型複習相關公式並逐步驗算。"
       },
-      "stem": "令f(x)=[√(99−x)]+[√(99+x)]，−99≤x≤99。比較f(−20)、f(0)、f(1)的大小關係。"
+      "stem": "令f(x)=[√(99−x)]+[√(99+x)]，−99≤x≤99。比較f(−20)、f(0)、f(1)的大小關係。",
+      "options": [
+        "f(-20)≤f(0)<f(1)",
+        "f(-20)<f(1)≤f(0)",
+        "f(1)<f(-20)≤f(0)",
+        "f(0)<f(-20)≤f(1)",
+        "f(0)≤f(1)<f(-20)"
+      ]
     },
     {
       "id": "ceec-115-matha-03",

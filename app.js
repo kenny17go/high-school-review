@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-batch-chinese-114-1";
+window.V500_BUILD="5.0-115-matha-q02-official-check";
 
 (function(){
 "use strict";

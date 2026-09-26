@@ -1,3 +1,17 @@
+## 2026-09-26 115數A第2題核對與題卡修正（已授權推送）
+
+### Current Task / Completed
+- 使用者提供115數A第2題影片並指示相同答案即可pass。影片網頁已打開，無字幕與逐字稿，播放器未載入影格；因此未聲稱已查證影片結論。改依官方PDF試卷及參考答案核對，根號代入為18、18、19，官方答案①與現有答案一致。
+- 115統一題庫與Raw的第2題分類狀態改 verified；平台製作詳解維持 draft_review_required，修正歷史旗標仍保留。修正共用renderer來源的舊無根號題幹及缺失的五個選項；其餘19題答案與內容不變，不寫入Supabase。
+
+### Modified / Important Files
+- `gsat-115-unified-bank.js`、`unified-question-bank.js`、`data/raw/ceec-115-matha.json`、`tests/gsat-115.test.cjs`、`tests/gsat-115-matha-explanation-v2.test.mjs`、`app.js`、`index.html`、`subject-adapters.js`、`version.json`、`CHANGELOG.md`。
+
+### Tests / Remaining / Known Issues
+- PASS：115數A題庫、Explanation V2及Golden、111–114數A及114–115國綜跨年測試、validate、migration。
+- 完整 `npm test` 已執行至最後 browser test，環境缺少 `/opt/microsoft/msedge/msedge`，故瀏覽器測試尚未通過；待可用瀏覽器環境驗證互動。第2題影片本身無法直接核實。
+- `git diff --check` 與新 build 的 `npm run validate` 通過；使用者已明確授權本輪 commit、push 或部署；GitHub Pages 發布狀態需核對線上 build。
+
 ## 2026-09-26 114 國綜題庫與詳解（已推送並部署）
 
 ### Current Task

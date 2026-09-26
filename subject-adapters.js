@@ -27,7 +27,7 @@ function pool(s){
 function pick(rows,n){const selected=C.pick(rows,n,mode==='classical'?source:'all',mode==='classical'&&weakOnly?S.weak:()=>false),groups=new Map();for(const q of selected){const key=q.chineseMetadata?.passage_id||root.UnifiedQuestionBank?.context?.(q)?.id||q.id;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(q);}return [...groups.values()].flat();}
 function ensure(){
  if(root.ChineseData)return Promise.resolve();if(loadPromise)return loadPromise;
- loadPromise=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='chinese-data.js?v=5.0-batch-chinese-114-1';script.onload=()=>resolve();script.onerror=()=>{loadPromise=null;script.remove();reject(Error('國文本機題庫未載入，請重試。'));};document.head.appendChild(script);});return loadPromise;
+ loadPromise=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='chinese-data.js?v=5.0-115-matha-q02-official-check';script.onload=()=>resolve();script.onerror=()=>{loadPromise=null;script.remove();reject(Error('國文本機題庫未載入，請重試。'));};document.head.appendChild(script);});return loadPromise;
 }
 function adaptCloud(row){
  if(!row.learning_metadata||row.classification_status!=='verified'||!row.verified_at)return null;
