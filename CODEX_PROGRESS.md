@@ -1,7 +1,7 @@
-## 2026-09-26 114數A既有詳解優化（待確認）
+## 2026-09-26 114數A既有詳解優化（已推送並部署）
 
 ### Current Task
-- 依序優化111–114學測數A；目前完成114年工作樹修改，尚未commit/push/deploy。下一步需先依使用者回覆處理測試環境限制，再進入113年。
+- 依序優化111–114學測數A；114年度增量修改已推送至GitHub main（commit `15872c4e013e24747c5f4f2429e81c181017e4cb`）並核對 GitHub Pages 線上 build `5.0-114-matha-explanation-v2`。下一年度為113年。
 
 ### Completed
 - GitHub main起點核對為4c9ffa4；確認114現有題庫20題、題號1–20、原始答案manifest 20/20、選擇題選項、選填與非選及Q18–20共用題組均存在。保留原解答與全部題庫資料。
@@ -26,12 +26,12 @@
 - tests/gsat-114-matha-explanation-v2.test.mjs、tests/gsat-115-chinese-explanation-v2.test.mjs。
 
 ### Remaining / Known Issues
-- 等使用者檢視114年摘要後再commit/push/deploy；使用者要求每年度完成並回報後再確認提交。
+- 114年修改已經使用者授權並完成commit/push/deploy；未處理113、112、111年度。
 - 瀏覽器實測仍待可用Edge環境；npm整體門檻受未修改的115測試與當前資料不一致影響。
 - 尚未處理113、112、111年度。
 
 ### Next Step
-- 先處理本次114年review/測試門檻回饋；完成後依使用者確認再進入113數A盤點。
+- 開始113年數A盤點；保留完整npm test既有115測試不一致及瀏覽器環境限制紀錄。
 
 ---
 

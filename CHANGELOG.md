@@ -1,11 +1,11 @@
-## 5.0 — 114數A詳解增量優化（待確認，2026-09-26）
+## 5.0 — 114數A詳解增量優化（2026-09-26）
 
 - 保留原有20題、原題號、官方答案manifest、共用題組及全部舊詳解；沒有重匯題卷或修改正式Supabase。
 - 依大考中心114數A官方試題核對題面；未發現需更正的題幹或答案。第4、5、7–12、14–17、20題增補Explanation V2；其餘7題沿用原有解答。逐選項分析補至有選項的增補題。
 - 共用題卡、選項、題組題幹及詳解字級／行距加大，詳解保留換行並加強窄螢幕換行。首頁整體版型不變。
 - 新增114詳解回歸測試；修正國綜字級測試以驗證更新後的共用字級。V2及分類仍維持待審閱狀態。
 - 年度Golden、答案manifest、validate、migration及共用詳解測試已執行；完整npm test受既有115數A測試與預期不符而中止，Playwright因環境缺少Edge無法啟動。詳見CODEX_PROGRESS.md。
-- Build/cache標記為5.0-114-matha-explanation-v2；目前未commit、push或部署。
+- Build/cache標記為5.0-114-matha-explanation-v2；已提交並推送至main（commit `15872c4`），GitHub Pages 線上 `version.json` 與114題庫回應已更新。
 
 ## 5.0 115數A Explanation V2 全20題
 
