@@ -24,7 +24,7 @@ function pool(s){
  if(mode==='classical'&&(!selectedTexts.size||!selectedSkills.size))return [];
  return C.filter(rows,{grade:s.grade,textIds:mode==='classical'?[...selectedTexts]:[],skills:mode==='classical'?[...selectedSkills]:[],source:mode==='classical'?source:'all',school:mode==='classical'?schoolOnly:'',weakOnly:mode==='classical'&&weakOnly,weak:S.weak},allLinks());
 }
-function pick(rows,n){const selected=C.pick(rows,n,mode==='classical'?source:'all',mode==='classical'&&weakOnly?S.weak:()=>false),groups=new Map();for(const q of selected){const key=q.chineseMetadata.passage_id||q.id;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(q);}return [...groups.values()].flat();}
+function pick(rows,n){const selected=C.pick(rows,n,mode==='classical'?source:'all',mode==='classical'&&weakOnly?S.weak:()=>false),groups=new Map();for(const q of selected){const key=q.chineseMetadata?.passage_id||root.UnifiedQuestionBank?.context?.(q)?.id||q.id;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(q);}return [...groups.values()].flat();}
 function ensure(){
  if(root.ChineseData)return Promise.resolve();if(loadPromise)return loadPromise;
  loadPromise=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='chinese-data.js?v=5.0-batch-chinese-115-3';script.onload=()=>resolve();script.onerror=()=>{loadPromise=null;script.remove();reject(Error('國文本機題庫未載入，請重試。'));};document.head.appendChild(script);});return loadPromise;
@@ -40,7 +40,7 @@ function adaptCloud(row){
  const q=C.normalize({...m,id:row.id,subject:'chinese',grade:Number(row.grade),grades:[Number(row.grade)],stem:row.question_text,options:row.options,answer:row.correct_index,explanation:row.explanation,origin:'cloud',sourceType:row.source_type||'unknown',source_url:row.source_url,source_title:row.source_title??m.source_title,academic_year:row.academic_year??m.academic_year,question_number:row.question_number??m.question_number,school:row.school??m.school,semester:row.semester??row.term??m.semester,exam:row.exam??row.exam_name??m.exam,classification_status:row.classification_status,verified_at:row.verified_at});
  return C.errors(q).length?null:q;
 }
-function receive(rows){cloud=rows.map(adaptCloud).filter(Boolean);links=cloud.flatMap(q=>(q.chineseMetadata.text_links||[]).map(l=>({...l,question_id:q.id})));render();}
+function receive(rows){cloud=rows.map(adaptCloud).filter(Boolean);links=cloud.flatMap(q=>(q.chineseMetadata?.text_links||[]).map(l=>({...l,question_id:q.id})));render();}
 function history({source='all',school='全部',year='全部',term='全部',exam='全部',grade='',textId=''}={}){
  return all().filter(q=>C.isVerified(q)&&(source==='all'||source==='ceec'&&q.sourceType==='ceec_official'||source==='school'&&['school_official','school_exam_verified'].includes(q.sourceType))&&
   (school==='全部'||q.school===school)&&(year==='全部'||String(q.academic_year)===String(year))&&(term==='全部'||String(q.semester)===String(term))&&
@@ -80,7 +80,7 @@ function init(api){
  });
  document.getElementById('classicalPanel').addEventListener('click',e=>{
   const b=e.target.closest('button');if(!b)return;
-  if(b.dataset.textAction){const texts=root.ClassicalTexts.filter(t=>document.getElementById('classicalGroup').value==='all'||t.group===document.getElementById('classicalGroup').value);selectedTexts.clear();if(b.dataset.textAction!=='clear')texts.filter(t=>b.dataset.textAction==='all'||all().some(q=>q.chineseMetadata.text_ids.includes(t.text_id)&&S.weak(q))).forEach(t=>selectedTexts.add(t.text_id));}
+  if(b.dataset.textAction){const texts=root.ClassicalTexts.filter(t=>document.getElementById('classicalGroup').value==='all'||t.group===document.getElementById('classicalGroup').value);selectedTexts.clear();if(b.dataset.textAction!=='clear')texts.filter(t=>b.dataset.textAction==='all'||all().some(q=>q.chineseMetadata?.text_ids?.includes(t.text_id)&&S.weak(q))).forEach(t=>selectedTexts.add(t.text_id));}
   if(b.dataset.textSource){source=b.dataset.textSource==='comparison'?'all':b.dataset.textSource;schoolOnly='';document.getElementById('classicalSource').value=source;if(b.dataset.textSource==='comparison'){selectedSkills=new Set(['comparison','extension']);document.querySelectorAll('[data-skill-id]').forEach(x=>x.checked=selectedSkills.has(x.dataset.skillId));}}
   if(b.dataset.textSchool){schoolOnly=b.dataset.textSchool;source='school';document.getElementById('classicalSource').value='school';}
   if(b.id==='startClassical'){mode='classical';api.startPractice();}
