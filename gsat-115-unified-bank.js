@@ -98,8 +98,25 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "normalized_stem_answer_conflict"
-      ]
+        "normalized_stem_corrected_against_exam_reference"
+      ],
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "最大整數函數與根號",
+        "key_insight": "先比較根號與相鄰整數的平方。",
+        "reasoning": "f(−20)=[√119]+[√79]=10+8=18；f(0)=2[√99]=18；f(1)=[√98]+[√100]=9+10=19。因此18=18<19，選①。",
+        "option_analysis": [
+          "① 18≤18<19，正確。",
+          "② 19≤18錯。",
+          "③ 19<18錯。",
+          "④ 18<18錯。",
+          "⑤ 19<18錯。"
+        ],
+        "common_errors": "漏掉平方根。",
+        "strategy": "先比較根號與相鄰整數的平方。",
+        "review": "依題型複習相關公式並逐步驗算。"
+      },
+      "stem": "令f(x)=[√(99−x)]+[√(99+x)]，−99≤x≤99。比較f(−20)、f(0)、f(1)的大小關係。"
     },
     {
       "id": "ceec-115-matha-03",
@@ -404,7 +421,23 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "只看單一元素猜規律。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "矩陣冪次、遞迴關係與行列式",
+        "key_insight": "先算 A²=2A+I，再利用對稱性與 A 的特徵關係逐項判斷。",
+        "reasoning": "A²=[[5,2],[2,1]]=2A+I，因此②正確。A 為對稱矩陣，其各次方也對稱，b₂=c₂=2，①錯。由 A^(n+2)=2A^(n+1)+A^n 得 c_(n+2)=2c_(n+1)+c_n，③係數順序錯。A^n(0,1)=(b_n,d_n)，不是下一次方的第二欄，④錯。設 A^n=[[a,b],[b,d]]，由 A^(2n)=(A^n)² 可得 d_(2n)-a_(2n)=(b²+d²)-(a²+b²)=d²-a²，⑤正確。",
+        "option_analysis": [
+          "① b₂<c₂：A² 對稱，兩者都等於2，錯。",
+          "② A²=2A+I：直接矩陣相乘可得，正確。",
+          "③ 遞迴式係數錯置：正確為 c_(n+2)=2c_(n+1)+c_n。",
+          "④ A^n 乘(0,1)取得的是 A^n 第二欄，不是 A^(n+1)，錯。",
+          "⑤ 由 A^n 對稱及平方矩陣的對角元素差可證，正確。"
+        ],
+        "common_errors": "誤以為對稱矩陣的對稱位置元素有大小差；寫遞迴時將2的係數放錯位置。",
+        "strategy": "多選矩陣題先計算 A²、確認對稱性，再用 A^(2n)=(A^n)² 避免展開高次。",
+        "review": "複習矩陣乘法、對稱矩陣與二階線性遞迴。"
+      }
     },
     {
       "id": "ceec-115-matha-09",
@@ -444,7 +477,23 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "忽略兩科標準差不同。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "T分數標準化與線性迴歸",
+        "key_insight": "分別寫出數學 T_M=50+5(S_M-60)/6、英文 T_E=50+5(S_E-60)/4，再逐項代數驗證。",
+        "reasoning": "① 英文52分：T_E=50+10(52-60)/8=40，正確。② 數學 T_M=50+(5/6)(S_M-60)=(5/6)S_M；對一般非負原始分數 S_M≥0，T_M≤S_M，正確。③ 原始總分較高不保證標準化總分較高，因兩科加權係數分別為5/6與5/4，錯。④ T≥40 時，數學 S_M≥48，英文 S_E≥52，數學門檻較低，正確。⑤ 對『以英文預測數學』的迴歸斜率，原始斜率乘上數學/英文的標準化倍率比 (5/6)/(5/4)=2/3，通常不相同，錯。",
+        "option_analysis": [
+          "① 英文52分的T分數為40：直接代入，正確。",
+          "② 數學T分數不超過原始成績：數學T=(5/6)S，原始成績非負時成立。",
+          "③ 原始總分較高者T總分必較高：兩科縮放倍率不同，錯。",
+          "④ 數學及格原始門檻48低於英文52：正確。",
+          "⑤ 迴歸斜率不因兩科不同倍率縮放而保持不變，錯。"
+        ],
+        "common_errors": "把兩科標準差當成相同；以原始分數總和直接比較T分數總和。",
+        "strategy": "先把兩科T分數各自化為原始分數的一次式，再比較選項。",
+        "review": "複習標準分數與不同變數縮放對迴歸斜率的影響。"
+      }
     },
     {
       "id": "ceec-115-matha-10",
@@ -484,7 +533,23 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "只算向量而忽略梯形相似。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "梯形、向量與面積",
+        "key_insight": "先由內積與面積求固定量，再用梯形相似比。",
+        "reasoning": "AB·AD=−28，|AB|=√40，|AD|=√26，故cos∠BAD=−7√65/65。△ABD面積=8，BE/BD=3/8，E=(13/8,−15/8)。由AB/DC=3/5得DC=(5/3)AB，梯形面積64/3。C=(13/3,−5)，BC=√58/3<8/3。故①⑤。",
+        "option_analysis": [
+          "① 內積結果正確。",
+          "② 面積應為8。",
+          "③ AE應為(13/8,−15/8)。",
+          "④ 面積應為64/3。",
+          "⑤ √58/3<8/3，正確。"
+        ],
+        "common_errors": "混淆面積比。",
+        "strategy": "先由內積與面積求固定量，再用梯形相似比。",
+        "review": "依題型複習相關公式並逐步驗算。"
+      }
     },
     {
       "id": "ceec-115-matha-11",
@@ -524,7 +589,23 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "只看圖猜交點數。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "餘弦函數的偶對稱、週期與直線交點",
+        "key_insight": "先利用 cos(-θ)=cosθ 處理對稱，再將指定水平線 y=-1 代回直線。",
+        "reasoning": "② 若 (a,b) 同時在 y=ma+1 與 y=cos(πa/2)，則 cos(-πa/2)=b，且 (-m)(-a)+1=ma+1=b，所以 (-a,b) 在 L_(-m) 與 Γ 上。④ 若交點 y=-1，則 cos(πx/2)=-1，故 x=4k+2（k為整數），而 mx+1=-1 得 1/m=-x/2=-(2k+1)，為奇數。① m>0 時 x=0 必為交點，並非所有交點x皆負。③ x=20/3 時 cos(10π/3)=-1/2，非1/2。⑤ x軸交點可在不同週期出現，不能僅憑週期判定交點總數必為偶數。",
+        "option_analysis": [
+          "① x=0 一定是交點，故『所有x皆負』錯。",
+          "② 餘弦為偶函數，直線斜率同時反號可對稱，正確。",
+          "③ x=20/3 對應餘弦值 -1/2，錯。",
+          "④ y=-1 導出 x=4k+2，故1/m為奇數，正確。",
+          "⑤ 交點數須同時考慮直線與餘弦的有界性，並非必偶數。"
+        ],
+        "common_errors": "忘記x=0固定交點；將cos(10π/3)錯算為1/2。",
+        "strategy": "先檢查固定交點(0,1)、偶對稱與特殊函數值，最後處理交點個數。",
+        "review": "複習餘弦偶函數與週期、直線方程及整數參數。"
+      }
     },
     {
       "id": "ceec-115-matha-12",
@@ -564,7 +645,23 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "從差函數圖形直接猜兩中心。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "三次多項式對稱中心與係數比較",
+        "key_insight": "一般三次函數 ax³+bx²+cx+d 的中心橫座標為 -b/(3a)，中心縱座標為函數在該處的值。",
+        "reasoning": "設 f(x)=x³+px²+qx+r，則 g(x)=f(x)-(2x³+2x)=-x³+px²+(q-2)x+r。故 f 中心 a₁=-p/3，g 中心 a₂=p/3，兩者和固定為0，②正確。兩圖交點滿足 f-g=2x(x²+1)=0，只有 x=0 一個實交點，①錯。若 a₁=a₂，則 p=0，此時兩中心都在x=0，且 f(0)=g(0)=r，故 b₁=b₂，④正確。③ b₁+b₂ 含有未固定的 q、r 等係數，不能唯一確定。⑤ 中心縱座標相等未必迫使 p=0，可藉調整q使其相等，故錯。",
+        "option_analysis": [
+          "① f-g=2x(x²+1)，只有一個實數零點，錯。",
+          "② a₁+a₂=-p/3+p/3=0，正確。",
+          "③ 兩中心縱座標和受未指定係數影響，錯。",
+          "④ a₁=a₂ 導致 p=0，兩中心都在(0,r)，正確。",
+          "⑤ b₁=b₂ 不能反推 p=0，錯。"
+        ],
+        "common_errors": "把三次差函數的三個複數根誤認為三個實交點；誤將充分條件當成必要條件。",
+        "strategy": "先設一般式比較係數，再用 -b/(3a) 定位中心；遇到逆命題尋找反例。",
+        "review": "複習三次函數中心、實根與充分必要條件。"
+      }
     },
     {
       "id": "ceec-115-matha-13",
@@ -700,7 +797,21 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "只用等差條件，漏掉共線。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "等差、對數與共線",
+        "key_insight": "等差橫坐標共線，則縱坐標亦成等差。",
+        "reasoning": "2log(4b)=log(3a)+log(6c)，所以16b²=18ac。令a=b−d、c=b+d，得b²−d²=8b²/9，d=b/3，a=2b/3，故b/a=3/2。",
+        "option_analysis": [],
+        "common_errors": "把log(3a)看成以3為底。",
+        "strategy": "等差橫坐標共線，則縱坐標亦成等差。",
+        "review": "依題型複習相關公式並逐步驗算。"
+      },
+      "stem": "三正數a<b<c成等差數列，且(a,log(3a))、(b,log(4b))、(c,log(6c))共線，求b/a。",
+      "review_flags": [
+        "log_argument_parentheses_restored"
+      ]
     },
     {
       "id": "ceec-115-matha-16",
@@ -741,7 +852,17 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "只平移頂點，沒有同步考慮整條拋物線。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "拋物線頂點式、平移與距離公式",
+        "key_insight": "原拋物線兩根為 ±1/2，對稱軸x=0；平移後以頂點 Q=(t,1+2t) 建立通過 B 的條件。",
+        "reasoning": "原拋物線為 y=c(x²-1/4)，頂點 P=(0,1)，故 c=-4，原式 y=1-4x²。平移後頂點 Q=(t,1+2t)，新圖形為 y=1+2t-4(x-t)²。因通過 B=(1/2,0)，得 1+2t-4(1/2-t)²=0，化簡 6t-4t²=0，即 t=0 或3/2。P、Q不同，故 t=3/2，Q=(3/2,4)。PQ=√[(3/2)²+3²]=3√5/2。",
+        "option_analysis": [],
+        "common_errors": "平移時忘記二次項的係數-4不變；沒有排除 t=0 對應原頂點。",
+        "strategy": "用頂點參數 t 表示平移後函數，再以通過指定點解方程。",
+        "review": "複習二次函數根與頂點、水平/垂直平移及距離公式。"
+      }
     },
     {
       "id": "ceec-115-matha-17",
@@ -782,7 +903,17 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "不同三角形套正弦定理時對錯邊。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "正弦定理與三倍角",
+        "key_insight": "令θ=∠ACD，利用BC=2BD先求θ。",
+        "reasoning": "∠BCD=2θ，∠CDB=90°+θ。正弦定理得2=BC/BD=cosθ/sin2θ=1/(2sinθ)，所以sinθ=1/4，tanθ=1/√15。由AD/AC=tanθ、AB/AC=tan3θ及tan3θ=(3t−t³)/(1−3t²)=11/(3√15)，得AD/AB=3/11。",
+        "option_analysis": [],
+        "common_errors": "角度或三倍角公式用錯。",
+        "strategy": "令θ=∠ACD，利用BC=2BD先求θ。",
+        "review": "依題型複習相關公式並逐步驗算。"
+      }
     },
     {
       "id": "ceec-115-matha-18",
@@ -924,7 +1055,23 @@ window.GSAT_UNIFIED_BANK_115_MATHA=Object.freeze({
         "common_errors": "直接用底面積乘 |AP|；或只比較三條棱長。"
       },
       "explanation_source": "platform_authored",
-      "explanation_status": "draft_review_required"
+      "explanation_status": "draft_review_required",
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "外積、混合積與平行六面體最遠距離",
+        "key_insight": "體積用外積與第三邊內積；最遠距離的平方是凸函數，最大值可在平行六面體的頂點取得。",
+        "reasoning": "題組已知 AB×AD=(-5,5,5)、AD×AP=(-2,0,-4)、AP×AB=(6,-10,-8)、|AP|=6。由既有向量關係解得 AP=(4,4,-2)、AD=(2,3,-1)、AB=(1,-1,2)。體積 V=|(AB×AD)·AP|=|(-5,5,5)·(4,4,-2)|=|-20+20-10|=10。平行六面體任一點可表示為 A+sAB+tAD+uAP（0≤s,t,u≤1）；平方距離為凸函數，最大值可在頂點取得。逐一比較8個頂點的距離平方：0、|AB|²=6、|AD|²=14、|AP|²=36、|AB+AD|²=14、|AB+AP|²=34、|AD+AP|²=94、|AB+AD+AP|²=86。最大為|AD+AP|²=94，故最長距離√94。",
+        "option_analysis": [],
+        "answer_elements": [
+          "體積 |(AB×AD)·AP|=10",
+          "以8個頂點比較到A的距離平方",
+          "最大平方距離94，最長距離√94"
+        ],
+        "common_errors": "直接以底面積乘|AP|，忽略AP不一定垂直底面；只比較三條棱，漏掉空間對角線。",
+        "strategy": "空間幾何題先辨識外積與混合積，再把最遠距離轉成有限個頂點的平方距離比較。",
+        "review": "複習外積、混合積、空間向量加法與距離平方。",
+        "scoring_notice": "平台整理作答步驟，非官方逐項配分。"
+      }
     }
   ]
 });

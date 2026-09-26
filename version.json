@@ -1,8 +1,8 @@
 {
   "version": "5.0",
-  "build": "5.0-matha-explanation-v2-1",
-  "name": "115 數A Explanation V2 第一階段",
-  "status": "unreleased",
+  "build": "5.0-matha-explanation-v2-complete",
+  "name": "115 數A Explanation V2 全20題",
+  "status": "released",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
   "observedBasePageVersion": "4.9.7.1",
   "catalogSchemaVersion": 3,
@@ -66,8 +66,8 @@
   },
   "updatedAt": "2026-09-26",
   "notes": [
-    "115數A第1、3、4、5、6、7、13、14、18、19題已完成V2詳解，共10題。",
-    "第2題保存的正規化題幹代入後三個值相等，與既有答案①矛盾，標記待核對；不修改官方答案。",
-    "沿用跨科共用renderer與原本題目、答案、錯題紀錄，未寫Supabase。"
+    "115數A20題V2詳解全部完成。",
+    "第2題根號、第15題對數括號已修正，仍保留人工複核標記。",
+    "保留原答案manifest，未寫Supabase。"
   ]
 }

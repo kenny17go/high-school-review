@@ -229,7 +229,7 @@
       "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0q054344158947111283/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8a%E8%A9%A6%E5%8D%B7.pdf",
       "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0Q019602555648697608/03-115%E5%AD%B8%E6%B8%AC%E6%95%B8%E5%AD%B8A%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
       "source_page": 1,
-      "classification_status": "verified",
+      "classification_status": "needs_review",
       "explanation": {
         "concept": "最大整數函數；分段函數",
         "key_insight": "依最大整數函數定義分別代入比較。",
@@ -238,7 +238,7 @@
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
-      "stem": "對任一實數 a，以 [a] 表示不大於 a 的最大整數。令 f(x)=[99-x]+[99+x]，-99≤x≤99。比較 f(-20)、f(0)、f(1) 的大小關係。",
+      "stem": "令f(x)=[√(99−x)]+[√(99+x)]，−99≤x≤99。比較f(−20)、f(0)、f(1)的大小關係。",
       "options": [
         "f(-20)≤f(0)<f(1)",
         "f(-20)<f(1)≤f(0)",
@@ -250,7 +250,9 @@
       "answer_match": true,
       "parse_confidence": 0.98,
       "classification_confidence": 0.95,
-      "review_flags": [],
+      "review_flags": [
+        "normalized_stem_corrected_against_exam_reference"
+      ],
       "input_classification_status": "verified",
       "content_capture_status": "inline_normalized",
       "grading_rubric": null,
@@ -946,12 +948,14 @@
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
-      "stem": "三正數a<b<c成等差數列，且(a,log₃a)、(b,log₄b)、(c,log₆c)共線，求b/a。",
+      "stem": "三正數a<b<c成等差數列，且(a,log(3a))、(b,log(4b))、(c,log(6c))共線，求b/a。",
       "group_id": null,
       "answer_match": true,
       "parse_confidence": 0.98,
       "classification_confidence": 0.95,
-      "review_flags": [],
+      "review_flags": [
+        "log_argument_parentheses_restored"
+      ],
       "input_classification_status": "verified",
       "content_capture_status": "inline_normalized",
       "grading_rubric": null,

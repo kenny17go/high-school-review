@@ -1,3 +1,14 @@
+## 2026-09-26 115數A V2 全20題發布
+
+- 115數A20/20題V2詳解完成，保留原答案manifest。第2題根號與第15題對數括號已修正，保留人工複核標記。
+- 完成結構及答案一致性驗證；完整npm與實機測試尚未執行。未寫Supabase。
+
+## 2026-09-26 115數A Explanation V2 第二階段 checkpoint
+
+- 以main 6bfadfc為基準，新增第8、9、11、12、16、20題V2詳解，累計16/20題；未修改答案manifest。
+- 第2題正規化題幹仍與保存答案衝突，維持needs_review；10、15、17題尚待完整推導核對。
+- 本輪僅暫存未提交Git tree，未commit/push/deploy；未寫Supabase。完整npm test及瀏覽器測試待執行。
+
 ## 2026-09-26 115數A Explanation V2 checkpoint
 
 - 以已部署 HEAD 88d6a0f 為基準，沿用國綜共用 Explanation V2 renderer；115數A先完成10題（1、3、4、5、6、7、13、14、18、19）的逐步解答，其他題保留舊詳解，不冒充已完成。

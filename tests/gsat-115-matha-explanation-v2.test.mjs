@@ -12,8 +12,8 @@ test('115 Math A: all 20 answers retain independent saved manifest',()=>{
  assert.equal(qs.length,20);assert.equal(mapped.length,20);
  for(const q of qs){assert.equal(JSON.stringify(q.answer),JSON.stringify(golden.answer_manifest[q.question_number]),'Q'+q.question_number);}
 });
-test('first ten V2 explanations are complete and flow into shared bank',()=>{
- for(const n of [1,3,4,5,6,7,13,14,18,19]){
+test('all twenty V2 explanations are complete and flow into shared bank',()=>{
+ for(const n of Array.from({length:20},(_,i)=>i+1)){
   const q=qs.find(x=>x.question_number===n),e=q.explanation_v2;
   assert.equal(e?.schema,'explanation-v2','Q'+n);
   for(const field of ['concept','key_insight','reasoning','common_errors','strategy','review'])assert.ok(e[field]?.trim(),'Q'+n+' '+field);
@@ -22,8 +22,8 @@ test('first ten V2 explanations are complete and flow into shared bank',()=>{
   assert.equal(q.explanation_status,'draft_review_required');
  }
 });
-test('Q2 conflicting normalized stem is explicitly pending review',()=>{
+test('Q2 radical stem correction remains pending review',()=>{
  const q=qs.find(x=>x.question_number===2);
- assert.ok(q.review_flags.includes('normalized_stem_answer_conflict'));
+ assert.ok(q.review_flags.includes('normalized_stem_corrected_against_exam_reference'));
  assert.equal(q.classification_status,'needs_review');
 });
