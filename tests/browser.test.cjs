@@ -31,6 +31,7 @@ const server=http.createServer((req,res)=>{
  assert.deepEqual(duplicateIds,[]);
  assert.equal(await page.locator('#home #learningDataCard').count(),1);
  await page.locator('#home button[data-open="practice"]:not([data-subject-mode])').click();
+ assert.deepEqual((await page.locator('#practiceVariant option').allTextContents()).slice(1),['數學A','國綜'],'GSAT subject options must come from the unified bank, not only the current home subject');
  assert.equal(await page.locator('#quiz .qcard').count(),20);
  await page.locator('#quiz .opt').filter({visible:true}).first().click();
  await page.locator('#finishBtn').click();
@@ -61,6 +62,13 @@ const server=http.createServer((req,res)=>{
  await page.locator('#mockQuiz .opt').filter({visible:true}).first().click();await page.locator('#submitMock').click();
  assert.match(await page.locator('#mockResult').innerText(),/已作答 1 題/);
  await page.locator('#mock [data-home]').click();
+ // The active home subject is still math: choosing 國綜 in the unified bank must switch the CEEC result set to Chinese.
+ await page.locator('#home button[data-open="practice"]:not([data-subject-mode])').click();
+ await page.selectOption('#practiceVariant','國綜');await page.selectOption('#practiceSource','ceec');await page.selectOption('#practiceYear','115');await page.selectOption('#qtyFilter','50');
+ await page.locator('#applyFilter').click();
+ assert.equal(await page.locator('#quiz .qcard').count(),36,'selecting 國綜 must expose all 36 Chinese GSAT questions without changing the home subject');
+ assert.ok((await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(node=>node.dataset.dontknowQ))).every(id=>id.startsWith('ceec-115-chinese-')));
+ await page.locator('#practice [data-home]').click();
  // 115 Chinese uses the same mixed-type renderer; modern passages stay behind official PDF links.
  await page.selectOption('#subject','chinese');await page.waitForTimeout(100);
  await page.locator('#home button[data-open="practice"]:not([data-subject-mode])').click();

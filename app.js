@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-batch-chinese-115-2";
+window.V500_BUILD="5.0-batch-chinese-115-3";
 
 (function(){
 "use strict";
@@ -32,19 +32,22 @@ function allQuestions(){return [...questions,...grade2Cloud,...grade2Fallback,..
 function findQuestion(id,subject=subjectId()){return [...current,...mock,...allQuestions()].find(q=>q.id===id&&(q.subject||q.subjectId||'math')===subject);}
 function scopeSummary(scope){if(adapter())return subjectScopeSummary(scope);return `${scope.label}｜${catalog.labels[scope.sourceType]}｜${catalog.courses.find(c=>c.id===scope.courseId)?.label||""}｜${scope.school} ${scope.academicYear} ${scope.semester===1?"上":"下"}學期 第${scope.exam}次段考`;}
 function updateTopicFilters(){
- const topics=adapter()?adapter().topics():selectedGrade()===2?catalog.chapters.filter(c=>currentScope().chapterIds.includes(c.id)).map(c=>c.label):["實數","多項式","指數","對數","綜合"];
+ updatePracticeVariant();
+ const chosenVariant=$("practiceVariant")?.value||"全部";
+ const variantTopics=chosenVariant==="全部"?[]:[...new Set(unifiedQuestions().filter(q=>q.variant===chosenVariant).map(q=>q.topic).filter(Boolean))];
+ const topics=variantTopics.length?variantTopics:adapter()?adapter().topics():selectedGrade()===2?catalog.chapters.filter(c=>currentScope().chapterIds.includes(c.id)).map(c=>c.label):["實數","多項式","指數","對數","綜合"];
  selectedPracticeTopics=new Set([...selectedPracticeTopics].filter(t=>topics.includes(t)));
  const choices=$("topicChoices"),summary=$("topicFilterSummary");
  if(choices){choices.innerHTML=`<label><input type="checkbox" data-topic-all ${selectedPracticeTopics.size?'':'checked'}><span>全部章節</span></label>${topics.map(t=>`<label><input type="checkbox" data-topic-value="${escapeText(t)}" ${selectedPracticeTopics.has(t)?'checked':''}><span>${escapeText(t)}</span></label>`).join('')}`;}
  if(summary)summary.textContent=!selectedPracticeTopics.size?'全部章節':selectedPracticeTopics.size<=2?[...selectedPracticeTopics].join('、'):`已選 ${selectedPracticeTopics.size} 個章節`;
  const study=$("studyTopic"),old=study?.value;if(study){study.replaceChildren(new Option("全部章節","全部"),...topics.map(t=>new Option(t,t)));study.value=topics.includes(old)?old:"全部";}
- updatePracticeVariant();
 }
-function updatePracticeVariant(){
+function updatePracticeVariant(preferCurrentSubject=false){
  const el=$("practiceVariant");if(!el)return;
- const old=el.value,variants=[...new Set(unifiedQuestions().filter(q=>q.subject===subjectId()).map(q=>q.variant).filter(Boolean))];
+ const old=el.value,questions=unifiedQuestions(),variants=[...new Set(questions.filter(q=>q.sourceType==="ceec_official").map(q=>q.variant).filter(Boolean))];
+ const subjectVariants=[...new Set(questions.filter(q=>q.subject===subjectId()&&q.sourceType==="ceec_official").map(q=>q.variant).filter(Boolean))];
  el.replaceChildren(new Option("全部考科","全部"),...variants.map(v=>new Option(v,v)));
- el.value=variants.includes(old)?old:(variants.length===1?variants[0]:"全部");
+ el.value=preferCurrentSubject?(subjectVariants.length===1?subjectVariants[0]:"全部"):(variants.includes(old)?old:(subjectVariants.length===1?subjectVariants[0]:"全部"));
 }
 function practiceTopics(){return [...selectedPracticeTopics];}
 function renderLearningScope(){
@@ -395,7 +398,7 @@ function openPanel(id){
   document.querySelectorAll(".panel").forEach(p=>p.classList.remove("active"));
   panel.classList.add("active");
   try{
-    if(id==="practice"&&(adapter()||selectedGrade()===2))chooseSet();
+    if(id==="practice"){updateTopicFilters();if(adapter()||selectedGrade()===2)chooseSet();}
     if(id==="wrong")renderWrong();
     if(id==="weak")renderWeak();
     if(id==="gsat")Promise.resolve(loadGsatV4967()).catch(e=>console.error(e));
@@ -423,9 +426,11 @@ function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now(
   practiceScope=source==="ceec"?null:(adapter()||selectedGrade()===2?currentScope():null);
   if(practiceScope)updateTopicFilters();
   const topics=practiceTopics(),l=$("levelFilter").value,qty=+$("qtyFilter").value;
-  const localPool=getSchoolPool(),officialPool=unifiedQuestions().filter(q=>q.subject===subjectId());
-  const basePool=source==="ceec"?officialPool:source==="platform"?localPool:[...new Map([...localPool,...officialPool].map(q=>[String(q.id),q])).values()];
-  const pool=basePool.filter(q=>(sourceYear==="全部"||String(q.academic_year)===String(sourceYear))&&(variant==="全部"||q.variant===variant)&&(!topics.length||topics.includes(q.topic))&&(l==="全部"||q.level===l));
+  const localPool=getSchoolPool(),allOfficial=unifiedQuestions(),officialPool=allOfficial.filter(q=>q.subject===subjectId());
+  const selectedOfficialVariant=variant!=="全部"&&allOfficial.some(q=>q.sourceType==="ceec_official"&&q.variant===variant);
+  const basePool=source==="ceec"||selectedOfficialVariant?allOfficial:source==="platform"?localPool:[...new Map([...localPool,...officialPool].map(q=>[String(q.id),q])).values()];
+  const effectiveVariant=source==="platform"?"全部":variant;
+  const pool=basePool.filter(q=>(sourceYear==="全部"||String(q.academic_year)===String(sourceYear))&&(effectiveVariant==="全部"||q.variant===effectiveVariant)&&(!topics.length||topics.includes(q.topic))&&(l==="全部"||q.level===l));
   const selected=source==="ceec"&&sourceYear!=="全部"&&qty>=pool.length
     ?pool.slice().sort((a,b)=>Number(a.question_number)-Number(b.question_number))
     :selectQuestions(pool,Math.min(qty,pool.length));
@@ -1100,7 +1105,7 @@ async function switchSubject(){
  $("gsatHomeCard").querySelector('p').textContent='110學年度起'+subjectInfo().name+'官方來源；實際收錄數依資料庫顯示。';
  $("gsat").querySelector('p').textContent=subjectInfo().name+'學測官方來源；來源連結不等同已完成逐題分類。';
  goHome();
- try{await adapter()?.ensure();if(seq!==subjectSwitchSeq)return;adapter()?.setMode('exam');selectionChanged();renderSources();refreshStats();await loadCurrentSubjectQuestions();}
+ try{await adapter()?.ensure();if(seq!==subjectSwitchSeq)return;updatePracticeVariant(true);adapter()?.setMode('exam');selectionChanged();renderSources();refreshStats();await loadCurrentSubjectQuestions();}
  catch(e){if(seq===subjectSwitchSeq)toast(e.message);}
 }
 registry.enabled().forEach(s=>s.adapter?.init({selection:learningSelection,startPractice:()=>openPanel('practice'),open:openPanel,refreshStats}));
@@ -1134,6 +1139,7 @@ const localBtnEl=$("localBtn");if(localBtnEl)localBtnEl.onclick=useLocal;
 
 // ---- Core interactions ----
 onV496("applyFilter","click",chooseSet);
+onV496("practiceVariant","change",()=>{updateTopicFilters();chooseSet();});
 onV496("topicChoices","change",e=>{
  const all=e.target.closest('[data-topic-all]'),topic=e.target.dataset.topicValue;
  if(all){selectedPracticeTopics.clear();}

@@ -2,6 +2,13 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-26 國綜考科選項無法選擇修正 checkpoint
+
+- 使用者實際截圖顯示 `practiceVariant` 選單只包含「全部考科」，且畫面仍抽出數學題。這證明上一 checkpoint 將「欄位存在」誤判為「國綜可選」；問題並非手機快取。
+- 根因：variant 選項只在部分範圍／科目初始化時更新，且只從目前首頁科目取值。數學首頁時沒有國綜選項。
+- 本地修正：從統一 Question Bank 所有學測真題產生考科選項；可在數學首頁直接選「國綜」，此選擇會改以國綜真題集篩選；考科改變時章節 checkbox 清單同步採該考科實際 topic。
+- build/cache更新為`5.0-batch-chinese-115-3`；瀏覽器 regression 增加「數學首頁直接選國綜並取得36題」斷言。Validate、V5 data、GSAT各Golden、Batch Importer、migration均PASS，`git diff --check`與`node --check app.js` PASS；`npm test`僅最後 browser 階段無法啟動，環境缺`/opt/microsoft/msedge/msedge`。本地修正尚未commit、push或部署，未寫Supabase。
+
 ## 2026-09-26 115 國綜線上篩選修正 checkpoint
 
 - 使用者iPhone截圖顯示頁首仍為`111數A Batch`，確認是手機仍載入舊頁面快取；舊介面也確實只有來源／年度，沒有可辨識的國綜考科欄位，章節則為單選select。
