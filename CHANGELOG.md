@@ -4,6 +4,7 @@
 - 依大考中心官方試題恢復第2題單位圓切線圖及第18–20題共用圖；共用renderer支援題組圖顯示。
 - Explanation V2 補齊逐步推理、錯誤提醒、技巧與選擇題逐選項分析；第19、20題另列非選作答要點。平台詳解仍標記待人工審閱。
 - 已執行112年V2／Golden、111–114跨年Golden、validate與語法檢查。完整npm test仍受既有115測試的 needs_review 清單差異中止；瀏覽器測試受環境缺少Edge限制。
+- Build/cache標記為5.0-112-matha-explanation-v2；已推送（commit `8520382`），GitHub Pages `version.json`、app.js與兩張圖檔已核對。
 
 ## 5.0 — 113數A既有詳解增量優化（2026-09-26）
 

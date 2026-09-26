@@ -1,7 +1,7 @@
-## 2026-09-26 112數A既有詳解增量優化（本機完成，待發布）
+## 2026-09-26 112數A既有詳解增量優化（已推送並部署）
 
 ### Current Task
-- 112年度增量修改及年度回歸已完成。本地GitHub工作樹以 `a9ae328` 為基底；使用者已授權commit／push／部署，接下來提交並驗證線上build。111年度尚未處理。
+- 112年度增量修改及年度回歸已推送至GitHub main（commit `8520382`），Pages build `5.0-112-matha-explanation-v2` 及兩張圖檔已核對。下一年度為111年。
 
 ### Completed
 - 盤點確認既有20題、題號1–20、官方答案20/20、舊詳解20/20、第18–20題共用題組與非選作答要點俱全；未重匯試卷、未新增題目、未改答案manifest。
@@ -22,12 +22,12 @@
 - `tests/gsat-112-matha-explanation-v2.test.mjs`、`tests/gsat-112-golden.test.mjs`。
 
 ### Remaining / Known Issues
-- 尚待按授權提交並推送，部署後核對線上版本與兩張官方圖。
+- 112 commit `8520382` 已推送；線上 `version.json` build為 `5.0-112-matha-explanation-v2`，兩張圖檔皆HTTP 200。
 - 完整npm test既有115測試差異及Edge瀏覽器環境限制仍待之後另行處理；不屬於112資料修正範圍。
 - 下一年度依序處理111數A。
 
 ### Next Step
-- 提交並發布112優化，驗證GitHub Pages；之後盤點111年既有題庫與詳解。
+- 開始盤點111年既有題庫與詳解。
 
 ---
 
