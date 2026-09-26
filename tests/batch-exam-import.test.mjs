@@ -15,6 +15,9 @@ assert.equal(staged.schema_version,'batch-import-v1');
 assert.equal(staged.review_summary.total,4);
 assert.equal(staged.review_summary.clean,4);
 assert.equal(staged.review_summary.needs_review,0);
+assert.equal(staged.review_summary.group_needs_review,0);
+assert.equal(staged.review_summary.group_error_count,0);
+assert.equal(staged.review_summary.group_warning_count,0);
 assert.equal(staged.review_summary.ready_for_publish,false);
 assert.equal(staged.questions.every(q=>q.classification_status==='needs_review'),true,'automation never self-verifies');
 
@@ -26,6 +29,17 @@ const invalid=prepareExamBatch({...base,questions:[{...base.questions[0],id:'bad
 assert.equal(invalid.review_summary.error_count,1);
 assert(invalid.exception_queue[0].reasons.includes('invalid_ceec_domain'));
 assert.throws(()=>approveBatch(invalid,{reviewer:'tester',evidence:'visual check',approved_question_ids:['bad2']}),/Blocking/);
+
+const rightsReview=prepareExamBatch({...base,groups:[{...base.groups[0],rights_status:'metadata_only_pending_rights'}]});
+assert.equal(rightsReview.review_summary.needs_review,0,'one shared passage must not create per-question exceptions');
+assert.equal(rightsReview.review_summary.group_needs_review,1);
+assert.deepEqual(rightsReview.group_exception_queue[0].reasons.sort(),['external_context_required','rights_review_required']);
+assert.throws(()=>approveBatch(rightsReview,{reviewer:'tester',evidence:'fixture',approved_question_ids:[]}),/group exceptions/i);
+const rightsApproved=approveBatch(rightsReview,{reviewer:'tester',evidence:'rights checked',approved_question_ids:[],approved_group_ids:['g18-20']});
+assert.equal(rightsApproved.review_summary.group_needs_review,0);
+const brokenGroup=prepareExamBatch({...base,groups:[{id:'g18-20',stem:''}]});
+assert.equal(brokenGroup.review_summary.group_error_count,1);
+assert.throws(()=>approveBatch(brokenGroup,{reviewer:'tester',evidence:'fixture',approved_question_ids:[],approved_group_ids:['g18-20']}),/Blocking group/);
 
 const approved=approveBatch(staged,{reviewer:'tester',evidence:'official paper and answer checked',approved_question_ids:[]});
 assert.equal(approved.review_summary.ready_for_publish,true);

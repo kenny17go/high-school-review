@@ -61,6 +61,17 @@ const server=http.createServer((req,res)=>{
  await page.locator('#mockQuiz .opt').filter({visible:true}).first().click();await page.locator('#submitMock').click();
  assert.match(await page.locator('#mockResult').innerText(),/已作答 1 題/);
  await page.locator('#mock [data-home]').click();
+ // 115 Chinese uses the same mixed-type renderer; modern passages stay behind official PDF links.
+ await page.selectOption('#subject','chinese');await page.waitForTimeout(100);
+ await page.locator('#home button[data-open="practice"]:not([data-subject-mode])').click();
+ await page.selectOption('#practiceSource','ceec');await page.selectOption('#practiceYear','115');await page.selectOption('#qtyFilter','50');
+ await page.locator('#applyFilter').click();
+ assert.equal(await page.locator('#quiz .qcard').count(),36);
+ assert.equal(await page.locator('#quiz .questionGroup').count(),9);
+ assert.equal(await page.locator('#quiz .questionGroup a[href*="ceec.edu.tw"][href*="#page="]').count(),8);
+ assert.equal(await page.locator('#quiz .qtitle .tag').filter({hasText:'平台詳解待審閱'}).count(),36);
+ assert.match(await page.locator('#countText').innerText(),/目前產生 36 題（符合條件共 36 題）.*115學年度/);
+ await page.locator('#practice [data-home]').click();await page.selectOption('#subject','math');
  // Exercise actual DOM listeners across all years and tracks.
  await page.selectOption('#grade','2');
  for(const year of [112,113,114]){

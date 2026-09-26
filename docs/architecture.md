@@ -145,10 +145,14 @@ Official PDF / answer key
 - **Staging**：normalize 後的 JSON/JSONL、題組、分類、平台詳解、confidence、validation results；預設 needs_review。
 - **Published**：人工確認後才進入統一 Question Bank。production 不另建 GSAT/school/source-specific bank。
 
-Importer 的輸出應包含 review summary / exception queue，讓人工集中處理答案不一致、低信心公式／圖片、題組切割、來源缺漏等異常，而不是重新閱讀所有正常題。Importer 不直接寫正式 Supabase；正式 publish 是獨立、可審核的步驟。
+Importer 的輸出應包含 review summary / exception queue，讓人工集中處理答案不一致、低信心公式／圖片、題組切割、來源缺漏等異常，而不是重新閱讀所有正常題。共用文章、圖片或版權問題屬於 Question Group 時，必須輸出一筆 `group_exception_queue`，不可把同一情境重複成每小題各一筆人工作業。Importer 不直接寫正式 Supabase；正式 publish 是獨立、可審核的步驟。
 
 ### Explanation contract
 每題平台詳解固定包含：**考什麼 → 破題關鍵 → 完整步驟 → 常見錯誤**。批次產生後以規則核對官方答案、answer type、必要 group context、基本數值／公式一致性與 source metadata。AI 產生內容永遠是 platform-authored，不是 CEEC／學校官方詳解；未經人工覆核保持 needs_review。
 
 ### Scaling rule
-115 Golden Sample 已完成端到端驗證；114、113、112與111數A均以跨年度重用批次沿用同一 schema、importer、Question Group 與共用 renderer，沒有建立年度專用 renderer。113第7題的官方答案異議保留為可追溯 Exception Queue 範例：正式答案仍採大考中心維持的③④，並附官方回覆證據；112與111整卷均無額外 validation exception。111年Q3散布圖、Q11立體圖取自官方原卷並接入共用題面呈現；兩圖不改變題庫資料契約。新科目先取20–50題 Golden Sample 驗證科目特有題型，再擴大量。擴充新來源原則上只增加資料、分類與 filter；只有真正的新題型才擴充共用 renderer。
+115 數A Golden Sample 已完成端到端驗證；114、113、112與111數A均以跨年度重用批次沿用同一 schema、importer、Question Group 與共用 renderer，沒有建立年度專用 renderer。113第7題的官方答案異議保留為可追溯 Exception Queue 範例：正式答案仍採大考中心維持的③④，並附官方回覆證據；112與111整卷均無額外 validation exception。111年Q3散布圖、Q11立體圖取自官方原卷並接入共用題面呈現；兩圖不改變題庫資料契約。
+
+115 國綜是第一份跨科 Golden Sample：36題／100分、9組題組，題型為單選26、多選7、非選3。官方答案與非選評分原則已進Raw／Staging；逐題validation無異常。國文現代文章依rights規則只保存題組摘要、官方PDF與頁碼，7組未釐清全文權利的共用情境進入題組級Exception Queue。使用者已選擇「官方PDF連結模式」：共用renderer顯示摘要與官方PDF指定頁面連結，不內嵌現代文章全文；36題已接入本機runtime，但仍保留`needs_review`、`sync_disabled`且未標為Published。後續國文年度應沿用同一題組級審查，不得為每小題重複建立版權工作。
+
+新科目先取20–50題 Golden Sample 驗證科目特有題型，再擴大量。擴充新來源原則上只增加資料、分類與 filter；只有真正的新題型才擴充共用 renderer。

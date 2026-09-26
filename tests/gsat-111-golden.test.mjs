@@ -42,7 +42,7 @@ const context={window:{}};
 vm.createContext(context);
 for(const file of ['gsat-115-unified-bank.js','gsat-114-unified-bank.js','gsat-113-unified-bank.js','gsat-112-unified-bank.js','gsat-111-unified-bank.js','unified-question-bank.js'])vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
 const runtime=context.window.UnifiedQuestionBank;
-assert.equal(runtime.version,'1.4');
+assert.equal(runtime.version,'1.5');
 assert.equal(runtime.questions.length,100);
 assert.equal(new Set(runtime.questions.map(q=>q.id)).size,100);
 for(const year of [111,112,113,114,115])assert.equal(runtime.filter({sourceType:'ceec_official',academic_year:year}).length,20);

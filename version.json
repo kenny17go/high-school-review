@@ -1,7 +1,7 @@
 {
   "version": "5.0",
-  "build": "5.0-batch-111-1",
-  "name": "統一題庫＋111數A Batch",
+  "build": "5.0-batch-chinese-115-1",
+  "name": "統一題庫＋115國綜 Batch",
   "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
   "observedBasePageVersion": "4.9.7.1",
@@ -26,6 +26,7 @@
   "release_files": [
     "index.html",
     "app.js",
+    "gsat-115-chinese-unified-bank.js",
     "gsat-111-unified-bank.js",
     "assets/gsat-111-q03.png",
     "assets/gsat-111-q11.png",

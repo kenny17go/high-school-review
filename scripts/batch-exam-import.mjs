@@ -106,10 +106,28 @@ export function validateQuestion(q,groups=new Map()){
  return {errors:unique(errors),warnings:unique(warnings)};
 }
 
+export function validateGroup(group){
+ const errors=[],warnings=[];
+ const need=(ok,code)=>{if(!ok)errors.push(code);};
+ need(Boolean(group.id),'missing_group_id');
+ need(Boolean(clean(group.stem)),'missing_group_context');
+ if(group.source_url){
+  try{const u=new URL(group.source_url);need(['http:','https:'].includes(u.protocol),'unsafe_group_source_url');}
+  catch{errors.push('invalid_group_source_url');}
+ }
+ if(group.rights_status==='metadata_only_pending_rights')warnings.push('rights_review_required','external_context_required');
+ warnings.push(...asArray(group.review_flags).map(clean).filter(Boolean));
+ return {errors:unique(errors),warnings:unique(warnings)};
+}
+
 export function prepareExamBatch(input){
  const exam=input?.exam||{};
  const rawGroups=asArray(input?.groups);
- const groups=new Map(rawGroups.map(g=>[String(g.id),{...g,id:String(g.id),pipeline_stage:'staging'}]));
+ const groups=new Map(rawGroups.map(g=>{
+  const group={...g,id:String(g.id),pipeline_stage:'staging',classification_status:'needs_review'};
+  const validation=validateGroup(group),reasons=unique([...validation.errors,...validation.warnings]);
+  return [group.id,{...group,validation,review_required:reasons.length>0,review_reasons:reasons}];
+ }));
  const seenIds=new Set(),seenNumbers=new Set();
  const questions=asArray(input?.questions).map(raw=>{
   const q=normalizeQuestion(raw,exam);
@@ -120,6 +138,7 @@ export function prepareExamBatch(input){
   return {...q,validation:{errors:unique(result.errors),warnings:unique(result.warnings)},review_required:reasons.length>0,review_reasons:reasons};
  });
  const exceptions=questions.filter(q=>q.review_required);
+ const groupExceptions=[...groups.values()].filter(g=>g.review_required);
  const cleanQuestions=questions.filter(q=>!q.review_required);
  const expectedCount=Number(exam.expected_question_count||0)||null;
  const numbers=questions.map(q=>q.question_number).filter(Number.isInteger).sort((a,b)=>a-b);
@@ -132,8 +151,11 @@ export function prepareExamBatch(input){
   total:questions.length,
   clean:cleanQuestions.length,
   needs_review:exceptions.length,
+  group_needs_review:groupExceptions.length,
   error_count:questions.filter(q=>q.validation.errors.length).length,
   warning_count:questions.filter(q=>q.validation.warnings.length).length,
+  group_error_count:[...groups.values()].filter(g=>g.validation.errors.length).length,
+  group_warning_count:[...groups.values()].filter(g=>g.validation.warnings.length).length,
   groups:groups.size,
   expected_question_count:expectedCount,
   missing_question_numbers:missingNumbers,
@@ -141,19 +163,22 @@ export function prepareExamBatch(input){
   by_type:countBy(questions,'questionType'),
   by_status:countBy(questions,'classification_status'),
   by_reason:Object.fromEntries(unique(exceptions.flatMap(q=>q.review_reasons)).sort().map(reason=>[reason,exceptions.filter(q=>q.review_reasons.includes(reason)).length])),
+  by_group_reason:Object.fromEntries(unique(groupExceptions.flatMap(g=>g.review_reasons)).sort().map(reason=>[reason,groupExceptions.filter(g=>g.review_reasons.includes(reason)).length])),
   ready_for_human_review:examErrors.length===0,
   ready_for_publish:false
  };
- return {schema_version:'batch-import-v1',exam,groups:[...groups.values()],questions,review_summary:summary,exception_queue:exceptions.map(q=>({id:q.id,question_number:q.question_number,reasons:q.review_reasons,source_page:q.source_page}))};
+ return {schema_version:'batch-import-v1',exam,groups:[...groups.values()],questions,review_summary:summary,exception_queue:exceptions.map(q=>({id:q.id,question_number:q.question_number,reasons:q.review_reasons,source_page:q.source_page})),group_exception_queue:groupExceptions.map(g=>({id:g.id,question_numbers:g.question_numbers||[],reasons:g.review_reasons,source_page:g.source_page}))};
 }
 
 export function approveBatch(batch,review){
  if(!review?.reviewer||!review?.evidence)throw Error('Reviewer and evidence required');
  if(batch.review_summary?.exam_errors?.length)throw Error('Blocking exam-level validation errors remain');
  if(batch.questions.some(q=>q.validation?.errors?.length))throw Error('Blocking validation errors remain');
+ if((batch.groups||[]).some(g=>g.validation?.errors?.length))throw Error('Blocking group validation errors remain');
  if(batch.questions.some(q=>q.review_required&&!review.approved_question_ids?.includes(q.id)))throw Error('All exceptions require explicit approval');
+ if((batch.groups||[]).some(g=>g.review_required&&!review.approved_group_ids?.includes(g.id)))throw Error('All group exceptions require explicit approval');
  const verified_at=new Date().toISOString();
- return {...batch,questions:batch.questions.map(q=>({...q,classification_status:'verified',review_required:false,review_reasons:[],reviewer:review.reviewer,review_evidence:review.evidence,verified_at,pipeline_stage:'verified'})),review_summary:{...batch.review_summary,needs_review:0,ready_for_publish:true,reviewed_by:review.reviewer,verified_at},exception_queue:[]};
+ return {...batch,groups:(batch.groups||[]).map(g=>({...g,classification_status:'verified',review_required:false,review_reasons:[],reviewer:review.reviewer,review_evidence:review.evidence,verified_at,pipeline_stage:'verified'})),questions:batch.questions.map(q=>({...q,classification_status:'verified',review_required:false,review_reasons:[],reviewer:review.reviewer,review_evidence:review.evidence,verified_at,pipeline_stage:'verified'})),review_summary:{...batch.review_summary,needs_review:0,group_needs_review:0,ready_for_publish:true,reviewed_by:review.reviewer,verified_at},exception_queue:[],group_exception_queue:[]};
 }
 
 export function publishArtifact(batch){

@@ -1,3 +1,11 @@
+## 5.0 — 115 國綜 Golden Sample＋官方 PDF 連結模式（2026-09-26）
+
+- 依大考中心官方國綜試卷、選擇題答案與非選評分原則建立115國綜36題／100分 Raw與Staging；題號1–36、答案36/36、9組共用題組均完整。
+- 題型為單選26、多選7、非選3；Explanation Pipeline維持「考什麼／破題關鍵／完整步驟／常見錯誤」，全部平台詳解仍為`needs_review`。
+- Batch Importer新增題組級Exception Queue；共用文章問題以group為人工工作單位，不把同一篇文章拆成多筆逐題審查。Validation error 0；7個現代文章題組因權利與外部情境保留題組級exception，另14題保留大考中心已回覆並維持答案的`official_answer_objection_resolved`證據。
+- 依國文文本規則，未釐清權利的現代文章只保存摘要、官方PDF網址與頁碼，不在runtime複製全文；共用題組renderer新增官方PDF指定頁面連結與待審閱揭露。
+- 統一題庫bridge改為依來源科目映射，115國綜36題／9題組已接入本機runtime，未建立國文專用renderer。資料仍為`needs_review`／`sync_disabled`，尚未commit、部署、寫入正式Supabase或標為Published。
+
 ## 5.0 — Batch Importer 111 數A跨年度批次（2026-09-26）
 
 - 依大考中心官方原卷、選擇（填）題答案與非選評分原則建立111數A 20題完整 Raw／Staging，題號1–20、100分及答案 manifest 全數一致。

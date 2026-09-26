@@ -2,6 +2,20 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-26 115 國綜 Golden Sample + 官方 PDF 連結模式 checkpoint
+
+- 111數A完成後，使用者指定下一步處理學測國文。Reality Check確認GitHub `main` 最新為111數A已部署狀態；既有國文為150題平台原創、30篇Classical Text Registry，尚無已收錄國文真題，因此從115國綜建立第一份跨科Golden Sample，未重做既有國文內容。
+- 官方來源採大考中心115國綜試卷12個PDF頁面（含作答說明，試題印刷頁1–11）、選擇題答案1頁、非選擇題評分原則3頁；已下載、抽取文字並渲染核對。全卷36題／100分，單選26、多選7、非選3，題號1–36及官方答案36/36一致，共9組Question Group。
+- 新增 `gsat-115-chinese-unified-bank.js`、`scripts/build-gsat-115-chinese-golden.mjs`、`data/raw/ceec-115-chinese.json`、`data/staging/ceec-115-chinese.batch-import-v1.json` 與Golden regression。每題平台詳解均包含考什麼、破題關鍵、完整步驟、常見錯誤，仍保持`needs_review`且不冒充官方詳解。
+- Batch Importer V1新增題組級validation與`group_exception_queue`：若異常屬於同一共用文章／圖像／權利情境，只建立一筆題組工作，不為每小題重複建立人工審查。既有逐題approval流程保持相容，新增題組例外也必須明確approval才能發布。
+- 補查大考中心25頁「試題或答案反映意見回覆」，確認Q4、6、12、16、18、19、20、24、27、29、30、33、35、36共14題曾有反映意見且官方逐題回覆後維持答案；每題保存官方回覆URL並標為`official_answer_objection_resolved`，不自行改答。
+- 最新Review Summary：total 36、clean 22、question needs_review 14、group_needs_review 7、error 0、warning 14、題號缺漏0、exam_errors 0；14筆逐題warning均為官方異議已回覆，7組題組例外均為`rights_review_required`＋`external_context_required`。Q14–15結構化量詞資料及Q22–24古典文本不列入現代全文權利例外。
+- 使用者已決定採「官方PDF連結模式」。未釐清權利的現代文章不複製全文，只顯示平台摘要、官方PDF指定頁面連結與「平台詳解／分類待審閱」揭露；共用renderer已支援此模式，未另建國文專用題面。
+- `UnifiedQuestionBank` bridge已由數學硬編碼泛化為依來源科目映射，115國綜36題與9組Question Group已接入本機runtime；選擇國文／學測真題／115年度可依原題號載入完整36題。runtime內容仍保留`classification_status=needs_review`、`explanation_status=draft_review_required`與`sync_disabled`。
+- 本批仍為`ready_for_human_review=true`、`ready_for_publish=false`；尚未完成逐題／題組人工approval，未寫入正式Supabase，也未commit／push／部署。線上build仍是111數A版本。
+- 測試：115國綜Golden runtime（與111–115數A共存136題）、validate、V5 data、Batch Importer、既有115數A與跨年度Golden、migration均PASS，`git diff --check` PASS。Playwright browser仍因環境缺少`/opt/microsoft/msedge/msedge`無法啟動；browser suite已加入國文36題、9題組、8個PDF連結及36個待審閱標籤斷言，須在有Edge／Chromium環境執行。
+- Next: 完成必要人工Review與browser UI回歸後才可把本批標為Published；不可為了顯示完整試卷而違反現代文章rights規則。
+
 ## 2026-09-26 Repository Reality Check + 111 數A checkpoint
 
 - Repository `kenny17go/high-school-review` 已從 GitHub 最新 `main` clone；工作開始時 branch 為 `main`、HEAD 與 `origin/main` 同為 `e44f0ba`（112數A跨年度批次），工作樹乾淨。最近四個資料里程碑 commit 為112／113／114／115，111資料尚未存在於 GitHub；沒有未提交的111檔案、builder、staging或 runtime 接線，故中斷點在111資料建置開始之前。

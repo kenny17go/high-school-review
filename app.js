@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-batch-111-1";
+window.V500_BUILD="5.0-batch-chinese-115-1";
 
 (function(){
 "use strict";
@@ -426,9 +426,13 @@ function questionGroupMarkup(q,seen){
  const g=window.UnifiedQuestionBank?.context?.(q);if(!g)return"";
  if(seen?.has(g.id))return`<div class="questionGroupRef">↳ 延續「${escapeText(g.title||"共用題組")}」</div>`;
  seen?.add(g.id);
- return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">共用題幹</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div></section>`;
+ const official=/^https:\/\/([^.]+\.)*ceec\.edu\.tw\//i.test(g.source_url||"")?`${g.source_url}#page=${Number(g.source_page||1)+1}`:"";
+ const linked=g.context_delivery==="official_pdf_reference";
+ const contextLabel=linked?"官方 PDF 連結模式":"共用題幹";
+ const link=linked&&official?`<p class="small"><a href="${escapeText(official)}" target="_blank" rel="noopener noreferrer">開啟官方試卷第 ${escapeText(g.source_page||"?")} 頁查看完整文本（PDF）</a></p><p class="small">本站僅提供內容摘要；平台詳解與分類仍待人工審閱。</p>`:"";
+ return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">${contextLabel}</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div>${link}</section>`;
 }
-function questionSourceMarkup(q){if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
+function questionSourceMarkup(q){if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>${q.explanation_status==="draft_review_required"?'<span class="tag">平台詳解待審閱</span>':''}`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
 function qAnswered(q,value){return window.LearningCore?.answered?.(value,q)??value!==undefined;}
 function qCorrect(q,value){return window.LearningCore?.equalAnswer?.(q,value)??value===q.a;}
 function qAnswerText(q){return window.LearningCore?.formatAnswer?.(q)??(Number.isInteger(q.a)?String.fromCharCode(65+q.a):String(q.a??"人工批改"));}

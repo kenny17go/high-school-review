@@ -14,6 +14,8 @@ assert.ok(html.includes(`V${version.version} ${version.name}`));
 assert.ok(read('app.js').includes(`window.V500_BUILD="${version.build}"`),'build marker');
 for(const file of ['subject-registry.js','classical-texts.js','learning-core.js','learning-storage.js','subject-adapters.js','app.js'])assert.ok(html.includes(`${file}?v=${version.build}"`),`${file} cache version`);
 assert.ok(read('subject-adapters.js').includes(`chinese-data.js?v=${version.build}'`),'lazy bank cache version');
+assert.ok(html.includes(`gsat-115-chinese-unified-bank.js?v=${version.build}`),'115 Chinese runtime cache version');
+assert.ok(read('app.js').includes('官方 PDF 連結模式')&&read('app.js').includes('平台詳解待審閱'),'Chinese PDF-link disclosure');
 for(const file of ['AGENTS.md','DEPLOY.md','CHANGELOG.md','config.js','fallback-data.js','grade2-questions.js','learning-catalog.js','grade2-scopes.js'])assert.ok(fs.existsSync(path.join(root,file)),file);
 const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
 assert.equal(new Set(ids).size,ids.length,'duplicate HTML IDs');
