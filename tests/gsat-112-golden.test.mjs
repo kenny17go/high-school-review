@@ -44,4 +44,10 @@ assert.deepEqual(Object.fromEntries(['single_choice','multiple_choice','fill_bla
 assert.equal(y112.every(q=>q.stem&&q.explanation&&q.sourceId==='ceec-112-matha'&&q.sync_disabled),true);
 assert.equal(runtime.questions.filter(q=>q.group_id==='ceec-112-matha-g18-20').length,3);
 assert.deepEqual(Array.from(runtime.group('ceec-112-matha-g18-20').question_numbers),[18,19,20]);
+const sourceQ2=context.window.GSAT_UNIFIED_BANK_112_MATHA.questions.find(q=>q.question_number===2);
+assert.equal(sourceQ2.visual_stimulus?.kind,'official_figure');
+assert.ok(fs.existsSync(sourceQ2.visual_stimulus.asset));
+assert.equal(runtime.group('ceec-112-matha-g18-20').visual_stimulus?.asset,'assets/gsat-112-q18-20.png');
+assert.ok(fs.existsSync(runtime.group('ceec-112-matha-g18-20').visual_stimulus.asset));
+assert.match(fs.readFileSync('app.js','utf8'),/questionVisualMarkup\(g\)/);
 console.log('GSAT 112 Math A Golden Sample and unified 80-question runtime PASS');

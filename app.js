@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-113-matha-explanation-v2";
+window.V500_BUILD="5.0-112-matha-explanation-v2";
 
 (function(){
 "use strict";
@@ -463,7 +463,7 @@ function questionGroupMarkup(q,seen){
  const linked=g.context_delivery==="official_pdf_reference";
  const contextLabel=linked?"官方 PDF 連結模式":"共用題幹";
  const link=linked&&official?`<p class="small"><a href="${escapeText(official)}" target="_blank" rel="noopener noreferrer">開啟官方試卷第 ${escapeText(g.source_page||"?")} 頁查看完整文本（PDF）</a></p><p class="small">本站僅提供內容摘要；平台詳解與分類仍待人工審閱。</p>`:"";
- return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">${contextLabel}</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div>${link}</section>`;
+ return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">${contextLabel}</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div>${questionVisualMarkup(g)}${link}</section>`;
 }
 function explanationMarkup(q){
  const e=q.explanation_v2||q.explanation_detail||q.explanation;

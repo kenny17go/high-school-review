@@ -1,3 +1,36 @@
+## 2026-09-26 112數A既有詳解增量優化（本機完成，待發布）
+
+### Current Task
+- 112年度增量修改及年度回歸已完成。本地GitHub工作樹以 `a9ae328` 為基底；使用者已授權commit／push／部署，接下來提交並驗證線上build。111年度尚未處理。
+
+### Completed
+- 盤點確認既有20題、題號1–20、官方答案20/20、舊詳解20/20、第18–20題共用題組與非選作答要點俱全；未重匯試卷、未新增題目、未改答案manifest。
+- 依官方PDF確認網站正規化時遺漏第2題圓切線示意圖與第18–20題共用圖；恢復官方圖像裁切，題幹補回「如圖」描述。Q3散布圖必要條件已在原題幹以原點與斜率描述，Q13表格數值已完整列入題幹；未遺漏判題資料。原題、圖表、題組及資料顯示沿共用renderer接入。
+- 對第2、5、7–20題共16題增補Explanation V2；單選／多選題補逐選項分析，Q19／Q20列出非選作答要點。其餘Q1、Q3、Q4、Q6原詳解保留不動；Q17移除原解中錯誤提及不存在題圖的語句。所有V2與分類維持 `draft_review_required`／`needs_review`。
+- 依官方參考答案比對20題答案manifest；依官方非選參考答案／評分原則核對Q19、Q20推理。沒有發現需修改官方答案或題目數值的錯誤。未寫Supabase。
+- 更新共用題組圖renderer、112資料cache marker、`version.json`、`CHANGELOG.md`；新增112 V2 regression test並加入Golden與 `npm test`。
+
+### Tests
+- PASS：112 Math A V2、112 Golden、111–114數A Golden、`npm run validate`（432組範圍／420答案與ID檢查／22 browser scripts）、V5、Batch Importer、migration、`node --check app.js`、`node --check gsat-112-unified-bank.js`、`git diff --check`。
+- BLOCKED/FAIL：完整 `npm test` 在既有 `tests/gsat-115.test.cjs` 預期needs_review為 `[5,8,10,11,12]`，實際資料為 `[2,5,8,10,11,12]` 時中止；未修改115資料或測試。
+- BLOCKED：`npm run test:browser` 因環境缺少 `/opt/microsoft/msedge/msedge` 無法啟動；本輪無真機iPhone Safari測試。
+
+### Modified / Important Files
+- `gsat-112-unified-bank.js`：僅增量加入V2欄位與漏失圖示，原答案及解答物件保留。
+- `assets/gsat-112-q02.png`、`assets/gsat-112-q18-20.png`：官方PDF局部圖。
+- `app.js`、`index.html`、`subject-adapters.js`、`version.json`、`package.json`。
+- `tests/gsat-112-matha-explanation-v2.test.mjs`、`tests/gsat-112-golden.test.mjs`。
+
+### Remaining / Known Issues
+- 尚待按授權提交並推送，部署後核對線上版本與兩張官方圖。
+- 完整npm test既有115測試差異及Edge瀏覽器環境限制仍待之後另行處理；不屬於112資料修正範圍。
+- 下一年度依序處理111數A。
+
+### Next Step
+- 提交並發布112優化，驗證GitHub Pages；之後盤點111年既有題庫與詳解。
+
+---
+
 ## 2026-09-26 113數A既有詳解增量優化（已推送並部署）
 
 ### Current Task

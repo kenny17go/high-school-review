@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-113-matha-explanation-v2",
+  "build": "5.0-112-matha-explanation-v2",
   "name": "全站科目導覽",
   "status": "in_progress",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
@@ -29,6 +29,8 @@
     "gsat-115-chinese-unified-bank.js",
     "gsat-111-unified-bank.js",
     "assets/gsat-111-q03.png",
+    "assets/gsat-112-q18-20.png",
+    "assets/gsat-112-q02.png",
     "assets/gsat-111-q11.png",
     "assets/gsat-113-q02-cube.png",
     "extra-questions-v4966.js",
@@ -67,8 +69,8 @@
   },
   "updatedAt": "2026-09-26",
   "notes": [
-    "保留113數A既有20題、題號、官方答案與原詳解，增補12題結構化詳解。",
-    "共用題面與詳解沿用114已完成的字級、行距及手機換行優化。",
-    "補上113年第2題平台重繪的官方正方體示意圖；第7題保留官方異議覆核註記。詳解維持平台自製與待人工審閱狀態。"
+    "保留112數A既有20題、題號、答案及原詳解，為16題增補Explanation V2。",
+    "恢復官方試卷第2題與第18至20題題組示意圖；保留原題組、答案與非選作答規準。",
+    "詳解及題庫維持平台自製、待人工審閱狀態；未寫入Supabase。"
   ]
 }
