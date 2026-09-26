@@ -485,3 +485,14 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - `package.json` 新增 `test:batch-import` 並納入完整 npm test。
 - 本輪 GitHub connector 無本機工作樹，因此測試程式已加入但尚未實際執行；不得宣稱 PASS。沒有 Supabase 寫入，沒有修改既有題庫或 renderer。
 - 下一步：用115數A現有20題 metadata 建第一份 importer fixture/staging artifact；先修正/驗證公式圖形與完整題面 exceptions，再讓整份115數A通過同一 review summary。之後凍結 Unified Question Schema V1，批次跑114→111。
+## 2026-09-26 113 國綜年度接入（已授權提交、推送與部署）
+
+### 已完成
+- 依官方試卷、選擇題答案及非選評分文件整理113國綜36題、100分：單選26、多選7、非選3，10組共享情境。36題完整題號、配分、答案均由獨立manifest比對；Q32、33、36依官方滿分參考作答標註要點與評分連結。
+- 沿用共用題庫、renderer、練習與模考，現代文章只呈現摘要與官方PDF指定頁，不複製全文。33道選擇題含逐選項分析；所有平台詳解仍為`draft_review_required`，分類`needs_review`、`sync_disabled`。沒有存取正式Supabase資料。
+- Raw／Staging校驗無錯誤、無缺題，8題有視覺複核旗標（6–8、15、21–22、29、33）；8組含現代文本題組列題組級外部情境及權利複核。
+- 版本與快取標記`5.0-batch-chinese-113-1`，加年度Golden、跨年度208題與瀏覽器流程斷言。
+
+### 測試與後續
+- `npm ci`後`npm test`通過validate、113國綜Golden、既有數A／國綜年度、Explanation V2與migration測試；最後browser階段因缺少系統Edge失敗。嘗試安裝Playwright Chromium時下載到損壞的0 MiB封包，環境仍無可用瀏覽器，待能取得二進位的環境執行互動測試。
+- 圖像、表格或特殊版面的8題仍待人工對照官方PDF；平台自製詳解尚需人工審閱。使用者已明確授權本年度commit、push、部署；推送與Pages線上版本核對結果待記錄。

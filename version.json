@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-115-matha-q02-official-check",
+  "build": "5.0-batch-chinese-113-1",
   "name": "全站科目導覽",
   "status": "in_progress",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
@@ -28,6 +28,7 @@
     "app.js",
     "gsat-115-chinese-unified-bank.js",
     "gsat-114-chinese-unified-bank.js",
+    "gsat-113-chinese-unified-bank.js",
     "gsat-111-unified-bank.js",
     "assets/gsat-111-q03.png",
     "assets/gsat-112-q18-20.png",
@@ -70,7 +71,7 @@
   },
   "updatedAt": "2026-09-26",
   "notes": [
-    "新增114國綜36題及9組題組，依官方試卷、選擇題答案與非選評分原則核對。",
+    "新增113國綜36題及10組題組，依官方試卷、選擇題答案與非選評分原則核對。",
     "延用國綜官方PDF連結模式與共用Explanation V2 renderer，涉及文章與圖表以官方原頁為準。",
     "平台詳解、分類維持draft_review_required／needs_review；未寫入Supabase。"
   ]

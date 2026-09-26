@@ -1,0 +1,3644 @@
+{
+  "schema_version": "batch-import-v1",
+  "exam": {
+    "id": "ceec-113-chinese",
+    "subject": "chinese",
+    "academic_year": 113,
+    "exam": "學測",
+    "variant": "國綜",
+    "sourceType": "ceec_official",
+    "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+    "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+    "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+    "expected_question_count": 36,
+    "total_points": 100,
+    "raw_layer": "official_pdf_reference"
+  },
+  "groups": [
+    {
+      "id": "ceec-113-chinese-g06-08",
+      "question_numbers": [
+        6,
+        7,
+        8
+      ],
+      "title": "江永女書與娘樓",
+      "stem": "官方試卷第2頁：江永女性於娘樓學習、書寫女書，以唱誦、哭嫁與姊妹通信保存情感和生活經驗。原頁含女書字形示意。",
+      "source_page": 2,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "metadata_only_pending_rights",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "rights_review_required",
+          "external_context_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-g09-10",
+      "question_numbers": [
+        9,
+        10
+      ],
+      "title": "中文字型的閱讀用途",
+      "stem": "官方試卷第3頁：比較黑體用於遠距指標、新細明體用於近距紙本，以及系統預設字型對使用習慣的影響。",
+      "source_page": 3,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "metadata_only_pending_rights",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "rights_review_required",
+          "external_context_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-g11-12",
+      "question_numbers": [
+        11,
+        12
+      ],
+      "title": "薩拉馬戈《盲目》",
+      "stem": "官方試卷第3至4頁：人物無名、對話不分段與白盲症的象徵；應對照原文閱讀敘事技巧與人性意涵。",
+      "source_page": 3,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "metadata_only_pending_rights",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "rights_review_required",
+          "external_context_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-g13-15",
+      "question_numbers": [
+        13,
+        14,
+        15
+      ],
+      "title": "周處除三害的傳說演變",
+      "stem": "官方試卷第4頁：孔約、祖台之與《世說新語》的不同記載，另比較現代電影對『三害』的改寫及電影簡介。",
+      "source_page": 4,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "metadata_only_pending_rights",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "rights_review_required",
+          "external_context_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-g16-17",
+      "question_numbers": [
+        16,
+        17
+      ],
+      "title": "賈政與寶玉的父子關係",
+      "stem": "官方試卷第5頁：以賈政承擔家族現實責任，對照寶玉的才情、浪漫與成長。",
+      "source_page": 5,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "metadata_only_pending_rights",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "rights_review_required",
+          "external_context_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-g18-20",
+      "question_numbers": [
+        18,
+        19,
+        20
+      ],
+      "title": "情緒訊號與情緒調整",
+      "stem": "官方試卷第5至6頁：臉部、聲音、身體動作的情緒線索與控制程度，並以引文比較情緒調整觀。",
+      "source_page": 5,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "metadata_only_pending_rights",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "rights_review_required",
+          "external_context_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-g21-22",
+      "question_numbers": [
+        21,
+        22
+      ],
+      "title": "宋代父子訴訟判決",
+      "stem": "官方試卷第6頁：《名公書判清明集》劉珵兩次賣子、鄭七起訴與官府處置，右側另有當代判決書要項表。",
+      "source_page": 6,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "public_domain_official_layout",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-g23-24",
+      "question_numbers": [
+        23,
+        24
+      ],
+      "title": "唐代科舉座主門生",
+      "stem": "官方試卷第7頁：崔群以三十門生比良田，妻子以他對座主陸贄的做法反問。",
+      "source_page": 7,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "metadata_only_pending_rights",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "rights_review_required",
+          "external_context_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-g30-31",
+      "question_numbers": [
+        30,
+        31
+      ],
+      "title": "鄭成功的鯨魚傳說",
+      "stem": "官方試卷第9頁：甲乙兩則記載分述鄭成功出生、攻臺、死亡及夢境，須區分敘述者立場。",
+      "source_page": 9,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "public_domain_official_layout",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-g32-36",
+      "question_numbers": [
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "title": "記憶、氣味與夢境詩詞",
+      "stem": "官方試卷第10至11頁：甲談自主與不自主回憶，乙談嗅覺與腦區，丙為李煜〈浪淘沙〉、丁為辛棄疾〈破陣子〉；限字題請對照原頁。",
+      "source_page": 10,
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "display_mode": "shared_context",
+      "depends_on": [],
+      "rights_status": "metadata_only_pending_rights",
+      "context_delivery": "official_pdf_reference",
+      "review_flags": [],
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "rights_review_required",
+          "external_context_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "ceec-113-chinese-01",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 1,
+      "primary_unit": "字音字形",
+      "secondary_concepts": [
+        "讀音辨識"
+      ],
+      "skill_tags": [
+        "讀音辨識"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 0
+      },
+      "stem": "哪組引號內的字前後同音？",
+      "options": [
+        "闥／撻",
+        "篙／蒿",
+        "棹／踔",
+        "逡／悛"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 1,
+      "source_pdf_page": 2,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "讀音辨識",
+        "key_insight": "比較聲母、韻母、聲調。",
+        "solution": "闥與撻皆讀ㄊㄚˋ，故選A。",
+        "reasoning": "闥與撻皆讀ㄊㄚˋ，故選A。",
+        "common_errors": "形近字可能不同聲，不可只看部件。",
+        "option_analysis": [
+          "兩字同讀ㄊㄚˋ。",
+          "篙ㄍㄠ與蒿ㄏㄠ不同。",
+          "棹ㄓㄠˋ與踔ㄔㄨㄛ不同。",
+          "逡ㄑㄩㄣ與悛ㄑㄩㄢ不同。"
+        ],
+        "strategy": "先看讀音辨識的題意，再逐項回官方原題核對。",
+        "review": "複習讀音辨識時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "讀音辨識",
+        "key_insight": "比較聲母、韻母、聲調。",
+        "solution": "闥與撻皆讀ㄊㄚˋ，故選A。",
+        "reasoning": "闥與撻皆讀ㄊㄚˋ，故選A。",
+        "common_errors": "形近字可能不同聲，不可只看部件。",
+        "option_analysis": [
+          "兩字同讀ㄊㄚˋ。",
+          "篙ㄍㄠ與蒿ㄏㄠ不同。",
+          "棹ㄓㄠˋ與踔ㄔㄨㄛ不同。",
+          "逡ㄑㄩㄣ與悛ㄑㄩㄢ不同。"
+        ],
+        "strategy": "先看讀音辨識的題意，再逐項回官方原題核對。",
+        "review": "複習讀音辨識時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-02",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 2,
+      "primary_unit": "字音字形",
+      "secondary_concepts": [
+        "錯別字"
+      ],
+      "skill_tags": [
+        "錯別字"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 0
+      },
+      "stem": "哪一句用字完全正確？",
+      "options": [
+        "德國隊蟬聯冠軍，卻止步四強",
+        "倒屜相迎",
+        "設計不落巢臼",
+        "負趿北上"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 1,
+      "source_pdf_page": 2,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "錯別字",
+        "key_insight": "辨識固定詞語的正確寫法。",
+        "solution": "『蟬聯冠軍』描述先前成績，『卻止步四強』描述本次表現，A用字無誤。",
+        "reasoning": "『蟬聯冠軍』描述先前成績，『卻止步四強』描述本次表現，A用字無誤。",
+        "common_errors": "語意轉折不等於錯字；另三句均有形近、音近誤寫。",
+        "option_analysis": [
+          "全句字形正確。",
+          "應為『倒屣相迎』。",
+          "應為『不落窠臼』。",
+          "應為『負笈北上』。"
+        ],
+        "strategy": "先看錯別字的題意，再逐項回官方原題核對。",
+        "review": "複習錯別字時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "錯別字",
+        "key_insight": "辨識固定詞語的正確寫法。",
+        "solution": "『蟬聯冠軍』描述先前成績，『卻止步四強』描述本次表現，A用字無誤。",
+        "reasoning": "『蟬聯冠軍』描述先前成績，『卻止步四強』描述本次表現，A用字無誤。",
+        "common_errors": "語意轉折不等於錯字；另三句均有形近、音近誤寫。",
+        "option_analysis": [
+          "全句字形正確。",
+          "應為『倒屣相迎』。",
+          "應為『不落窠臼』。",
+          "應為『負笈北上』。"
+        ],
+        "strategy": "先看錯別字的題意，再逐項回官方原題核對。",
+        "review": "複習錯別字時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-03",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 3,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "因果推論"
+      ],
+      "skill_tags": [
+        "因果推論"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 2
+      },
+      "stem": "孔子教導子路時遇到什麼困難？",
+      "options": [
+        "改變講授方式以引導缺乏耐性的子路",
+        "孔子自己不喜禮樂形式",
+        "讓子路理解禮樂精神也需形式",
+        "藉禮樂精神改變子路好勇"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 1,
+      "source_pdf_page": 2,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "因果推論",
+        "key_insight": "子路接受禮樂精神，排斥禮樂細則。",
+        "solution": "原文說禮終歸精神，卻必須由形式進入；孔子難在使子路理解形式同樣必要，選C。",
+        "reasoning": "原文說禮終歸精神，卻必須由形式進入；孔子難在使子路理解形式同樣必要，選C。",
+        "common_errors": "不要將子路的態度誤安在孔子身上。",
+        "option_analysis": [
+          "未說孔子須變更教法。",
+          "孔子沒有表示厭惡形式。",
+          "同時抓住精神與形式的關係。",
+          "難題不是只矯正好勇，而是子路排斥形式。"
+        ],
+        "strategy": "先看因果推論的題意，再逐項回官方原題核對。",
+        "review": "複習因果推論時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "因果推論",
+        "key_insight": "子路接受禮樂精神，排斥禮樂細則。",
+        "solution": "原文說禮終歸精神，卻必須由形式進入；孔子難在使子路理解形式同樣必要，選C。",
+        "reasoning": "原文說禮終歸精神，卻必須由形式進入；孔子難在使子路理解形式同樣必要，選C。",
+        "common_errors": "不要將子路的態度誤安在孔子身上。",
+        "option_analysis": [
+          "未說孔子須變更教法。",
+          "孔子沒有表示厭惡形式。",
+          "同時抓住精神與形式的關係。",
+          "難題不是只矯正好勇，而是子路排斥形式。"
+        ],
+        "strategy": "先看因果推論的題意，再逐項回官方原題核對。",
+        "review": "複習因果推論時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-04",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 4,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "歸納主旨"
+      ],
+      "skill_tags": [
+        "歸納主旨"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 3
+      },
+      "stem": "雞、鵠、鳩、蟻各有所知卻不能通曉全學，應填哪句？",
+      "options": [
+        "英才非短淺者所識",
+        "官高未必有才",
+        "小缺點不傷大才",
+        "一技之長不足以通用"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 1,
+      "source_pdf_page": 2,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "歸納主旨",
+        "key_insight": "四個例子共同對比局部能力與整體學問。",
+        "solution": "雞能知旦卻不懂曆數，餘例同型；只能得一端、不足通達整體，選D。",
+        "reasoning": "雞能知旦卻不懂曆數，餘例同型；只能得一端、不足通達整體，選D。",
+        "common_errors": "別把『能力有限』讀成『大才有小疵』。",
+        "option_analysis": [
+          "談識別英才，無關四例。",
+          "談官位與才德，無關。",
+          "重點應在能力偏狹，非大器小疵。",
+          "偏才、隻長無法補足通用之才。"
+        ],
+        "strategy": "先看歸納主旨的題意，再逐項回官方原題核對。",
+        "review": "複習歸納主旨時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "歸納主旨",
+        "key_insight": "四個例子共同對比局部能力與整體學問。",
+        "solution": "雞能知旦卻不懂曆數，餘例同型；只能得一端、不足通達整體，選D。",
+        "reasoning": "雞能知旦卻不懂曆數，餘例同型；只能得一端、不足通達整體，選D。",
+        "common_errors": "別把『能力有限』讀成『大才有小疵』。",
+        "option_analysis": [
+          "談識別英才，無關四例。",
+          "談官位與才德，無關。",
+          "重點應在能力偏狹，非大器小疵。",
+          "偏才、隻長無法補足通用之才。"
+        ],
+        "strategy": "先看歸納主旨的題意，再逐項回官方原題核對。",
+        "review": "複習歸納主旨時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-05",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 5,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "段落重組"
+      ],
+      "skill_tags": [
+        "段落重組"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 3
+      },
+      "stem": "周公與孔子養士的甲乙丙丁段落，順序為何？",
+      "options": [
+        "甲乙丁丙",
+        "甲丙乙丁",
+        "丙甲丁乙",
+        "丙乙丁甲"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 1,
+      "source_pdf_page": 2,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "段落重組",
+        "key_insight": "先講周公敬士及結果，再用孔子帶出反問。",
+        "solution": "『周公之相也』接丙『謙卑而不鄰』，乙『是以』承結果；丁舉孔子布衣養士，最後反問三公，故丙乙丁甲，選D。",
+        "reasoning": "『周公之相也』接丙『謙卑而不鄰』，乙『是以』承結果；丁舉孔子布衣養士，最後反問三公，故丙乙丁甲，選D。",
+        "common_errors": "『是以』不能在原因之前；『皆』應接孔子門徒。",
+        "option_analysis": [
+          "甲提前使『皆』失去所指。",
+          "沒有先述周公待士就跳到結果。",
+          "乙作總結，不應置於孔子例證之後。",
+          "丙→乙→丁→甲依次成立。"
+        ],
+        "strategy": "先看段落重組的題意，再逐項回官方原題核對。",
+        "review": "複習段落重組時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "段落重組",
+        "key_insight": "先講周公敬士及結果，再用孔子帶出反問。",
+        "solution": "『周公之相也』接丙『謙卑而不鄰』，乙『是以』承結果；丁舉孔子布衣養士，最後反問三公，故丙乙丁甲，選D。",
+        "reasoning": "『周公之相也』接丙『謙卑而不鄰』，乙『是以』承結果；丁舉孔子布衣養士，最後反問三公，故丙乙丁甲，選D。",
+        "common_errors": "『是以』不能在原因之前；『皆』應接孔子門徒。",
+        "option_analysis": [
+          "甲提前使『皆』失去所指。",
+          "沒有先述周公待士就跳到結果。",
+          "乙作總結，不應置於孔子例證之後。",
+          "丙→乙→丁→甲依次成立。"
+        ],
+        "strategy": "先看段落重組的題意，再逐項回官方原題核對。",
+        "review": "複習段落重組時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-06",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 6,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "跨時間比較"
+      ],
+      "skill_tags": [
+        "跨時間比較"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 3
+      },
+      "stem": "娘樓對江永女性的婚前與婚後意義為何？",
+      "options": [
+        "婚前與婚後均困鎖女性",
+        "婚前交流、婚後仍在娘樓處理家務",
+        "婚前求姻緣、婚後不得重返",
+        "婚前體制外學習、婚後情感依憑"
+      ],
+      "group_id": "ceec-113-chinese-g06-08",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 2,
+      "source_pdf_page": 3,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "跨時間比較",
+        "key_insight": "找未嫁女學女書及哭嫁後維繫姊妹的段落。",
+        "solution": "未嫁者在娘樓學認寫唱女書，出嫁後仍靠女書通信互助並眷戀娘樓，故選D。",
+        "reasoning": "未嫁者在娘樓學認寫唱女書，出嫁後仍靠女書通信互助並眷戀娘樓，故選D。",
+        "common_errors": "不要把無常象徵解成婚後仍住娘樓。",
+        "option_analysis": [
+          "娘樓也提供知識與友誼，不只是禁錮。",
+          "婚後並無仍在娘樓理家務之說。",
+          "原文未設回娘樓禁忌。",
+          "婚前體制外教育、婚後情感寄託都可核對。"
+        ],
+        "strategy": "先看跨時間比較的題意，再逐項回官方原題核對。",
+        "review": "複習跨時間比較時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "跨時間比較",
+        "key_insight": "找未嫁女學女書及哭嫁後維繫姊妹的段落。",
+        "solution": "未嫁者在娘樓學認寫唱女書，出嫁後仍靠女書通信互助並眷戀娘樓，故選D。",
+        "reasoning": "未嫁者在娘樓學認寫唱女書，出嫁後仍靠女書通信互助並眷戀娘樓，故選D。",
+        "common_errors": "不要把無常象徵解成婚後仍住娘樓。",
+        "option_analysis": [
+          "娘樓也提供知識與友誼，不只是禁錮。",
+          "婚後並無仍在娘樓理家務之說。",
+          "原文未設回娘樓禁忌。",
+          "婚前體制外教育、婚後情感寄託都可核對。"
+        ],
+        "strategy": "先看跨時間比較的題意，再逐項回官方原題核對。",
+        "review": "複習跨時間比較時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "official_visual_context_manual_review"
+      ],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "official_visual_context_manual_review"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "official_visual_context_manual_review"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-07",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 7,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "反向辨誤"
+      ],
+      "skill_tags": [
+        "反向辨誤"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 2
+      },
+      "stem": "對女書的敘述何者不合文章？",
+      "options": [
+        "女書是婦女發聲及互助途徑",
+        "代寫者常寫進自身感懷",
+        "當代江永女性多投身文創以復甦女書",
+        "女性藉女書面對困境並悲訴"
+      ],
+      "group_id": "ceec-113-chinese-g06-08",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 2,
+      "source_pdf_page": 3,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "反向辨誤",
+        "key_insight": "區分當代女書成為設計符號與江永女性行動。",
+        "solution": "文末只說女書常出現在文創設計，未說『江永女性多投身文創』，因此C無據。",
+        "reasoning": "文末只說女書常出現在文創設計，未說『江永女性多投身文創』，因此C無據。",
+        "common_errors": "由『女書被設計使用』不可反推『誰為何從事設計』。",
+        "option_analysis": [
+          "女書供婦女通訊、結盟。",
+          "參與寫作會融入代書者身世。",
+          "文中沒有主體及動機的這項資訊。",
+          "唱誦與書寫讓女性表達並支持彼此。"
+        ],
+        "strategy": "先看反向辨誤的題意，再逐項回官方原題核對。",
+        "review": "複習反向辨誤時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "反向辨誤",
+        "key_insight": "區分當代女書成為設計符號與江永女性行動。",
+        "solution": "文末只說女書常出現在文創設計，未說『江永女性多投身文創』，因此C無據。",
+        "reasoning": "文末只說女書常出現在文創設計，未說『江永女性多投身文創』，因此C無據。",
+        "common_errors": "由『女書被設計使用』不可反推『誰為何從事設計』。",
+        "option_analysis": [
+          "女書供婦女通訊、結盟。",
+          "參與寫作會融入代書者身世。",
+          "文中沒有主體及動機的這項資訊。",
+          "唱誦與書寫讓女性表達並支持彼此。"
+        ],
+        "strategy": "先看反向辨誤的題意，再逐項回官方原題核對。",
+        "review": "複習反向辨誤時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "official_visual_context_manual_review"
+      ],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "official_visual_context_manual_review"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "official_visual_context_manual_review"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-08",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 8,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "情境辨識"
+      ],
+      "skill_tags": [
+        "情境辨識"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 1
+      },
+      "stem": "哪首女書歌謠未表現婚後失落？",
+      "options": [
+        "媳婦難做與流淚",
+        "赴貴府並祝姑娘好過日",
+        "十八歲女配三歲郎",
+        "丈夫遠行隱瞞妻子"
+      ],
+      "group_id": "ceec-113-chinese-g06-08",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 2,
+      "source_pdf_page": 3,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "情境辨識",
+        "key_insight": "比較發話者是在訴自身婚後困境，還是對他人婚嫁祝福。",
+        "solution": "B語氣是對姑娘致歉、祝福其在夫家好過日，未敘自己婚後失落；其餘三首各有苦處。",
+        "reasoning": "B語氣是對姑娘致歉、祝福其在夫家好過日，未敘自己婚後失落；其餘三首各有苦處。",
+        "common_errors": "出現『婚嫁』不代表必然寫婚後失落。",
+        "option_analysis": [
+          "媳婦的苦楚與眼淚明確。",
+          "對新嫁者說話，重點是祝願。",
+          "年齡失衡的婚姻帶來失落。",
+          "丈夫離去且不告知，造成失落。"
+        ],
+        "strategy": "先看情境辨識的題意，再逐項回官方原題核對。",
+        "review": "複習情境辨識時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "情境辨識",
+        "key_insight": "比較發話者是在訴自身婚後困境，還是對他人婚嫁祝福。",
+        "solution": "B語氣是對姑娘致歉、祝福其在夫家好過日，未敘自己婚後失落；其餘三首各有苦處。",
+        "reasoning": "B語氣是對姑娘致歉、祝福其在夫家好過日，未敘自己婚後失落；其餘三首各有苦處。",
+        "common_errors": "出現『婚嫁』不代表必然寫婚後失落。",
+        "option_analysis": [
+          "媳婦的苦楚與眼淚明確。",
+          "對新嫁者說話，重點是祝願。",
+          "年齡失衡的婚姻帶來失落。",
+          "丈夫離去且不告知，造成失落。"
+        ],
+        "strategy": "先看情境辨識的題意，再逐項回官方原題核對。",
+        "review": "複習情境辨識時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "official_visual_context_manual_review"
+      ],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "official_visual_context_manual_review"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "official_visual_context_manual_review"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-09",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 9,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "因果說明"
+      ],
+      "skill_tags": [
+        "因果說明"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 1
+      },
+      "stem": "為何新細明體短期內仍主導文字風景？",
+      "options": [
+        "識讀性最高",
+        "是系統內建首選字型",
+        "人只習慣近距閱讀",
+        "人不在乎美醜"
+      ],
+      "group_id": "ceec-113-chinese-g09-10",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 3,
+      "source_pdf_page": 4,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "因果說明",
+        "key_insight": "找『只要它是系統內建的首要字型』這個條件。",
+        "solution": "即使審美疲乏、螢幕閱讀不佳，多數人仍用最易取得的預設字型，故選B。",
+        "reasoning": "即使審美疲乏、螢幕閱讀不佳，多數人仍用最易取得的預設字型，故選B。",
+        "common_errors": "不要把廣泛使用推成各場合皆好讀。",
+        "option_analysis": [
+          "文章說遠距與高解析螢幕有弱點。",
+          "系統預設降低更換成本。",
+          "未說所有人只閱讀紙本。",
+          "作者未主張大家不在乎字型美感。"
+        ],
+        "strategy": "先看因果說明的題意，再逐項回官方原題核對。",
+        "review": "複習因果說明時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "因果說明",
+        "key_insight": "找『只要它是系統內建的首要字型』這個條件。",
+        "solution": "即使審美疲乏、螢幕閱讀不佳，多數人仍用最易取得的預設字型，故選B。",
+        "reasoning": "即使審美疲乏、螢幕閱讀不佳，多數人仍用最易取得的預設字型，故選B。",
+        "common_errors": "不要把廣泛使用推成各場合皆好讀。",
+        "option_analysis": [
+          "文章說遠距與高解析螢幕有弱點。",
+          "系統預設降低更換成本。",
+          "未說所有人只閱讀紙本。",
+          "作者未主張大家不在乎字型美感。"
+        ],
+        "strategy": "先看因果說明的題意，再逐項回官方原題核對。",
+        "review": "複習因果說明時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-10",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 10,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "條件對照"
+      ],
+      "skill_tags": [
+        "條件對照"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 0
+      },
+      "stem": "新細明體與黑體各適合哪種閱讀場景？",
+      "options": [
+        "新細明體近距紙本、不宜遠距指標",
+        "黑體作指標因造型無變化",
+        "高解析螢幕宜新細明體",
+        "學術報告宜黑體彰顯專業"
+      ],
+      "group_id": "ceec-113-chinese-g09-10",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 3,
+      "source_pdf_page": 4,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "條件對照",
+        "key_insight": "對照距離與媒介，而非只憑美感。",
+        "solution": "新細明體橫筆細，適合近距紙本內文；遠距指標需筆畫粗、易視的黑體，選A。",
+        "reasoning": "新細明體橫筆細，適合近距紙本內文；遠距指標需筆畫粗、易視的黑體，選A。",
+        "common_errors": "『低變化』是紙本內文的特點，不能移給指標。",
+        "option_analysis": [
+          "符合內文字體與遠距易視性的區分。",
+          "指標主因是黑體筆畫粗。",
+          "原文明言新細明體難勝任高解析螢幕。",
+          "教授減輕閱讀負擔的例子是新細明體。"
+        ],
+        "strategy": "先看條件對照的題意，再逐項回官方原題核對。",
+        "review": "複習條件對照時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "條件對照",
+        "key_insight": "對照距離與媒介，而非只憑美感。",
+        "solution": "新細明體橫筆細，適合近距紙本內文；遠距指標需筆畫粗、易視的黑體，選A。",
+        "reasoning": "新細明體橫筆細，適合近距紙本內文；遠距指標需筆畫粗、易視的黑體，選A。",
+        "common_errors": "『低變化』是紙本內文的特點，不能移給指標。",
+        "option_analysis": [
+          "符合內文字體與遠距易視性的區分。",
+          "指標主因是黑體筆畫粗。",
+          "原文明言新細明體難勝任高解析螢幕。",
+          "教授減輕閱讀負擔的例子是新細明體。"
+        ],
+        "strategy": "先看條件對照的題意，再逐項回官方原題核對。",
+        "review": "複習條件對照時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-11",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 11,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "敘事技巧"
+      ],
+      "skill_tags": [
+        "敘事技巧"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 2
+      },
+      "stem": "《盲目》的對話書寫如何呼應失明體驗？",
+      "options": [
+        "無名城市表示疫情嚴重",
+        "無名人物表示關係崩壞",
+        "無引號與少分段迫使讀者摸索",
+        "盲與不盲不須分辨"
+      ],
+      "group_id": "ceec-113-chinese-g11-12",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 3,
+      "source_pdf_page": 4,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "敘事技巧",
+        "key_insight": "觀察形式安排對讀者閱讀速度的影響。",
+        "solution": "對話不分段、無引號，使讀者反覆確定發話者，如盲人缺指引須摸索，選C。",
+        "reasoning": "對話不分段、無引號，使讀者反覆確定發話者，如盲人缺指引須摸索，選C。",
+        "common_errors": "形式效果是閱讀感受，不代表人物關係全毀。",
+        "option_analysis": [
+          "不知名城市未直接表示蔓延程度。",
+          "患者也能合作，不是人際徹底崩壞。",
+          "對話排版製造類似摸索的經驗。",
+          "作品藉盲與不盲反思人性，並非取消區別。"
+        ],
+        "strategy": "先看敘事技巧的題意，再逐項回官方原題核對。",
+        "review": "複習敘事技巧時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "敘事技巧",
+        "key_insight": "觀察形式安排對讀者閱讀速度的影響。",
+        "solution": "對話不分段、無引號，使讀者反覆確定發話者，如盲人缺指引須摸索，選C。",
+        "reasoning": "對話不分段、無引號，使讀者反覆確定發話者，如盲人缺指引須摸索，選C。",
+        "common_errors": "形式效果是閱讀感受，不代表人物關係全毀。",
+        "option_analysis": [
+          "不知名城市未直接表示蔓延程度。",
+          "患者也能合作，不是人際徹底崩壞。",
+          "對話排版製造類似摸索的經驗。",
+          "作品藉盲與不盲反思人性，並非取消區別。"
+        ],
+        "strategy": "先看敘事技巧的題意，再逐項回官方原題核對。",
+        "review": "複習敘事技巧時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-12",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 12,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "象徵辯證"
+      ],
+      "skill_tags": [
+        "象徵辯證"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 0
+      },
+      "stem": "『眼不見為患／為淨』與『眼盲隱喻心盲』是否符合《盲目》？",
+      "options": [
+        "①②皆符合",
+        "僅①符合",
+        "①不符、②難斷",
+        "①難斷、②符合"
+      ],
+      "group_id": "ceec-113-chinese-g11-12",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 4,
+      "source_pdf_page": 5,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "象徵辯證",
+        "key_insight": "同看盲者艱困與未盲者被迫看見險惡。",
+        "solution": "盲者生活失序是『患』，未盲者寧願失明是『淨』；結尾稱本來盲目，反思心盲與人性，兩者皆有據，選A。",
+        "reasoning": "盲者生活失序是『患』，未盲者寧願失明是『淨』；結尾稱本來盲目，反思心盲與人性，兩者皆有據，選A。",
+        "common_errors": "『寧願失明』是沉痛感慨，不是說視力真的無關緊要。",
+        "option_analysis": [
+          "兩命題都可由題組找到對應。",
+          "漏掉末段心盲寓意。",
+          "①已有盲者與未盲者對照。",
+          "②有結尾自我反思，①也可判斷。"
+        ],
+        "strategy": "先看象徵辯證的題意，再逐項回官方原題核對。",
+        "review": "複習象徵辯證時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "象徵辯證",
+        "key_insight": "同看盲者艱困與未盲者被迫看見險惡。",
+        "solution": "盲者生活失序是『患』，未盲者寧願失明是『淨』；結尾稱本來盲目，反思心盲與人性，兩者皆有據，選A。",
+        "reasoning": "盲者生活失序是『患』，未盲者寧願失明是『淨』；結尾稱本來盲目，反思心盲與人性，兩者皆有據，選A。",
+        "common_errors": "『寧願失明』是沉痛感慨，不是說視力真的無關緊要。",
+        "option_analysis": [
+          "兩命題都可由題組找到對應。",
+          "漏掉末段心盲寓意。",
+          "①已有盲者與未盲者對照。",
+          "②有結尾自我反思，①也可判斷。"
+        ],
+        "strategy": "先看象徵辯證的題意，再逐項回官方原題核對。",
+        "review": "複習象徵辯證時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-13",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 13,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "語意銜接"
+      ],
+      "skill_tags": [
+        "語意銜接"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 2
+      },
+      "stem": "『蓋由民間口傳，各記見聞，彼此歧異』應置於周處故事哪個標記？",
+      "options": [
+        "甲",
+        "乙",
+        "丙",
+        "丁"
+      ],
+      "group_id": "ceec-113-chinese-g13-15",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 4,
+      "source_pdf_page": 5,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "語意銜接",
+        "key_insight": "找提出不同記載疑問之後、引入另一版故事之前。",
+        "solution": "『同一件事，何以各有偏重？』後應接民間口傳造成差異的解釋，再接《世說新語》整合，位置丙，選C。",
+        "reasoning": "『同一件事，何以各有偏重？』後應接民間口傳造成差異的解釋，再接《世說新語》整合，位置丙，選C。",
+        "common_errors": "不要插在疑問句之前，破壞問答結構。",
+        "option_analysis": [
+          "甲後尚未提出不同記載的疑問。",
+          "乙前兩書剛列完，後文還有反問。",
+          "承接疑問並引出《世說新語》。",
+          "丁應接固定後世傳說基型的主語。"
+        ],
+        "strategy": "先看語意銜接的題意，再逐項回官方原題核對。",
+        "review": "複習語意銜接時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "語意銜接",
+        "key_insight": "找提出不同記載疑問之後、引入另一版故事之前。",
+        "solution": "『同一件事，何以各有偏重？』後應接民間口傳造成差異的解釋，再接《世說新語》整合，位置丙，選C。",
+        "reasoning": "『同一件事，何以各有偏重？』後應接民間口傳造成差異的解釋，再接《世說新語》整合，位置丙，選C。",
+        "common_errors": "不要插在疑問句之前，破壞問答結構。",
+        "option_analysis": [
+          "甲後尚未提出不同記載的疑問。",
+          "乙前兩書剛列完，後文還有反問。",
+          "承接疑問並引出《世說新語》。",
+          "丁應接固定後世傳說基型的主語。"
+        ],
+        "strategy": "先看語意銜接的題意，再逐項回官方原題核對。",
+        "review": "複習語意銜接時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-14",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 14,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "傳說比較"
+      ],
+      "skill_tags": [
+        "傳說比較"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 2
+      },
+      "stem": "孔約、祖台之、《世說新語》周處版本何者說明不適當？",
+      "options": [
+        "孔約有三害、未說改過",
+        "祖台之聚焦斬蛟",
+        "《世說》寫殺虎是渲染周處兇強",
+        "《世說》加入里人相慶促成改過"
+      ],
+      "group_id": "ceec-113-chinese-g13-15",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 4,
+      "source_pdf_page": 5,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "傳說比較",
+        "key_insight": "整理各版本新增情節，尤其《世說》『為民除害→自省』。",
+        "solution": "《世說》寫周處殺虎斬蛟，突出他終於改過而非渲染其兇強，C反轉情節作用。",
+        "reasoning": "《世說》寫周處殺虎斬蛟，突出他終於改過而非渲染其兇強，C反轉情節作用。",
+        "common_errors": "不可將行動前的負面評價套到殺虎的正面轉折。",
+        "option_analysis": [
+          "孔約僅述三害，未詳其改過。",
+          "祖台之重斬蛟，敘事細節較多。",
+          "殺虎斬蛟是除害及悔悟的前奏，不為凸顯兇強。",
+          "里人誤認其死而慶祝，讓周處驚覺自己為患。"
+        ],
+        "strategy": "先看傳說比較的題意，再逐項回官方原題核對。",
+        "review": "複習傳說比較時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "傳說比較",
+        "key_insight": "整理各版本新增情節，尤其《世說》『為民除害→自省』。",
+        "solution": "《世說》寫周處殺虎斬蛟，突出他終於改過而非渲染其兇強，C反轉情節作用。",
+        "reasoning": "《世說》寫周處殺虎斬蛟，突出他終於改過而非渲染其兇強，C反轉情節作用。",
+        "common_errors": "不可將行動前的負面評價套到殺虎的正面轉折。",
+        "option_analysis": [
+          "孔約僅述三害，未詳其改過。",
+          "祖台之重斬蛟，敘事細節較多。",
+          "殺虎斬蛟是除害及悔悟的前奏，不為凸顯兇強。",
+          "里人誤認其死而慶祝，讓周處驚覺自己為患。"
+        ],
+        "strategy": "先看傳說比較的題意，再逐項回官方原題核對。",
+        "review": "複習傳說比較時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-15",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 15,
+      "primary_unit": "跨媒體閱讀",
+      "secondary_concepts": [
+        "改作辨析"
+      ],
+      "skill_tags": [
+        "改作辨析"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 3
+      },
+      "stem": "電影《周處除三害》如何改作傳說？",
+      "options": [
+        "除害動機完全相同",
+        "結局都悔悟並盡除三害",
+        "兩者都有角色勸離世前除惡",
+        "外在兩害改為通緝犯，另添內心貪嗔痴"
+      ],
+      "group_id": "ceec-113-chinese-g13-15",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 4,
+      "source_pdf_page": 5,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "改作辨析",
+        "key_insight": "比對傳說三害、電影兩犯人與主人公的內心。",
+        "solution": "電影借用『除三害』框架：外在對象改為兩通緝犯，並賦予第三害內在貪嗔痴之新義，選D。",
+        "reasoning": "電影借用『除三害』框架：外在對象改為兩通緝犯，並賦予第三害內在貪嗔痴之新義，選D。",
+        "common_errors": "『模仿』可以保留結構並改寫動機與結局，不能假設全同。",
+        "option_analysis": [
+          "電影主角起意是不願被遺忘。",
+          "電影結局投案伏法，非傳說周處仕宦。",
+          "醫師勸自首，未勸主角除惡。",
+          "兩通緝犯與內心三毒的對照符合簡介。"
+        ],
+        "strategy": "先看改作辨析的題意，再逐項回官方原題核對。",
+        "review": "複習改作辨析時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "改作辨析",
+        "key_insight": "比對傳說三害、電影兩犯人與主人公的內心。",
+        "solution": "電影借用『除三害』框架：外在對象改為兩通緝犯，並賦予第三害內在貪嗔痴之新義，選D。",
+        "reasoning": "電影借用『除三害』框架：外在對象改為兩通緝犯，並賦予第三害內在貪嗔痴之新義，選D。",
+        "common_errors": "『模仿』可以保留結構並改寫動機與結局，不能假設全同。",
+        "option_analysis": [
+          "電影主角起意是不願被遺忘。",
+          "電影結局投案伏法，非傳說周處仕宦。",
+          "醫師勸自首，未勸主角除惡。",
+          "兩通緝犯與內心三毒的對照符合簡介。"
+        ],
+        "strategy": "先看改作辨析的題意，再逐項回官方原題核對。",
+        "review": "複習改作辨析時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "official_visual_context_manual_review"
+      ],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "official_visual_context_manual_review"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "official_visual_context_manual_review"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-16",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 16,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "人物關係"
+      ],
+      "skill_tags": [
+        "人物關係"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 1
+      },
+      "stem": "賈政與寶玉的父子關係何者符合文章？",
+      "options": [
+        "寶玉的哀是無法擔責",
+        "賈政守護生活使寶玉享有青春",
+        "賈政不理解寶玉的才情",
+        "賈政要寶玉建遠離廟堂的烏托邦"
+      ],
+      "group_id": "ceec-113-chinese-g16-17",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 5,
+      "source_pdf_page": 6,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "人物關係",
+        "key_insight": "分開看賈政要求歷練及對寶玉浪漫的呵護。",
+        "solution": "賈政承擔現實事務，同時呵護寶玉尚未成長的浪漫存在，寶玉因而得到受保護的青春，選B。",
+        "reasoning": "賈政承擔現實事務，同時呵護寶玉尚未成長的浪漫存在，寶玉因而得到受保護的青春，選B。",
+        "common_errors": "賈政嚴厲不代表他不理解或不愛兒子。",
+        "option_analysis": [
+          "文章沒有把寶玉之哀定義成無法負責。",
+          "賈政護持現實，容許寶玉的青春。",
+          "明言賈政一眼看見寶玉的天賦。",
+          "賈政自己嘗試人間樂園，不要求兒子避世建園。"
+        ],
+        "strategy": "先看人物關係的題意，再逐項回官方原題核對。",
+        "review": "複習人物關係時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "人物關係",
+        "key_insight": "分開看賈政要求歷練及對寶玉浪漫的呵護。",
+        "solution": "賈政承擔現實事務，同時呵護寶玉尚未成長的浪漫存在，寶玉因而得到受保護的青春，選B。",
+        "reasoning": "賈政承擔現實事務，同時呵護寶玉尚未成長的浪漫存在，寶玉因而得到受保護的青春，選B。",
+        "common_errors": "賈政嚴厲不代表他不理解或不愛兒子。",
+        "option_analysis": [
+          "文章沒有把寶玉之哀定義成無法負責。",
+          "賈政護持現實，容許寶玉的青春。",
+          "明言賈政一眼看見寶玉的天賦。",
+          "賈政自己嘗試人間樂園，不要求兒子避世建園。"
+        ],
+        "strategy": "先看人物關係的題意，再逐項回官方原題核對。",
+        "review": "複習人物關係時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-17",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 17,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "主旨推論"
+      ],
+      "skill_tags": [
+        "主旨推論"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 1
+      },
+      "stem": "脂硯齋說賈政『有深意』，指何人生意義？",
+      "options": [
+        "諷刺禮教僵固",
+        "歷練後擔責才是成熟",
+        "賈政守舊使賈府衰敗",
+        "浪漫與理性可任選"
+      ],
+      "group_id": "ceec-113-chinese-g16-17",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 5,
+      "source_pdf_page": 6,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "主旨推論",
+        "key_insight": "抓住『賈政擔盡了事和責』及成年人必要階段。",
+        "solution": "賈政安頓生者與逝者、促兒子成熟，體現承擔責任是面對現實的成熟態度，選B。",
+        "reasoning": "賈政安頓生者與逝者、促兒子成熟，體現承擔責任是面對現實的成熟態度，選B。",
+        "common_errors": "別把對寶玉的嚴管誤讀為作者全盤否定賈政。",
+        "option_analysis": [
+          "作者肯定賈政，沒有嘲諷僵化。",
+          "與成人、歷練、責任反覆呼應。",
+          "未預言賈府衰敗。",
+          "重點是擔責，不是兩種人生方式任選。"
+        ],
+        "strategy": "先看主旨推論的題意，再逐項回官方原題核對。",
+        "review": "複習主旨推論時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "主旨推論",
+        "key_insight": "抓住『賈政擔盡了事和責』及成年人必要階段。",
+        "solution": "賈政安頓生者與逝者、促兒子成熟，體現承擔責任是面對現實的成熟態度，選B。",
+        "reasoning": "賈政安頓生者與逝者、促兒子成熟，體現承擔責任是面對現實的成熟態度，選B。",
+        "common_errors": "別把對寶玉的嚴管誤讀為作者全盤否定賈政。",
+        "option_analysis": [
+          "作者肯定賈政，沒有嘲諷僵化。",
+          "與成人、歷練、責任反覆呼應。",
+          "未預言賈府衰敗。",
+          "重點是擔責，不是兩種人生方式任選。"
+        ],
+        "strategy": "先看主旨推論的題意，再逐項回官方原題核對。",
+        "review": "複習主旨推論時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-18",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 18,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "資訊比較"
+      ],
+      "skill_tags": [
+        "資訊比較"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 2
+      },
+      "stem": "情緒訊號中哪項說法恰當？",
+      "options": [
+        "正向情緒總使他人愉快",
+        "臉部比動作更易控制",
+        "電話可遮蔽表情，聲音仍傳遞情緒",
+        "身體動作總是最先出現"
+      ],
+      "group_id": "ceec-113-chinese-g18-20",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "source_pdf_page": 7,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "資訊比較",
+        "key_insight": "比較表情連續可見、聲音可關閉、動作較可控制。",
+        "solution": "電話看不見臉，但仍聽得出聲音線索；C正確。原文說臉部最立即，身體動作較易控制。",
+        "reasoning": "電話看不見臉，但仍聽得出聲音線索；C正確。原文說臉部最立即，身體動作較易控制。",
+        "common_errors": "不要把『正向』等同對所有人有利。",
+        "option_analysis": [
+          "嘲笑他人是反例。",
+          "身體動作通常較易控制。",
+          "電話隔開臉部，不代表聲音沒有訊號。",
+          "最立即的是臉部表情。"
+        ],
+        "strategy": "先看資訊比較的題意，再逐項回官方原題核對。",
+        "review": "複習資訊比較時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "資訊比較",
+        "key_insight": "比較表情連續可見、聲音可關閉、動作較可控制。",
+        "solution": "電話看不見臉，但仍聽得出聲音線索；C正確。原文說臉部最立即，身體動作較易控制。",
+        "reasoning": "電話看不見臉，但仍聽得出聲音線索；C正確。原文說臉部最立即，身體動作較易控制。",
+        "common_errors": "不要把『正向』等同對所有人有利。",
+        "option_analysis": [
+          "嘲笑他人是反例。",
+          "身體動作通常較易控制。",
+          "電話隔開臉部，不代表聲音沒有訊號。",
+          "最立即的是臉部表情。"
+        ],
+        "strategy": "先看資訊比較的題意，再逐項回官方原題核對。",
+        "review": "複習資訊比較時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-19",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 19,
+      "primary_unit": "跨文本閱讀",
+      "secondary_concepts": [
+        "情緒訊號應用"
+      ],
+      "skill_tags": [
+        "情緒訊號應用"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 0
+      },
+      "stem": "古文情境與表情、姿態的對照何者適當？",
+      "options": [
+        "嫦娥變回筷子，眾人驚顧",
+        "蘇軾與客枕舟表示人生苦短感傷",
+        "李靖張氏鞭馬是驚懼逃離",
+        "劉備嘆息是壓抑聲調"
+      ],
+      "group_id": "ceec-113-chinese-g18-20",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "source_pdf_page": 7,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "情緒訊號應用",
+        "key_insight": "把畫線行為及前後情緒與情緒訊號表逐一核對。",
+        "solution": "眾人『驚顧』對應驚訝時注意力集中於對象，故A。其他情境各有其樂、敬畏或嘆憾，並非選項所述。",
+        "reasoning": "眾人『驚顧』對應驚訝時注意力集中於對象，故A。其他情境各有其樂、敬畏或嘆憾，並非選項所述。",
+        "common_errors": "不可只看單一動作而忽略前後的情緒明示。",
+        "option_analysis": [
+          "驚顧與注意力固定吻合。",
+          "『喜而笑』『枕藉』是放鬆，不是感傷。",
+          "『且驚且喜』後認同烈士，非單純恐懼逃離。",
+          "嘆息未表示刻意壓抑聲音與表情。"
+        ],
+        "strategy": "先看情緒訊號應用的題意，再逐項回官方原題核對。",
+        "review": "複習情緒訊號應用時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "情緒訊號應用",
+        "key_insight": "把畫線行為及前後情緒與情緒訊號表逐一核對。",
+        "solution": "眾人『驚顧』對應驚訝時注意力集中於對象，故A。其他情境各有其樂、敬畏或嘆憾，並非選項所述。",
+        "reasoning": "眾人『驚顧』對應驚訝時注意力集中於對象，故A。其他情境各有其樂、敬畏或嘆憾，並非選項所述。",
+        "common_errors": "不可只看單一動作而忽略前後的情緒明示。",
+        "option_analysis": [
+          "驚顧與注意力固定吻合。",
+          "『喜而笑』『枕藉』是放鬆，不是感傷。",
+          "『且驚且喜』後認同烈士，非單純恐懼逃離。",
+          "嘆息未表示刻意壓抑聲音與表情。"
+        ],
+        "strategy": "先看情緒訊號應用的題意，再逐項回官方原題核對。",
+        "review": "複習情緒訊號應用時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-20",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 20,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "觀點比對"
+      ],
+      "skill_tags": [
+        "觀點比對"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 3
+      },
+      "stem": "哪段古文最接近『情緒調整可藉學習』？",
+      "options": [
+        "七情感物自然生",
+        "真性不可更易",
+        "遊山海使情與景合",
+        "以禮調治七情"
+      ],
+      "group_id": "ceec-113-chinese-g18-20",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "source_pdf_page": 7,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "觀點比對",
+        "key_insight": "找人後天學習、規範情緒的途徑。",
+        "solution": "D主張藉禮治七情、培養辭讓與和睦，對應可學習的情緒調整模式。",
+        "reasoning": "D主張藉禮治七情、培養辭讓與和睦，對應可學習的情緒調整模式。",
+        "common_errors": "『自然發生』與『可學習調節』屬不同層次。",
+        "option_analysis": [
+          "強調感物的自然情緒。",
+          "強調天賦真性不可變。",
+          "描繪遊覽與情景交融。",
+          "『禮』為後天調整情緒的工具。"
+        ],
+        "strategy": "先看觀點比對的題意，再逐項回官方原題核對。",
+        "review": "複習觀點比對時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "觀點比對",
+        "key_insight": "找人後天學習、規範情緒的途徑。",
+        "solution": "D主張藉禮治七情、培養辭讓與和睦，對應可學習的情緒調整模式。",
+        "reasoning": "D主張藉禮治七情、培養辭讓與和睦，對應可學習的情緒調整模式。",
+        "common_errors": "『自然發生』與『可學習調節』屬不同層次。",
+        "option_analysis": [
+          "強調感物的自然情緒。",
+          "強調天賦真性不可變。",
+          "描繪遊覽與情景交融。",
+          "『禮』為後天調整情緒的工具。"
+        ],
+        "strategy": "先看觀點比對的題意，再逐項回官方原題核對。",
+        "review": "複習觀點比對時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-21",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 21,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "判決要素"
+      ],
+      "skill_tags": [
+        "判決要素"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 1
+      },
+      "stem": "古代判決與當代判決書要項何者對應？",
+      "options": [
+        "程十乙為原告",
+        "鄭七主張有償取得元老、應可領回",
+        "判元老歸劉珵並賠償",
+        "因元老憎父而判給族長"
+      ],
+      "group_id": "ceec-113-chinese-g21-22",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "source_pdf_page": 7,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "判決要素",
+        "key_insight": "區分當事人的主張、法官採信與最終主文。",
+        "solution": "鄭七具文要求領回賣與自己又逃離的元老，是訴訟一方的事實主張；B可從文中確知。",
+        "reasoning": "鄭七具文要求領回賣與自己又逃離的元老，是訴訟一方的事實主張；B可從文中確知。",
+        "common_errors": "不要將鄭七主張誤當法官採認或判決結果。",
+        "option_analysis": [
+          "出面具文的是鄭七。",
+          "鄭七曾得元老，三年後要求取回。",
+          "判給族長收養、杖劉珵，未寫賠償。",
+          "判給族長基於父失職與子需約束，非元老憎父。"
+        ],
+        "strategy": "先看判決要素的題意，再逐項回官方原題核對。",
+        "review": "複習判決要素時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "判決要素",
+        "key_insight": "區分當事人的主張、法官採信與最終主文。",
+        "solution": "鄭七具文要求領回賣與自己又逃離的元老，是訴訟一方的事實主張；B可從文中確知。",
+        "reasoning": "鄭七具文要求領回賣與自己又逃離的元老，是訴訟一方的事實主張；B可從文中確知。",
+        "common_errors": "不要將鄭七主張誤當法官採認或判決結果。",
+        "option_analysis": [
+          "出面具文的是鄭七。",
+          "鄭七曾得元老，三年後要求取回。",
+          "判給族長收養、杖劉珵，未寫賠償。",
+          "判給族長基於父失職與子需約束，非元老憎父。"
+        ],
+        "strategy": "先看判決要素的題意，再逐項回官方原題核對。",
+        "review": "複習判決要素時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "official_visual_context_manual_review"
+      ],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "official_visual_context_manual_review"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "official_visual_context_manual_review"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-22",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 22,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "寫作方式"
+      ],
+      "skill_tags": [
+        "寫作方式"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 3
+      },
+      "stem": "判詞《父子爭訟》的行文特色何者正確？",
+      "options": [
+        "先引法律法條再判",
+        "被告自陳、原告駁斥、證人作證",
+        "依次責子不子、父不父",
+        "教化口吻訓斥悖倫者並期勉族長"
+      ],
+      "group_id": "ceec-113-chinese-g21-22",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 6,
+      "source_pdf_page": 7,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "寫作方式",
+        "key_insight": "找父親兩度賣子、處分與囑族長鈐束的語氣。",
+        "solution": "判詞以人倫訓斥劉珵，又請族長嚴加管教元老，兼具裁判與教化，選D。",
+        "reasoning": "判詞以人倫訓斥劉珵，又請族長嚴加管教元老，兼具裁判與教化，選D。",
+        "common_errors": "勿套現代判決書固定格式到古代判詞。",
+        "option_analysis": [
+          "起首是人倫判斷，未列法條。",
+          "沒有逐一羅列兩造證人證述。",
+          "評斷核心是父親未養子，非子不子。",
+          "既責劉珵又勸族長，符合。"
+        ],
+        "strategy": "先看寫作方式的題意，再逐項回官方原題核對。",
+        "review": "複習寫作方式時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "寫作方式",
+        "key_insight": "找父親兩度賣子、處分與囑族長鈐束的語氣。",
+        "solution": "判詞以人倫訓斥劉珵，又請族長嚴加管教元老，兼具裁判與教化，選D。",
+        "reasoning": "判詞以人倫訓斥劉珵，又請族長嚴加管教元老，兼具裁判與教化，選D。",
+        "common_errors": "勿套現代判決書固定格式到古代判詞。",
+        "option_analysis": [
+          "起首是人倫判斷，未列法條。",
+          "沒有逐一羅列兩造證人證述。",
+          "評斷核心是父親未養子，非子不子。",
+          "既責劉珵又勸族長，符合。"
+        ],
+        "strategy": "先看寫作方式的題意，再逐項回官方原題核對。",
+        "review": "複習寫作方式時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "official_visual_context_manual_review"
+      ],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "official_visual_context_manual_review"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "official_visual_context_manual_review"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-23",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 23,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "史料推論"
+      ],
+      "skill_tags": [
+        "史料推論"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 3
+      },
+      "stem": "唐代座主門生關係，何者可確知？",
+      "options": [
+        "韓愈陸贄均知貢舉",
+        "柳宗元為顧十郎門生",
+        "韓愈不認同崔群的人情看法",
+        "柳宗元與崔群均認為門生須報座主之恩"
+      ],
+      "group_id": "ceec-113-chinese-g23-24",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 7,
+      "source_pdf_page": 8,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "史料推論",
+        "key_insight": "找柳宗元『不知恩非人』與崔群『門生如良田』。",
+        "solution": "兩人的言論都認為門生與座主有終生恩義，呼應當時世俗看法，選D。",
+        "reasoning": "兩人的言論都認為門生與座主有終生恩義，呼應當時世俗看法，選D。",
+        "common_errors": "韓愈稱讚崔群不代表知道他對座主門生制的態度。",
+        "option_analysis": [
+          "韓愈是否曾知貢舉未說。",
+          "信的收件者不等於作者座主。",
+          "韓愈只稱讚言行，未反對門生關係。",
+          "兩人均接受座主門生恩義。"
+        ],
+        "strategy": "先看史料推論的題意，再逐項回官方原題核對。",
+        "review": "複習史料推論時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "史料推論",
+        "key_insight": "找柳宗元『不知恩非人』與崔群『門生如良田』。",
+        "solution": "兩人的言論都認為門生與座主有終生恩義，呼應當時世俗看法，選D。",
+        "reasoning": "兩人的言論都認為門生與座主有終生恩義，呼應當時世俗看法，選D。",
+        "common_errors": "韓愈稱讚崔群不代表知道他對座主門生制的態度。",
+        "option_analysis": [
+          "韓愈是否曾知貢舉未說。",
+          "信的收件者不等於作者座主。",
+          "韓愈只稱讚言行，未反對門生關係。",
+          "兩人均接受座主門生恩義。"
+        ],
+        "strategy": "先看史料推論的題意，再逐項回官方原題核對。",
+        "review": "複習史料推論時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-24",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 24,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "比喻推理"
+      ],
+      "skill_tags": [
+        "比喻推理"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 1
+      },
+      "stem": "妻子為何說崔群使『陸氏一莊荒矣』？",
+      "options": [
+        "陸贄從未知貢舉",
+        "崔群是陸贄門生，卻阻陸子應試未報恩",
+        "陸家子孫懈怠",
+        "勸崔群以陸贄為戒買田"
+      ],
+      "group_id": "ceec-113-chinese-g23-24",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 7,
+      "source_pdf_page": 8,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "比喻推理",
+        "key_insight": "『門生=良田』套回崔群自己與陸贄的關係。",
+        "solution": "崔群比放榜門生為田，妻子指出崔群作為陸贄的門生，卻曾使人攔陸子赴試，對座主無益，故B。",
+        "reasoning": "崔群比放榜門生為田，妻子指出崔群作為陸贄的門生，卻曾使人攔陸子赴試，對座主無益，故B。",
+        "common_errors": "『一莊荒』是反諷崔群未盡門生之義，不是農田真的荒蕪。",
+        "option_analysis": [
+          "陸贄既是其座主，已曾知貢舉。",
+          "反問崔群何以不報座主之恩。",
+          "問題在崔群阻試，非子孫懶惰。",
+          "妻子要指出比喻自相矛盾，並非要購田。"
+        ],
+        "strategy": "先看比喻推理的題意，再逐項回官方原題核對。",
+        "review": "複習比喻推理時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "比喻推理",
+        "key_insight": "『門生=良田』套回崔群自己與陸贄的關係。",
+        "solution": "崔群比放榜門生為田，妻子指出崔群作為陸贄的門生，卻曾使人攔陸子赴試，對座主無益，故B。",
+        "reasoning": "崔群比放榜門生為田，妻子指出崔群作為陸贄的門生，卻曾使人攔陸子赴試，對座主無益，故B。",
+        "common_errors": "『一莊荒』是反諷崔群未盡門生之義，不是農田真的荒蕪。",
+        "option_analysis": [
+          "陸贄既是其座主，已曾知貢舉。",
+          "反問崔群何以不報座主之恩。",
+          "問題在崔群阻試，非子孫懶惰。",
+          "妻子要指出比喻自相矛盾，並非要購田。"
+        ],
+        "strategy": "先看比喻推理的題意，再逐項回官方原題核對。",
+        "review": "複習比喻推理時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-25",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 25,
+      "primary_unit": "語文表達",
+      "secondary_concepts": [
+        "成語運用"
+      ],
+      "skill_tags": [
+        "成語運用"
+      ],
+      "questionType": "multiple_choice",
+      "points": 4,
+      "answer": {
+        "indices": [
+          0,
+          1,
+          2
+        ]
+      },
+      "stem": "哪些文句的畫線成語用得恰當？",
+      "options": [
+        "不足為訓：僥倖的防災態度",
+        "白雲蒼狗：世事變化",
+        "空谷足音：難得的獨特見解",
+        "始作俑者：發明飛機的兄弟",
+        "胸無城府：欠缺做事規劃"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 7,
+      "source_pdf_page": 8,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "成語運用",
+        "key_insight": "逐一核對成語的褒貶、對象及語境。",
+        "solution": "A的防災僥倖不值得效法；B形容世事變幻；C形容獨特見解難得，故選ABC。D與E各把負面或性格成語誤作中性稱讚或規劃能力。",
+        "reasoning": "A的防災僥倖不值得效法；B形容世事變幻；C形容獨特見解難得，故選ABC。D與E各把負面或性格成語誤作中性稱讚或規劃能力。",
+        "common_errors": "『始作俑者』有開創壞例的貶義；『胸無城府』指心地坦率，與是否有計畫無關。",
+        "option_analysis": [
+          "不足為訓＝不值得效法，合僥倖態度。",
+          "白雲蒼狗＝變化不定，合世事。",
+          "空谷足音＝難得可貴的言論／消息，合文意。",
+          "始作俑者多指首開惡例，不宜讚揚發明者。",
+          "胸無城府是率真而無機心，不是欠缺規劃。"
+        ],
+        "strategy": "先看成語運用的題意，再逐項回官方原題核對。",
+        "review": "複習成語運用時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "成語運用",
+        "key_insight": "逐一核對成語的褒貶、對象及語境。",
+        "solution": "A的防災僥倖不值得效法；B形容世事變幻；C形容獨特見解難得，故選ABC。D與E各把負面或性格成語誤作中性稱讚或規劃能力。",
+        "reasoning": "A的防災僥倖不值得效法；B形容世事變幻；C形容獨特見解難得，故選ABC。D與E各把負面或性格成語誤作中性稱讚或規劃能力。",
+        "common_errors": "『始作俑者』有開創壞例的貶義；『胸無城府』指心地坦率，與是否有計畫無關。",
+        "option_analysis": [
+          "不足為訓＝不值得效法，合僥倖態度。",
+          "白雲蒼狗＝變化不定，合世事。",
+          "空谷足音＝難得可貴的言論／消息，合文意。",
+          "始作俑者多指首開惡例，不宜讚揚發明者。",
+          "胸無城府是率真而無機心，不是欠缺規劃。"
+        ],
+        "strategy": "先看成語運用的題意，再逐項回官方原題核對。",
+        "review": "複習成語運用時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-26",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 26,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "虛詞功能"
+      ],
+      "skill_tags": [
+        "虛詞功能"
+      ],
+      "questionType": "multiple_choice",
+      "points": 4,
+      "answer": {
+        "indices": [
+          0,
+          2,
+          4
+        ]
+      },
+      "stem": "哪些『以』表示前一作為的目的？",
+      "options": [
+        "築牆以擋南日",
+        "託臣以討賊之效",
+        "殺身以成仁",
+        "挾飛仙以遨遊",
+        "作師說以贈送"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 7,
+      "source_pdf_page": 8,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "虛詞功能",
+        "key_insight": "將『以』後面譯為『為了……』，並確認前句是實行的作為。",
+        "solution": "A築牆為擋陽光，C殺身為成仁，E寫《師說》為贈送，均為作為與目的，選ACE。B是託付的內容，D連接伴隨的活動。",
+        "reasoning": "A築牆為擋陽光，C殺身為成仁，E寫《師說》為贈送，均為作為與目的，選ACE。B是託付的內容，D連接伴隨的活動。",
+        "common_errors": "能譯成『以便』仍須核對前後是不是作為和目的。",
+        "option_analysis": [
+          "垣牆周庭→當南日，目的明確。",
+          "託臣『討賊興復之效』是所託任務，非前一動作的目的。",
+          "殺身→成仁，是明確目的。",
+          "挾飛仙與遨遊並列，不是挾仙為了遨遊。",
+          "作《師說》→貽之，目的明確。"
+        ],
+        "strategy": "先看虛詞功能的題意，再逐項回官方原題核對。",
+        "review": "複習虛詞功能時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "虛詞功能",
+        "key_insight": "將『以』後面譯為『為了……』，並確認前句是實行的作為。",
+        "solution": "A築牆為擋陽光，C殺身為成仁，E寫《師說》為贈送，均為作為與目的，選ACE。B是託付的內容，D連接伴隨的活動。",
+        "reasoning": "A築牆為擋陽光，C殺身為成仁，E寫《師說》為贈送，均為作為與目的，選ACE。B是託付的內容，D連接伴隨的活動。",
+        "common_errors": "能譯成『以便』仍須核對前後是不是作為和目的。",
+        "option_analysis": [
+          "垣牆周庭→當南日，目的明確。",
+          "託臣『討賊興復之效』是所託任務，非前一動作的目的。",
+          "殺身→成仁，是明確目的。",
+          "挾飛仙與遨遊並列，不是挾仙為了遨遊。",
+          "作《師說》→貽之，目的明確。"
+        ],
+        "strategy": "先看虛詞功能的題意，再逐項回官方原題核對。",
+        "review": "複習虛詞功能時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-27",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 27,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "一詞多義"
+      ],
+      "skill_tags": [
+        "一詞多義"
+      ],
+      "questionType": "multiple_choice",
+      "points": 4,
+      "answer": {
+        "indices": [
+          1,
+          4
+        ]
+      },
+      "stem": "哪些同字在兩句中的意思相同？",
+      "options": [
+        "當：應當／眼前",
+        "向：先前的路／當時的帆船",
+        "爾：你的手／如此飲酒",
+        "敢：冒昧／膽敢",
+        "得：得以免燒／得以並比"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 8,
+      "source_pdf_page": 9,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "一詞多義",
+        "key_insight": "不能只憑同字，要連同文句的時間與語氣解讀。",
+        "solution": "B兩個『向』都指先前；E兩個『得』都指能夠、得以，故選BE。",
+        "reasoning": "B兩個『向』都指先前；E兩個『得』都指能夠、得以，故選BE。",
+        "common_errors": "D兩句皆帶謙讓語境，但第一句『敢』是冒昧致意，第二句指不敢實施。",
+        "option_analysis": [
+          "前句應當，後句眼前。",
+          "兩者皆指從前／先前。",
+          "一處第二人稱，一處這樣。",
+          "前句謙詞『冒昧』，後句指膽敢。",
+          "均有『能夠、得以』之意。"
+        ],
+        "strategy": "先看一詞多義的題意，再逐項回官方原題核對。",
+        "review": "複習一詞多義時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "一詞多義",
+        "key_insight": "不能只憑同字，要連同文句的時間與語氣解讀。",
+        "solution": "B兩個『向』都指先前；E兩個『得』都指能夠、得以，故選BE。",
+        "reasoning": "B兩個『向』都指先前；E兩個『得』都指能夠、得以，故選BE。",
+        "common_errors": "D兩句皆帶謙讓語境，但第一句『敢』是冒昧致意，第二句指不敢實施。",
+        "option_analysis": [
+          "前句應當，後句眼前。",
+          "兩者皆指從前／先前。",
+          "一處第二人稱，一處這樣。",
+          "前句謙詞『冒昧』，後句指膽敢。",
+          "均有『能夠、得以』之意。"
+        ],
+        "strategy": "先看一詞多義的題意，再逐項回官方原題核對。",
+        "review": "複習一詞多義時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-28",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 28,
+      "primary_unit": "白話文閱讀",
+      "secondary_concepts": [
+        "資訊統整"
+      ],
+      "skill_tags": [
+        "資訊統整"
+      ],
+      "questionType": "multiple_choice",
+      "points": 4,
+      "answer": {
+        "indices": [
+          0,
+          3,
+          4
+        ]
+      },
+      "stem": "臺灣海洋歷史文化的哪些推論有據？",
+      "options": [
+        "不同時代漢人移民都有過鹹水經驗",
+        "近代化全由兩波移民奠基",
+        "港口因西方占領後才出現",
+        "地理、南島文化、渡海移民與經貿相互形塑",
+        "還受日本、南亞與西方文化影響"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 8,
+      "source_pdf_page": 9,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "資訊統整",
+        "key_insight": "按時間分清原民活動、漢人渡海、國際港口與文化交流。",
+        "solution": "兩波移民有共同的『過鹹水』記憶；臺灣地理與原民、移民、經貿互動；日本、南亞、西方亦參與交流，因此選ADE。",
+        "reasoning": "兩波移民有共同的『過鹹水』記憶；臺灣地理與原民、移民、經貿互動；日本、南亞、西方亦參與交流，因此選ADE。",
+        "common_errors": "不得把『西方占領帶來近代化思維』擴成『港口至此才發展』。",
+        "option_analysis": [
+          "清代移民及1949年移民共同經歷渡海。",
+          "近代化與商業文明還涉及西班牙、荷蘭及海域貿易。",
+          "原文先述港口蓬勃，沒有西方占領才有港口的時序。",
+          "多項地理與社會因素共同構成文化。",
+          "明列中國、日本、南亞、西方與原民南島文化。"
+        ],
+        "strategy": "先看資訊統整的題意，再逐項回官方原題核對。",
+        "review": "複習資訊統整時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "資訊統整",
+        "key_insight": "按時間分清原民活動、漢人渡海、國際港口與文化交流。",
+        "solution": "兩波移民有共同的『過鹹水』記憶；臺灣地理與原民、移民、經貿互動；日本、南亞、西方亦參與交流，因此選ADE。",
+        "reasoning": "兩波移民有共同的『過鹹水』記憶；臺灣地理與原民、移民、經貿互動；日本、南亞、西方亦參與交流，因此選ADE。",
+        "common_errors": "不得把『西方占領帶來近代化思維』擴成『港口至此才發展』。",
+        "option_analysis": [
+          "清代移民及1949年移民共同經歷渡海。",
+          "近代化與商業文明還涉及西班牙、荷蘭及海域貿易。",
+          "原文先述港口蓬勃，沒有西方占領才有港口的時序。",
+          "多項地理與社會因素共同構成文化。",
+          "明列中國、日本、南亞、西方與原民南島文化。"
+        ],
+        "strategy": "先看資訊統整的題意，再逐項回官方原題核對。",
+        "review": "複習資訊統整時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-29",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 29,
+      "primary_unit": "圖表閱讀",
+      "secondary_concepts": [
+        "資料交叉比對"
+      ],
+      "skill_tags": [
+        "資料交叉比對"
+      ],
+      "questionType": "multiple_choice",
+      "points": 4,
+      "answer": {
+        "indices": [
+          1,
+          2,
+          4
+        ]
+      },
+      "stem": "硃砂公告、醫師說明與水飛／升煉資料中，哪些說法成立？",
+      "options": [
+        "水飛先反覆淘洗，最後才磨粉",
+        "機磨高溫可能使硃砂有劇毒",
+        "升煉可得水銀，加硫黃又成銀朱",
+        "銀朱比水飛頭朱毒性低",
+        "妥善炮製或可藥用，但臺灣公告禁用"
+      ],
+      "group_id": null,
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 8,
+      "source_pdf_page": 9,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "資料交叉比對",
+        "key_insight": "三欄資料分別說明行政禁令、炮製安全及古法流程，勿混為單一處置。",
+        "solution": "機器研磨的高溫有風險；升煉得水銀，另加硫黃可成銀朱；安全炮製可能入藥而臺灣現禁，選BCE。",
+        "reasoning": "機器研磨的高溫有風險；升煉得水銀，另加硫黃可成銀朱；安全炮製可能入藥而臺灣現禁，選BCE。",
+        "common_errors": "水飛須先軋碎如微塵，再入水澄浸；不能以公告禁用倒推任何炮製皆有毒。",
+        "option_analysis": [
+          "先軋碎如微塵才注水，次序相反。",
+          "醫師指出機磨高溫可產生劇毒。",
+          "古文記水銀及加硫黃所成銀朱。",
+          "沒有銀朱毒性較低的資料。",
+          "炮製與法規是兩個層次；公告禁止中藥使用。"
+        ],
+        "strategy": "先看資料交叉比對的題意，再逐項回官方原題核對。",
+        "review": "複習資料交叉比對時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "資料交叉比對",
+        "key_insight": "三欄資料分別說明行政禁令、炮製安全及古法流程，勿混為單一處置。",
+        "solution": "機器研磨的高溫有風險；升煉得水銀，另加硫黃可成銀朱；安全炮製可能入藥而臺灣現禁，選BCE。",
+        "reasoning": "機器研磨的高溫有風險；升煉得水銀，另加硫黃可成銀朱；安全炮製可能入藥而臺灣現禁，選BCE。",
+        "common_errors": "水飛須先軋碎如微塵，再入水澄浸；不能以公告禁用倒推任何炮製皆有毒。",
+        "option_analysis": [
+          "先軋碎如微塵才注水，次序相反。",
+          "醫師指出機磨高溫可產生劇毒。",
+          "古文記水銀及加硫黃所成銀朱。",
+          "沒有銀朱毒性較低的資料。",
+          "炮製與法規是兩個層次；公告禁止中藥使用。"
+        ],
+        "strategy": "先看資料交叉比對的題意，再逐項回官方原題核對。",
+        "review": "複習資料交叉比對時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "official_visual_context_manual_review"
+      ],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "inline_normalized",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "official_visual_context_manual_review"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "official_visual_context_manual_review"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-30",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 30,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "史料事實對照"
+      ],
+      "skill_tags": [
+        "史料事實對照"
+      ],
+      "questionType": "multiple_choice",
+      "points": 4,
+      "answer": {
+        "indices": [
+          0,
+          4
+        ]
+      },
+      "stem": "甲乙兩則鄭成功傳說中，哪些生平敘述有據？",
+      "options": [
+        "出生當晚相傳大鯨出現並毀船",
+        "母親因他降伏大鯨受禮遇",
+        "本人會騎鯨而百戰皆勝",
+        "剿海賊救沿岸居民",
+        "病卒臺灣，呼應歸東即逝"
+      ],
+      "group_id": "ceec-113-chinese-g30-31",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 9,
+      "source_pdf_page": 10,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "史料事實對照",
+        "key_insight": "乙講出生異象，甲講歸東死亡，分開核對時序。",
+        "solution": "乙說鄭成功出生前夜鯨魚掀浪，船舶破碎；甲載病卒於攻臺後，符應歸東即逝，故選AE。",
+        "reasoning": "乙說鄭成功出生前夜鯨魚掀浪，船舶破碎；甲載病卒於攻臺後，符應歸東即逝，故選AE。",
+        "common_errors": "騎鯨是旁人的夢或傳說，非鄭成功實際會騎鯨的事實。",
+        "option_analysis": [
+          "乙記其出生前夜海上鯨魚與船難。",
+          "母親受到敬重，並非鄭成功降伏鯨魚。",
+          "神異描寫不是軍事能力的事實陳述。",
+          "甲站在清廷立場形容其禍害沿海，非拯救。",
+          "甲明言病死與預言吻合。"
+        ],
+        "strategy": "先看史料事實對照的題意，再逐項回官方原題核對。",
+        "review": "複習史料事實對照時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "史料事實對照",
+        "key_insight": "乙講出生異象，甲講歸東死亡，分開核對時序。",
+        "solution": "乙說鄭成功出生前夜鯨魚掀浪，船舶破碎；甲載病卒於攻臺後，符應歸東即逝，故選AE。",
+        "reasoning": "乙說鄭成功出生前夜鯨魚掀浪，船舶破碎；甲載病卒於攻臺後，符應歸東即逝，故選AE。",
+        "common_errors": "騎鯨是旁人的夢或傳說，非鄭成功實際會騎鯨的事實。",
+        "option_analysis": [
+          "乙記其出生前夜海上鯨魚與船難。",
+          "母親受到敬重，並非鄭成功降伏鯨魚。",
+          "神異描寫不是軍事能力的事實陳述。",
+          "甲站在清廷立場形容其禍害沿海，非拯救。",
+          "甲明言病死與預言吻合。"
+        ],
+        "strategy": "先看史料事實對照的題意，再逐項回官方原題核對。",
+        "review": "複習史料事實對照時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-31",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 31,
+      "primary_unit": "文言文閱讀",
+      "secondary_concepts": [
+        "立場與敘事"
+      ],
+      "skill_tags": [
+        "立場與敘事"
+      ],
+      "questionType": "multiple_choice",
+      "points": 4,
+      "answer": {
+        "indices": [
+          2,
+          4
+        ]
+      },
+      "stem": "兩則鄭成功傳說的寫法，哪些比較有據？",
+      "options": [
+        "以中日混血解釋軍才",
+        "海水暴漲皆為褒揚軍容",
+        "都寫與鯨魚相關的夢境",
+        "皆說攻臺得神明相助",
+        "都帶清廷視角書寫攻臺"
+      ],
+      "group_id": "ceec-113-chinese-g30-31",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 9,
+      "source_pdf_page": 10,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "立場與敘事",
+        "key_insight": "一則由官屬夢見鯨首人物，一則記荷蘭人夢見騎鯨偉人。",
+        "solution": "兩文都記與鯨魚相關的夢，以神異凸顯鄭氏；同時都有清廷視角，如『荼毒濱海』、『倭產』與『逋逃藪』，選CE。",
+        "reasoning": "兩文都記與鯨魚相關的夢，以神異凸顯鄭氏；同時都有清廷視角，如『荼毒濱海』、『倭產』與『逋逃藪』，選CE。",
+        "common_errors": "記錄海水異象不等於評價軍容，更不能斷言實有神靈相助。",
+        "option_analysis": [
+          "甲無從中日混血解釋軍事才能。",
+          "海水暴漲主要為怪異徵兆，未必褒揚。",
+          "甲乙各記不同人物的鯨魚夢。",
+          "並未明說登陸後依賴神明作戰。",
+          "兩則記述均顯示清廷看待鄭氏的立場。"
+        ],
+        "strategy": "先看立場與敘事的題意，再逐項回官方原題核對。",
+        "review": "複習立場與敘事時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "立場與敘事",
+        "key_insight": "一則由官屬夢見鯨首人物，一則記荷蘭人夢見騎鯨偉人。",
+        "solution": "兩文都記與鯨魚相關的夢，以神異凸顯鄭氏；同時都有清廷視角，如『荼毒濱海』、『倭產』與『逋逃藪』，選CE。",
+        "reasoning": "兩文都記與鯨魚相關的夢，以神異凸顯鄭氏；同時都有清廷視角，如『荼毒濱海』、『倭產』與『逋逃藪』，選CE。",
+        "common_errors": "記錄海水異象不等於評價軍容，更不能斷言實有神靈相助。",
+        "option_analysis": [
+          "甲無從中日混血解釋軍事才能。",
+          "海水暴漲主要為怪異徵兆，未必褒揚。",
+          "甲乙各記不同人物的鯨魚夢。",
+          "並未明說登陸後依賴神明作戰。",
+          "兩則記述均顯示清廷看待鄭氏的立場。"
+        ],
+        "strategy": "先看立場與敘事的題意，再逐項回官方原題核對。",
+        "review": "複習立場與敘事時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-32",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 32,
+      "primary_unit": "綜合閱讀",
+      "secondary_concepts": [
+        "回憶類型與雙重情緒"
+      ],
+      "skill_tags": [
+        "回憶類型與雙重情緒"
+      ],
+      "questionType": "short_answer",
+      "points": 6,
+      "answer": {
+        "grading": "manual_required",
+        "reference": "(1)自主的回憶。(2)往日失而復得的喜悅；意識到往日已逝的感傷。"
+      },
+      "stem": "辨別〈髻〉開頭的回憶方式，並在限字內說明往日再現與流逝造成的兩種感受。",
+      "group_id": "ceec-113-chinese-g32-36",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 10,
+      "source_pdf_page": 11,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "回憶類型與雙重情緒",
+        "key_insight": "自主與不自主回憶及同時存在的喜悅、感傷。",
+        "solution": "〈髻〉是作者主動描述童年經驗，不是當下突遇氣味而無預期地喚起；甲又指出往日一度重現使人欣喜，但不能完整恢復使人感傷。 (1) 自主的回憶。(2) 往日失而復得的喜悅；意識到往日已逝的感傷。第一小題2分，第二小題4分。",
+        "reasoning": "〈髻〉是作者主動描述童年經驗，不是當下突遇氣味而無預期地喚起；甲又指出往日一度重現使人欣喜，但不能完整恢復使人感傷。 (1) 自主的回憶。(2) 往日失而復得的喜悅；意識到往日已逝的感傷。第一小題2分，第二小題4分。",
+        "common_errors": "不能因文章裡提到髮油氣味，就把回憶誤判成『不由自主』；須看敘述當下是否受無預期氣味觸發。",
+        "option_analysis": [],
+        "strategy": "先看回憶類型與雙重情緒的題意，再逐項回官方原題核對。",
+        "review": "複習回憶類型與雙重情緒時對照官方試卷與參考答案。",
+        "answer_elements": [
+          "〈髻〉是作者主動描述童年經驗，不是當下突遇氣味而無預期地喚起；甲又指出往日一度重現使人欣喜，但不能完整恢復使人感傷。 ",
+          " 自主的回憶。",
+          " 往日失而復得的喜悅；意識到往日已逝的感傷。第一小題2分，第二小題4分。"
+        ],
+        "rubric_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "scoring_notice": "平台整理滿分參考作答；實際部分給分以大考中心評分原則為準。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "回憶類型與雙重情緒",
+        "key_insight": "自主與不自主回憶及同時存在的喜悅、感傷。",
+        "solution": "〈髻〉是作者主動描述童年經驗，不是當下突遇氣味而無預期地喚起；甲又指出往日一度重現使人欣喜，但不能完整恢復使人感傷。 (1) 自主的回憶。(2) 往日失而復得的喜悅；意識到往日已逝的感傷。第一小題2分，第二小題4分。",
+        "reasoning": "〈髻〉是作者主動描述童年經驗，不是當下突遇氣味而無預期地喚起；甲又指出往日一度重現使人欣喜，但不能完整恢復使人感傷。 (1) 自主的回憶。(2) 往日失而復得的喜悅；意識到往日已逝的感傷。第一小題2分，第二小題4分。",
+        "common_errors": "不能因文章裡提到髮油氣味，就把回憶誤判成『不由自主』；須看敘述當下是否受無預期氣味觸發。",
+        "option_analysis": [],
+        "strategy": "先看回憶類型與雙重情緒的題意，再逐項回官方原題核對。",
+        "review": "複習回憶類型與雙重情緒時對照官方試卷與參考答案。",
+        "answer_elements": [
+          "〈髻〉是作者主動描述童年經驗，不是當下突遇氣味而無預期地喚起；甲又指出往日一度重現使人欣喜，但不能完整恢復使人感傷。 ",
+          " 自主的回憶。",
+          " 往日失而復得的喜悅；意識到往日已逝的感傷。第一小題2分，第二小題4分。"
+        ],
+        "rubric_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "scoring_notice": "平台整理滿分參考作答；實際部分給分以大考中心評分原則為準。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "grading_rubric": {
+        "url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "full_score": 6
+      },
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-33",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 33,
+      "primary_unit": "綜合閱讀",
+      "secondary_concepts": [
+        "記憶譬喻與嗅覺路徑"
+      ],
+      "skill_tags": [
+        "記憶譬喻與嗅覺路徑"
+      ],
+      "questionType": "short_answer",
+      "points": 8,
+      "answer": {
+        "grading": "manual_required",
+        "reference": "(1)斷片：不完整；照片褪色：逐漸失去細節。(2)感官：嗅覺（鼻子）；大腦：杏仁核＋海馬迴。"
+      },
+      "stem": "說明斷片、照片褪色各喻何特徵，以及馬塞爾喚起童年回憶的感官與兩個腦區。",
+      "group_id": "ceec-113-chinese-g32-36",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 11,
+      "source_pdf_page": 12,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "記憶譬喻與嗅覺路徑",
+        "key_insight": "甲的記憶不完整，乙的細節逐漸流失；嗅覺通向杏仁核、海馬迴。",
+        "solution": "先對照甲『無法完整恢復』、乙『逐漸喪失精準』；再依乙文畫出嗅覺氣味因子繞過視丘，直達處理情緒與記憶的腦區。 (1) 斷片：不完整；照片褪色：逐漸失去細節。(2) 感官：嗅覺（鼻子）；大腦：杏仁核＋海馬迴。兩小題各4分。",
+        "reasoning": "先對照甲『無法完整恢復』、乙『逐漸喪失精準』；再依乙文畫出嗅覺氣味因子繞過視丘，直達處理情緒與記憶的腦區。 (1) 斷片：不完整；照片褪色：逐漸失去細節。(2) 感官：嗅覺（鼻子）；大腦：杏仁核＋海馬迴。兩小題各4分。",
+        "common_errors": "不可把杏仁核與海馬迴只答其中之一而當成完整路徑；不要把視丘當作嗅覺必經的節點。",
+        "option_analysis": [],
+        "strategy": "先看記憶譬喻與嗅覺路徑的題意，再逐項回官方原題核對。",
+        "review": "複習記憶譬喻與嗅覺路徑時對照官方試卷與參考答案。",
+        "answer_elements": [
+          "先對照甲『無法完整恢復』、乙『逐漸喪失精準』；再依乙文畫出嗅覺氣味因子繞過視丘，直達處理情緒與記憶的腦區。 ",
+          " 斷片：不完整；照片褪色：逐漸失去細節。",
+          " 感官：嗅覺（鼻子）；大腦：杏仁核＋海馬迴。兩小題各4分。"
+        ],
+        "rubric_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "scoring_notice": "平台整理滿分參考作答；實際部分給分以大考中心評分原則為準。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "記憶譬喻與嗅覺路徑",
+        "key_insight": "甲的記憶不完整，乙的細節逐漸流失；嗅覺通向杏仁核、海馬迴。",
+        "solution": "先對照甲『無法完整恢復』、乙『逐漸喪失精準』；再依乙文畫出嗅覺氣味因子繞過視丘，直達處理情緒與記憶的腦區。 (1) 斷片：不完整；照片褪色：逐漸失去細節。(2) 感官：嗅覺（鼻子）；大腦：杏仁核＋海馬迴。兩小題各4分。",
+        "reasoning": "先對照甲『無法完整恢復』、乙『逐漸喪失精準』；再依乙文畫出嗅覺氣味因子繞過視丘，直達處理情緒與記憶的腦區。 (1) 斷片：不完整；照片褪色：逐漸失去細節。(2) 感官：嗅覺（鼻子）；大腦：杏仁核＋海馬迴。兩小題各4分。",
+        "common_errors": "不可把杏仁核與海馬迴只答其中之一而當成完整路徑；不要把視丘當作嗅覺必經的節點。",
+        "option_analysis": [],
+        "strategy": "先看記憶譬喻與嗅覺路徑的題意，再逐項回官方原題核對。",
+        "review": "複習記憶譬喻與嗅覺路徑時對照官方試卷與參考答案。",
+        "answer_elements": [
+          "先對照甲『無法完整恢復』、乙『逐漸喪失精準』；再依乙文畫出嗅覺氣味因子繞過視丘，直達處理情緒與記憶的腦區。 ",
+          " 斷片：不完整；照片褪色：逐漸失去細節。",
+          " 感官：嗅覺（鼻子）；大腦：杏仁核＋海馬迴。兩小題各4分。"
+        ],
+        "rubric_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "scoring_notice": "平台整理滿分參考作答；實際部分給分以大考中心評分原則為準。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "official_visual_context_manual_review"
+      ],
+      "grading_rubric": {
+        "url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "full_score": 8
+      },
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "official_visual_context_manual_review"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "official_visual_context_manual_review"
+      ]
+    },
+    {
+      "id": "ceec-113-chinese-34",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 34,
+      "primary_unit": "詩詞閱讀",
+      "secondary_concepts": [
+        "夢與現實對照"
+      ],
+      "skill_tags": [
+        "夢與現實對照"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 1
+      },
+      "stem": "李煜與辛棄疾詞中夢醒後的共通感受為何？",
+      "options": [
+        "夢境穿梭過去現在未來",
+        "歡快夢醒後都感到想望落空",
+        "李煜夢醒知身是客、辛棄疾夢中自憐白髮",
+        "兩人皆因壯志未酬而嘆息"
+      ],
+      "group_id": "ceec-113-chinese-g32-36",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 11,
+      "source_pdf_page": 12,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "夢與現實對照",
+        "key_insight": "區分夢裡短暫的歡樂與醒時殘酷現實。",
+        "solution": "李煜夢中忘卻俘虜處境，醒後感懷故國；辛棄疾夢回抗金戰場，最後嘆白髮生。兩人皆由歡快夢境回到失落現實，選B。",
+        "reasoning": "李煜夢中忘卻俘虜處境，醒後感懷故國；辛棄疾夢回抗金戰場，最後嘆白髮生。兩人皆由歡快夢境回到失落現實，選B。",
+        "common_errors": "『可憐白髮生』是醒後心境，不能塞進夢中；李煜慨嘆國破而非未完成收復大業。",
+        "option_analysis": [
+          "未同時跨越未來，也非題旨。",
+          "皆夢中歡快、夢醒意識理想落空。",
+          "白髮之嘆出現在夢醒後。",
+          "李煜故國難返，不等同辛棄疾的壯志未酬。"
+        ],
+        "strategy": "先看夢與現實對照的題意，再逐項回官方原題核對。",
+        "review": "複習夢與現實對照時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "夢與現實對照",
+        "key_insight": "區分夢裡短暫的歡樂與醒時殘酷現實。",
+        "solution": "李煜夢中忘卻俘虜處境，醒後感懷故國；辛棄疾夢回抗金戰場，最後嘆白髮生。兩人皆由歡快夢境回到失落現實，選B。",
+        "reasoning": "李煜夢中忘卻俘虜處境，醒後感懷故國；辛棄疾夢回抗金戰場，最後嘆白髮生。兩人皆由歡快夢境回到失落現實，選B。",
+        "common_errors": "『可憐白髮生』是醒後心境，不能塞進夢中；李煜慨嘆國破而非未完成收復大業。",
+        "option_analysis": [
+          "未同時跨越未來，也非題旨。",
+          "皆夢中歡快、夢醒意識理想落空。",
+          "白髮之嘆出現在夢醒後。",
+          "李煜故國難返，不等同辛棄疾的壯志未酬。"
+        ],
+        "strategy": "先看夢與現實對照的題意，再逐項回官方原題核對。",
+        "review": "複習夢與現實對照時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-35",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 35,
+      "primary_unit": "綜合閱讀",
+      "secondary_concepts": [
+        "長短期記憶與詩詞"
+      ],
+      "skill_tags": [
+        "長短期記憶與詩詞"
+      ],
+      "questionType": "single_choice",
+      "points": 2,
+      "answer": {
+        "index": 3
+      },
+      "stem": "①『一晌貪歡』等於短期記憶；②辛詞夢境含年少抗金記憶斷片，如何判斷？",
+      "options": [
+        "兩項都適當",
+        "兩項都不適當",
+        "僅①適當",
+        "僅②適當"
+      ],
+      "group_id": "ceec-113-chinese-g32-36",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 11,
+      "source_pdf_page": 12,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "長短期記憶與詩詞",
+        "key_insight": "記憶類型由保存時間區分，不由歡樂長度決定。",
+        "solution": "『一晌』只形容歡樂短暫，不能證明是維持5至20秒的短期記憶；辛詞的號角、軍營、點兵則把抗金經驗的片段及未竟夢想寫進夢境，故選D。",
+        "reasoning": "『一晌』只形容歡樂短暫，不能證明是維持5至20秒的短期記憶；辛詞的號角、軍營、點兵則把抗金經驗的片段及未竟夢想寫進夢境，故選D。",
+        "common_errors": "把事件持續多久當作記憶留存多久，會錯判①。",
+        "option_analysis": [
+          "①無法成立。",
+          "②可成立。",
+          "①沒有短期記憶的依據。",
+          "①不適當、②適當。"
+        ],
+        "strategy": "先看長短期記憶與詩詞的題意，再逐項回官方原題核對。",
+        "review": "複習長短期記憶與詩詞時對照官方試卷與參考答案。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "長短期記憶與詩詞",
+        "key_insight": "記憶類型由保存時間區分，不由歡樂長度決定。",
+        "solution": "『一晌』只形容歡樂短暫，不能證明是維持5至20秒的短期記憶；辛詞的號角、軍營、點兵則把抗金經驗的片段及未竟夢想寫進夢境，故選D。",
+        "reasoning": "『一晌』只形容歡樂短暫，不能證明是維持5至20秒的短期記憶；辛詞的號角、軍營、點兵則把抗金經驗的片段及未竟夢想寫進夢境，故選D。",
+        "common_errors": "把事件持續多久當作記憶留存多久，會錯判①。",
+        "option_analysis": [
+          "①無法成立。",
+          "②可成立。",
+          "①沒有短期記憶的依據。",
+          "①不適當、②適當。"
+        ],
+        "strategy": "先看長短期記憶與詩詞的題意，再逐項回官方原題核對。",
+        "review": "複習長短期記憶與詩詞時對照官方試卷與參考答案。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "ceec-113-chinese-36",
+      "academic_year": 113,
+      "exam": "學測",
+      "subject": "chinese",
+      "variant": "國綜",
+      "question_number": 36,
+      "primary_unit": "綜合閱讀",
+      "secondary_concepts": [
+        "自我變化與提醒物"
+      ],
+      "skill_tags": [
+        "自我變化與提醒物"
+      ],
+      "questionType": "short_answer",
+      "points": 6,
+      "answer": {
+        "grading": "manual_required",
+        "reference": "(1)由帝王淪為囚徒。(2)劍；劍是他征戰沙場的工具。"
+      },
+      "stem": "指出李煜『天上人間』暗示的身分變化；辛棄疾夢回的提醒物與征戰往事有何關聯？",
+      "group_id": "ceec-113-chinese-g32-36",
+      "sourceType": "ceec_official",
+      "source_title": "113學年度學科能力測驗國語文綜合能力測驗",
+      "source_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051429609806157906/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C%E5%AE%9A%E7%A8%BF.pdf",
+      "answer_url": "https://www.ceec.edu.tw/files/file_pool/1/0O022617889719119864/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E8%AA%9E%E6%96%87%E7%B6%9C%E5%90%88%E8%83%BD%E5%8A%9B%E6%B8%AC%E9%A9%97%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88.pdf",
+      "source_page": 11,
+      "source_pdf_page": 12,
+      "classification_status": "needs_review",
+      "parse_confidence": 0.95,
+      "classification_confidence": 0.85,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "自我變化與提醒物",
+        "key_insight": "『自我』由帝王轉為階下囚；觸發回憶的是眼前的劍。",
+        "solution": "先由丙詞、作者簡介對照亡國前後身分；丁詞先寫醉中挑燈看劍，再寫夢回軍營，可判劍是勾起過去征戰的具體物。 (1) 由帝王淪為囚徒。(2) 劍；劍是他征戰沙場的工具。第一小題2分，第二小題4分。",
+        "reasoning": "先由丙詞、作者簡介對照亡國前後身分；丁詞先寫醉中挑燈看劍，再寫夢回軍營，可判劍是勾起過去征戰的具體物。 (1) 由帝王淪為囚徒。(2) 劍；劍是他征戰沙場的工具。第一小題2分，第二小題4分。",
+        "common_errors": "勿把夢中號角當成夢前的提醒物；『天上人間』還涉及身分與受制境遇，不只是天氣變化。",
+        "option_analysis": [],
+        "strategy": "先看自我變化與提醒物的題意，再逐項回官方原題核對。",
+        "review": "複習自我變化與提醒物時對照官方試卷與參考答案。",
+        "answer_elements": [
+          "先由丙詞、作者簡介對照亡國前後身分；丁詞先寫醉中挑燈看劍，再寫夢回軍營，可判劍是勾起過去征戰的具體物。 ",
+          " 由帝王淪為囚徒。",
+          " 劍；劍是他征戰沙場的工具。第一小題2分，第二小題4分。"
+        ],
+        "rubric_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "scoring_notice": "平台整理滿分參考作答；實際部分給分以大考中心評分原則為準。"
+      },
+      "explanation_v2": {
+        "schema": "explanation-v2",
+        "concept": "自我變化與提醒物",
+        "key_insight": "『自我』由帝王轉為階下囚；觸發回憶的是眼前的劍。",
+        "solution": "先由丙詞、作者簡介對照亡國前後身分；丁詞先寫醉中挑燈看劍，再寫夢回軍營，可判劍是勾起過去征戰的具體物。 (1) 由帝王淪為囚徒。(2) 劍；劍是他征戰沙場的工具。第一小題2分，第二小題4分。",
+        "reasoning": "先由丙詞、作者簡介對照亡國前後身分；丁詞先寫醉中挑燈看劍，再寫夢回軍營，可判劍是勾起過去征戰的具體物。 (1) 由帝王淪為囚徒。(2) 劍；劍是他征戰沙場的工具。第一小題2分，第二小題4分。",
+        "common_errors": "勿把夢中號角當成夢前的提醒物；『天上人間』還涉及身分與受制境遇，不只是天氣變化。",
+        "option_analysis": [],
+        "strategy": "先看自我變化與提醒物的題意，再逐項回官方原題核對。",
+        "review": "複習自我變化與提醒物時對照官方試卷與參考答案。",
+        "answer_elements": [
+          "先由丙詞、作者簡介對照亡國前後身分；丁詞先寫醉中挑燈看劍，再寫夢回軍營，可判劍是勾起過去征戰的具體物。 ",
+          " 由帝王淪為囚徒。",
+          " 劍；劍是他征戰沙場的工具。第一小題2分，第二小題4分。"
+        ],
+        "rubric_url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "scoring_notice": "平台整理滿分參考作答；實際部分給分以大考中心評分原則為準。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "grading_rubric": {
+        "url": "https://www.ceec.edu.tw/files/file_pool/1/0o051430121163753905/01-113%E5%AD%B8%E6%B8%AC%E5%9C%8B%E6%96%87%E8%80%83%E7%A7%91%28%E5%9C%8B%E7%B6%9C%29%E9%9D%9E%E9%81%B8%E6%93%87%E9%A1%8C%E5%8F%83%E8%80%83%E7%AD%94%E6%A1%88%E8%88%87%E8%A9%95%E5%88%86%E5%8E%9F%E5%89%87.pdf",
+        "full_score": 6
+      },
+      "answer_match": true,
+      "input_classification_status": "needs_review",
+      "content_capture_status": "question_plus_group_reference",
+      "depends_on": [],
+      "pipeline_stage": "staging",
+      "published": false,
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    }
+  ],
+  "review_summary": {
+    "exam_id": "ceec-113-chinese",
+    "total": 36,
+    "clean": 28,
+    "needs_review": 8,
+    "group_needs_review": 8,
+    "error_count": 0,
+    "warning_count": 8,
+    "group_error_count": 0,
+    "group_warning_count": 8,
+    "groups": 10,
+    "expected_question_count": 36,
+    "missing_question_numbers": [],
+    "exam_errors": [],
+    "by_type": {
+      "multiple_choice": 7,
+      "short_answer": 3,
+      "single_choice": 26
+    },
+    "by_status": {
+      "needs_review": 36
+    },
+    "by_reason": {
+      "official_visual_context_manual_review": 8
+    },
+    "by_group_reason": {
+      "external_context_required": 8,
+      "rights_review_required": 8
+    },
+    "ready_for_human_review": true,
+    "ready_for_publish": false
+  },
+  "exception_queue": [
+    {
+      "id": "ceec-113-chinese-06",
+      "question_number": 6,
+      "reasons": [
+        "official_visual_context_manual_review"
+      ],
+      "source_page": 2
+    },
+    {
+      "id": "ceec-113-chinese-07",
+      "question_number": 7,
+      "reasons": [
+        "official_visual_context_manual_review"
+      ],
+      "source_page": 2
+    },
+    {
+      "id": "ceec-113-chinese-08",
+      "question_number": 8,
+      "reasons": [
+        "official_visual_context_manual_review"
+      ],
+      "source_page": 2
+    },
+    {
+      "id": "ceec-113-chinese-15",
+      "question_number": 15,
+      "reasons": [
+        "official_visual_context_manual_review"
+      ],
+      "source_page": 4
+    },
+    {
+      "id": "ceec-113-chinese-21",
+      "question_number": 21,
+      "reasons": [
+        "official_visual_context_manual_review"
+      ],
+      "source_page": 6
+    },
+    {
+      "id": "ceec-113-chinese-22",
+      "question_number": 22,
+      "reasons": [
+        "official_visual_context_manual_review"
+      ],
+      "source_page": 6
+    },
+    {
+      "id": "ceec-113-chinese-29",
+      "question_number": 29,
+      "reasons": [
+        "official_visual_context_manual_review"
+      ],
+      "source_page": 8
+    },
+    {
+      "id": "ceec-113-chinese-33",
+      "question_number": 33,
+      "reasons": [
+        "official_visual_context_manual_review"
+      ],
+      "source_page": 11
+    }
+  ],
+  "group_exception_queue": [
+    {
+      "id": "ceec-113-chinese-g06-08",
+      "question_numbers": [
+        6,
+        7,
+        8
+      ],
+      "reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ],
+      "source_page": 2
+    },
+    {
+      "id": "ceec-113-chinese-g09-10",
+      "question_numbers": [
+        9,
+        10
+      ],
+      "reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ],
+      "source_page": 3
+    },
+    {
+      "id": "ceec-113-chinese-g11-12",
+      "question_numbers": [
+        11,
+        12
+      ],
+      "reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ],
+      "source_page": 3
+    },
+    {
+      "id": "ceec-113-chinese-g13-15",
+      "question_numbers": [
+        13,
+        14,
+        15
+      ],
+      "reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ],
+      "source_page": 4
+    },
+    {
+      "id": "ceec-113-chinese-g16-17",
+      "question_numbers": [
+        16,
+        17
+      ],
+      "reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ],
+      "source_page": 5
+    },
+    {
+      "id": "ceec-113-chinese-g18-20",
+      "question_numbers": [
+        18,
+        19,
+        20
+      ],
+      "reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ],
+      "source_page": 5
+    },
+    {
+      "id": "ceec-113-chinese-g23-24",
+      "question_numbers": [
+        23,
+        24
+      ],
+      "reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ],
+      "source_page": 7
+    },
+    {
+      "id": "ceec-113-chinese-g32-36",
+      "question_numbers": [
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "reasons": [
+        "rights_review_required",
+        "external_context_required"
+      ],
+      "source_page": 10
+    }
+  ]
+}
