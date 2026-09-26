@@ -1,7 +1,7 @@
-## 2026-09-26 111數A既有詳解增量優化（年度修改完成，部署待核對）
+## 2026-09-26 111數A既有詳解增量優化（已推送並部署）
 
 ### Current Task
-- 111年度依序接續112／113／114優化完成；本輪保留既有題庫與所有正確資料，增補11題Explanation V2。正式commit、push與Pages狀態以本輪完成後Git／線上核對為準。
+- 111年度依序接續112／113／114優化完成；本輪保留既有題庫與所有正確資料，增補11題Explanation V2。commit `0ae7178` 已推送main；Pages build `5.0-111-matha-explanation-v2` 已核對。
 
 ### Completed
 - 確認111數A既有20題、題號1–20、答案manifest 20/20、平台原詳解20/20、Q18–20同一題組，以及Q3散布圖、Q11立體圖均存在。沒有重匯試卷、新增題目、覆蓋原詳解或改答案。
@@ -23,7 +23,7 @@
 - `CHANGELOG.md`：記錄本年度增量修改。
 
 ### Remaining / Known Issues
-- 需在本輪push後核對GitHub Pages的`version.json`及111 runtime內容；部署完成不會把平台詳解自動標成人工審閱。
+- 線上`version.json`與111 runtime已載入20題／11題V2／Q18–20題組，Q3與Q11圖檔HTTP 200；部署不會把平台詳解自動標成人工審閱。
 - 完整npm test既有115斷言差異與本機缺少Edge仍待後續處理，與111內容無關。
 
 ---
