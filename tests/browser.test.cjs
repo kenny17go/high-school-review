@@ -11,7 +11,7 @@ const server=http.createServer((req,res)=>{
  const name=new URL(req.url,'http://localhost').pathname;
  const file=path.resolve(root,'.'+(name==='/'?'/index.html':name));
  if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}
- try{res.setHeader('Content-Type',file.endsWith('.js')?'text/javascript':file.endsWith('.html')?'text/html':'application/octet-stream');res.end(fs.readFileSync(file));}
+ try{res.setHeader('Content-Type',file.endsWith('.js')?'text/javascript':file.endsWith('.html')?'text/html':file.endsWith('.png')?'image/png':'application/octet-stream');res.end(fs.readFileSync(file));}
  catch{res.writeHead(404).end();}
 });
 (async()=>{
@@ -41,12 +41,19 @@ const server=http.createServer((req,res)=>{
  assert.equal(await page.locator('#doneN').innerText(),'1');
  // Unified Question Bank: selecting each official paper must render all 20 questions in source order.
  await page.locator('#home button[data-open="practice"]:not([data-subject-mode])').click();
- for(const year of [112,113,114]){
+ for(const year of [111,112,113,114]){
   await page.selectOption('#practiceSource','ceec');await page.selectOption('#practiceYear',String(year));await page.selectOption('#qtyFilter','20');
   await page.locator('#applyFilter').click();
   assert.equal(await page.locator('#quiz .qcard').count(),20);
   assert.match(await page.locator('#countText').innerText(),new RegExp(`目前產生 20 題（符合條件共 20 題）.*${year}學年度`));
   assert.deepEqual(await page.locator('#quiz .qcard').evaluateAll(cards=>cards.map(card=>card.querySelector('[data-dontknow-q]')?.dataset.dontknowQ)),Array.from({length:20},(_,i)=>`ceec-${year}-matha-${String(i+1).padStart(2,'0')}`));
+  if(year===111){
+   assert.equal(await page.locator('#quiz img[src^="assets/gsat-111-"]').count(),2);
+   const q3=page.locator('#quiz img[src="assets/gsat-111-q03.png"]');await q3.scrollIntoViewIfNeeded();await q3.evaluate(img=>img.decode());
+   assert.ok(await q3.evaluate(img=>img.naturalWidth>0));
+   await page.locator('#quiz [data-dontknow-q="ceec-111-matha-01"]').click();
+   assert.ok(await page.evaluate(()=>JSON.parse(localStorage.studyQueue||'[]').some(q=>q.id==='ceec-111-matha-01')),'string question IDs must be preserved in learning records');
+  }
  }
  await page.locator('#practice [data-home]').click();
  await page.locator('#home button[data-open="mock"]:not([data-subject-mode])').click();await page.locator('#startMock').click();

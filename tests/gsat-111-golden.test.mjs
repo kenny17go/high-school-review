@@ -1,0 +1,60 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import vm from 'node:vm';
+import {buildGoldenArtifacts} from '../scripts/build-gsat-111-golden.mjs';
+
+const {raw,staging}=buildGoldenArtifacts();
+assert.equal(raw.questions.length,20);
+assert.equal(raw.questions.reduce((sum,q)=>sum+q.points,0),100);
+assert.deepEqual(raw.questions.map(q=>q.question_number),Array.from({length:20},(_,i)=>i+1));
+assert.equal(new Set(raw.questions.map(q=>q.id)).size,20);
+assert.equal(raw.questions.every(q=>q.answer_match&&q.stem&&q.source_url.includes('ceec.edu.tw')),true);
+assert.equal(raw.questions.filter(q=>['single_choice','multiple_choice'].includes(q.questionType)).every(q=>q.options?.length===5),true);
+assert.equal(raw.questions.filter(q=>q.group_id).length,3);
+assert.equal(raw.questions.filter(q=>[19,20].includes(q.question_number)).every(q=>q.grading_rubric&&q.rubric_url),true);
+assert.equal(raw.questions.find(q=>q.question_number===1).source_page,1);
+assert.equal(raw.questions.find(q=>q.question_number===1).source_pdf_page,2);
+assert.equal(raw.questions.find(q=>q.question_number===11).source_page,3);
+assert.equal(raw.questions.find(q=>q.question_number===11).source_pdf_page,4);
+assert.equal(raw.questions.find(q=>q.question_number===20).source_page,6);
+assert.equal(raw.questions.find(q=>q.question_number===20).source_pdf_page,7);
+assert.equal(JSON.stringify(raw.questions.find(q=>q.question_number===7).answer),JSON.stringify({indices:[1,3]}));
+assert.equal(JSON.stringify(raw.questions.find(q=>q.question_number===13).answer),JSON.stringify({cells:['4','2']}));
+assert.equal(JSON.stringify(raw.questions.find(q=>q.question_number===16).answer),JSON.stringify({cells:['-','3','-','2','5']}));
+assert.equal(raw.questions.find(q=>q.question_number===20).answer.reference,'area(Ω)=√3/2−π/12; area(R)=5π/12');
+
+assert.equal(staging.review_summary.total,20);
+assert.equal(staging.review_summary.expected_question_count,20);
+assert.deepEqual(staging.review_summary.missing_question_numbers,[]);
+assert.deepEqual(staging.review_summary.exam_errors,[]);
+assert.deepEqual(staging.review_summary.by_type,{fill_blank:5,multiple_choice:6,short_answer:2,single_choice:7});
+assert.equal(staging.questions.every(q=>q.classification_status==='needs_review'&&q.pipeline_stage==='staging'&&!q.published),true);
+assert.equal(staging.review_summary.ready_for_human_review,true);
+assert.equal(staging.review_summary.ready_for_publish,false);
+assert.equal(staging.review_summary.clean,20);
+assert.equal(staging.review_summary.needs_review,0);
+assert.equal(staging.review_summary.error_count,0);
+assert.equal(staging.review_summary.warning_count,0);
+assert.deepEqual(staging.review_summary.by_reason,{});
+assert.deepEqual(staging.exception_queue,[]);
+
+const context={window:{}};
+vm.createContext(context);
+for(const file of ['gsat-115-unified-bank.js','gsat-114-unified-bank.js','gsat-113-unified-bank.js','gsat-112-unified-bank.js','gsat-111-unified-bank.js','unified-question-bank.js'])vm.runInContext(fs.readFileSync(file,'utf8'),context,{filename:file});
+const runtime=context.window.UnifiedQuestionBank;
+assert.equal(runtime.version,'1.4');
+assert.equal(runtime.questions.length,100);
+assert.equal(new Set(runtime.questions.map(q=>q.id)).size,100);
+for(const year of [111,112,113,114,115])assert.equal(runtime.filter({sourceType:'ceec_official',academic_year:year}).length,20);
+const y111=runtime.filter({academic_year:111});
+assert.deepEqual(Object.fromEntries(['single_choice','multiple_choice','fill_blank','short_answer'].map(type=>[type,y111.filter(q=>q.questionType===type).length])),{single_choice:7,multiple_choice:6,fill_blank:5,short_answer:2});
+assert.equal(y111.every(q=>q.stem&&q.explanation&&q.sourceId==='ceec-111-matha'&&q.sync_disabled),true);
+assert.equal(runtime.questions.filter(q=>q.group_id==='ceec-111-matha-g18-20').length,3);
+assert.deepEqual(Array.from(runtime.group('ceec-111-matha-g18-20').question_numbers),[18,19,20]);
+assert.ok(y111.find(q=>q.question_number===3).visual_stimulus);
+assert.ok(y111.find(q=>q.question_number===3).visual_stimulus.asset.endsWith('gsat-111-q03.png'));
+assert.ok(y111.find(q=>q.question_number===11).visual_stimulus.asset.endsWith('gsat-111-q11.png'));
+for(const asset of ['assets/gsat-111-q03.png','assets/gsat-111-q11.png']){
+ const png=fs.readFileSync(asset);assert.equal(png.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.ok(png.length>1000);
+}
+console.log('GSAT 111 Math A Golden Sample and unified 100-question runtime PASS');

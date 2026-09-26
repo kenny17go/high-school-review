@@ -1,3 +1,10 @@
+## 5.0 — Batch Importer 111 數A跨年度批次（2026-09-26）
+
+- 依大考中心官方原卷、選擇（填）題答案與非選評分原則建立111數A 20題完整 Raw／Staging，題號1–20、100分及答案 manifest 全數一致。
+- Q18–Q20以同一 Question Group 接入統一題庫；增加111學年度來源篩選，111至115共100題沿用同一 renderer。
+- Review Summary：clean 20、needs_review 0（額外 validation exception）、error 0、warning 0；Q3散布圖與Q11立體示意圖已裁切自官方頁面並由共用 renderer 顯示。所有自動分類與平台詳解仍保持 `needs_review`，`ready_for_publish=false`。
+- 新增111 Golden regression；不寫入正式 Supabase。官方答案來源與可重建步驟見 `data/raw/ceec-111-matha.json`、`docs/architecture.md`。
+
 ## 5.0 — Batch Importer 112 數A跨年度批次（2026-09-25）
 
 - 沿用同一 Batch Importer V1、統一 Question Bank、Question Group 與共用 renderer，完成112學測數學A 20題／100分的 Raw、Staging、Review Summary、Exception Queue及 runtime 接線。

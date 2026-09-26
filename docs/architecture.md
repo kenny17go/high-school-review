@@ -16,7 +16,7 @@ subject → grade → course/track → school → academic_year → semester →
 
 question: id, subject, grade, course, semester, category, unit, chapter, topic,
           skill, questionType, stem, options, answer, explanation, difficulty,
-          sourceType, sourceId, tags, mathMetadata/chineseMetadata
+          sourceType, sourceId, tags, visual_stimulus?, mathMetadata/chineseMetadata
 
 chineseMetadata: text_ids[], skills[], passage_id, level, classification_status
 ```
@@ -115,7 +115,7 @@ Migration 未套用時 CHIN disabled，國文使用本機資料；數學沿用�
 
 前端的「大量題庫／學測／學校段考／依年份／依單元／弱點」全部是同一資料集合的 query/filter/view。選「115學測數A」就是把統一題庫過濾為 CEEC + 115 + 數A 並依原題號排序；選某校某次段考亦同。題目顯示與作答一律走共用 renderer，包含完整題面、作答、我不會、問 ChatGPT、詳解看不懂、分層詳解、錯題與進度。
 
-115、114、113與112數A的 browser runtime 均完整映射全卷20題，不得只接入單選子集；四年度各自的共用 renderer 題型分布均為單選7、多選6、選填5、非選2，Q18–Q20透過各年度 Question Group 共用題幹。Batch Raw/Staging 的完整題數不等於前端已接線，回歸測試必須同時檢查各年度20題、跨年度ID唯一性與題型分布。
+115、114、113、112與111數A的 browser runtime 均完整映射全卷20題，不得只接入單選子集；各年度的共用 renderer 題型分布均為單選7、多選6、選填5、非選2，Q18–Q20透過各年度 Question Group 共用題幹。`visual_stimulus` 可保存受限的本機圖片 asset 與 alt text，使用共用 renderer 呈現，不另建考科專用題面。Batch Raw/Staging 的完整題數不等於前端已接線，回歸測試必須同時檢查各年度20題、跨年度ID唯一性與題型分布。
 
 整份計分屬於 session/mode，不屬於 source：單元練習逐題回饋；整份模考／整份考卷才在交卷後統一計分。
 
@@ -151,4 +151,4 @@ Importer 的輸出應包含 review summary / exception queue，讓人工集中�
 每題平台詳解固定包含：**考什麼 → 破題關鍵 → 完整步驟 → 常見錯誤**。批次產生後以規則核對官方答案、answer type、必要 group context、基本數值／公式一致性與 source metadata。AI 產生內容永遠是 platform-authored，不是 CEEC／學校官方詳解；未經人工覆核保持 needs_review。
 
 ### Scaling rule
-115 Golden Sample 已完成端到端驗證；114、113與112數A均以跨年度重用批次沿用同一 schema、importer、Question Group 與共用 renderer，沒有建立年度專用 renderer。113第7題的官方答案異議保留為可追溯 Exception Queue 範例：正式答案仍採大考中心維持的③④，並附官方回覆證據；112整卷沒有額外驗證例外。後續依序處理111數A；新科目先取20–50題 Golden Sample 驗證科目特有題型，再擴大量。擴充新來源原則上只增加資料、分類與 filter；只有真正的新題型才擴充共用 renderer。
+115 Golden Sample 已完成端到端驗證；114、113、112與111數A均以跨年度重用批次沿用同一 schema、importer、Question Group 與共用 renderer，沒有建立年度專用 renderer。113第7題的官方答案異議保留為可追溯 Exception Queue 範例：正式答案仍採大考中心維持的③④，並附官方回覆證據；112與111整卷均無額外 validation exception。111年Q3散布圖、Q11立體圖取自官方原卷並接入共用題面呈現；兩圖不改變題庫資料契約。新科目先取20–50題 Golden Sample 驗證科目特有題型，再擴大量。擴充新來源原則上只增加資料、分類與 filter；只有真正的新題型才擴充共用 renderer。

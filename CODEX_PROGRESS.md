@@ -2,6 +2,18 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-26 Repository Reality Check + 111 數A checkpoint
+
+- Repository `kenny17go/high-school-review` 已從 GitHub 最新 `main` clone；工作開始時 branch 為 `main`、HEAD 與 `origin/main` 同為 `e44f0ba`（112數A跨年度批次），工作樹乾淨。最近四個資料里程碑 commit 為112／113／114／115，111資料尚未存在於 GitHub；沒有未提交的111檔案、builder、staging或 runtime 接線，故中斷點在111資料建置開始之前。
+- 已核對 `AGENTS.md`、本檔、`docs/architecture.md`、`version.json`、`CHANGELOG.md`、最近 commits 與實際檔案；既有115／114／113／112 Golden artifacts、統一 Question Bank 與 Batch Importer 保留並回歸。
+- 新增111數A官方來源：大考中心原卷（8頁）、選擇（填）題答案（1頁）、非選評分原則（3頁）。逐頁下載、文字抽取並渲染檢查原卷圖示；資料題數20、配分100、官方答案20/20、題號1–20無缺漏。原始來源網址寫入 Raw 與每題 provenance。
+- 新增 `gsat-111-unified-bank.js`、兩個官方圖示 asset、`scripts/build-gsat-111-golden.mjs`，重建 `data/raw/ceec-111-matha.json` 與 `data/staging/ceec-111-matha.batch-import-v1.json`。Review Summary clean 20、validation needs_review 0、error 0、warning 0、Exception Queue 0；自動分類與平台詳解仍全數 `classification_status=needs_review`、`ready_for_publish=false`，不會把 AI／平台內容標成 verified。
+- Q3散布圖與Q11立體圖以官方頁面裁切圖接入共用題面；`app.js` 的共用練習／模考 renderer 支援受限的本機 image asset。修正共用「我不會」按鈕把字串題目 ID 轉成數字的 bug，避免111學測記錄失效。
+- 共用 runtime 接入111完整20題，Q18–Q20共用題組；練習年份新增111，111–115共100題。更新 build/cache `5.0-batch-111-1`、CHANGELOG、architecture 與 regression test。
+- 驗證：`npm test` 除 Playwright browser step 外已通過 validate、V5 data、115 GSAT、Batch Importer、115/114/113/112/111 Golden、PostgreSQL migration。Browser step因環境無 `/opt/microsoft/msedge/msedge`，嘗試下載 Chromium也被執行環境截成0 MiB非zip，未能啟動；已新增 browser assertions 檢查111完整20題、圖片載入及字串ID學習紀錄，需在有Chromium/Edge的環境執行。`git diff --check` 尚待提交前最後跑一次。
+- 本輪未連接或寫入正式 Supabase。Commit／push／部署尚未執行；須以本次使用者授權與 AGENTS Git 規則判斷後續交付。
+- Next: 若獲明確 commit／push／部署指示，先完整測試（含可用瀏覽器環境）、`git diff --check`、審查差異，再完成 commit/push/Pages 線上檢查；若未部署，保留111資料為本機待交付狀態。後續110年不屬使用者目前指定範圍。
+
 ## 2026-09-25 112 數A完整20題跨年度 Batch milestone
 
 - 沿用現有 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；沒有新增112專用 importer、renderer或第二套題庫，也未連接或寫入正式 Supabase。
@@ -11,7 +23,7 @@
 - Q19／Q20附官方評分原則；官方答案分別核對為 `Q=(-36/25,48/25)` 且 `BQ=2AP`，以及點線距離 `72/25`、四邊形面積 `108/25`。
 - 共用 runtime 擴為112／113／114／115數A共80題；大量題庫年份篩選新增112，選定年度依原題號取得完整20題。build/cache更新為 `5.0-batch-112-1`，新增112 Golden與80題唯一ID、題型分布、題組回歸，113／114回歸同步提升為80題。
 - `validate`、V5 data、115 GSAT、Batch Importer、115／114／113／112 Golden與PostgreSQL migration均PASS；`git diff --check` PASS。browser test已加入112／113／114各20題UI斷言，但本機仍缺少 `/opt/microsoft/msedge/msedge`，Playwright無法啟動，屬既知執行環境限制。
-- 本里程碑尚未獲得112數A commit／push／部署授權；目前保持本機未提交狀態，等待使用者明確授權。下一建議批次為111學測數A。
+- 本紀錄撰寫時尚待授權；GitHub 實際狀態已由後續 commit `e44f0ba` 確認112里程碑已 commit／push。下一批111進度詳見本檔最前方最新 reality check。
 
 ## 2026-09-25 113 數A完整20題跨年度 Batch milestone
 

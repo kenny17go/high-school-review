@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-batch-112-1";
+window.V500_BUILD="5.0-batch-111-1";
 
 (function(){
 "use strict";
@@ -449,9 +449,14 @@ function revealPractice(q,id,value){
  const ok=qCorrect(q,value),exp=$("exp"+id);if(exp)exp.classList.add("show");
  if(ok===false)markNeedHelp(q,`答錯：我的答案 ${Array.isArray(value)?value.join("、"):value}，正確答案是 ${qAnswerText(q)}`,"",value);
 }
+function questionVisualMarkup(q){
+ const figure=q?.visual_stimulus,asset=figure?.asset;
+ if(!figure||typeof asset!=="string"||!/^assets\/[\w./-]+\.(?:png|webp|jpe?g)$/i.test(asset)||asset.includes(".."))return"";
+ return `<figure class="questionFigure" style="margin:10px 0;max-width:100%;text-align:center"><img src="${asset}" alt="${escapeText(figure.alt||"題目附圖")}" loading="lazy" style="display:block;max-width:100%;height:auto;max-height:360px;margin:auto"><figcaption class="small">官方試卷圖示（第${Number(figure.source_page)||"?"}頁）</figcaption></figure>`;
+}
 function renderQuiz(){
  const passageSeen=new Set(),groupSeen=new Set();
- $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionInputMarkup(q)}<div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${escapeText(qAnswerText(q))}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionVisualMarkup(q)}${questionInputMarkup(q)}<div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}"><b>答案：</b>${escapeText(qAnswerText(q))}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
  const check=e.target.closest("[data-practice-check]");
@@ -502,7 +507,7 @@ function startMock(){sessionStorage.setItem("v471_session","mock-"+Date.now());
  mockScope=adapter()||selectedGrade()===2?currentScope():null;
  const qty=+$("mockQty").value,pool=getSchoolPool();mock=decorateQuestions(selectQuestions(pool,Math.min(qty,pool.length)));mockAnswers={};
  const passageSeen=new Set(),groupSeen=new Set();
- $("mockQuiz").innerHTML=mock.map((q,n)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${n+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionInputMarkup(q,"mock")}<div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${escapeText(qAnswerText(q))}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
+ $("mockQuiz").innerHTML=mock.map((q,n)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${n+1}. ${escapeText(q.q)}<span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${questionVisualMarkup(q)}${questionInputMarkup(q,"mock")}<div class="inlineTools"><button class="soft" data-mock-dk="${q.id}">🙋 我不會</button><button class="soft" data-mock-ask="${q.id}">問 ChatGPT</button></div><div class="explain" id="mexp${q.id}"><b>答案：</b>${escapeText(qAnswerText(q))}<br><b>詳解：</b>${escapeText(q.e)}</div></div>`).join("");
  $("mockSubmitBox").style.display="block";$("mockResult").innerHTML="";
  $("mockScopeText").textContent=mockScope?`本次範圍：${scopeSummary(mockScope)}｜${mock.length} 題${mock.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${mockScope.note}`:"高一既有學校模擬題池";
  if(!mock.length){$("mockSubmitBox").style.display="none";toast("目前範圍沒有符合條件的題目。");}
@@ -1120,7 +1125,7 @@ onV496("clearWrong","click",()=>{if($("wrongSubject").value!=="math"){toast("國
 onV496("quiz","click",e=>{
  const dk=e.target.closest("[data-dontknow-q]"),ask=e.target.closest("[data-ask-q]"),ex=e.target.closest("[data-explain-q]");
  if(!dk&&!ask&&!ex)return;
- const id=+(dk?.dataset.dontknowQ||ask?.dataset.askQ||ex?.dataset.explainQ),q=current.find(x=>x.id===id);if(!q)return;
+ const id=dk?.dataset.dontknowQ||ask?.dataset.askQ||ex?.dataset.explainQ,q=current.find(x=>String(x.id)===String(id));if(!q)return;
  if(dk)markNeedHelp(q,"我不會");
  if(ask)queueForChatGPT(q,"我想請 ChatGPT 再解釋");
  if(ex){const note=prompt("哪一段詳解看不懂？","");markNeedHelp(q,"詳解看不懂",note||"");}
