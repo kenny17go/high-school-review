@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-batch-chinese-115-1";
+window.V500_BUILD="5.0-batch-chinese-115-2";
 
 (function(){
 "use strict";
@@ -20,6 +20,7 @@ F.schools["松山高中"]=F.schools["松山高中"]||{tone:"mid",status:"公開�
 const grade2Fallback=window.GRADE2_QUESTIONS||[];
 let grade2Cloud=[],cloudSubjects=[],scopeOverrides=new Map(),scopeRequest=0,connectionRequest=0;
 let practiceScope=null,mockScope=null;
+let selectedPracticeTopics=new Set();
 function escapeText(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#39;"}[c]));}
 function selectedGrade(){return Number($("grade")?.value||1);}
 function learningSelection(){return {subjectId:subjectId(),courseId:adapter()?subjectInfo().courses.find(c=>c.grade===selectedGrade())?.id:`math-108-g2-${($("curriculumTrack")?.value||"A").toLowerCase()}`,grade:selectedGrade(),school:$("school").value,
@@ -32,8 +33,20 @@ function findQuestion(id,subject=subjectId()){return [...current,...mock,...allQ
 function scopeSummary(scope){if(adapter())return subjectScopeSummary(scope);return `${scope.label}｜${catalog.labels[scope.sourceType]}｜${catalog.courses.find(c=>c.id===scope.courseId)?.label||""}｜${scope.school} ${scope.academicYear} ${scope.semester===1?"上":"下"}學期 第${scope.exam}次段考`;}
 function updateTopicFilters(){
  const topics=adapter()?adapter().topics():selectedGrade()===2?catalog.chapters.filter(c=>currentScope().chapterIds.includes(c.id)).map(c=>c.label):["實數","多項式","指數","對數","綜合"];
- ["topicFilter","studyTopic"].forEach(id=>{const el=$(id),old=el.value;el.replaceChildren(new Option("全部章節","全部"),...topics.map(t=>new Option(t,t)));el.value=topics.includes(old)?old:"全部";});
+ selectedPracticeTopics=new Set([...selectedPracticeTopics].filter(t=>topics.includes(t)));
+ const choices=$("topicChoices"),summary=$("topicFilterSummary");
+ if(choices){choices.innerHTML=`<label><input type="checkbox" data-topic-all ${selectedPracticeTopics.size?'':'checked'}><span>全部章節</span></label>${topics.map(t=>`<label><input type="checkbox" data-topic-value="${escapeText(t)}" ${selectedPracticeTopics.has(t)?'checked':''}><span>${escapeText(t)}</span></label>`).join('')}`;}
+ if(summary)summary.textContent=!selectedPracticeTopics.size?'全部章節':selectedPracticeTopics.size<=2?[...selectedPracticeTopics].join('、'):`已選 ${selectedPracticeTopics.size} 個章節`;
+ const study=$("studyTopic"),old=study?.value;if(study){study.replaceChildren(new Option("全部章節","全部"),...topics.map(t=>new Option(t,t)));study.value=topics.includes(old)?old:"全部";}
+ updatePracticeVariant();
 }
+function updatePracticeVariant(){
+ const el=$("practiceVariant");if(!el)return;
+ const old=el.value,variants=[...new Set(unifiedQuestions().filter(q=>q.subject===subjectId()).map(q=>q.variant).filter(Boolean))];
+ el.replaceChildren(new Option("全部考科","全部"),...variants.map(v=>new Option(v,v)));
+ el.value=variants.includes(old)?old:(variants.length===1?variants[0]:"全部");
+}
+function practiceTopics(){return [...selectedPracticeTopics];}
 function renderLearningScope(){
  const box=$("currentScope");if(!box)return;
  if(adapter()){const s=currentScope();box.textContent="本次範圍："+subjectScopeSummary(s)+"。"+s.note;return;}
@@ -406,19 +419,19 @@ document.addEventListener("click",e=>{
 });
 
 function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now());
-  const source=$("practiceSource")?.value||"all",sourceYear=$("practiceYear")?.value||"全部";
+  const source=$("practiceSource")?.value||"all",sourceYear=$("practiceYear")?.value||"全部",variant=$("practiceVariant")?.value||"全部";
   practiceScope=source==="ceec"?null:(adapter()||selectedGrade()===2?currentScope():null);
   if(practiceScope)updateTopicFilters();
-  const t=$("topicFilter").value,l=$("levelFilter").value,qty=+$("qtyFilter").value;
+  const topics=practiceTopics(),l=$("levelFilter").value,qty=+$("qtyFilter").value;
   const localPool=getSchoolPool(),officialPool=unifiedQuestions().filter(q=>q.subject===subjectId());
   const basePool=source==="ceec"?officialPool:source==="platform"?localPool:[...new Map([...localPool,...officialPool].map(q=>[String(q.id),q])).values()];
-  const pool=basePool.filter(q=>(sourceYear==="全部"||String(q.academic_year)===String(sourceYear))&&(t==="全部"||q.topic===t)&&(l==="全部"||q.level===l));
+  const pool=basePool.filter(q=>(sourceYear==="全部"||String(q.academic_year)===String(sourceYear))&&(variant==="全部"||q.variant===variant)&&(!topics.length||topics.includes(q.topic))&&(l==="全部"||q.level===l));
   const selected=source==="ceec"&&sourceYear!=="全部"&&qty>=pool.length
     ?pool.slice().sort((a,b)=>Number(a.question_number)-Number(b.question_number))
     :selectQuestions(pool,Math.min(qty,pool.length));
   current=decorateQuestions(selected);answers={};renderQuiz();
   const sourceLabel=source==="ceec"?"學測真題":source==="platform"?"學校／平台題":"全部來源";
-  $("countText").textContent=`目前產生 ${current.length} 題（符合條件共 ${pool.length} 題）｜來源：${sourceLabel}${sourceYear!=="全部"?"｜"+sourceYear+"學年度":""}`;
+  $("countText").textContent=`目前產生 ${current.length} 題（符合條件共 ${pool.length} 題）｜來源：${sourceLabel}${sourceYear!=="全部"?"｜"+sourceYear+"學年度":""}${variant!=="全部"?"｜"+variant:""}${topics.length?"｜"+topics.join("、"):""}`;
   if(practiceScope)$("countText").textContent=`本次範圍：${scopeSummary(practiceScope)}｜${current.length} 題（符合條件 ${pool.length} 題）${current.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${practiceScope.note}`;
   $("result").textContent="";
 }
@@ -1073,6 +1086,7 @@ function renderSubjectSources(){
 let subjectSwitchSeq=0;
 async function switchSubject(){
  const seq=++subjectSwitchSeq; ++questionLoadSeq;++scopeRequest;++v494Seq;++historicalLoadSeq;++gsatLoadSeq;++coverageLoadSeq;
+ selectedPracticeTopics.clear();
  adapter()?.clearCloud();
  current=[];mock=[];answers={};mockAnswers={};studyPool=[];
  $("quiz").textContent="";$("mockQuiz").textContent="";$("studyCard").textContent="";
@@ -1120,6 +1134,13 @@ const localBtnEl=$("localBtn");if(localBtnEl)localBtnEl.onclick=useLocal;
 
 // ---- Core interactions ----
 onV496("applyFilter","click",chooseSet);
+onV496("topicChoices","change",e=>{
+ const all=e.target.closest('[data-topic-all]'),topic=e.target.dataset.topicValue;
+ if(all){selectedPracticeTopics.clear();}
+ else if(topic){e.target.checked?selectedPracticeTopics.add(topic):selectedPracticeTopics.delete(topic);}
+ updateTopicFilters();
+ if($("topicFilter"))$("topicFilter").open=true;
+});
 onV496("resetBtn","click",chooseSet);
 onV496("finishBtn","click",finishPractice);
 onV496("startMock","click",startMock);

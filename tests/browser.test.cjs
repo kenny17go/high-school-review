@@ -64,6 +64,8 @@ const server=http.createServer((req,res)=>{
  // 115 Chinese uses the same mixed-type renderer; modern passages stay behind official PDF links.
  await page.selectOption('#subject','chinese');await page.waitForTimeout(100);
  await page.locator('#home button[data-open="practice"]:not([data-subject-mode])').click();
+ assert.equal(await page.inputValue('#practiceVariant'),'國綜');
+ assert.ok(await page.locator('#topicChoices input[type="checkbox"]').count()>10);
  await page.selectOption('#practiceSource','ceec');await page.selectOption('#practiceYear','115');await page.selectOption('#qtyFilter','50');
  await page.locator('#applyFilter').click();
  assert.equal(await page.locator('#quiz .qcard').count(),36);
@@ -71,6 +73,12 @@ const server=http.createServer((req,res)=>{
  assert.equal(await page.locator('#quiz .questionGroup a[href*="ceec.edu.tw"][href*="#page="]').count(),8);
  assert.equal(await page.locator('#quiz .qtitle .tag').filter({hasText:'平台詳解待審閱'}).count(),36);
  assert.match(await page.locator('#countText').innerText(),/目前產生 36 題（符合條件共 36 題）.*115學年度/);
+ await page.locator('#topicChoices [data-topic-value="白話文閱讀"]').check();
+ await page.locator('#topicChoices [data-topic-value="文言文閱讀"]').check();
+ assert.equal(await page.locator('#topicChoices [data-topic-value]:checked').count(),2,'chapter filter must support multiple checked topics');
+ await page.locator('#applyFilter').click();
+ assert.ok(await page.locator('#quiz .qcard').count()>0);
+ assert.ok((await page.locator('#quiz .qtitle .tag:first-child').allTextContents()).every(t=>['白話文閱讀','文言文閱讀'].includes(t)));
  await page.locator('#practice [data-home]').click();await page.selectOption('#subject','math');
  // Exercise actual DOM listeners across all years and tracks.
  await page.selectOption('#grade','2');

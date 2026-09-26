@@ -2,6 +2,14 @@
 
 > 本檔案是 high-school-review 的開發交接紀錄。每次開始工作先讀 `AGENTS.md` 與本檔，再核對 Git HEAD、`version.json` 與實際程式；實際 repository 狀態優先。
 
+## 2026-09-26 115 國綜線上篩選修正 checkpoint
+
+- 使用者iPhone截圖顯示頁首仍為`111數A Batch`，確認是手機仍載入舊頁面快取；舊介面也確實只有來源／年度，沒有可辨識的國綜考科欄位，章節則為單選select。
+- 本機已新增`practiceVariant`考科篩選，依目前科目由Unified Question Bank產生選項：國文為國綜、數學為數學A；單一考科會自動選取。
+- `topicFilter`改為checkbox複選：未勾選代表全部章節，可同時選多個章節，出題採聯集。科目切換時清除前一科章節選擇，避免跨科殘留。
+- build/cache更新為`5.0-batch-chinese-115-2`並加入HTML no-cache提示。Validate、V5 data、Batch Importer、115國綜、111–115數A、migration與`git diff --check`均PASS；browser assertions已加入國綜考科與兩章節同時勾選，但本環境仍缺Edge，未實際啟動Playwright。
+- 本checkpoint尚未commit／push／部署，等待使用者確認授權；不寫入Supabase、不改題目答案或詳解內容。
+
 ## 2026-09-26 115 國綜 Golden Sample + 官方 PDF 連結模式 checkpoint
 
 - 111數A完成後，使用者指定下一步處理學測國文。Reality Check確認GitHub `main` 最新為111數A已部署狀態；既有國文為150題平台原創、30篇Classical Text Registry，尚無已收錄國文真題，因此從115國綜建立第一份跨科Golden Sample，未重做既有國文內容。

@@ -1,7 +1,7 @@
 {
   "version": "5.0",
-  "build": "5.0-batch-chinese-115-1",
-  "name": "統一題庫＋115國綜 Batch",
+  "build": "5.0-batch-chinese-115-2",
+  "name": "115國綜考科與章節複選",
   "status": "unreleased",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
   "observedBasePageVersion": "4.9.7.1",
