@@ -1,3 +1,40 @@
+## 2026-09-26 114數A既有詳解優化（待確認）
+
+### Current Task
+- 依序優化111–114學測數A；目前完成114年工作樹修改，尚未commit/push/deploy。下一步需先依使用者回覆處理測試環境限制，再進入113年。
+
+### Completed
+- GitHub main起點核對為4c9ffa4；確認114現有題庫20題、題號1–20、原始答案manifest 20/20、選擇題選項、選填與非選及Q18–20共用題組均存在。保留原解答與全部題庫資料。
+- 查核大考中心114數A官方試題PDF及平台答案manifest；本輪未發現需改題幹或答案的已確認錯誤。沒有寫Supabase。
+- 對Q4、Q5、Q7–Q12、Q14–Q17、Q20增補共13題Explanation V2（考點、破題、逐步推理、常見錯誤、技巧、複習；有選項者含逐選項分析）。Q1–Q3、Q6、Q13、Q18、Q19保留既有詳解。新增V2仍標記draft_review_required；題庫classification仍needs_review。
+- 共用題目／選項／題組題幹／詳解字級與行距放大，保留詳解換行並補窄螢幕換行；未改首頁整體布局。
+- 新增114詳解回歸測試，驗證20題、順序、answers manifest、題組、V2目標題及未修改舊詳解；將其加入npm test。調整既有國綜共用字級測試，驗證新版responsive字級。
+- 同步app build marker、index快取識別、subject-adapters lazy cache、version.json與CHANGELOG。
+
+### Tests
+- PASS：npm run validate。
+- PASS：114/113/112/111數A Golden tests、114新增V2測試、Batch Importer、115國綜Golden、115國綜Explanation V2、migration。
+- PASS：git diff --check、node --check app.js、node --check gsat-114-unified-bank.js。
+- BLOCKED/FAIL（既有115測試不一致，未改115題庫資料）：完整npm test在tests/gsat-115.test.cjs停止；測試預期needs_review題號為[5,8,10,11,12]，實際未修改115 bank另含Q2。另test:matha-explanation-v2預期全部status為draft_review_required，現有115題庫已有reviewed狀態。
+- BLOCKED：npm run test:browser要求/opt/microsoft/msedge/msedge，目前環境未安裝Edge，故未完成瀏覽器或iPhone實測。
+
+### Modified / Important Files
+- gsat-114-unified-bank.js：在原題物件補充V2並傳遞到統一題庫；保留舊explanation、題目與答案。
+- index.html：共用題面／選項／詳解排版和快取。
+- app.js：build marker。
+- subject-adapters.js、version.json、package.json、CHANGELOG.md。
+- tests/gsat-114-matha-explanation-v2.test.mjs、tests/gsat-115-chinese-explanation-v2.test.mjs。
+
+### Remaining / Known Issues
+- 等使用者檢視114年摘要後再commit/push/deploy；使用者要求每年度完成並回報後再確認提交。
+- 瀏覽器實測仍待可用Edge環境；npm整體門檻受未修改的115測試與當前資料不一致影響。
+- 尚未處理113、112、111年度。
+
+### Next Step
+- 先處理本次114年review/測試門檻回饋；完成後依使用者確認再進入113數A盤點。
+
+---
+
 ## 2026-09-26 115數A V2 全20題發布
 
 - 115數A20/20題V2詳解完成，保留原答案manifest。第2題根號與第15題對數括號已修正，保留人工複核標記。

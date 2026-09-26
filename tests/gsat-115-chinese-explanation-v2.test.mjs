@@ -45,6 +45,7 @@ test('both practice and mock use the shared V2 renderer and mobile typography',(
  const html=fs.readFileSync(new URL('index.html',root),'utf8');
  assert.equal((app.match(/\$\{explanationMarkup\(q\)\}/g)||[]).length,2);
  assert.match(app,/q\.explanation_v2\|\|q\.explanation_detail\|\|q\.explanation/);
- assert.match(html,/\.qtitle\{font-size:22px;line-height:1\.7\}/);
- assert.match(html,/\.opt\{font-size:18px;line-height:1\.7/);
+ assert.match(html,/\.qtitle\{font-size:24px;line-height:1\.75\}/);
+ assert.match(html,/\.opt\{font-size:19px;line-height:1\.75/);
+ assert.match(html,/\.explain\{font-size:17px;line-height:1\.95/);
 });
