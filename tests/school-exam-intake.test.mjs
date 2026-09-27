@@ -1,20 +1,35 @@
 import assert from 'node:assert/strict';
 import {createRequire} from 'node:module';
 import fs from 'node:fs';
+import {buildArtifacts} from '../scripts/build-cksh-114-chinese-staging.mjs';
+import {approveBatch} from '../scripts/batch-exam-import.mjs';
 const require=createRequire(import.meta.url);
 const sources=require('../school-exam-sources.js');
 const drafts=require('../data/staging/cksh-114-1-1-g1-chinese-explanations.js');
 const intake=require('../data/staging/cksh-114-1-1-g1-chinese-intake.cjs');
+const wording=require('../data/staging/cksh-114-1-1-g1-chinese-question-drafts.cjs');
 const paper=sources.forSchool('成功高中')[0];
 assert.equal(sources.papers.length,1);
 assert.equal(paper.expected_question_count,34);
 assert.equal(paper.printed_answers.length,34);
+// Independently transcribed from the school's 9-page analysis PDF; 32–33 are manually graded.
+assert.deepEqual(paper.printed_answers,
+ 'D B A C C D D A A A C B C B B D B A C D AB AC ABD BDE ABCD ABC BDE ACD ACDE AD D / / C'
+ .split(' ').map(answer=>answer==='/'?null:answer));
 assert.equal(Object.keys(drafts).length,34,'one draft explanation per original question number');
 assert.equal(intake.questions.length,34);
+assert.equal(Object.keys(wording).length,34);
 assert.equal(new Set(intake.questions.map(q=>q.id)).size,34);
 assert.deepEqual(intake.questions.map(q=>q.question_number),Array.from({length:34},(_,i)=>i+1));
 assert.deepEqual(intake.questions.map(q=>q.printed_answer),paper.printed_answers);
 assert.equal(intake.groups.length,7);
+assert.deepEqual(intake.questions.map(q=>q.source_page),[1,1,1,1,2,2,2,2,3,3,3,4,4,4,4,5,5,5,5,6,6,6,6,6,6,6,7,7,7,7,8,8,9,9]);
+assert.deepEqual(intake.questions[7].source_pages,[2,3]);
+assert.deepEqual(intake.questions[18].source_pages,[5,6]);
+assert.deepEqual(intake.questions[29].source_pages,[7,8]);
+assert(intake.groups.every(g=>g.status==='boundary_verified_context_not_transcribed'));
+assert.deepEqual(intake.questions[31].manual_reference.cells.slice(0,2),['自覺力與反省力','馭劍術']);
+assert.equal(intake.questions[32].manual_reference.cells[3],'都為了自身錢財利益');
 assert.equal(intake.questions.filter(q=>q.questionType==='single_choice').length,22);
 assert.equal(intake.questions.filter(q=>q.questionType==='multiple_choice').length,10);
 assert.equal(intake.questions.filter(q=>q.questionType==='short_answer').length,2);
@@ -24,13 +39,38 @@ assert.equal(intake.questions[22].answer_match,false);
 assert(intake.questions[22].review_reasons.includes('printed_answer_semantic_conflict'));
 for(const n of [5,25,29])assert(intake.questions[n-1].review_reasons.includes('explanation_inference_needs_review'));
 assert(intake.questions.every(q=>q.explanation_draft_present&&q.classification_status==='needs_review'));
-assert(intake.questions.every(q=>q.review_reasons.includes('question_stem_and_options_not_verified')));
+assert(intake.questions.every(q=>q.review_reasons.includes('paraphrased_wording_needs_review')));
+for(const q of intake.questions){
+ assert(q.stem_summary.length>=10,'each question has a summary');
+ assert.equal(q.option_summaries.length,q.questionType==='short_answer'?0:q.questionType==='multiple_choice'?5:4);
+ assert.equal(q.wording_status,'platform_paraphrase_needs_review');
+ assert.equal(q.context_delivery,'school_pdf_reference');
+}
 for(let n=1;n<=34;n++){
  const e=drafts[n];assert(e&&e.concept&&e.key_insight&&e.reasoning&&e.common_errors,`Q${n} explanation layers`);
  assert.equal(e.explanation_status,'draft_review_required');
  assert.equal(e.option_analysis.length,n===32||n===33?0:n>=21&&n<=30?5:4,`Q${n} option analysis`);
 }
 assert.match(drafts[23].reasoning,/不能作正式答案或自動計分/);
+assert.match(drafts[2].reasoning,/無庸置疑.*毋庸置疑/);
+assert.match(drafts[2].option_analysis[3],/至應改置，無庸本身可用/);
+const {raw,staging}=buildArtifacts();
+assert.deepEqual(JSON.parse(fs.readFileSync(new URL('../data/raw/cksh-114-1-1-g1-chinese.json',import.meta.url),'utf8')),raw);
+assert.deepEqual(JSON.parse(fs.readFileSync(new URL('../data/staging/cksh-114-1-1-g1-chinese.batch-import-v1.json',import.meta.url),'utf8')),staging);
+assert.equal(staging.review_summary.total,34);
+assert.equal(staging.review_summary.needs_review,34);
+assert.equal(staging.review_summary.group_needs_review,7);
+assert.equal(staging.review_summary.error_count,1);
+assert.deepEqual(staging.review_summary.missing_question_numbers,[]);
+assert.equal(staging.review_summary.ready_for_publish,false);
+assert.deepEqual(staging.questions[22].validation.errors,['official_answer_mismatch']);
+assert.throws(()=>approveBatch(staging,{reviewer:'test',evidence:'fixture',
+ approved_question_ids:staging.questions.map(q=>q.id),approved_group_ids:staging.groups.map(g=>g.id)}),
+ /Blocking validation errors/,'Q23 cannot pass the publish gate even when all review IDs are provided');
+assert.equal(staging.questions.filter(q=>q.published).length,0);
+assert.equal(staging.questions[31].answer.grading,'manual_required');
+assert.equal(staging.questions[32].answer.grading,'manual_required');
+assert.equal(staging.group_exception_queue.filter(g=>g.reasons.includes('rights_review_required')).length,3);
 assert.equal(paper.printed_answers[22],'ABD');
 assert.equal(paper.answer_review[0].question_number,23);
 assert.equal(paper.answer_review[0].status,'needs_review');

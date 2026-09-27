@@ -1,3 +1,26 @@
+## 2026-09-27 成功高中 114 國綜原卷回查（IN PROGRESS）
+
+### Current Task / Completed
+- 從成功高中「試題集成」點開校方原始解析卷 PDF（9 個 PDF 頁），核對第 1–34 題的 PDF 頁碼及 7 組共用題幹的明示邊界；第 8、19、30 題跨頁，來源頁欄位保留兩頁。
+- 第 32、33 題屬手寫題，原卷表格及參考答案確實印在 PDF 第 8、9 頁；待審清單已記錄各填答格的參考內容與人工評分狀態，原卷 `printed_answers` 的 null 仍表示「非選不可自動計分」，不誤記成沒有答案。
+- 以原卷逐題建立 34 題平台轉述題意、32 題選擇題的選項摘要，現代文章與詩句只保留來源 PDF 情境；資料設為 `platform_paraphrase_needs_review`，未接入共用作答頁，需再核對轉述沒有改變題意。
+- 沿用 `scripts/batch-exam-import.mjs` 生成整卷 Raw／Staging：34 題（單選 22、多選 10、手寫 2）、7 題組、題號無缺漏；34 題與 7 組均需審查，Q23 是唯一 blocking `official_answer_mismatch`，其餘 31 道選擇題與校方卷面印答相符，兩道手寫題另有卷內參考。現代文本權利、圖表版面、低分類信心與轉述均列 exception。僅在測試中斷言 `approveBatch` 必須拒絕 Q23，沒有執行正式發布。
+- 查教育部《重編國語辭典修訂本》兼收「無庸置疑／毋庸置疑」，修正既有第 2 題平台詳解：卷面 D 項「無庸至疑」僅「至」為錯字，保留校方第 2 題答案 B。
+- 校方原卷第 23 題明列 A、B、D；與教育部字典中的成語語義不合，維持 `answer_match=false`、`needs_review`，尚未收到校方更正。第 5 題修辭判法、第 25／29 題推論與整卷平台詳解仍待人工審閱；未進共用可作答題庫或正式 Supabase。
+
+### Modified / Important Files
+- `data/staging/cksh-114-1-1-g1-chinese-intake.cjs`：原卷頁碼、題組邊界、32／33 題參考答案。
+- `data/staging/cksh-114-1-1-g1-chinese-question-drafts.cjs`：全 34 題轉述題意與選項摘要，仍待審。
+- `scripts/build-cksh-114-chinese-staging.mjs`、`data/raw/cksh-114-1-1-g1-chinese.json`、`data/staging/cksh-114-1-1-g1-chinese.batch-import-v1.json`：沿用既有整卷匯入器的可重建待審產物。
+- `data/staging/cksh-114-1-1-g1-chinese-explanations.js`：第 2 題錯字分析增量修正。
+- `tests/school-exam-intake.test.mjs`、`CHANGELOG.md`、本檔：回歸與交接。
+
+### Tests / Remaining / Known Issues / Next Step
+- 34 題平台轉述與原卷頁碼已有 Raw／Staging 草稿；尚須逐題比對原卷確保轉述不失真，並審閱題組共用閱讀情境及現代文本權利。第 5／25／29 題推論、第 23 題校方更正仍未釐清，整卷不可發布。下一步處理 exception queue，經人工審定後才接共用題庫。
+- `npm run test:school-intake`、`npm run test:batch-import`、`git diff --check` 通過；完整 `npm test` 的 validate、資料、年度／跨年度、詳解、migration 均通過，最後 browser 因缺 `/opt/microsoft/msedge/msedge` 無法啟動。未改前端與 build/cache，網站內容保持原樣。
+
+---
+
 ## 2026-09-27 成功高中 114 國綜逐題審查清單（IN PROGRESS）
 
 ### Current Task / Completed
