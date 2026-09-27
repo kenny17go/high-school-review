@@ -93,6 +93,12 @@ const server=http.createServer((req,res)=>{
  assert.equal(await page.locator('#quiz .questionGroup a[href*="ceec.edu.tw"][href*="#page="]').count(),10);
  assert.equal(await page.locator('#quiz .qcard a[href*="ceec.edu.tw"][href*="#page="]').count(),10,'113國綜獨立題連結原試卷頁');
  assert.ok((await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(node=>node.dataset.dontknowQ))).every(id=>id.startsWith('ceec-113-chinese-')));
+ await page.selectOption('#practiceYear','112');await page.locator('#applyFilter').click();
+ assert.equal(await page.locator('#quiz .qcard').count(),37,'112 國綜應維持37題原題號');
+ assert.equal(await page.locator('#quiz .questionGroup').count(),10);
+ assert.equal(await page.locator('#quiz .questionGroup a[href*="ceec.edu.tw"][href*="#page="]').count(),10);
+ assert.equal(await page.locator('#quiz .qcard a[href*="ceec.edu.tw"][href*="#page="]').count(),12,'112國綜獨立題連結原試卷頁');
+ assert.ok((await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(node=>node.dataset.dontknowQ))).every(id=>id.startsWith('ceec-112-chinese-')));
  await page.selectOption('#practiceYear','115');await page.locator('#applyFilter').click();
  await page.locator('#topicChoices [data-topic-value="白話文閱讀"]').check();
  await page.locator('#topicChoices [data-topic-value="文言文閱讀"]').check();
