@@ -18,14 +18,13 @@
 ### Tests
 - `npm run validate`、`npm run test:school-intake` 及 `npm test` 中所有資料／年度／migration 子項通過；34/34 題草稿都有四層詳解，32 題選擇題各有對應選項解析（含第 23 題待審說明）。
 - 完整 `npm test` 最後的瀏覽器測試因本機缺少 `/opt/microsoft/msedge/msedge` 而中止；未能執行實際手機版瀏覽器檢查。
-- `git diff --check` 通過；提交、推送與部署結果以 Git／Pages 實際狀態為準。
+- `git diff --check` 通過。GitHub `main` 提交 `878e9e281584966937bd8bfd7a9a051c2f8381a5`，Pages workflow #140（run 36290728842）成功；線上 `version.json` 為 `5.0-school-intake-1`，`school-exam-sources.js` HTTP 200。
 
 ### Remaining / Known Issues / Next Step
 - 應先取得第 23 題校方更正或審定證據；再依原卷逐題建立題幹／選項摘要、題組並複核目前平台詳解草稿與單元分類，整份審查通過後才加入同一 Question Bank。第 5、25、29 題另需確認推論有無超出原卷證據。
 - 七校須分別尋找 110 學年度以後可追溯的校方原題與可核對答案；不得把既有平台模擬範圍算成真題。
 - 使用者已授權提交、推送與部署；此階段僅上線校方來源索引，待審詳解尚未接入作答 UI。
-
----
+- **中斷點**：使用者表示快沒額度，要求先記錄；停止於來源索引與34題詳解草稿。下次先核對 GitHub `main` 與工作樹，重讀 `AGENTS.md`、本檔、`docs/architecture.md`；從成功高中114上高一國綜原卷逐題題面／選項摘要及題組接入開始。現有詳解草稿可增量修正，勿重新產生或把待審答案自動標成 verified。先處理第23題校方印答衝突，以及第5、25、29題的推論核對。確定可作答資料後才修改 `unified-question-bank.js` 共用映射與練習來源篩選，勿新增學校專用renderer。北一女中目前僅找到答案公告，缺原卷。
 
 ---
 
