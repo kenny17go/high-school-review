@@ -10,7 +10,7 @@
 - `tests/school-exam-intake.test.mjs`、`tests/v5-browser.cjs`、111–114 國綜 Golden 舊 renderer 斷言、`version.json`、`CHANGELOG.md`。
 
 ### Tests / Remaining / Next Step
-- `npm run validate`、整卷 intake／runtime 33 題與既有 282 題共存測試、111–115 數 A 與 111–115 國綜 Golden、Explanation V2、migration 及 `git diff --check` 通過；完整 `npm test` 只在最後的 browser 測試受缺少 `/opt/microsoft/msedge/msedge` 阻擋。瀏覽器互動及 390px 版面回歸已寫入 `tests/v5-browser.cjs`，待有瀏覽器環境執行。下一步核對 Pages 與線上 33 題題庫及第 23 題缺席。
+- `npm run validate`、整卷 intake／runtime 33 題與既有 282 題共存測試、111–115 數 A 與 111–115 國綜 Golden、Explanation V2、migration 及 `git diff --check` 通過；完整 `npm test` 只在最後的 browser 測試受缺少 `/opt/microsoft/msedge/msedge` 阻擋。瀏覽器互動及 390px 版面回歸已寫入 `tests/v5-browser.cjs`，待有瀏覽器環境執行。已推送 GitHub main `1ff2f0c`；Pages 的 `version.json` 為 `5.0-cksh-114-chinese-1`，線上 `index.html`、`app.js`、`unified-question-bank.js`、33 題學校題庫檔與本機逐位元相同。下次有瀏覽器環境時執行 UI／390px 回歸。
 
 ---
 
