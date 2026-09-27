@@ -12,7 +12,7 @@
 - `tests/school-exam-intake.test.mjs`、`tests/v5-browser.cjs`、`CHANGELOG.md`、`version.json`、`subject-adapters.js`、本檔。
 
 ### Tests / Remaining / Next Step
-- PDF 原卷逐題選項文字／順序／答案位置核對 31/31 通過；`npm run test:school-intake`、`npm run validate`、111–115 數 A 和 111–115 國綜 Golden／Explanation V2、migration、`git diff --check` 通過。完整 `npm test` 只在最後的 browser 測試因缺 `/opt/microsoft/msedge/msedge` 無法啟動；待有瀏覽器時跑互動與 390px 版面回歸。程式待提交與 Pages 核對。
+- PDF 原卷逐題選項文字／順序／答案位置核對 31/31 通過；`npm run test:school-intake`、`npm run validate`、111–115 數 A 和 111–115 國綜 Golden／Explanation V2、migration、`git diff --check` 通過。完整 `npm test` 只在最後的 browser 測試因缺 `/opt/microsoft/msedge/msedge` 無法啟動；待有瀏覽器時跑互動與 390px 版面回歸。已推送 GitHub main `36fd860`，Pages `version.json` 顯示 `5.0-cksh-114-chinese-inline-2`，線上 `index.html`、`app.js`、學校題庫及題面資料檔與本機一致。
 
 ---
 
