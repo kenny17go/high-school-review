@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 15660)
+Total output lines: 529
+
 ## 2026-09-26 115數A第2題核對與題卡修正（已推送並部署）
 
 ### Current Task / Completed
@@ -227,88 +230,7 @@
 - 補查大考中心25頁「試題或答案反映意見回覆」，確認Q4、6、12、16、18、19、20、24、27、29、30、33、35、36共14題曾有反映意見且官方逐題回覆後維持答案；每題保存官方回覆URL並標為`official_answer_objection_resolved`，不自行改答。
 - 最新Review Summary：total 36、clean 22、question needs_review 14、group_needs_review 7、error 0、warning 14、題號缺漏0、exam_errors 0；14筆逐題warning均為官方異議已回覆，7組題組例外均為`rights_review_required`＋`external_context_required`。Q14–15結構化量詞資料及Q22–24古典文本不列入現代全文權利例外。
 - 使用者已決定採「官方PDF連結模式」。未釐清權利的現代文章不複製全文，只顯示平台摘要、官方PDF指定頁面連結與「平台詳解／分類待審閱」揭露；共用renderer已支援此模式，未另建國文專用題面。
-- `UnifiedQuestionBank` bridge已由數學硬編碼泛化為依來源科目映射，115國綜36題與9組Question Group已接入本機runtime；選擇國文／學測真題／115年度可依原題號載入完整36題。runtime內容仍保留`classification_status=needs_review`、`explanation_status=draft_review_required`與`sync_disabled`。
-- 部署前審查時本批為`ready_for_human_review=true`、`ready_for_publish=false`；尚未完成逐題／題組人工approval，亦未寫入正式Supabase。前端可顯示題目，但不因此把AI內容冒充為人工verified。
-- 測試：115國綜Golden runtime（與111–115數A共存136題）、validate、V5 data、Batch Importer、既有115數A與跨年度Golden、migration均PASS，`git diff --check` PASS。Playwright browser仍因環境缺少`/opt/microsoft/msedge/msedge`無法啟動；browser suite已加入國文36題、9題組、8個PDF連結及36個待審閱標籤斷言，須在有Edge／Chromium環境執行。
-- 使用者已明確授權115國綜commit／push／部署；主里程碑提交`8a88366`已推送`main`。GitHub Pages線上`version.json`為`5.0-batch-chinese-115-1`，新題庫腳本HTTP 200；線上runtime核對為36題、9題組，部署完成。此處的「已部署」不等於把AI分類／詳解改標人工verified，資料審閱狀態仍照實保留。
-- Next: 完成必要人工Review與browser UI回歸後才可把本批標為Published；不可為了顯示完整試卷而違反現代文章rights規則。
-
-## 2026-09-26 Repository Reality Check + 111 數A checkpoint
-
-- Repository `kenny17go/high-school-review` 已從 GitHub 最新 `main` clone；工作開始時 branch 為 `main`、HEAD 與 `origin/main` 同為 `e44f0ba`（112數A跨年度批次），工作樹乾淨。最近四個資料里程碑 commit 為112／113／114／115，111資料尚未存在於 GitHub；沒有未提交的111檔案、builder、staging或 runtime 接線，故中斷點在111資料建置開始之前。
-- 已核對 `AGENTS.md`、本檔、`docs/architecture.md`、`version.json`、`CHANGELOG.md`、最近 commits 與實際檔案；既有115／114／113／112 Golden artifacts、統一 Question Bank 與 Batch Importer 保留並回歸。
-- 新增111數A官方來源：大考中心原卷（8頁）、選擇（填）題答案（1頁）、非選評分原則（3頁）。逐頁下載、文字抽取並渲染檢查原卷圖示；資料題數20、配分100、官方答案20/20、題號1–20無缺漏。原始來源網址寫入 Raw 與每題 provenance。
-- 新增 `gsat-111-unified-bank.js`、兩個官方圖示 asset、`scripts/build-gsat-111-golden.mjs`，重建 `data/raw/ceec-111-matha.json` 與 `data/staging/ceec-111-matha.batch-import-v1.json`。Review Summary clean 20、validation needs_review 0、error 0、warning 0、Exception Queue 0；自動分類與平台詳解仍全數 `classification_status=needs_review`、`ready_for_publish=false`，不會把 AI／平台內容標成 verified。
-- Q3散布圖與Q11立體圖以官方頁面裁切圖接入共用題面；`app.js` 的共用練習／模考 renderer 支援受限的本機 image asset。修正共用「我不會」按鈕把字串題目 ID 轉成數字的 bug，避免111學測記錄失效。
-- 共用 runtime 接入111完整20題，Q18–Q20共用題組；練習年份新增111，111–115共100題。更新 build/cache `5.0-batch-111-1`、CHANGELOG、architecture 與 regression test。
-- 驗證：`npm test` 除 Playwright browser step 外已通過 validate、V5 data、115 GSAT、Batch Importer、115/114/113/112/111 Golden、PostgreSQL migration，`git diff --check` PASS。Browser step因環境無 `/opt/microsoft/msedge/msedge`，嘗試下載 Chromium也被執行環境截成0 MiB非zip，未能啟動；已新增 browser assertions 檢查111完整20題、圖片載入及字串ID學習紀錄，需在有Chromium/Edge的環境執行。
-- 本輪未連接或寫入正式 Supabase。使用者已明確授權111數A commit／push／部署；主里程碑提交 `6135f3d` 已推送 `main`，GitHub Pages 線上 `version.json` 為 `5.0-batch-111-1`，111題庫腳本回傳HTTP 200，部署完成。
-- Next: 111里程碑已交付。後續若繼續歷屆批次，可從110學測數A開始，沿用同一 Batch Importer V1 與人工只處理 Exception Queue 的流程。
-
-## 2026-09-25 112 數A完整20題跨年度 Batch milestone
-
-- 沿用現有 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；沒有新增112專用 importer、renderer或第二套題庫，也未連接或寫入正式 Supabase。
-- 依大考中心官方試卷8頁、選擇（填）題參考答案1頁、非選擇題滿分參考答案與評分原則3頁逐頁渲染核驗112數A 20題／100分；題型為單選7、多選6、選填5、非選2，Q18–Q20共用題組。
-- 新增 `gsat-112-unified-bank.js`、`scripts/build-gsat-112-golden.mjs`，產生 `data/raw/ceec-112-matha.json` 與 `data/staging/ceec-112-matha.batch-import-v1.json`。答案20/20與官方 manifest 一致，題號1–20無缺號。
-- Review Summary：clean 20、needs_review 0（指額外驗證例外為0）、error 0、warning 0、Exception Queue 0；整批20題的 `classification_status` 仍固定為 `needs_review`，`ready_for_publish=false`，runtime `sync_disabled`，不把自動內容假裝成人工核准。
-- Q19／Q20附官方評分原則；官方答案分別核對為 `Q=(-36/25,48/25)` 且 `BQ=2AP`，以及點線距離 `72/25`、四邊形面積 `108/25`。
-- 共用 runtime 擴為112／113／114／115數A共80題；大量題庫年份篩選新增112，選定年度依原題號取得完整20題。build/cache更新為 `5.0-batch-112-1`，新增112 Golden與80題唯一ID、題型分布、題組回歸，113／114回歸同步提升為80題。
-- `validate`、V5 data、115 GSAT、Batch Importer、115／114／113／112 Golden與PostgreSQL migration均PASS；`git diff --check` PASS。browser test已加入112／113／114各20題UI斷言，但本機仍缺少 `/opt/microsoft/msedge/msedge`，Playwright無法啟動，屬既知執行環境限制。
-- 本紀錄撰寫時尚待授權；GitHub 實際狀態已由後續 commit `e44f0ba` 確認112里程碑已 commit／push。下一批111進度詳見本檔最前方最新 reality check。
-
-## 2026-09-25 113 數A完整20題跨年度 Batch milestone
-
-- 以最新已部署的114／115流程為基礎，沿用同一 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；未建立113專用 importer、renderer或第二套題庫，也未寫入正式 Supabase。
-- 依大考中心官方試卷、選擇（填）題參考答案、非選擇題評分原則及第7題試題／答案反映意見回覆，逐頁渲染核驗113數A 20題／100分；題型為單選7、多選6、選填5、非選2，Q18–Q20共用題組。
-- 新增 `gsat-113-unified-bank.js`、`scripts/build-gsat-113-golden.mjs`，產生 `data/raw/ceec-113-matha.json` 與 `data/staging/ceec-113-matha.batch-import-v1.json`。答案20/20與官方 manifest 一致，題號1–20無缺號、error 0。
-- Review Summary：clean 19、needs_review 1、warning 1、Exception Queue 1。唯一例外為Q7 `official_answer_objection_resolved`：考後有人主張平移後圖形亦應算相同，但大考中心明確以坐標點集不同回覆並維持官方答案③④；資料保留官方回覆 URL 與原答案，不自行改答。
-- 所有20題分類與平台詳解均保持 `needs_review`、`ready_for_publish=false`；runtime 使用 `sync_disabled`。Q19／Q20附官方評分原則，Q16填答經版面核對為 `2√5/5`。
-- 共用 runtime 現含113／114／115數A共60題；大量題庫年份篩選新增113，選定年度依原題號取得完整20題。build/cache 更新為 `5.0-batch-113-1`，新增113 Golden／Exception Queue／60題唯一ID與題型分布回歸，114回歸同步提升為60題。
-- Validate、V5 data、115 GSAT、Batch Importer、115／114／113 Golden與PostgreSQL migration均PASS。browser test已加入113與114各20題UI斷言；本機環境沒有Edge／Chromium，故本機 Playwright 無法啟動，但部署後已用線上瀏覽器實測113篩選可產生完整20題且題號01–20連續。
-- 使用者已明確授權113數A commit／push／部署；主里程碑提交 `2e1fd45` 已推送 main，GitHub Pages `pages-build-deployment #104` 成功。線上 build 為 `5.0-batch-113-1`，實測113／114／115共用 runtime，113篩選顯示20題、來源與年度文字正確。下一建議批次為112學測數A。
-
-## 2026-09-25 114 數A完整20題跨年度 Batch milestone
-
-- 以115數A已完成流程為基礎，沿用同一 `batch-import-v1`、Unified Question Bank V1、Question Group 與共用 renderer；沒有新增114專用 importer、renderer或第二套題庫。
-- 依大考中心官方試卷、參考答案及非選擇題評分原則，建立114數A 20題／100分完整資料與獨立答案 manifest；題型為單選7、多選6、選填5、非選2，Q18–Q20共用題組。
-- 產生 `data/raw/ceec-114-matha.json` 與 `data/staging/ceec-114-matha.batch-import-v1.json`；Review Summary 為 clean 20、error 0、warning 0、Exception Queue 0、缺號0、答案20/20一致。
-- 所有自動分類與平台詳解仍保持 `needs_review`，`ready_for_publish=false`；runtime 使用 `sync_disabled`，沒有寫入正式 Supabase，也沒有假造人工 verified/published。
-- 共用 runtime 現含115與114數A共40題；大量題庫年份篩選新增114，選定年度可依原題號取完整20題。新增114 Golden/regression test並保留115回歸。
-- build 更新為 `5.0-batch-114-1`。Validate、V5 data、115 GSAT、Batch Importer、115/114 Golden與PostgreSQL migration均PASS；browser test已加入114完整20題UI斷言，但執行環境缺少Edge/Chromium，且Playwright下載被截斷，故瀏覽器回歸未實際完成。
-- 使用者已明確授權114數A commit／push／部署；主里程碑提交 `169908d` 已推送 main，GitHub Pages run #102 成功。線上 `version.json` 為 `5.0-batch-114-1`，實際載入線上114／115／runtime腳本驗證為40題（114與115各20題），114題號01–20與Q18–Q20題組完整。下一建議批次為113學測數A。
-
-## 2026-09-25 115 數A完整20題 runtime 接線修正
-
-- 使用者回報「大量題庫」篩選學測真題／115學年度只顯示6題。實際核對確認 Raw 與 Staging 均為完整20題，問題位於 `unified-question-bank.js`：content map 只有 Q1、Q2、Q3、Q4、Q6、Q18，且最後只保留整數單選答案，因而排除所有多選、選填、非選題。
-- runtime bridge 已補齊 Q1–Q20 題面，並依既有共用 question contract 映射7題單選、6題多選、5題選填、2題非選；沒有建立 GSAT 專用 renderer。Q18–Q20保留同一 Question Group。
-- 選定學測年度並載入完整考卷時改依 `question_number` 顯示1–20；少量抽題仍維持原本隨機行為。
-- 全20題仍為本機官方來源資料，保留 `sync_disabled`；本次沒有寫入正式 Supabase，也沒有變更 Supabase schema。
-- regression 改為要求 runtime 恰好20題、題號1–20連續、題型分布／選項／答案 shape／題組關係正確，避免再退回6題。
-- 實際重建 Golden artifacts：20題、clean 20、Exception Queue 0、error 0、warning 0；20題仍全為 staging `needs_review`，所以 `ready_for_publish=false`，沒有藉本次前端修正偽造人工核准。
-- `validate`、V5 data、GSAT、Batch Importer、Golden Sample、PostgreSQL migration 與 `git diff --check` 全部 PASS。完整 `npm test` 只在既知環境限制中止：系統缺少 `/opt/microsoft/msedge/msedge`，產品 assertions 在此之前均通過。
-- build/cache 更新為 `5.0-batch-golden-3`。本節的 commit、push、Pages 與線上驗證結果須以本輪完成後的 Git/GitHub 實際狀態為準。
-
-## 2026-09-25 Batch Importer V1 — 115 數A Golden Sample milestone
-
-- 以最新 HEAD `9ce30d7` 為基準，在本機完整執行 Batch Importer V1；沒有重做既有架構，也沒有寫入正式 Supabase。
-- 新增 `scripts/build-gsat-115-golden.mjs`，將既有 115 數A 20題 metadata、共用 runtime 題面與獨立官方答案 manifest 組成可重現 Raw input，再輸出 Staging artifact。
-- 產物：`data/raw/ceec-115-matha.json`、`data/staging/ceec-115-matha.batch-import-v1.json`；20題／100分、1–20無缺號、答案20/20一致、Q18–20題組完整。
-- Importer 加入整卷題數／缺號、答案 URL、官方答案 mismatch、頁碼、解析／分類 confidence、review flags 與題型／狀態統計；所有自動題仍固定 needs_review。
-- 初次 Review Summary：clean 9、Exception Queue 11、blocking error 7、warning 9。接續補齊題面／選項並以官方 PDF 渲染視覺核對後，最新結果為 clean 20、Exception Queue 0、blocking error 0、warning 0；仍因全卷保持 needs_review 而 `ready_for_publish=false`。
-- 找到並納入大考中心 Q19／Q20 官方非選評分原則。修正重大內容錯誤：Q20 `AP=(4,4,-2)`、體積10、最長距離√94；原資料錯寫 AP=(3,4,-3)、體積30。另修正 Q10 第四選項為65/3。
-- 修正共用 runtime Q2 題幹符號為 `f(x)=[99-x]+[99+x]`；同步 build/cache 為 `5.0-batch-golden-2`，並修復本輪開始即存在的 version name/cache validation 不一致。
-- 新增 `tests/gsat-115-golden.test.mjs` 並納入 `npm test`。validate、V5、GSAT、Batch Importer、Golden、PostgreSQL migration 全部 PASS。
-- Browser regression 尚未在本環境完成：repository 預設 Edge 不存在；Playwright Chromium 下載因執行環境回傳 0 MiB 非 zip 而失敗。既有 browser test 未因產品 assertion 失敗，需由 GitHub Actions 或具瀏覽器環境重跑。
-- 使用者已於 2026-09-25 明確授權本里程碑 commit、push、部署；提交與 Pages 結果須以 Git/GitHub 實際狀態核對。
-- Next：由教師／內容審核者覆核20題分類與平台四層詳解，才可 approve/publish artifact；下一資料批次建議沿用相同 pipeline 處理114學測數學A。不可建立 GSAT 專用題庫或 renderer。
-
-## Current Task
-2026-09-20：DONE（內容與測試）— 國文既有150題內容檢查，補強124題詳解、修正語意與用字，完成回歸與相容性比對。未新增科目或真題。
-
-使用者本輪明確要求「國文內容檢查與補強：檢查現有題目、答案與詳解，沒問題就將已完成的交接紀錄 commit、push」。測試已通過，將本次內容修正、審閱報告與交接紀錄一併交付；不用再詢問相同授權。本檔為提交前驗證快照，實際提交／推送／部署結果須以 Git 與 Pages 查核。
-
-### 中斷點與核對依據
-- 回顧前一任務「繼續專案工作」（01a0ba04-ebbd-7971-b7a2-f647f4f6cc77）：使用者要求提交／推送前詢問，之後明確回覆「同意」。該輪已成功 commit 及 push `64f2483`，才因額度中斷；不要再次提交同一批 V5 功能。
+- `UnifiedQuestionBank` bridge已由數學硬編碼泛化為依來源科目映射，115國綜36題與9組Question Group已接入本機runtime；選擇…3660 tokens truncated…求提交／推送前詢問，之後明確回覆「同意」。該輪已成功 commit 及 push `64f2483`，才因額度中斷；不要再次提交同一批 V5 功能。
 - 本次開始時本機 HEAD 與過期的 origin/main 均為 `64f2483`，工作目錄乾淨；本機只有舊 AGENTS.md，CODEX_PROGRESS.md 不存在。
 - fetch 後確認遠端另有 `384a3a5`（新增交接）與 `f06aa8f`（整理維護規則），差異只有 AGENTS.md、CODEX_PROGRESS.md。已以 fast-forward 同步，沒有建立新提交。
 - 已完整閱讀新舊規則、原始交接、CHANGELOG、驗證／架構／發布文件，核對程式 build marker、HTML script query、測試入口與 Git 歷史。
@@ -512,7 +434,7 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - `npm ci`後`npm test`通過validate、數A與112–115國綜Golden及V2、migration；最後browser階段缺少系統Edge而無法啟動。`git diff --check`通過；待可取得Playwright瀏覽器時驗證整卷互動與390px排版。
 - 圖像／表格等6題及8組現代文本情境、全題平台自製詳解仍待人工複核；保留官方異議8題的說明。使用者已授權提交與部署；GitHub main 功能提交 `ef34ba6`，Pages run `36285032684` 成功。線上 `version.json` 為 `5.0-batch-chinese-112-1`，首頁、112 國綜腳本及共用題庫腳本的 SHA256 均與本機一致。後續視需求接續111國綜。
 
-## 2026-09-27 111 國綜年度接入（本機待提交）
+## 2026-09-27 111 國綜年度接入（已推送並部署）
 
 ### Current Task / Completed
 - main `c425478` 起始工作樹乾淨，確認111國綜尚未接入。依大考中心111正式試卷、選擇題答案、非選評分原則及試題／答案異議回覆，新增37題／100分、9組題組：單選27、多選7、非選3。第34、35、36題皆6分；另第33、37題單選各2分。答案37/37與獨立manifest比對。
@@ -525,5 +447,5 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 - `unified-question-bank.js`、`index.html`、`app.js`、`subject-adapters.js`、`version.json`、`package.json`、`scripts/validate.mjs`、`tests/browser.test.cjs`、`docs/architecture.md`、`CHANGELOG.md`。
 
 ### Tests / Remaining / Known Issues / Next Step
-- 111國綜Golden與validate通過；完整`npm test`的靜態校驗、數A與111–115國綜Golden、Explanation V2及migration皆通過，browser階段因環境缺少系統Edge執行檔而無法啟動，故尚未完成互動與390px排版驗證。已目視核對官方原卷印刷第5及第9頁，其餘圖表／直排、第34題填表及第37題新聞版面仍待人工逐頁核對；現代文本權利與全部平台詳解也維持待審。未獲本年度提交授權前不commit、push或部署。
-- 依`AGENTS.md`，本年度尚無明確commit／push／部署授權。完成測試、審查diff後整理摘要供使用者確認；不主張全部詳解已人工審核。
+- 111國綜Golden與validate通過；完整`npm test`的靜態校驗、數A與111–115國綜Golden、Explanation V2及migration皆通過，browser階段因環境缺少系統Edge執行檔而無法啟動，故尚未完成互動與390px排版驗證。已目視核對官方原卷印刷第5及第9頁，其餘圖表／直排、第34題填表及第37題新聞版面仍待人工逐頁核對；現代文本權利與全部平台詳解也維持待審。
+- 使用者授權commit、push、部署；GitHub Pages run `36288713506`（commit `c6abceb339e955ed50594cf5fabf48b5b331175b`）build及deploy皆成功。線上`version.json`已回報`5.0-batch-chinese-111-1`。完整`npm test`的browser階段仍受環境缺少Edge限制；不主張全部詳解已人工審核。
