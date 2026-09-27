@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-batch-chinese-111-1";
+window.V500_BUILD="5.0-school-intake-1";
 
 (function(){
 "use strict";
@@ -953,7 +953,7 @@ function renderSourceInventoryV49(){
 }
 
 function renderSources(){
- if(adapter()){$("sourceRows").innerHTML=catalog.schools.map(n=>`<tr><td>${escapeText(n)}</td><td>國文已驗證真題 ${adapter().all().filter(q=>core.isVerified(q)&&q.school===n).length} 題</td><td>尚未收錄可驗證題目；不沿用數學狀態</td><td>待收集</td></tr>`).join("");return;}
+ if(adapter()){$("sourceRows").innerHTML=catalog.schools.map(n=>{const papers=window.SchoolExamSources?.forSchool(n)||[];return `<tr><td>${escapeText(n)}</td><td>國文已驗證真題 ${adapter().all().filter(q=>core.isVerified(q)&&q.school===n).length} 題</td><td>${papers.length?`已取得 ${papers.length} 份校方試卷，答案待複核；尚不可作答`:'尚未收錄可驗證題目；不沿用數學狀態'}</td><td>${papers.length?`<a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(papers[0].source_url)}">查看校方試卷</a>`:'待收集'}</td></tr>`;}).join("");return;}
   $("sourceRows").innerHTML=Object.keys(schools).map(n=>{const d=schools[n];return `<tr><td><b>${n}</b></td><td><span class="status ${d.tone==="good"?"goodS":d.tone==="mid"?"midS":"lowS"}">${d.status}</span></td><td>${d.desc}</td><td><a class="linkbtn soft" target="_blank" href="${d.url}">官方入口</a></td></tr>`}).join("");
 }
 async function renderWrong(){
@@ -1114,9 +1114,11 @@ function renderTextCoverage(){
 }
 function renderSubjectSources(){
  const rows=adapter()?.all()||[],verified=rows.filter(core.isVerified);
- $("coverageCards").innerHTML=catalog.schools.map(s=>`<div class="card">${escapeText(s)}：已驗證 ${verified.filter(q=>q.school===s).length} 題；待收集／核驗。</div>`).join("");
+ $("coverageCards").innerHTML=catalog.schools.map(s=>`<div class="card">${escapeText(s)}：已驗證 ${verified.filter(q=>q.school===s).length} 題；${window.SchoolExamSources?.forSchool(s).length?'已有校方試卷待複核':'待收集／核驗'}。</div>`).join("");
  $("calibrationCards").textContent="國文尚無已校正的官方試卷資料。";$("examEvidenceList").textContent="尚未收錄。";$("examEvidenceSummary").textContent="";
- $("sourceInventorySummary").textContent=`${subjectInfo().name}已驗證真題 ${verified.length} 題；不使用數學來源冒充。`;$("sourceInventoryList").textContent="候選來源需經資料工程驗證後才發布。";
+ const papers=window.SchoolExamSources?.papers||[];
+ $("sourceInventorySummary").textContent=`${subjectInfo().name}已驗證真題 ${verified.length} 題；另有 ${papers.length} 份校方試卷待複核，不計入可作答題數。`;
+ $("sourceInventoryList").innerHTML=papers.length?papers.map(p=>`<div class="card sourcecard"><h3>${escapeText(p.school)}｜${escapeText(p.title)}</h3><p class="small">原卷 ${p.expected_question_count} 題；第 ${p.answer_review.map(x=>x.question_number).join('、')} 題印出答案有疑義。題目和詳解尚待逐題審定，暫不提供自動計分。</p><a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(p.source_url)}">查看校方原卷（PDF）</a></div>`).join(''):'候選來源需經資料工程驗證後才發布。';
 }
 let subjectSwitchSeq=0;
 async function switchSubject(){

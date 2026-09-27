@@ -1,0 +1,33 @@
+import assert from 'node:assert/strict';
+import {createRequire} from 'node:module';
+import fs from 'node:fs';
+const require=createRequire(import.meta.url);
+const sources=require('../school-exam-sources.js');
+const drafts=require('../data/staging/cksh-114-1-1-g1-chinese-explanations.js');
+const paper=sources.forSchool('成功高中')[0];
+assert.equal(sources.papers.length,1);
+assert.equal(paper.expected_question_count,34);
+assert.equal(paper.printed_answers.length,34);
+assert.equal(Object.keys(drafts).length,34,'one draft explanation per original question number');
+for(let n=1;n<=34;n++){
+ const e=drafts[n];assert(e&&e.concept&&e.key_insight&&e.reasoning&&e.common_errors,`Q${n} explanation layers`);
+ assert.equal(e.explanation_status,'draft_review_required');
+ assert.equal(e.option_analysis.length,n===32||n===33?0:n>=21&&n<=30?5:4,`Q${n} option analysis`);
+}
+assert.match(drafts[23].reasoning,/不能作正式答案或自動計分/);
+assert.equal(paper.printed_answers[22],'ABD');
+assert.equal(paper.answer_review[0].question_number,23);
+assert.equal(paper.answer_review[0].status,'needs_review');
+assert.equal(paper.status,'needs_review');
+assert.equal(paper.published,false);
+assert.deepEqual(sources.published(),[]);
+assert.equal(sources.forSchool('建國中學').length,0);
+assert.match(paper.source_url,/^https:\/\/www\.cksh\.tp\.edu\.tw\/.+\.pdf$/);
+const html=fs.readFileSync(new URL('../index.html',import.meta.url),'utf8');
+assert(html.indexOf('school-exam-sources.js?')<html.indexOf('app.js?'));
+const app=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8');
+assert(app.includes('SchoolExamSources?.forSchool(n)'));
+assert(app.includes('另有 ${papers.length} 份校方試卷待複核，不計入可作答題數'));
+const unified=fs.readFileSync(new URL('../unified-question-bank.js',import.meta.url),'utf8');
+assert(!unified.includes(paper.id),'staging paper must not enter the playable bank');
+console.log('School paper intake PASS: 34 answers transcribed, Q23 blocked, no playable questions');
