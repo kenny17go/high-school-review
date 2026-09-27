@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-cksh-114-chinese-1";
+window.V500_BUILD="5.0-cksh-114-chinese-inline-2";
 
 (function(){
 "use strict";
@@ -21,6 +21,7 @@ let questionLoadSeq=0;
 const cloudBankCache=new Map();
 function subjectScopeSummary(s){return s.label+"｜"+(catalog.labels[s.sourceType]||"來源待核驗")+"｜"+subjectInfo().name+" "+s.academicYear+"學年度";}
 function decorateQuestions(set){return set.map(q=>{
+ if(["ceec_official","school_official","school_exam_verified"].includes(q.sourceType))return q;
  if(q.questionType==="multiple_choice"||!(q.grade===2||q.subject==="chinese")||!q.o?.length)return q;
  const shuffled=catalog.shuffleOptions(q);
  return {...shuffled,options:shuffled.o,answer:q.questionType==="single_choice"?shuffled.a:q.answer};
@@ -466,8 +467,8 @@ function questionGroupMarkup(q,seen){
  const isCeec=/^https:\/\/([^.]+\.)*ceec\.edu\.tw\//i.test(g.source_url||""),isSchool=/^https:\/\/www\.cksh\.tp\.edu\.tw\//i.test(g.source_url||"");
  const official=isCeec||isSchool?`${g.source_url}#page=${Number(g.source_page||1)+(isCeec?1:0)}`:"";
  const linked=g.context_delivery==="official_pdf_reference"||g.context_delivery==="school_pdf_reference";
- const contextLabel=linked?"官方 PDF 連結模式":"共用題幹";
- const link=linked&&official?`<p class="small"><a href="${escapeText(official)}" target="_blank" rel="noopener noreferrer">開啟官方試卷第 ${escapeText(g.source_page||"?")} 頁查看完整文本（PDF）</a></p><p class="small">本站僅提供內容摘要；平台詳解與分類仍待人工審閱。</p>`:"";
+ const contextLabel=g.sourceType==="school_official"?"題組材料（頁內閱讀）":linked?"官方 PDF 連結模式":"共用題幹";
+ const link=linked&&official?`<p class="small"><a href="${escapeText(official)}" target="_blank" rel="noopener noreferrer">${g.sourceType==="school_official"?"選用：核對校方原卷第 ":"開啟官方試卷第 "}${escapeText(g.source_page||"?")} 頁（PDF）</a></p><p class="small">${g.sourceType==="school_official"?"現代作品以平台撰寫的完整作答線索呈現；古典文本在上方，詳解與分類仍待複核。":"本站僅提供內容摘要；平台詳解與分類仍待人工審閱。"}</p>`:"";
  return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">${contextLabel}</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div>${questionVisualMarkup(g)}${link}</section>`;
 }
 function explanationMarkup(q){
@@ -480,12 +481,12 @@ function explanationMarkup(q){
   (options.length?'<div class="explainSection"><span class="explainLabel">逐選項解析</span><div class="optionAnalysis">'+options.map((x,i)=>'<div><b>'+String.fromCharCode(65+i)+'.</b> '+escapeText(x)+'</div>').join("")+'</div></div>':"")+
   section("完整推理",e.reasoning||e.solution)+(Array.isArray(e.answer_elements)&&e.answer_elements.length?'<div class="explainSection"><span class="explainLabel">非選擇題作答要點</span><ol>'+e.answer_elements.map(x=>'<li>'+escapeText(x)+'</li>').join("")+'</ol><small>'+escapeText(e.scoring_notice||"平台整理，實際配分以官方公告為準。")+'</small></div>':"")+section("易錯原因",e.common_errors)+section("解題技巧",e.strategy)+section("延伸複習",e.review)+'</div>';
 }
-function questionSourceMarkup(q){if(q.sourceType==="school_official")return `<span class="tag">${escapeText(q.school)} ${escapeText(q.academic_year)} 段考原題 ${escapeText(q.question_number)}</span><span class="tag">平台轉述／詳解待複核</span>`;if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>${q.explanation_status==="draft_review_required"?'<span class="tag">平台詳解待審閱</span>':''}`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
+function questionSourceMarkup(q){if(q.sourceType==="school_official")return `<span class="tag">${escapeText(q.school)} ${escapeText(q.academic_year)} 段考原題 ${escapeText(q.question_number)}</span><span class="tag">原卷選項順序｜長文線索由平台整理</span>`;if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>${q.explanation_status==="draft_review_required"?'<span class="tag">平台詳解待審閱</span>':''}`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
 function chineseStandalonePdfMarkup(q){
  const isCeec=q.sourceType==="ceec_official"&&/^https:\/\/([^.]+\.)*ceec\.edu\.tw\//i.test(q.source_url||"");
  const isSchool=q.sourceType==="school_official"&&/^https:\/\/www\.cksh\.tp\.edu\.tw\//i.test(q.source_url||"");
  if(q.subject!=="chinese"||q.group_id||(!isCeec&&!isSchool)||!Number.isInteger(q.source_page))return"";
- return `<p class="small"><a href="${escapeText(q.source_url+"#page="+(q.source_page+(isCeec?1:0)))}" target="_blank" rel="noopener noreferrer">開啟官方試卷第 ${escapeText(q.source_page)} 頁查看完整題目（PDF）</a></p>`;
+ return `<p class="small"><a href="${escapeText(q.source_url+"#page="+(q.source_page+(isCeec?1:0)))}" target="_blank" rel="noopener noreferrer">${isSchool?"選用：核對校方原卷第 ":"開啟官方試卷第 "}${escapeText(q.source_page)} 頁（PDF）</a></p>`;
 }
 function qAnswered(q,value){return window.LearningCore?.answered?.(value,q)??value!==undefined;}
 function qCorrect(q,value){return window.LearningCore?.equalAnswer?.(q,value)??value===q.a;}
@@ -1126,7 +1127,7 @@ function renderSubjectSources(){
  const papers=window.SchoolExamSources?.papers||[];
  const schoolCount=unifiedQuestions().filter(q=>q.subject==="chinese"&&q.sourceType==="school_official").length;
  $("sourceInventorySummary").textContent=`${subjectInfo().name}已驗證真題 ${verified.length} 題；可練習校方題 ${schoolCount} 題（平台轉述及詳解待複核）。`;
- $("sourceInventoryList").innerHTML=papers.length?papers.map(p=>`<div class="card sourcecard"><h3>${escapeText(p.school)}｜${escapeText(p.title)}</h3><p class="small">原卷 ${p.expected_question_count} 題；可練習 ${unifiedQuestions().filter(q=>q.sourceId===p.id).length} 題，印答有疑義的第 ${p.answer_review.map(x=>x.question_number).join('、')} 題已排除。題意由平台轉述，請配合原卷閱讀；詳解為平台草稿。</p><button class="linkbtn primary" data-practice-source="school" data-school="${escapeText(p.school)}" data-grade="${p.grade}" data-year="${p.academic_year}" data-term="${p.semester}" data-exam="第一次段考">練習這份試卷</button> <a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(p.source_url)}">查看校方原卷（PDF）</a></div>`).join(''):'候選來源需經資料工程驗證後才發布。';
+ $("sourceInventoryList").innerHTML=papers.length?papers.map(p=>`<div class="card sourcecard"><h3>${escapeText(p.school)}｜${escapeText(p.title)}</h3><p class="small">原卷 ${p.expected_question_count} 題；可練習 ${unifiedQuestions().filter(q=>q.sourceId===p.id).length} 題，印答有疑義的第 ${p.answer_review.map(x=>x.question_number).join('、')} 題已排除。題目與原順序選項可直接在題卡閱讀；現代長文改用平台撰寫的完整作答線索，詳解仍為平台草稿。</p><button class="linkbtn primary" data-practice-source="school" data-school="${escapeText(p.school)}" data-grade="${p.grade}" data-year="${p.academic_year}" data-term="${p.semester}" data-exam="第一次段考">練習這份試卷</button> <a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(p.source_url)}">查看校方原卷（PDF）</a></div>`).join(''):'候選來源需經資料工程驗證後才發布。';
 }
 let subjectSwitchSeq=0;
 async function switchSubject(){

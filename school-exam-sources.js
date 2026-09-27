@@ -13,7 +13,7 @@ const paper={
  // These are a transcription of the printed key, not grading data. Q23 is disputed.
  printed_answers:["D","B","A","C","C","D","D","A","A","A","C","B","C","B","B","D","B","A","C","D","AB","AC","ABD","BDE","ABCD","ABC","BDE","ACD","ACDE","AD","D",null,null,"C"],
  answer_review:[{question_number:23,status:"needs_review",printed_answer:"ABD",reason:"校方解析卷印 A、B、D，但成語語義與該組選項不符；不得自動計分，待校方更正或人工複核。",reference_urls:["https://dict.revised.moe.edu.tw/dictView.jsp?ID=126250&la=0&powerMode=0","https://dict.revised.moe.edu.tw/dictView.jsp?ID=76319&la=0&powerMode=0","https://dict.revised.moe.edu.tw/dictView.jsp?ID=32858&la=0&powerMode=0"]}],
- notes:"保留原卷題號及印出答案以利查核；可練習 33 題，印答有疑義的第 23 題排除；平台轉述與詳解仍待複核。"
+ notes:"保留原卷題號、原選項順序及印出答案以利查核；可練習 33 題，第 23 題排除；現代長文以平台作答線索呈現，詳解仍待複核。"
 };
 const api=Object.freeze({papers:Object.freeze([paper]),forSchool(name){return this.papers.filter(p=>p.school===name);},published(){return this.papers.filter(p=>p.published&&p.status==="verified");}});
 root.SchoolExamSources=api;

@@ -26,8 +26,11 @@ module.exports=async function({browser,url}){
  assert.equal(await page.locator('#quiz .qcard').count(),33,'the 34-item school paper excludes disputed Q23');
  assert.equal(await page.inputValue('#practiceSource'),'school');
  assert.deepEqual(await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(n=>Number(n.dataset.dontknowQ.match(/q(\d+)$/)[1]))),Array.from({length:34},(_,i)=>i+1).filter(n=>n!==23));
+ assert.match(await page.locator('#quiz .qcard').first().locator('.opt').first().innerText(),/「溯」及既往/,'school A must stay A');
+ assert.match(await page.locator('#quiz .qcard').first().locator('.opt').last().innerText(),/龍「蟠」虎踞/,'school D must stay D');
+ assert.match(await page.locator('#quiz .qcard').nth(2).innerText(),/枝葉繁冗/,'the question context must be readable inline');
  assert.ok(await page.locator('#quiz .questionGroup a[href*="cksh.tp.edu.tw"][href*="#page="]').count()>0);
- await page.locator('#quiz .qcard').first().locator('.opt').filter({hasText:'蟠／皤／幡'}).click();
+ await page.locator('#quiz .qcard').first().locator('.opt').filter({hasText:'龍「蟠」虎踞'}).click();
  assert.ok(await page.locator('#quiz .qcard').first().locator('.opt.correct').count()===1);
  const schoolMulti=page.locator('#quiz .qcard').filter({has:page.locator('[data-practice-check$="q21"]')});
  await schoolMulti.locator('input[type="checkbox"]').nth(0).check();await schoolMulti.locator('input[type="checkbox"]').nth(1).check();

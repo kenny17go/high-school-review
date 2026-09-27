@@ -9,6 +9,8 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const sources=require('../school-exam-sources.js');
 const intake=require('../data/staging/cksh-114-1-1-g1-chinese-intake.cjs');
 const drafts=require('../data/staging/cksh-114-1-1-g1-chinese-explanations.js');
+const questionText=require('../data/staging/cksh-114-1-1-g1-chinese-question-text.json');
+const readingContexts=require('../data/staging/cksh-114-1-1-g1-chinese-reading-contexts.json');
 const paper=sources.forSchool('成功高中')[0];
 const letters='ABCDE';
 
@@ -70,9 +72,14 @@ export function buildArtifacts(){const raw=buildInput();return {raw,staging:prep
 // The school paper remains in Raw/Staging for auditing. The playable projection
 // omits disputed answers and never changes the review status of platform drafts.
 export function buildPlayableBank(raw=buildInput()){
- const questions=raw.questions.filter(q=>q.answer_match===true&&q.question_number!==23);
+ const questions=raw.questions.filter(q=>q.answer_match===true&&q.question_number!==23)
+  .map(q=>{const text=questionText[q.question_number];if(!text||text.options.length!==q.options.length)throw Error(`Missing source question ${q.question_number}`);
+   return {...q,stem:text.stem,options:text.options,
+    wording_status:[4,7,28,30,32,33].includes(q.question_number)?'platform_context_with_original_options':'source_question_transcribed',
+    content_capture_status:'inline_question_original_option_order'};});
  return {meta:{...raw.exam,academicYear:raw.exam.academic_year,paperUrl:raw.exam.source_url},
-  groups:raw.groups.filter(g=>g.question_numbers.some(n=>questions.some(q=>q.question_number===n))),
+  groups:raw.groups.filter(g=>g.question_numbers.some(n=>questions.some(q=>q.question_number===n)))
+   .map(g=>({...g,stem:readingContexts[g.question_numbers[0]+'-'+g.question_numbers.at(-1)]||g.stem})),
   questions};
 }
 

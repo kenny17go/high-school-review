@@ -1,3 +1,21 @@
+## 2026-09-27 成功高中 114 國綜真題選項與頁內題目（程式完成／瀏覽器待環境）
+
+### Current Task / Completed
+- 使用者指出真題選項隨機排列會使題目與答案不一致；共用題卡現在固定 `ceec_official`、`school_official`、`school_exam_verified` 選項原順序，只有平台模擬題保留隨機排列。題庫 ID、答案及學習紀錄未更動。
+- 下載成功高中校方 9 頁解析卷，逐題檢查第 23 題以外的 31 道選擇題：題卡 A～E 選項文字／順序與 PDF 全部一致，31 道卷面印答位置也相符。第 23 題繼續完全排除；第 32、33 題保留人工評分。
+- 沿用既有 34 題 Raw／Staging／詳解，新增 33 題題面／原順序選項與 7 組閱讀情境的展示資料，再生成原有 Unified Question Bank 投影。古文、選項、數值圖表及填表要求可在題卡直接閱讀；現代文章／長詩以平台撰寫的完整作答線索呈現，原卷 PDF 留作選用核對。未替換或覆蓋原始 Raw／Staging。
+
+### Modified / Important Files
+- `app.js`、`index.html`：真題固定選項順序、題組內文與窄螢幕換行；來源 PDF 為選用連結。
+- `data/staging/cksh-114-1-1-g1-chinese-question-text.json`、`data/staging/cksh-114-1-1-g1-chinese-reading-contexts.json`：原題面／選項與閱讀情境補充。
+- `scripts/build-cksh-114-chinese-staging.mjs`、`school-cksh-114-chinese-unified-bank.js`、`school-exam-sources.js`：原有題庫增量更新。
+- `tests/school-exam-intake.test.mjs`、`tests/v5-browser.cjs`、`CHANGELOG.md`、`version.json`、`subject-adapters.js`、本檔。
+
+### Tests / Remaining / Next Step
+- PDF 原卷逐題選項文字／順序／答案位置核對 31/31 通過；`npm run test:school-intake`、`npm run validate`、111–115 數 A 和 111–115 國綜 Golden／Explanation V2、migration、`git diff --check` 通過。完整 `npm test` 只在最後的 browser 測試因缺 `/opt/microsoft/msedge/msedge` 無法啟動；待有瀏覽器時跑互動與 390px 版面回歸。程式待提交與 Pages 核對。
+
+---
+
 ## 2026-09-27 成功高中 114 國綜接入統一題庫（程式完成／瀏覽器待環境）
 
 ### Current Task / Completed
