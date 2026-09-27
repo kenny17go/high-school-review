@@ -63,5 +63,5 @@ test('practice and mock expose the official PDF for standalone Chinese questions
  const app=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8');
  assert.match(app,/function chineseStandalonePdfMarkup\(q\)/);
  assert.equal((app.match(/\$\{chineseStandalonePdfMarkup\(q\)\}/g)||[]).length,2);
- assert.match(app,/q\.group_id\|\|!/);
+ assert.match(app,/q\.group_id\|\|\(!isCeec&&!isSchool\)/);
 });

@@ -1,3 +1,19 @@
+## 2026-09-27 成功高中 114 國綜接入統一題庫（程式完成／瀏覽器待環境）
+
+### Current Task / Completed
+- 遵照使用者指示，把已完成 Raw／Staging 的 34 題中卷面答案有爭議的第 23 題直接排除，不再投入爭議題校勘；其餘 33 題沿用已建立的題幹／選項轉述、7 組題組、卷面答案與逐題 Explanation V2 草稿，成為同一個 Unified Question Bank 的 `school_official` 來源。
+- 題庫共用練習、詳解及錯題元件沿用，既有來源索引提供一鍵篩選；整卷依原題號呈現（跳過 23），現代作品與圖表連到校方 PDF，平台轉述及詳解仍標待複核、`sync_disabled`，不列為已驗證題目。沒有寫入正式 Supabase 或新建平行題庫。
+- 共用選項排序使單選題的 `answer` 與畫面索引一致；多選保留原順序。其他學測題庫與平台題保留。
+
+### Modified / Important Files
+- `school-cksh-114-chinese-unified-bank.js`（從既有 Raw 生成的 33 題可練習投影）、`scripts/build-cksh-114-chinese-staging.mjs`、`unified-question-bank.js`、`app.js`、`index.html`、`school-exam-sources.js`、`subject-adapters.js`。
+- `tests/school-exam-intake.test.mjs`、`tests/v5-browser.cjs`、111–114 國綜 Golden 舊 renderer 斷言、`version.json`、`CHANGELOG.md`。
+
+### Tests / Remaining / Next Step
+- `npm run validate`、整卷 intake／runtime 33 題與既有 282 題共存測試、111–115 數 A 與 111–115 國綜 Golden、Explanation V2、migration 及 `git diff --check` 通過；完整 `npm test` 只在最後的 browser 測試受缺少 `/opt/microsoft/msedge/msedge` 阻擋。瀏覽器互動及 390px 版面回歸已寫入 `tests/v5-browser.cjs`，待有瀏覽器環境執行。下一步核對 Pages 與線上 33 題題庫及第 23 題缺席。
+
+---
+
 ## 2026-09-27 成功高中 114 國綜原卷回查（IN PROGRESS）
 
 ### Current Task / Completed

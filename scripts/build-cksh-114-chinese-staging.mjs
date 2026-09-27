@@ -67,11 +67,23 @@ export function buildInput(){
 
 export function buildArtifacts(){const raw=buildInput();return {raw,staging:prepareExamBatch(raw)};}
 
+// The school paper remains in Raw/Staging for auditing. The playable projection
+// omits disputed answers and never changes the review status of platform drafts.
+export function buildPlayableBank(raw=buildInput()){
+ const questions=raw.questions.filter(q=>q.answer_match===true&&q.question_number!==23);
+ return {meta:{...raw.exam,academicYear:raw.exam.academic_year,paperUrl:raw.exam.source_url},
+  groups:raw.groups.filter(g=>g.question_numbers.some(n=>questions.some(q=>q.question_number===n))),
+  questions};
+}
+
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
  const {raw,staging}=buildArtifacts();
  const rawPath=path.join(root,'data/raw/cksh-114-1-1-g1-chinese.json');
  const stagePath=path.join(root,'data/staging/cksh-114-1-1-g1-chinese.batch-import-v1.json');
  fs.writeFileSync(rawPath,JSON.stringify(raw,null,2)+'\n');
  fs.writeFileSync(stagePath,JSON.stringify(staging,null,2)+'\n');
+ fs.writeFileSync(path.join(root,'school-cksh-114-chinese-unified-bank.js'),
+  '/* Generated from existing school Raw data; disputed Q23 is omitted. */\n'+
+  '(function(root){root.CKSH_UNIFIED_BANK_114_CHINESE='+JSON.stringify(buildPlayableBank(raw))+';})(window);\n');
  console.log(JSON.stringify(staging.review_summary,null,2));
 }

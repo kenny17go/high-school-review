@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-school-intake-1";
+window.V500_BUILD="5.0-cksh-114-chinese-1";
 
 (function(){
 "use strict";
@@ -20,7 +20,11 @@ const adapter=()=>subjectInfo().adapter;
 let questionLoadSeq=0;
 const cloudBankCache=new Map();
 function subjectScopeSummary(s){return s.label+"｜"+(catalog.labels[s.sourceType]||"來源待核驗")+"｜"+subjectInfo().name+" "+s.academicYear+"學年度";}
-function decorateQuestions(set){return set.map(q=>(q.grade===2||q.subject==="chinese")?catalog.shuffleOptions(q):q);}
+function decorateQuestions(set){return set.map(q=>{
+ if(q.questionType==="multiple_choice"||!(q.grade===2||q.subject==="chinese")||!q.o?.length)return q;
+ const shuffled=catalog.shuffleOptions(q);
+ return {...shuffled,options:shuffled.o,answer:q.questionType==="single_choice"?shuffled.a:q.answer};
+});}
 function selectQuestions(pool,n){return adapter()?adapter().pick(pool,n):shuffle(pool).slice(0,n);}
 function passageMarkup(q,seen){const p=q.chineseMetadata?.passage_id;if(!p||seen.has(p))return "";seen.add(p);return registry.get(q.subject)?.adapter?.passage(q)||"";}
 
@@ -431,26 +435,26 @@ document.addEventListener("click",e=>{
     else syncGlobalSubjectUI();
     return;
   }
-  const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;refreshSchool();loadSchoolBankStatus();openPanel("practice");chooseSet();return}
+  const ps=e.target.closest("[data-practice-source]"); if(ps){$("school").value=ps.dataset.school;$("year").value=ps.dataset.year;$("term").value=ps.dataset.term==="1"?"上學期":"下學期";$("exam").value=ps.dataset.exam;if(ps.dataset.grade)$("grade").value=ps.dataset.grade;$("practiceSource").value="school";$("practiceYear").value=ps.dataset.year;$("qtyFilter").value="50";selectedPracticeTopics.clear();refreshSchool();loadSchoolBankStatus();openPanel("practice");updateTopicFilters();chooseSet();return}
   const o=e.target.closest("[data-open]"); if(o){if(o.dataset.subjectMode)adapter()?.setMode(o.dataset.subjectMode);openPanel(o.dataset.open);return}
   const h=e.target.closest("[data-home]"); if(h)goHome();
 });
 
 function chooseSet(){sessionStorage.setItem("v471_session","practice-"+Date.now());
   const source=$("practiceSource")?.value||"all",sourceYear=$("practiceYear")?.value||"全部",variant=$("practiceVariant")?.value||"全部";
-  practiceScope=source==="ceec"?null:(adapter()||selectedGrade()===2?currentScope():null);
+  practiceScope=source==="ceec"||source==="school"?null:(adapter()||selectedGrade()===2?currentScope():null);
   if(practiceScope)updateTopicFilters();
   const topics=practiceTopics(),l=$("levelFilter").value,qty=+$("qtyFilter").value;
-  const localPool=getSchoolPool(),allOfficial=unifiedQuestions(),officialPool=allOfficial.filter(q=>q.subject===subjectId());
-  const selectedOfficialVariant=variant!=="全部"&&allOfficial.some(q=>q.sourceType==="ceec_official"&&q.variant===variant);
-  const basePool=source==="ceec"||selectedOfficialVariant?allOfficial:source==="platform"?localPool:[...new Map([...localPool,...officialPool].map(q=>[String(q.id),q])).values()];
+  const localPool=getSchoolPool(),allOfficial=unifiedQuestions(),officialPool=allOfficial.filter(q=>q.subject===subjectId()&&q.sourceType==="ceec_official");
+  const schoolPool=allOfficial.filter(q=>q.sourceType==="school_official"&&q.subject===subjectId()&&q.grade===selectedGrade()&&q.school===$("school").value&&q.semester===termNumber()&&Number(q.exam)===Number(String($("exam").value).includes("第一")?1:String($("exam").value).includes("第二")?2:3));
+  const basePool=source==="school"?schoolPool:source==="ceec"?allOfficial.filter(q=>q.sourceType==="ceec_official"):source==="platform"?localPool:[...new Map([...localPool,...variant==="全部"?officialPool:allOfficial.filter(q=>q.sourceType==="ceec_official"&&q.variant===variant),...schoolPool].map(q=>[String(q.id),q])).values()];
   const effectiveVariant=source==="platform"?"全部":variant;
   const pool=basePool.filter(q=>(sourceYear==="全部"||String(q.academic_year)===String(sourceYear))&&(effectiveVariant==="全部"||q.variant===effectiveVariant)&&(!topics.length||topics.includes(q.topic))&&(l==="全部"||q.level===l));
-  const selected=source==="ceec"&&sourceYear!=="全部"&&qty>=pool.length
+  const selected=(source==="ceec"||source==="school")&&sourceYear!=="全部"&&qty>=pool.length
     ?pool.slice().sort((a,b)=>Number(a.question_number)-Number(b.question_number))
     :selectQuestions(pool,Math.min(qty,pool.length));
   current=decorateQuestions(selected);answers={};renderQuiz();
-  const sourceLabel=source==="ceec"?"學測真題":source==="platform"?"學校／平台題":"全部來源";
+  const sourceLabel=source==="ceec"?"學測真題":source==="school"?"學校段考":source==="platform"?"學校／平台題":"全部來源";
   $("countText").textContent=`目前產生 ${current.length} 題（符合條件共 ${pool.length} 題）｜來源：${sourceLabel}${sourceYear!=="全部"?"｜"+sourceYear+"學年度":""}${variant!=="全部"?"｜"+variant:""}${topics.length?"｜"+topics.join("、"):""}`;
   if(practiceScope)$("countText").textContent=`本次範圍：${scopeSummary(practiceScope)}｜${current.length} 題（符合條件 ${pool.length} 題）${current.length<qty?"；題目不足，僅提供符合範圍的題目":""}。${practiceScope.note}`;
   $("result").textContent="";
@@ -459,8 +463,9 @@ function questionGroupMarkup(q,seen){
  const g=window.UnifiedQuestionBank?.context?.(q);if(!g)return"";
  if(seen?.has(g.id))return`<div class="questionGroupRef">↳ 延續「${escapeText(g.title||"共用題組")}」</div>`;
  seen?.add(g.id);
- const official=/^https:\/\/([^.]+\.)*ceec\.edu\.tw\//i.test(g.source_url||"")?`${g.source_url}#page=${Number(g.source_page||1)+1}`:"";
- const linked=g.context_delivery==="official_pdf_reference";
+ const isCeec=/^https:\/\/([^.]+\.)*ceec\.edu\.tw\//i.test(g.source_url||""),isSchool=/^https:\/\/www\.cksh\.tp\.edu\.tw\//i.test(g.source_url||"");
+ const official=isCeec||isSchool?`${g.source_url}#page=${Number(g.source_page||1)+(isCeec?1:0)}`:"";
+ const linked=g.context_delivery==="official_pdf_reference"||g.context_delivery==="school_pdf_reference";
  const contextLabel=linked?"官方 PDF 連結模式":"共用題幹";
  const link=linked&&official?`<p class="small"><a href="${escapeText(official)}" target="_blank" rel="noopener noreferrer">開啟官方試卷第 ${escapeText(g.source_page||"?")} 頁查看完整文本（PDF）</a></p><p class="small">本站僅提供內容摘要；平台詳解與分類仍待人工審閱。</p>`:"";
  return `<section class="questionGroup" data-group="${escapeText(g.id)}"><div class="questionGroupHead"><b>📎 ${escapeText(g.title||"共用題組")}</b><span class="tag">${contextLabel}</span></div><div class="questionGroupStem">${escapeText(g.stem||"")}</div>${questionVisualMarkup(g)}${link}</section>`;
@@ -475,10 +480,12 @@ function explanationMarkup(q){
   (options.length?'<div class="explainSection"><span class="explainLabel">逐選項解析</span><div class="optionAnalysis">'+options.map((x,i)=>'<div><b>'+String.fromCharCode(65+i)+'.</b> '+escapeText(x)+'</div>').join("")+'</div></div>':"")+
   section("完整推理",e.reasoning||e.solution)+(Array.isArray(e.answer_elements)&&e.answer_elements.length?'<div class="explainSection"><span class="explainLabel">非選擇題作答要點</span><ol>'+e.answer_elements.map(x=>'<li>'+escapeText(x)+'</li>').join("")+'</ol><small>'+escapeText(e.scoring_notice||"平台整理，實際配分以官方公告為準。")+'</small></div>':"")+section("易錯原因",e.common_errors)+section("解題技巧",e.strategy)+section("延伸複習",e.review)+'</div>';
 }
-function questionSourceMarkup(q){if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>${q.explanation_status==="draft_review_required"?'<span class="tag">平台詳解待審閱</span>':''}`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
+function questionSourceMarkup(q){if(q.sourceType==="school_official")return `<span class="tag">${escapeText(q.school)} ${escapeText(q.academic_year)} 段考原題 ${escapeText(q.question_number)}</span><span class="tag">平台轉述／詳解待複核</span>`;if(q.sourceType==="ceec_official")return `<span class="tag">學測真題 ${escapeText(q.academic_year||"")} ${escapeText(q.variant||"")}</span>${q.explanation_status==="draft_review_required"?'<span class="tag">平台詳解待審閱</span>':''}`;return registry.get(q.subject)?.adapter?`<span class="tag">${escapeText(registry.get(q.subject).adapter.sourceName(q))}</span>`:"";}
 function chineseStandalonePdfMarkup(q){
- if(q.subject!=="chinese"||q.sourceType!=="ceec_official"||q.group_id||!/^https:\/\/([^.]+\.)*ceec\.edu\.tw\//i.test(q.source_url||"")||!Number.isInteger(q.source_page))return"";
- return `<p class="small"><a href="${escapeText(q.source_url+"#page="+(q.source_page+1))}" target="_blank" rel="noopener noreferrer">開啟官方試卷第 ${escapeText(q.source_page)} 頁查看完整題目（PDF）</a></p>`;
+ const isCeec=q.sourceType==="ceec_official"&&/^https:\/\/([^.]+\.)*ceec\.edu\.tw\//i.test(q.source_url||"");
+ const isSchool=q.sourceType==="school_official"&&/^https:\/\/www\.cksh\.tp\.edu\.tw\//i.test(q.source_url||"");
+ if(q.subject!=="chinese"||q.group_id||(!isCeec&&!isSchool)||!Number.isInteger(q.source_page))return"";
+ return `<p class="small"><a href="${escapeText(q.source_url+"#page="+(q.source_page+(isCeec?1:0)))}" target="_blank" rel="noopener noreferrer">開啟官方試卷第 ${escapeText(q.source_page)} 頁查看完整題目（PDF）</a></p>`;
 }
 function qAnswered(q,value){return window.LearningCore?.answered?.(value,q)??value!==undefined;}
 function qCorrect(q,value){return window.LearningCore?.equalAnswer?.(q,value)??value===q.a;}
@@ -508,7 +515,7 @@ function questionVisualMarkup(q){
 }
 function renderQuiz(){
  const passageSeen=new Set(),groupSeen=new Set();
- $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${chineseStandalonePdfMarkup(q)}${questionVisualMarkup(q)}${questionInputMarkup(q)}<div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}">${explanationMarkup(q)}</div></div>`).join("");
+ $("quiz").innerHTML=current.map((q,i)=>`${passageMarkup(q,passageSeen)}${questionGroupMarkup(q,groupSeen)}<div class="card qcard"><div class="qtitle">${q.sourceType==="school_official"?q.question_number:i+1}. ${escapeText(q.q)} <span class="tag">${q.topic}</span><span class="tag">${q.level}</span>${questionSourceMarkup(q)}</div>${chineseStandalonePdfMarkup(q)}${questionVisualMarkup(q)}${questionInputMarkup(q)}<div class="inlineTools"><button class="soft dontKnowBtn" data-dontknow-q="${q.id}">🙋 我不會</button><button class="soft" data-ask-q="${q.id}">問 ChatGPT</button><button class="soft" data-explain-q="${q.id}">詳解看不懂</button></div><div class="explain" id="exp${q.id}">${explanationMarkup(q)}</div></div>`).join("");
 }
 $("quiz").addEventListener("click",e=>{
  const check=e.target.closest("[data-practice-check]");
@@ -953,7 +960,7 @@ function renderSourceInventoryV49(){
 }
 
 function renderSources(){
- if(adapter()){$("sourceRows").innerHTML=catalog.schools.map(n=>{const papers=window.SchoolExamSources?.forSchool(n)||[];return `<tr><td>${escapeText(n)}</td><td>國文已驗證真題 ${adapter().all().filter(q=>core.isVerified(q)&&q.school===n).length} 題</td><td>${papers.length?`已取得 ${papers.length} 份校方試卷，答案待複核；尚不可作答`:'尚未收錄可驗證題目；不沿用數學狀態'}</td><td>${papers.length?`<a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(papers[0].source_url)}">查看校方試卷</a>`:'待收集'}</td></tr>`;}).join("");return;}
+ if(adapter()){$("sourceRows").innerHTML=catalog.schools.map(n=>{const papers=window.SchoolExamSources?.forSchool(n)||[],count=unifiedQuestions().filter(q=>q.sourceType==="school_official"&&q.school===n).length;return `<tr><td>${escapeText(n)}</td><td>可練習校方題 ${count} 題（平台詳解待複核）</td><td>${papers.length?`已取得 ${papers.length} 份校方試卷；爭議題不收錄`:'尚未收錄可驗證題目；不沿用數學狀態'}</td><td>${papers.length?`<a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(papers[0].source_url)}">查看校方試卷</a>`:'待收集'}</td></tr>`;}).join("");return;}
   $("sourceRows").innerHTML=Object.keys(schools).map(n=>{const d=schools[n];return `<tr><td><b>${n}</b></td><td><span class="status ${d.tone==="good"?"goodS":d.tone==="mid"?"midS":"lowS"}">${d.status}</span></td><td>${d.desc}</td><td><a class="linkbtn soft" target="_blank" href="${d.url}">官方入口</a></td></tr>`}).join("");
 }
 async function renderWrong(){
@@ -1117,8 +1124,9 @@ function renderSubjectSources(){
  $("coverageCards").innerHTML=catalog.schools.map(s=>`<div class="card">${escapeText(s)}：已驗證 ${verified.filter(q=>q.school===s).length} 題；${window.SchoolExamSources?.forSchool(s).length?'已有校方試卷待複核':'待收集／核驗'}。</div>`).join("");
  $("calibrationCards").textContent="國文尚無已校正的官方試卷資料。";$("examEvidenceList").textContent="尚未收錄。";$("examEvidenceSummary").textContent="";
  const papers=window.SchoolExamSources?.papers||[];
- $("sourceInventorySummary").textContent=`${subjectInfo().name}已驗證真題 ${verified.length} 題；另有 ${papers.length} 份校方試卷待複核，不計入可作答題數。`;
- $("sourceInventoryList").innerHTML=papers.length?papers.map(p=>`<div class="card sourcecard"><h3>${escapeText(p.school)}｜${escapeText(p.title)}</h3><p class="small">原卷 ${p.expected_question_count} 題；第 ${p.answer_review.map(x=>x.question_number).join('、')} 題印出答案有疑義。題目和詳解尚待逐題審定，暫不提供自動計分。</p><a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(p.source_url)}">查看校方原卷（PDF）</a></div>`).join(''):'候選來源需經資料工程驗證後才發布。';
+ const schoolCount=unifiedQuestions().filter(q=>q.subject==="chinese"&&q.sourceType==="school_official").length;
+ $("sourceInventorySummary").textContent=`${subjectInfo().name}已驗證真題 ${verified.length} 題；可練習校方題 ${schoolCount} 題（平台轉述及詳解待複核）。`;
+ $("sourceInventoryList").innerHTML=papers.length?papers.map(p=>`<div class="card sourcecard"><h3>${escapeText(p.school)}｜${escapeText(p.title)}</h3><p class="small">原卷 ${p.expected_question_count} 題；可練習 ${unifiedQuestions().filter(q=>q.sourceId===p.id).length} 題，印答有疑義的第 ${p.answer_review.map(x=>x.question_number).join('、')} 題已排除。題意由平台轉述，請配合原卷閱讀；詳解為平台草稿。</p><button class="linkbtn primary" data-practice-source="school" data-school="${escapeText(p.school)}" data-grade="${p.grade}" data-year="${p.academic_year}" data-term="${p.semester}" data-exam="第一次段考">練習這份試卷</button> <a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(p.source_url)}">查看校方原卷（PDF）</a></div>`).join(''):'候選來源需經資料工程驗證後才發布。';
 }
 let subjectSwitchSeq=0;
 async function switchSubject(){

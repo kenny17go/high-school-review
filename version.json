@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-school-intake-1",
+  "build": "5.0-cksh-114-chinese-1",
   "name": "全站科目導覽",
   "status": "in_progress",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
@@ -54,7 +54,9 @@
     "gsat-115-engine.js",
     "gsat-115-ui.js",
     "gsat-115-unified-bank.js",
-    "unified-question-bank.js"
+    "unified-question-bank.js",
+    "school-cksh-114-chinese-unified-bank.js",
+    "school-exam-sources.js"
   ],
   "preserve_existing_files": [
     "fallback-data.js",
@@ -73,7 +75,7 @@
   },
   "updatedAt": "2026-09-27",
   "notes": [
-    "新增成功高中114高一國綜整份試卷來源索引；第23題印出答案存疑，34題暫不發布到可作答題庫。",
+    "成功高中114高一國綜33題接入共用作答題庫；第23題卷面印答存疑，排除於可作答與計分題庫。",
     "延用國綜官方PDF連結模式與共用Explanation V2 renderer，涉及文章與圖表以官方原頁為準。",
     "平台詳解、分類維持draft_review_required／needs_review；未寫入Supabase。"
   ]

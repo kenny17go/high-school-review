@@ -1,5 +1,7 @@
 # 共用學習架構
 
+成功高中 114 上高一國綜保留 34 題 Raw／Staging 原始清單；產生可練習題庫投影時排除印答有爭議的第 23 題。其餘 33 題作為 `school_official` 來源接進同一 `UnifiedQuestionBank`；練習來源選單與來源索引只是篩選入口，沿用共用作答、詳解與錯題紀錄。平台轉述／詳解仍為待複核草稿，原文由校方 PDF 連結呈現，不計入已驗證真題或同步到正式 Supabase。
+
 V5 工作基準為 V4.9.7.7 / 27431f8。Math Frozen Core 保留 `learning-catalog.js`、`grade2-questions.js`、`grade2-scopes.js` 與原始高一題庫；`app.js` 只增加科目接點、分頁載入與跨科紀錄隔離，不複製第二套 app。
 
 ## Subject Registry 與題目契約
