@@ -1,3 +1,21 @@
+## 2026-09-27 成功高中 114 國綜逐題審查清單（IN PROGRESS）
+
+### Current Task / Completed
+- 核對 GitHub `main` `7aa8cd7` 與本機 `9f0edcc` 的內容樹相同，工作樹原先乾淨；沿用已收錄校方卷面答案及 34 題 Explanation V2 草稿，未重新產生詳解。
+- 新增 `data/staging/cksh-114-1-1-g1-chinese-intake.cjs`，按 1–34 原題號列出卷面答案、題型、7 個待核題組及逐題 review reasons。第 23 題 `answer_match=false`；第 5、25、29 題另標推論待核；32、33 題保留人工評分與參考答案尚未轉錄的旗標。題幹、選項、原 PDF 頁碼仍未驗證，全部 34 題均不可發布。
+- 校方 PDF 在本次環境以搜尋服務直接開啟、瀏覽器及命令列抓取均未成功，故未根據不完整資料編造題面或選項。尚未改動共用題庫／renderer／正式 Supabase 或網站 build。
+
+### Modified / Important Files
+- `data/staging/cksh-114-1-1-g1-chinese-intake.cjs`：僅審查用、不可作答的逐題清單。
+- `tests/school-exam-intake.test.mjs`：34 題題號、答案、題型、題組及所有發布閘門檢查。
+- `CODEX_PROGRESS.md`、`CHANGELOG.md`：進度與限制。
+
+### Tests / Remaining / Known Issues / Next Step
+- `npm run test:school-intake`、`git diff --check` 通過；完整 `npm test` 的 validate、資料／年度／詳解、migration 均通過，最後瀏覽器測試因環境缺少 `/opt/microsoft/msedge/msedge` 中止。未執行手機瀏覽器互動測試。
+- 下一步在能取回校方 PDF 的環境核對 34 題題面、選項、共用文本與頁碼，優先查證 Q23 校方印答衝突、Q5／25／29 詳解推論及 Q32／33 人工評分規準。整卷審核後才循現有 importer → 統一題庫發布；其餘七校仍須取得可追溯的原卷與答案。
+
+---
+
 ## 2026-09-27 八校真題來源接入（IN PROGRESS）
 
 ### Current Task / Completed
