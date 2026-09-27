@@ -496,7 +496,7 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 ### 測試與後續
 - `npm ci`後`npm test`通過validate、113國綜Golden、既有數A／國綜年度、Explanation V2與migration測試；最後browser階段因缺少系統Edge失敗。嘗試安裝Playwright Chromium時下載到損壞的0 MiB封包，環境仍無可用瀏覽器，待能取得二進位的環境執行互動測試。
 - 圖像、表格或特殊版面的8題仍待人工對照官方PDF；平台自製詳解尚需人工審閱。使用者已授權commit、push與部署；因本機HTTPS無GitHub憑證，經已連接GitHub工具以同一tree推送main提交`01a68f8`。Pages build/deployment run `36250069934`為success；線上`version.json`為`5.0-batch-chinese-113-1`，首頁載入113腳本，113題庫腳本與共用runtime線上SHA256均與本機一致。
-## 2026-09-27 112 國綜年度接入（使用者已授權提交與部署）
+## 2026-09-27 112 國綜年度接入（已推送並部署）
 
 ### Current Task / Completed
 - 從main `8829aa6`核對112國綜尚未接入，依大考中心官方試卷、選擇題參考答案、非選評分原則與試題／答案反映意見回覆，建立37題／100分、10組題組（單選27、多選7、非選3）。題號1–37及答案37/37與獨立manifest一致。第33、35、37題按官方各6分滿分參考整理。
@@ -510,4 +510,4 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 
 ### Tests / Remaining / Known Issues / Next Step
 - `npm ci`後`npm test`通過validate、數A與112–115國綜Golden及V2、migration；最後browser階段缺少系統Edge而無法啟動。`git diff --check`通過；待可取得Playwright瀏覽器時驗證整卷互動與390px排版。
-- 圖像／表格等6題及8組現代文本情境、全題平台自製詳解仍待人工複核；保留官方異議8題的說明。使用者已明確授權本年度 commit、push 與部署；完成後核對 GitHub Pages 實際版本與腳本。後續視需求接續111國綜。
+- 圖像／表格等6題及8組現代文本情境、全題平台自製詳解仍待人工複核；保留官方異議8題的說明。使用者已授權提交與部署；GitHub main 功能提交 `ef34ba6`，Pages run `36285032684` 成功。線上 `version.json` 為 `5.0-batch-chinese-112-1`，首頁、112 國綜腳本及共用題庫腳本的 SHA256 均與本機一致。後續視需求接續111國綜。
