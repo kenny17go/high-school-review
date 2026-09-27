@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-batch-chinese-112-1",
+  "build": "5.0-batch-chinese-111-1",
   "name": "全站科目導覽",
   "status": "in_progress",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
@@ -30,6 +30,7 @@
     "gsat-114-chinese-unified-bank.js",
     "gsat-113-chinese-unified-bank.js",
     "gsat-112-chinese-unified-bank.js",
+    "gsat-111-chinese-unified-bank.js",
     "gsat-111-unified-bank.js",
     "assets/gsat-111-q03.png",
     "assets/gsat-112-q18-20.png",
@@ -72,7 +73,7 @@
   },
   "updatedAt": "2026-09-27",
   "notes": [
-    "新增112國綜37題及10組題組，依官方試卷、選擇題答案、答案異議回覆與非選評分原則核對。",
+    "新增111國綜37題及9組題組，依官方試卷、選擇題答案與非選評分原則核對。",
     "延用國綜官方PDF連結模式與共用Explanation V2 renderer，涉及文章與圖表以官方原頁為準。",
     "平台詳解、分類維持draft_review_required／needs_review；未寫入Supabase。"
   ]

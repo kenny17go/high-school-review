@@ -511,3 +511,19 @@ node (Join-Path $npmTestRoot 'node_modules/npm/bin/npm-cli.js') test
 ### Tests / Remaining / Known Issues / Next Step
 - `npm ci`後`npm test`通過validate、數A與112–115國綜Golden及V2、migration；最後browser階段缺少系統Edge而無法啟動。`git diff --check`通過；待可取得Playwright瀏覽器時驗證整卷互動與390px排版。
 - 圖像／表格等6題及8組現代文本情境、全題平台自製詳解仍待人工複核；保留官方異議8題的說明。使用者已授權提交與部署；GitHub main 功能提交 `ef34ba6`，Pages run `36285032684` 成功。線上 `version.json` 為 `5.0-batch-chinese-112-1`，首頁、112 國綜腳本及共用題庫腳本的 SHA256 均與本機一致。後續視需求接續111國綜。
+
+## 2026-09-27 111 國綜年度接入（本機待提交）
+
+### Current Task / Completed
+- main `c425478` 起始工作樹乾淨，確認111國綜尚未接入。依大考中心111正式試卷、選擇題答案、非選評分原則及試題／答案異議回覆，新增37題／100分、9組題組：單選27、多選7、非選3。第34、35、36題皆6分；另第33、37題單選各2分。答案37/37與獨立manifest比對。
+- 34題選擇題均附逐選項說明；非選題有官方滿分參考要點、配分及限字。沿用既有共用題庫與官方PDF原頁連結，不複製現代文章全文，不改已完成年度或正式Supabase。
+- 第3、19、23、27、34、37題已查官方異議回覆，特別說明第27題假日仍受每日30分鐘限制、第34題「弟子操作多日」不能代替師父對耐勞苦的肯定。全部平台詳解維持`draft_review_required`，分類`needs_review`，前端同步關閉。
+- 第4、11、20–25、34、37題有視覺複核旗標，連同異議共13題進exception；3組含現代文本列group rights／external context queue。Raw／Staging 37題無缺號，validation error 0，尚未人工審核完成。
+
+### Modified / Important Files
+- `gsat-111-chinese-unified-bank.js`、`scripts/build-gsat-111-chinese-golden.mjs`、`data/raw/ceec-111-chinese.json`、`data/staging/ceec-111-chinese.batch-import-v1.json`、`tests/gsat-111-chinese-golden.test.mjs`。
+- `unified-question-bank.js`、`index.html`、`app.js`、`subject-adapters.js`、`version.json`、`package.json`、`scripts/validate.mjs`、`tests/browser.test.cjs`、`docs/architecture.md`、`CHANGELOG.md`。
+
+### Tests / Remaining / Known Issues / Next Step
+- 111國綜Golden與validate通過；完整`npm test`的靜態校驗、數A與111–115國綜Golden、Explanation V2及migration皆通過，browser階段因環境缺少系統Edge執行檔而無法啟動，故尚未完成互動與390px排版驗證。已目視核對官方原卷印刷第5及第9頁，其餘圖表／直排、第34題填表及第37題新聞版面仍待人工逐頁核對；現代文本權利與全部平台詳解也維持待審。未獲本年度提交授權前不commit、push或部署。
+- 依`AGENTS.md`，本年度尚無明確commit／push／部署授權。完成測試、審查diff後整理摘要供使用者確認；不主張全部詳解已人工審核。

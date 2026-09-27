@@ -25,7 +25,7 @@ const server=http.createServer((req,res)=>{
  await page.goto(url);await page.waitForTimeout(500);
  assert.deepEqual(errors,[],'startup errors');
  assert.equal(await page.locator('#school option').count(),8);
- assert.equal(await page.locator('#bankTotalN').innerText(),'250');
+ assert.equal(await page.locator('#bankTotalN').innerText(),'287');
  assert.equal(await page.locator('#curriculumTrackField').isVisible(),false);
  const duplicateIds=await page.evaluate(()=>{const ids=[...document.querySelectorAll('[id]')].map(e=>e.id);return ids.filter((id,i)=>ids.indexOf(id)!==i);});
  assert.deepEqual(duplicateIds,[]);
@@ -99,6 +99,12 @@ const server=http.createServer((req,res)=>{
  assert.equal(await page.locator('#quiz .questionGroup a[href*="ceec.edu.tw"][href*="#page="]').count(),10);
  assert.equal(await page.locator('#quiz .qcard a[href*="ceec.edu.tw"][href*="#page="]').count(),12,'112國綜獨立題連結原試卷頁');
  assert.ok((await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(node=>node.dataset.dontknowQ))).every(id=>id.startsWith('ceec-112-chinese-')));
+ await page.selectOption('#practiceYear','111');await page.locator('#applyFilter').click();
+ assert.equal(await page.locator('#quiz .qcard').count(),37,'111 國綜應按原題號顯示完整37題');
+ assert.equal(await page.locator('#quiz .questionGroup').count(),9);
+ assert.equal(await page.locator('#quiz .questionGroup a[href*="ceec.edu.tw"][href*="#page="]').count(),9);
+ assert.equal(await page.locator('#quiz .qcard a[href*="ceec.edu.tw"][href*="#page="]').count(),13,'111 國綜獨立題連結原試卷頁');
+ assert.ok((await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(node=>node.dataset.dontknowQ))).every(id=>id.startsWith('ceec-111-chinese-')));
  await page.selectOption('#practiceYear','115');await page.locator('#applyFilter').click();
  await page.locator('#topicChoices [data-topic-value="白話文閱讀"]').check();
  await page.locator('#topicChoices [data-topic-value="文言文閱讀"]').check();
@@ -168,7 +174,7 @@ const server=http.createServer((req,res)=>{
  await page.locator('#home button[data-open="mock"]:not([data-subject-mode])').click();await page.locator('#startMock').click();
  assert.equal(await page.locator('#mockQuiz .qcard').count(),0);
  await page.locator('#mock [data-home]').click();await page.selectOption('#year','114');
- await page.selectOption('#grade','1');assert.equal(await page.locator('#bankTotalN').innerText(),'250');
+ await page.selectOption('#grade','1');assert.equal(await page.locator('#bankTotalN').innerText(),'287');
  assert.deepEqual(errors,[],'interaction errors');
  // Phone layout without touching existing icons or manifest.
  await page.setViewportSize({width:390,height:844});await page.selectOption('#grade','2');
@@ -203,7 +209,7 @@ const server=http.createServer((req,res)=>{
  });
  await cloud.goto(url);await cloud.waitForFunction(()=>document.getElementById('dbBadge').textContent==='Supabase 已連線');
  assert.equal(await cloud.locator('#school option').count(),8,'cloud must not remove local schools');
- assert.equal(await cloud.locator('#bankTotalN').innerText(),'250','cloud grade 2 must not enter grade 1');
+ assert.equal(await cloud.locator('#bankTotalN').innerText(),'287','cloud grade 2 must not enter grade 1');
  await cloud.selectOption('#grade','2');
  await cloud.waitForFunction(()=>document.getElementById('bankTotalN').textContent==='421');
  await cloud.waitForFunction(()=>document.getElementById('currentScope').textContent.includes('官方範圍 ✓'));
