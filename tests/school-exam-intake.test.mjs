@@ -147,6 +147,10 @@ assert.deepEqual(Array.from(secondRuntime,q=>q.question_number),Array.from({leng
 assert(secondRuntime.every(q=>q.grade===1&&q.exam===2&&q.academic_year===114&&q.sync_disabled&&q.classification_status==='needs_review'));
 assert(secondRuntime.every(q=>q.explanation_v2?.schema==='explanation-v2'&&q.explanation_v2.option_analysis.length===q.options.length));
 assert(secondRuntime.every(q=>!q.options.some(v=>/【考試範圍】|【答案】/.test(v))));
+assert(secondRuntime.every(q=>!q.options.some(v=>/[\u4e00-\u9fff]\d[\u4e00-\u9fff]/.test(v))),'page numbers must not leak into options');
+assert.match(secondRuntime.find(q=>q.question_number===13).options[3],/挑戰傳統研究倫理$/);
+assert.match(secondRuntime.find(q=>q.question_number===27).options[3],/絲繩提玉壺/);
+assert(secondRuntime.find(q=>q.question_number===23).options.every(v=>v.includes('｜〈桃花源記〉：')&&v.includes('｜〈桃花源詩〉：')));
 assert.equal(secondRuntime.find(q=>q.question_number===1).options[3],second.questions.find(q=>q.question_number===1).options[3]);
 assert.equal(core.equalAnswer(secondRuntime.find(q=>q.question_number===1),3),true);
 assert.equal(core.equalAnswer(secondRuntime.find(q=>q.question_number===20),[0,1]),true);

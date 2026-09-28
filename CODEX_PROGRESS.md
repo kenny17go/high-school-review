@@ -11,6 +11,7 @@
 
 ### Tests / Remaining / Next Step
 - `npm run test:school-intake`、`npm run validate`、所有年度 Golden／Explanation V2 與 migration、`git diff --check` 通過。完整 `npm test` 最後的瀏覽器階段因缺 `/opt/microsoft/msedge/msedge` 無法啟動；需在有瀏覽器環境檢查互動與 390px 版面。校方原卷中部分現代作品全文不複製，題組由平台摘要代替；詳解與分類仍為待人工複核草稿。
+- 推送第一版 `d4ac191` 後，在線上瀏覽器核對 27 題題卡、原卷首題 D 選項判分及分層詳解；另發現第 13、27 題跨頁頁碼、第 23 題表格欄位顯示問題，已修正並更新快取至 `5.0-cksh-114-chinese-exam2-2`。補丁 `npm test` 靜態／資料／年度／migration 通過，最後仍受本機缺 Edge 阻擋；待推送補丁後再次核對 Pages 與瀏覽器畫面。
 
 ---
 

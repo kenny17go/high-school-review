@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-cksh-114-chinese-exam2-1";
+window.V500_BUILD="5.0-cksh-114-chinese-exam2-2";
 
 (function(){
 "use strict";
@@ -1127,7 +1127,7 @@ function renderSubjectSources(){
  const papers=window.SchoolExamSources?.papers||[];
  const schoolCount=unifiedQuestions().filter(q=>q.subject==="chinese"&&q.sourceType==="school_official").length;
  $("sourceInventorySummary").textContent=`${subjectInfo().name}已驗證真題 ${verified.length} 題；可練習校方題 ${schoolCount} 題（平台轉述及詳解待複核）。`;
- $("sourceInventoryList").innerHTML=papers.length?papers.map(p=>`<div class="card sourcecard"><h3>${escapeText(p.school)}｜${escapeText(p.title)}</h3><p class="small">原卷 ${p.expected_question_count} 題；可練習 ${unifiedQuestions().filter(q=>q.sourceId===p.id).length} 題，印答有疑義的第 ${p.answer_review.map(x=>x.question_number).join('、')} 題已排除。題目與原順序選項可直接在題卡閱讀；現代長文改用平台撰寫的完整作答線索，詳解仍為平台草稿。</p><button class="linkbtn primary" data-practice-source="school" data-school="${escapeText(p.school)}" data-grade="${p.grade}" data-year="${p.academic_year}" data-term="${p.semester}" data-exam="${p.exam===1?'第一次':p.exam===2?'第二次':'第三次'}段考">練習這份試卷</button> <a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(p.source_url)}">查看校方原卷（PDF）</a></div>`).join(''):'候選來源需經資料工程驗證後才發布。';
+ $("sourceInventoryList").innerHTML=papers.length?papers.map(p=>`<div class="card sourcecard"><h3>${escapeText(p.school)}｜${escapeText(p.title)}</h3><p class="small">原卷 ${p.expected_question_count} 題；可練習 ${unifiedQuestions().filter(q=>q.sourceId===p.id).length} 題，題目或印答有疑義的第 ${p.answer_review.map(x=>x.question_number).join('、')} 題已排除。題目與原順序選項可直接在題卡閱讀；現代長文改用平台撰寫的完整作答線索，詳解仍為平台草稿。</p><button class="linkbtn primary" data-practice-source="school" data-school="${escapeText(p.school)}" data-grade="${p.grade}" data-year="${p.academic_year}" data-term="${p.semester}" data-exam="${p.exam===1?'第一次':p.exam===2?'第二次':'第三次'}段考">練習這份試卷</button> <a class="linkbtn soft" target="_blank" rel="noopener noreferrer" href="${escapeText(p.source_url)}">查看校方原卷（PDF）</a></div>`).join(''):'候選來源需經資料工程驗證後才發布。';
 }
 let subjectSwitchSeq=0;
 async function switchSubject(){
