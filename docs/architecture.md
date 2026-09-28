@@ -36,6 +36,8 @@ chineseMetadata: text_ids[], skills[], passage_id, level, classification_status
 
 篇目核對來源：[國教院推薦選文教材](https://www.naer.edu.tw/upload/1/24/doc/3512/表述清晰，精準論證--知性寫作教材示例_羅嘉雯.pdf)、[學校公開舊三十篇表](https://learn.hshs.tyc.edu.tw/ischool/publish_page/242/?cid=11128)。原文短摘、原創導讀、原創閱讀材料有不同 rights 標記，現代翻譯／補習題庫未複製。
 
+`classical-question-links.js` 只保存已收錄真題 ID 與篇目 ID 的審查關聯；古文精讀從 `UnifiedQuestionBank` 取得原題，故選項、答案、題組與 Explanation V2 不另存第二份。原題仍維持 `needs_review`／`sync_disabled`；本機精讀可練但不列入已驗證歷屆統計，亦不允許正式 Supabase 同步。高一選篇練習可取得相關學測題，不受原試卷考生年級 3 的篩選影響；一般段考範圍仍按原年級與既有平台 mapping 篩選。
+
 精讀與段考是不同模式，但使用同一 question bank / renderer / progress：
 
 - 段考：8校 × 112/113/114 × 高一/高二 × 上下學期 × 3段考 = 288 筆平台 mapping。每筆列 lessons / skills / publisher；publisher 未核驗。沒有官方版本資料就維持「平台模擬範圍」。

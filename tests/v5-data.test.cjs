@@ -3,6 +3,7 @@ const root=path.resolve(__dirname,'..');const storage=new Map([['v42_url','https
 const ls={getItem:k=>storage.get(k)??null,setItem:(k,v)=>storage.set(k,v)};
 const ctx={window:{localStorage:ls},URL,setTimeout,clearTimeout,console};vm.createContext(ctx);
 for(const f of ['learning-catalog.js','subject-registry.js','classical-texts.js','learning-core.js','learning-storage.js','chinese-data.js','subject-adapters.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx,{filename:f});
+for(const f of ['gsat-115-chinese-unified-bank.js','gsat-114-chinese-unified-bank.js','gsat-113-chinese-unified-bank.js','gsat-112-chinese-unified-bank.js','gsat-111-chinese-unified-bank.js','school-cksh-114-chinese-unified-bank.js','school-cksh-114-chinese-second-unified-bank.js','unified-question-bank.js','classical-question-links.js'])vm.runInContext(fs.readFileSync(path.join(root,f),'utf8'),ctx,{filename:f});
 const W=ctx.window,C=W.LearningCore,D=W.ChineseData,A=W.ChineseLearning,R=W.SubjectRegistry,S=W.LearningProgress;
 // Resume after a failed completion-marker write without replacing migrated progress.
 const resumeRaw=new Map([
@@ -27,6 +28,29 @@ const oldProgress=W.LearningStorage.create({getItem:k=>k==='v5_attempts'?oldAtte
 assert.equal(oldProgress.summary('math').total,1);assert.equal(oldProgress.summary('chinese',null,null,'成語').total,1);
 assert.equal(oldProgress.summary('chinese','missing-text','meaning').total,0);
 assert.equal(W.ClassicalTexts.length,30);assert.equal(W.ClassicalTexts.filter(t=>t.group==='core15').length,15);assert.equal(new Set(W.ClassicalTexts.map(t=>t.text_id)).size,30);
+const linked=W.ClassicalQuestionLinks.rows(W.UnifiedQuestionBank.all());
+assert.equal(linked.length,new Set(linked.map(q=>q.id)).size);
+assert.ok(linked.length>=28);
+assert.ok(linked.every(q=>q.origin==='local-official'&&q.sync_disabled&&q.classification_status==='needs_review'));
+assert.ok(linked.every(q=>q.chineseMetadata.text_ids.every(id=>W.ClassicalTexts.some(t=>t.text_id===id))));
+assert.ok(linked.every(q=>q.explanation_v2&&q.source_url&&q.answer_url&&q.question_number));
+assert.ok(linked.every(q=>W.ClassicalQuestionLinks.links.some(l=>l.question_id===q.id)));
+assert.ok(linked.every(q=>!C.errors(q).length));
+assert.ok(linked.some(q=>q.id==='cksh-114-1-2-g1-chinese-q17'&&q.chineseMetadata.text_ids.includes('xunzi-quanxue')));
+assert.equal(W.UnifiedQuestionBank.all().length,182+60); // Five Chinese CEEC years plus the two existing school exams.
+const elements=new Map(),el=id=>{if(!elements.has(id))elements.set(id,{value:id==='classicalGroup'?'all':'all',checked:false,addEventListener(type,handler){this[type]=handler;}});return elements.get(id);};
+ctx.document={getElementById:el};
+A.init({selection:()=>({grade:1}),startPractice(){}});
+A.setMode('classical');
+el('classicalPanel').change({target:{dataset:{textId:'hanyu-shishuo'},checked:true}});
+assert.equal(A.pool({grade:1}).filter(q=>String(q.id).startsWith('cksh-114-1-1-g1-chinese-q')).length,4);
+assert.equal(A.pool({grade:1}).filter(q=>q.sourceType==='ceec_official').length,0);
+el('classicalPanel').change({target:{dataset:{textId:'su-chibi'},checked:true}});
+assert.equal(A.pool({grade:1}).filter(q=>q.sourceType==='ceec_official').length,2); // Grade 1 may practise existing GSAT questions.
+el('classicalPanel').change({target:{id:'classicalSource',dataset:{},value:'ceec'}});
+assert.equal(A.pool({grade:1}).length,2);
+assert.equal(C.coverage(linked,W.ClassicalQuestionLinks.links,'su-chibi').ceec,0); // Pending explanations never become verified counts.
+A.setMode('exam');
 assert.equal(R.enabled().length,2);assert.equal(R.get('physics').enabled,false);assert.equal(R.get('chinese').examMapping.length,288);
 assert.equal(D.questions.length,150);assert.equal(new Set(D.questions.map(q=>q.id)).size,150);
 for(const q of D.questions){assert.deepEqual(Array.from(C.errors(q)),[],String(q.id));assert.equal(q.sourceType,'platform_simulated');assert.equal(C.isVerified(q),false);assert.ok(q.explanation.length>12);assert.ok(q.chineseMetadata.text_ids.every(id=>W.ClassicalTexts.some(t=>t.text_id===id)));}

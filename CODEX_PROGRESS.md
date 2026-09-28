@@ -1,3 +1,19 @@
+## 2026-09-28 古文30篇來源擴充（IN PROGRESS）
+
+### Current Task / Completed
+- 依最新 `main` 6611573 接續：篇目 Registry 早已含核心15與平台選編延伸15；`chinese-data.js` 早已有30篇各自練習題、總計150題與詳解，不再重建。
+- 在現有111–115國綜與成功高中114上兩份已核對真題中，嚴格依題幹／共用情境挑出28題（學測19、成功高中9）對應13篇。關聯獨立存於 `classical-question-links.js`，只指向統一題庫原ID，不複製題目、原卷選項或解答；排除題組提及但小題不涉及該篇者。
+- 古文精讀入口增加篇目真題來源篩選與來源／篇目數，保留原有分層詳解、答題及錯題。真題平台詳解仍標 `needs_review`，不升格 verified，不加入已驗證統計，不寫入正式 Supabase。
+
+### Modified / Important Files
+- `classical-question-links.js`、`subject-adapters.js`、`index.html`、`scripts/validate.mjs`、`tests/v5-data.test.cjs`、`app.js`、`version.json`、`CHANGELOG.md`、`docs/architecture.md`。
+
+### Tests / Remaining / Next Step
+- 篇目來源回歸檢查28題原ID唯一、metadata／題組／詳解存在、未升格 verified、學測與學校練習入口可按篇目抽題；`npm test` 靜態／資料／年度／migration 皆通過，最後的瀏覽器階段因缺 Edge (`/opt/microsoft/msedge/msedge`) 未執行。未在有瀏覽器環境完成手機視覺測試。
+- 尚有17篇無可嚴格對應的已收錄真題；仍可練既有平台題。後續只搜尋111學年度以後、原題及答案可核對的學校／學測來源；出版社內容在取得權利與答案核實前不複製進題庫。版本／快取目前 `5.0-classical-links-1`；已獲使用者允許 commit、push 與部署，發布狀態請以 Git 與線上實況核對。
+
+---
+
 ## 2026-09-28 成功高中 114 上高一國綜期末考（來源缺件／尚未接入）
 
 ### Current Task / Completed

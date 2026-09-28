@@ -7,6 +7,7 @@ const data=()=>root.ChineseData||{questions:[],passages:[],question_text_links:[
 let cloud=[],links=[],loadPromise=null,mode='exam',selectedTexts=new Set(),selectedSkills=new Set(),source='all',weakOnly=false,schoolOnly='',selection,actions;
 const all=()=>[...new Map([...cloud,...data().questions].map(q=>[q.id,q])).values()];
 const allLinks=()=>[...links,...data().question_text_links];
+const linked=()=>root.ClassicalQuestionLinks?.rows(root.UnifiedQuestionBank?.all?.()||[])||[];
 const exams=['第一次段考','第二次段考','第三次段考／期末'];
 const scopes=root.LearningCatalog.schools.flatMap(school=>[112,113,114].flatMap(academic_year=>[1,2].flatMap(grade=>[1,2].flatMap(semester=>[1,2,3].map(exam=>({subject:'chinese',school,academic_year,grade,semester,exam,sourceType:'platform',lessons:root.ClassicalTexts.slice(((semester-1)*3+exam-1)*5,((semester-1)*3+exam)*5).map(t=>t.text_id),skills:R.skills.map(s=>s.id),publisher:null,verified:false}))))));
 R.subjects.chinese.examMapping=scopes;
@@ -22,12 +23,20 @@ function pool(s){
  if(mode==='reading')rows=rows.filter(q=>q.unit==='reading');
  if(mode==='language')rows=rows.filter(q=>q.unit==='language');
  if(mode==='classical'&&(!selectedTexts.size||!selectedSkills.size))return [];
- return C.filter(rows,{grade:s.grade,textIds:mode==='classical'?[...selectedTexts]:[],skills:mode==='classical'?[...selectedSkills]:[],source:mode==='classical'?source:'all',school:mode==='classical'?schoolOnly:'',weakOnly:mode==='classical'&&weakOnly,weak:S.weak},allLinks());
+ const filtered=C.filter(rows,{grade:s.grade,textIds:mode==='classical'?[...selectedTexts]:[],skills:mode==='classical'?[...selectedSkills]:[],source:mode==='classical'?source:'all',school:mode==='classical'?schoolOnly:'',weakOnly:mode==='classical'&&weakOnly,weak:S.weak},allLinks());
+ if(mode!=='classical'||source==='platform')return filtered;
+ // These existing local true questions are playable in the unified bank. Their
+ // explanations remain needs_review; never count them as verified history.
+ const official=linked().filter(q=>q.origin==='local-official'&&q.sync_disabled===true&&q.classification_status==='needs_review'&&!C.errors(q).length&&
+  q.chineseMetadata.text_ids.some(id=>selectedTexts.has(id))&&q.chineseMetadata.skills.some(id=>selectedSkills.has(id))&&
+  (!schoolOnly||q.school===schoolOnly)&&(!weakOnly||S.weak(q))&&
+  (source==='all'||source==='real-first'||source==='ceec'&&q.sourceType==='ceec_official'||source==='school'&&q.sourceType==='school_official'));
+ return [...filtered,...official];
 }
 function pick(rows,n){const selected=C.pick(rows,n,mode==='classical'?source:'all',mode==='classical'&&weakOnly?S.weak:()=>false),groups=new Map();for(const q of selected){const key=q.chineseMetadata?.passage_id||root.UnifiedQuestionBank?.context?.(q)?.id||q.id;if(!groups.has(key))groups.set(key,[]);groups.get(key).push(q);}return [...groups.values()].flat();}
 function ensure(){
  if(root.ChineseData)return Promise.resolve();if(loadPromise)return loadPromise;
- loadPromise=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='chinese-data.js?v=5.0-cksh-114-chinese-exam2-3';script.onload=()=>resolve();script.onerror=()=>{loadPromise=null;script.remove();reject(Error('國文本機題庫未載入，請重試。'));};document.head.appendChild(script);});return loadPromise;
+ loadPromise=new Promise((resolve,reject)=>{const script=document.createElement('script');script.src='chinese-data.js?v=5.0-classical-links-1';script.onload=()=>resolve();script.onerror=()=>{loadPromise=null;script.remove();reject(Error('國文本機題庫未載入，請重試。'));};document.head.appendChild(script);});return loadPromise;
 }
 function adaptCloud(row){
  if(!row.learning_metadata||row.classification_status!=='verified'||!row.verified_at)return null;
@@ -49,8 +58,9 @@ function history({source='all',school='全部',year='全部',term='全部',exam=
 function passage(q){const p=data().passages.find(p=>p.passage_id===q.chineseMetadata?.passage_id)||q.chineseMetadata?.passage;return p?`<blockquote class="readingPassage"><b>${esc(p.title)}</b><p>${esc(p.body)}</p></blockquote>`:'';}
 function stats(){
  const summary=S.summary('chinese'),wrong=S.wrong().filter(q=>q.subject==='chinese'),rows=pool(selection());
- for(const [id,value] of [['score',summary.percent??'-'],['doneN',summary.total],['wrongN',wrong.length],['bankTotalN',all().length]])document.getElementById(id).textContent=value;
- document.getElementById('prog').style.width=Math.min(100,summary.total*2)+'%';document.getElementById('bankVerifyText').textContent=`國文 ${all().length} 題｜本次條件 ${rows.length} 題｜平台題與真題明確分開`;
+ const total=all().length+linked().length;
+ for(const [id,value] of [['score',summary.percent??'-'],['doneN',summary.total],['wrongN',wrong.length],['bankTotalN',total]])document.getElementById(id).textContent=value;
+ document.getElementById('prog').style.width=Math.min(100,summary.total*2)+'%';document.getElementById('bankVerifyText').textContent=`國文 ${total} 題（${all().length} 題既有國文題＋${linked().length} 題篇目真題）｜本次條件 ${rows.length} 題｜真題平台詳解待審`;
 }
 function render(){
  if(!actions)return;
@@ -60,13 +70,14 @@ function render(){
  document.getElementById('textChoices').innerHTML=texts.map(t=>{const p=S.summary('chinese',t.text_id);return `<label class="choice"><input type="checkbox" data-text-id="${t.text_id}" ${selectedTexts.has(t.text_id)?'checked':''}><span>${esc(t.title)} <small>${p.percent===null?'尚未練習':p.percent+'%（'+p.total+'次作答）'}</small></span></label>`;}).join('');
  document.getElementById('textSelectionCount').textContent=`已選 ${selectedTexts.size} / ${texts.length}`;
  document.getElementById('singleTextDetails').innerHTML=selectedTexts.size===1?detail([...selectedTexts][0]):'<p>選擇單篇可看分層能力、真題紀錄與熟練度。</p>';
- document.getElementById('classicalAvailable').textContent=`符合篇目／能力／題源 ${pool({...selection()}).length} 題；缺題不跨範圍補足。`;
+ document.getElementById('classicalAvailable').textContent=`符合篇目／能力／題源 ${pool({...selection()}).length} 題；真題保留原卷選項，平台詳解待審，缺題不跨範圍補足。`;
  document.getElementById('classicalWeakOnly').checked=weakOnly;
 }
 function detail(id){
  const text=root.ClassicalTexts.find(t=>t.text_id===id),cov=C.coverage(all(),allLinks(),id),p=S.summary('chinese',id);
- const levels=R.skills.map(skill=>{const progress=S.summary('chinese',id,skill.id),n=C.filter(all(),{textIds:[id],skills:[skill.id]},allLinks()).length;return `<li>Level ${skill.level} · ${esc(skill.name)}：${n?n+' 題':'待補資料'}；${progress.percent===null?'尚未練習':progress.percent+'%（'+progress.total+'次）'}</li>`;}).join('');
- return `<h3>單篇精讀：${esc(text.title)}</h3><p>${esc(text.author)}｜${esc(text.era)}｜整體 ${p.percent===null?'尚未練習':p.percent+'%'}。${esc(text.notes)}</p><ul>${levels}</ul><div class="filters">${[['all','精讀練習'],['ceec','學測真題'],['school','八校段考真題'],['comparison','延伸／跨文本'],['platform','平台模擬題']].map(([value,label])=>`<button class="soft" data-text-source="${value}">${label}</button>`).join('')}</div><p>已驗證學測相關題 ${cov.ceec} 題</p><div class="filters">${Object.entries(cov.schools).map(([school,n])=>`<button class="soft" data-text-school="${esc(school)}">${esc(school)} ${n?'✓ '+n+'題':'— 0題'}</button>`).join('')}</div><p class="small">✓ 僅表示資料庫確有已驗證關聯題目；0 不代表歷來未考。</p>`;
+ const reviewed=linked().filter(q=>q.chineseMetadata.text_ids.includes(id)&&!C.errors(q).length);
+ const levels=R.skills.map(skill=>{const progress=S.summary('chinese',id,skill.id),n=C.filter(all(),{textIds:[id],skills:[skill.id]},allLinks()).length+reviewed.filter(q=>q.chineseMetadata.skills.includes(skill.id)).length;return `<li>Level ${skill.level} · ${esc(skill.name)}：${n?n+' 題':'待補資料'}；${progress.percent===null?'尚未練習':progress.percent+'%（'+progress.total+'次）'}</li>`;}).join('');
+ return `<h3>單篇精讀：${esc(text.title)}</h3><p>${esc(text.author)}｜${esc(text.era)}｜整體 ${p.percent===null?'尚未練習':p.percent+'%'}。${esc(text.notes)}</p><ul>${levels}</ul><div class="filters">${[['all','精讀練習'],['ceec','學測真題'],['school','八校段考真題'],['comparison','延伸／跨文本'],['platform','平台模擬題']].map(([value,label])=>`<button class="soft" data-text-source="${value}">${label}</button>`).join('')}</div><p>學測 ${reviewed.filter(q=>q.sourceType==='ceec_official').length} 題、學校 ${reviewed.filter(q=>q.sourceType==='school_official').length} 題（現有真題，平台詳解待審）；已驗證關聯 ${cov.ceec} 題</p><div class="filters">${Object.entries(cov.schools).map(([school,n])=>{const pending=reviewed.filter(q=>q.school===school).length;return `<button class="soft" data-text-school="${esc(school)}">${esc(school)} ${n+pending?n+pending+'題':'— 0題'}</button>`;}).join('')}</div><p class="small">學校與學測題目保留原卷題號及選項；待審題不計入已驗證統計。</p>`;
 }
 function init(api){
  actions=api;selection=api.selection;

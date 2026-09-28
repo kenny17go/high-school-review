@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-cksh-114-chinese-exam2-3";
+window.V500_BUILD="5.0-classical-links-1";
 
 (function(){
 "use strict";
