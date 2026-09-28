@@ -1,4 +1,4 @@
-window.V500_BUILD="5.0-cksh-114-chinese-exam2-2";
+window.V500_BUILD="5.0-cksh-114-chinese-exam2-3";
 
 (function(){
 "use strict";
@@ -1258,6 +1258,9 @@ function selectionChanged(){
 }
 ["grade","curriculumTrack","school","year","term","exam"].forEach(id=>onV496(id,"change",()=>{if(id==='grade')adapter()?.clearCloud();selectionChanged();if(id==="grade")loadCurrentSubjectQuestions().catch(console.warn);}));
 onV496("applySourceFilters","click",renderSourceInventoryV49);
+
+// A saved Chinese selection needs the same adapter initialization as an interactive switch.
+if(savedSubject&&savedSubject!=="math"&&registry.get(savedSubject)?.enabled)switchSubject();
 
 // background cloud sync, never blocks practice/mock
 setTimeout(()=>connectDB(false).catch(e=>console.warn("background DB skipped",e)),120);

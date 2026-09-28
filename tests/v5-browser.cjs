@@ -49,6 +49,9 @@ module.exports=async function({browser,url}){
  await page.locator('#quiz .qcard').first().locator('.opt').last().click();
  assert.equal(await page.locator('#quiz .qcard').first().locator('.opt.correct').count(),1);
  await page.locator('#practice [data-home]').click();
+ await page.reload();
+ await page.waitForFunction(()=>document.querySelector('#bankTotalN')?.textContent==='150');
+ assert.equal(await page.locator('#grade option').first().innerText(),'高一國文','saved Chinese subject must reload its adapter and grade labels');
  await page.locator('#subjectEntrances [data-open="classicalPanel"]').click();
  assert.equal(await page.locator('[data-text-id]').count(),15);
  await page.locator('[data-text-action="all"]').click();assert.equal(await page.locator('[data-text-id]:checked').count(),15);
