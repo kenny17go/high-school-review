@@ -166,3 +166,6 @@ Importer 的輸出應包含 review summary / exception queue，讓人工集中�
 111 國綜沿用同一 schema、importer、共用題卡與練習／模考：37題／100分、9組題組；單選27、多選7、非選3（第34、35、36題）。現代文章與墓碑／法規表格以平台摘要和官方PDF原頁連結呈現；第4、11、20–25、34、37題列視覺複核，異議第3、19、23、27、34、37題保留官方回覆、維持公告答案。3組共用現代文本進題組級rights／external context queue，平台詳解與分類仍待審，不同步正式Supabase。111–115 國綜年度均透過單一 Unified Question Bank 載入；沒有年度專用 renderer。
 
 新科目先取20–50題 Golden Sample 驗證科目特有題型，再擴大量。擴充新來源原則上只增加資料、分類與 filter；只有真正的新題型才擴充共用 renderer。
+## 成功高中 114 上高一國綜第二次期中考
+
+`data/staging/cksh-114-1-2-g1-chinese.json` 保存 34 題原題號的查核結果、27 題可使用題面與 7 題排除原因；平台詳解另存於同前綴 `-explanations.cjs`。`scripts/build-cksh-114-chinese-second.mjs` 只產生第二份來源在共用 Unified Question Bank 的投影。第一次期中考的原始資料與投影不改，題卡、作答、錯題沿用全站同一流程。兩份學校真題的選項都固定原卷順序，人工填答題不自動評分；現代作品共用情境用平台摘要，不複製全文。

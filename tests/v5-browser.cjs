@@ -22,7 +22,7 @@ module.exports=async function({browser,url}){
  assert.deepEqual(await page.evaluate(()=>[localStorage.wrong,localStorage.v42wrong,localStorage.v42hist]),old,'Chinese attempts must leave old math data intact');
  await page.selectOption('#grade','1');
  await page.locator('#home [data-open="sourceengineering"]').filter({visible:true}).first().click();
- await page.locator('#sourceInventoryList [data-practice-source="school"]').click();
+ await page.locator('#sourceInventoryList [data-practice-source="school"]').first().click();
  assert.equal(await page.locator('#quiz .qcard').count(),33,'the 34-item school paper excludes disputed Q23');
  assert.equal(await page.inputValue('#practiceSource'),'school');
  assert.deepEqual(await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(n=>Number(n.dataset.dontknowQ.match(/q(\d+)$/)[1]))),Array.from({length:34},(_,i)=>i+1).filter(n=>n!==23));
@@ -38,6 +38,16 @@ module.exports=async function({browser,url}){
  await page.locator('#quiz [data-practice-text$="q32"]').fill('自覺力與反省力');
  await page.locator('#quiz [data-practice-check$="q32"]').click();
  await page.locator('#finishBtn').click();assert.match(await page.locator('#result').innerText(),/已作答 3 題/);
+ await page.locator('#practice [data-home]').click();
+ await page.locator('#home [data-open="sourceengineering"]').filter({visible:true}).first().click();
+ await page.locator('#sourceInventoryList [data-practice-source="school"]').nth(1).click();
+ assert.equal(await page.locator('#quiz .qcard').count(),27,'second paper skips seven disputed items');
+ assert.equal(await page.inputValue('#exam'),'第二次段考');
+ assert.deepEqual(await page.locator('#quiz .qcard [data-dontknow-q]').evaluateAll(nodes=>nodes.map(n=>Number(n.dataset.dontknowQ.match(/q(\d+)$/)[1]))),Array.from({length:34},(_,i)=>i+1).filter(n=>![2,3,6,12,24,25,26].includes(n)));
+ assert.match(await page.locator('#quiz .qcard').first().locator('.opt').last().innerText(),/篝.*構.*媾/,'school D must stay D on second paper');
+ assert.match(await page.locator('#quiz .questionGroup').first().innerText(),/馮子都.*胡姬/s,'shared context must be available inline');
+ await page.locator('#quiz .qcard').first().locator('.opt').last().click();
+ assert.equal(await page.locator('#quiz .qcard').first().locator('.opt.correct').count(),1);
  await page.locator('#practice [data-home]').click();
  await page.locator('#subjectEntrances [data-open="classicalPanel"]').click();
  assert.equal(await page.locator('[data-text-id]').count(),15);

@@ -1,6 +1,6 @@
 {
   "version": "5.0",
-  "build": "5.0-cksh-114-chinese-inline-2",
+  "build": "5.0-cksh-114-chinese-exam2-1",
   "name": "全站科目導覽",
   "status": "in_progress",
   "baseCommit": "27431f880cc1c47b6fdb9c817a5fda4df866dd17",
@@ -56,7 +56,8 @@
     "gsat-115-unified-bank.js",
     "unified-question-bank.js",
     "school-cksh-114-chinese-unified-bank.js",
-    "school-exam-sources.js"
+    "school-exam-sources.js",
+    "school-cksh-114-chinese-second-unified-bank.js"
   ],
   "preserve_existing_files": [
     "fallback-data.js",
@@ -73,10 +74,9 @@
     "chinese": "phase1",
     "physics": "planned"
   },
-  "updatedAt": "2026-09-27",
+  "updatedAt": "2026-09-28",
   "notes": [
-    "成功高中114高一國綜33題保留校方選項原順序，題目與作答線索可在題卡閱讀；第23題排除。",
-    "題卡補上古文與圖表條件；現代長篇作品由平台整理作答線索，原卷PDF留作選用核對。",
-    "平台詳解、分類維持draft_review_required／needs_review；未寫入Supabase。"
+    "成功高中 114 上高一國綜第二次期中考：34 題中 27 題收錄，7 題疑義排除；保留原選項順序。",
+    "沿用同一統一題庫、題卡、詳解、作答與錯題紀錄；手寫題由學生自行核對；不寫入正式 Supabase。"
   ]
 }

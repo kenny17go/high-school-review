@@ -1,3 +1,21 @@
+## 2026-09-28 成功高中 114 上高一國綜第二次期中考（程式完成／瀏覽器待環境）
+
+### Current Task / Completed
+- 核對校方 9 頁解析卷、原卷選項及印答；原 34 題中 27 題接進同一 Unified Question Bank，保留原題號與選項順序。第 2、3、6、12、24、25、26 題不納入，並記錄原因。第一次期中考 33 題及 GSAT 題庫原檔不變。
+- 六組閱讀題組可在共用題卡讀到平台整理的作答線索；原 PDF 仍供選用核對。25 選擇題加逐選項分析；32／34 手寫題保留原卷參考作答，手動核對。
+- 試卷來源捷徑從 metadata 設定第一次／第二次段考，題庫的作答、詳解、錯題同用共用元件；不寫入正式 Supabase。
+
+### Modified / Important Files
+- `data/staging/cksh-114-1-2-g1-chinese.json`、`data/staging/cksh-114-1-2-g1-chinese-explanations.cjs`、`scripts/build-cksh-114-chinese-second.mjs`、`school-cksh-114-chinese-second-unified-bank.js`。
+- `school-exam-sources.js`、`unified-question-bank.js`、`app.js`、`index.html`、`subject-adapters.js`、`tests/school-exam-intake.test.mjs`、`tests/v5-browser.cjs`、`version.json`、`CHANGELOG.md`。
+
+### Tests / Remaining / Next Step
+- `npm run test:school-intake`、`npm run validate`、所有年度 Golden／Explanation V2 與 migration、`git diff --check` 通過。完整 `npm test` 最後的瀏覽器階段因缺 `/opt/microsoft/msedge/msedge` 無法啟動；需在有瀏覽器環境檢查互動與 390px 版面。校方原卷中部分現代作品全文不複製，題組由平台摘要代替；詳解與分類仍為待人工複核草稿。
+
+---
+
+---
+
 ## 2026-09-27 成功高中 114 國綜真題選項與頁內題目（程式完成／瀏覽器待環境）
 
 ### Current Task / Completed
