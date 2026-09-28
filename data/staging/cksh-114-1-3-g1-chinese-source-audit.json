@@ -1,0 +1,40 @@
+{
+  "id": "cksh-114-1-3-g1-chinese",
+  "school": "成功高中",
+  "subject": "chinese",
+  "grade": 1,
+  "academic_year": 114,
+  "semester": 1,
+  "exam": 3,
+  "variant": "國綜",
+  "title": "114 學年度上學期高一國綜期末考",
+  "status": "blocked_missing_question_paper",
+  "published": false,
+  "sync_status": "disabled",
+  "question_count_in_answer_sheet": 42,
+  "playable_question_count": 0,
+  "source_index_url": "https://www.cksh.tp.edu.tw/teaching/chinese/%E8%A9%A6%E9%A1%8C%E9%9B%86%E6%88%90/",
+  "question_paper_url": "https://www.cksh.tp.edu.tw/wp-content/uploads/doc/cg501/114-1-3%E9%AB%98%E4%B8%80%E5%9C%8B%E7%B6%9C%E8%A9%A6%E9%A1%8C.pdf",
+  "question_paper_access": "校方索引列出 PDF，但 2026-09-28 以搜尋服務及直接 HTTP 請求取得 404；尚無可核對的題幹、原卷選項、題組、頁碼。",
+  "answer_announcement_url": "https://www.cksh.tp.edu.tw/news/114%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC1%E5%AD%B8%E6%9C%9F%E9%AB%98%E4%B8%80%E3%80%81%E9%AB%98%E4%BA%8C%E6%9C%9F%E6%9C%AB%E8%80%83%E8%A7%A3%E7%AD%94/",
+  "answer_archive_url": "https://www.cksh.tp.edu.tw/wp-content/uploads/doc/cg220/114-1-%E9%AB%98%E4%B8%80%E6%9C%9F%E6%9C%AB%E8%A7%A3%E7%AD%940120.zip",
+  "answer_archive_entry": "解答-114-1-期末高一國文A卷.pdf",
+  "answer_source": "校方 2026-01-20 更新的高一國文 A 卷一頁答案表；只供之後核對，不作題目或詳解。",
+  "printed_answers": {
+    "single_choice": {
+      "1": "B", "2": "D", "3": "B", "4": "D", "5": "A", "6": "A", "7": "C", "8": "C", "9": "B", "10": "B",
+      "11": "D", "12": "D", "13": "C", "14": "C", "15": "D", "16": "B", "17": "C", "18": "A", "19": "A", "20": "B",
+      "21": "B", "22": "D", "23": "A", "24": "A", "25": "B", "26": "C"
+    },
+    "multiple_choice": {
+      "27": "ABCE", "28": "CE", "29": "AD", "30": "BCE", "31": "ACE", "32": "ACE", "33": "BD", "34": "AC", "35": "ABE", "36": "BC"
+    },
+    "mixed": {
+      "37": "A", "38": "C",
+      "39": ["陶彭澤（陶淵明）", "未嘗較聲律，雕句文，但信手寫出。"],
+      "40": "C", "41": "C",
+      "42": ["子瞻（蘇軾）", "以見余之無所往而不樂者，蓋遊於物之外也。", "南北百里，東西一舍。", "周瑜、陸遜。"]
+    }
+  },
+  "next_step": "取得校方原卷或使用者提供的原卷 PDF 後，才核對 42 題題幹、原選項順序、題組、校方答案；排除爭議題並編寫逐題詳解，接入現有統一題庫。"
+}
