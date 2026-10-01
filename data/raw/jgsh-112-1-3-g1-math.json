@@ -30,7 +30,9 @@
         8,
         9,
         10,
+        11,
         12,
+        13,
         14
       ],
       "independently_verified": [
@@ -565,12 +567,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "formula_image_verification_required"
       ],
       "parse_confidence": 0.96,
       "classification_confidence": 0.95,
-      "math_verification": "source_image_review_required"
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "中國剩餘式型的多項式餘式",
+        "key_insight": "除以兩個一次因式乘積時，餘式至多一次；設 R(x)=mx+n，再利用兩個根代入取得兩個條件。",
+        "solution": "設 f(x) 除以 (x+1)(3x-1) 的餘式為 R(x)=mx+n。只要由原卷兩組除式條件取得 f(-1) 與 f(1/3)，就可解 R(-1)=f(-1)、R(1/3)=f(1/3)。答案頁記錄 R(x)=3x+3；完整代入仍待原卷兩個餘式公式影像核對。",
+        "common_errors": "把餘式設成二次式；或知道兩個除式餘式後直接相加，沒有在根上建立條件。"
+      }
     },
     {
       "id": "jgsh-112-1-3-g1-math-q12",
@@ -647,12 +656,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "formula_image_verification_required"
       ],
       "parse_confidence": 0.96,
       "classification_confidence": 0.95,
-      "math_verification": "source_image_review_required"
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "韋達定理與二次式最小值",
+        "key_insight": "把 (α-1)²+(β-1)² 改寫成 (α+β)²-2αβ-2(α+β)+2，再以韋達定理換成 k 的函數。",
+        "solution": "設 S=α+β、P=αβ，則目標式=S²-2P-2S+2。由原卷二次方程式以韋達定理寫出 S、P 後，可化為 k 的二次式並求最小值；答案頁記錄最小值為 8。因原卷含 k 的係數尚待影像確認，暫不反推 S、P。",
+        "common_errors": "誤把 α²+β² 寫成 S²-P；正確為 S²-2P。求 k 的最小值時也要檢查『兩實根』的判別式限制。"
+      }
     },
     {
       "id": "jgsh-112-1-3-g1-math-q14",
