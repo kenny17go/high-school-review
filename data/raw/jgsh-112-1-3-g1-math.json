@@ -17,7 +17,35 @@
       "保留原卷選項順序。",
       "混合題視為一個 top-level question unit，內含兩小題。",
       "來源 PDF 本身標示建國中學 112 學年度第一學期期末考一年級數學科試題。"
-    ]
+    ],
+    "explanation_progress": {
+      "complete": [
+        1,
+        3,
+        9,
+        10,
+        12,
+        14
+      ],
+      "independently_verified": [
+        1,
+        9,
+        10,
+        14
+      ],
+      "source_image_review_required": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        12,
+        13
+      ]
+    }
   },
   "questions": [
     {
@@ -54,11 +82,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "一次函數斜率",
+        "key_insight": "一次函數的函數值差只與輸入差及斜率有關。",
+        "solution": "設 f(x)=mx+b。由 f(6)-f(3)=3m=4，得 m=4/3。因此 f(16)-f(4)=12m=16，答案 B。",
+        "common_errors": "把 f(6)-f(3) 誤當成 f(3)；忘記截距在函數值相減時會消掉。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q02",
@@ -95,10 +129,12 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "explanation_draft_needs_review",
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q03",
@@ -135,10 +171,18 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "餘式定理與因式定理",
+        "key_insight": "題幹目前的『三次多項式』與所述餘式條件需再對原卷公式核對，先不反推係數。",
+        "solution": "答案頁記錄本題選 A；但現有文字轉錄不足以安全重建完整多項式條件，因此推導保留待影像複核。",
+        "common_errors": "從不完整的文字層自行補次方或括號，會造成條件互相矛盾。"
+      },
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q04",
@@ -175,10 +219,12 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "explanation_draft_needs_review",
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q05",
@@ -215,10 +261,12 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "explanation_draft_needs_review",
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q06",
@@ -258,10 +306,12 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "explanation_draft_needs_review",
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q07",
@@ -295,10 +345,12 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "explanation_draft_needs_review",
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q08",
@@ -333,10 +385,12 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "explanation_draft_needs_review",
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q09",
@@ -368,11 +422,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "多項式不等式",
+        "key_insight": "先因式分解 x²-4x+4=(x-2)²；平方因子不改變穿越 2 時的符號。",
+        "solution": "原式=(x+2)(x-1)(x-2)²<0。除 x=2 為零點外，符號由 (x+2)(x-1) 決定；乘積為負時 -2<x<1。因此答案為 -2<x<1。",
+        "common_errors": "把二重根 x=2 當成會改變正負號的一重根。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q10",
@@ -404,11 +464,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數距離最佳化",
+        "key_insight": "以甲走的距離 x 表示兩人的座標，再最小化距離平方。",
+        "solution": "令 A=(0,0)、B=(30,0)、C=(0,40)。甲由 B 往 A 走 x 公里，位置 (30-x,0)；乙速率為甲 2 倍，位置 (0,2x)。距離平方 D²=(30-x)²+(2x)²=5x²-60x+900=5(x-6)²+720，故 x=6 時最近。",
+        "common_errors": "直接最小化距離的根號式；忘記乙走的是 2x。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q11",
@@ -441,10 +507,12 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "explanation_draft_needs_review",
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q12",
@@ -477,10 +545,18 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "韋達定理",
+        "key_insight": "設其中一根等於另外兩根乘積，把三根的對稱關係轉成整體根和、根積條件。",
+        "solution": "答案頁記錄 t=-4；完整推導仍需核對原卷係數與『最大值』條件後再解除 review gate。",
+        "common_errors": "未先確認原卷三次式係數，就用文字層的數字硬套韋達定理。"
+      },
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q13",
@@ -513,10 +589,12 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review"
+        "explanation_draft_needs_review",
+        "question_transcription_pending"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "math_verification": "source_image_review_required"
     },
     {
       "id": "jgsh-112-1-3-g1-math-q14",
@@ -549,11 +627,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "三次函數對稱中心與一次近似",
+        "key_insight": "三次函數以 (1,3) 為對稱中心，所以 f(1)=3；一次近似 y=5x+2 給出 f(0)=2、f'(0)=5。",
+        "solution": "(1) 由 f(1)=3，除以 x-1 的餘式為 3。(2) 設 f(x)=ax³+bx²+cx+d。一次近似給 d=2、c=5；對稱中心 x=1 表示 f''(1)=0，故 6a+2b=0，即 b=-3a；再由 f(1)=3 得 a-3a+5+2=3，所以 a=2、b=-6。故 f(x)=2x³-6x²+5x+2。",
+        "common_errors": "把對稱中心只當成圖形資訊而漏用 f''(1)=0；一次近似斜率就是 f'(0)。"
+      },
+      "math_verification": "independently_verified"
     }
   ]
 }
