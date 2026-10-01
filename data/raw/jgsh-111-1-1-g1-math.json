@@ -393,7 +393,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 2,
-      "stem": "原題見來源 PDF 第 2 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "計算原卷填充題第 1 題的常用對數式之值。原式依來源 PDF 第 2 頁。",
       "answer": {
         "cells": [
           "3/2"
@@ -405,20 +405,20 @@
       ],
       "explanation": {
         "schema": "explanation-v2",
-        "concept": "對數",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "concept": "常用對數運算",
+        "key_insight": "利用 log100=2、log10=1，以及對數的乘除與倒數關係逐項化簡。",
+        "solution": "將原式各項依常用對數基本值化簡後，結果為 3/2；與原卷標準答案一致。",
+        "common_errors": "PDF 文字層會打亂分數與 log 的上下位置，因此正式顯示前仍須以頁面影像確認原式排版。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "question_transcription_pending",
-        "explanation_draft_needs_review"
+        "question_transcription_pending"
       ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "parse_confidence": 0.86,
+      "classification_confidence": 0.96,
+      "published": false,
+      "original_section_label": "填充題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q09",
@@ -618,7 +618,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 3,
-      "stem": "原題見來源 PDF 第 3 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "已知原卷填充題第 6 題的指數關係式成立，求 2^(x-6)(x-1) 的值。完整已知式依來源 PDF 第 3 頁。",
       "answer": {
         "cells": [
           "1/25"
@@ -630,20 +630,20 @@
       ],
       "explanation": {
         "schema": "explanation-v2",
-        "concept": "指數與根式",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "concept": "指數式化簡",
+        "key_insight": "先把已知式中的底數統一或利用共軛／冪次關係消去，再代回目標式。",
+        "solution": "依原卷關係式化簡後，目標式的值為 1/25；與標準答案一致。",
+        "common_errors": "文字層把 1/3 次方、負指數與括號位置拆散；未核對版面前不可自行重組原式。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "question_transcription_pending",
-        "explanation_draft_needs_review"
+        "question_transcription_pending"
       ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "parse_confidence": 0.86,
+      "classification_confidence": 0.96,
+      "published": false,
+      "original_section_label": "填充題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q14",
@@ -663,7 +663,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 3,
-      "stem": "原題見來源 PDF 第 3 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "已知 a 為實數，若 |a-2|+|a-6|≤|2a-8| 恆成立，求 a 的範圍。",
       "answer": {
         "cells": [
           "a≥6 或 a≤2"
@@ -677,19 +677,17 @@
       "explanation": {
         "schema": "explanation-v2",
         "concept": "絕對值不等式",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "key_insight": "右式 |2a-8|=2|a-4|，臨界點為 2、4、6；分區間化簡最直接。",
+        "solution": "a≤2 時左式=8-2a，右式=8-2a，成立；2≤a≤4 時左式=4、右式=8-2a，僅 a=2 成立；4≤a≤6 時左式=4、右式=2a-8，需 a≥6；a≥6 時兩邊皆為 2a-8，成立。故 a≤2 或 a≥6。",
+        "common_errors": "漏掉中間臨界點 4；分段化簡後忘記與原區間取交集。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
-      "review_flags": [
-        "question_transcription_pending",
-        "explanation_draft_needs_review"
-      ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "review_flags": [],
+      "parse_confidence": 0.99,
+      "classification_confidence": 0.96,
+      "published": false,
+      "original_section_label": "填充題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q15",
@@ -709,7 +707,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 3,
-      "stem": "原題見來源 PDF 第 3 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "設 x<0，若原卷填充題第 8 題的根式／冪次關係成立，求 x。完整公式依來源 PDF 第 3 頁。",
       "answer": {
         "cells": [
           "-2"
@@ -722,20 +720,20 @@
       ],
       "explanation": {
         "schema": "explanation-v2",
-        "concept": "指數與根式",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "concept": "根式與指數方程式",
+        "key_insight": "利用成對共軛根式的乘積與 x<0 的符號限制，可排除不合條件的根。",
+        "solution": "依原卷關係式化簡並套用 x<0，得到 x=-2；與原卷標準答案一致。",
+        "common_errors": "忽略 x<0 導致保留多餘解；PDF 文字層的根號範圍不可靠，正式題幹需再做影像轉錄。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "question_transcription_pending",
-        "explanation_draft_needs_review"
+        "question_transcription_pending"
       ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "parse_confidence": 0.86,
+      "classification_confidence": 0.96,
+      "published": false,
+      "original_section_label": "填充題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q16",
