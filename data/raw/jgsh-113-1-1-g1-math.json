@@ -31,8 +31,13 @@
         9,
         10,
         11,
+        12,
+        13,
+        14,
         15,
-        16
+        16,
+        17,
+        18
       ],
       "independently_verified": [
         2,
@@ -40,7 +45,8 @@
         5,
         9,
         11,
-        15
+        15,
+        18
       ],
       "source_review_required": [
         1,
@@ -590,11 +596,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "絕對值不等式",
+        "key_insight": "先依絕對值臨界點分段，再在各區間解一次不等式並與區間取交集。",
+        "solution": "答案頁記錄解集為 x≥2；但目前 raw 題幹中的絕對值符號已被 PDF 文字層破壞，不能用現有字串直接推導。待影像確認原式後，按臨界點分段即可完成。",
+        "common_errors": "把 |u| 直接改成 u，沒有依 u 的正負分段。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q13",
@@ -627,11 +641,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次限制下的乘積範圍",
+        "key_insight": "若限制式能整理成圓／橢圓或平方和形式，可利用 (a±b)²≥0 或代換求 ab 的上下界。",
+        "solution": "答案頁給出的 ab 範圍為 [-3√3/2, 3√3/2]。原卷限制式的平方與根號位置仍需影像確認，因此先保留答案與最佳化方法，不反推條件。",
+        "common_errors": "只求最大值漏掉最小值；未確認限制集合是否關於原點對稱。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q14",
@@ -664,11 +686,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "雙重根式化簡",
+        "key_insight": "把 A±2√B 型根式設成 √m±√n，利用 m+n=A、mn=B 反解。",
+        "solution": "答案頁記錄結果 2+√21。原卷外層與內層根號範圍在文字層有黏連，待影像確認後可逐個將雙重根式拆成 √m±√n 再合併。",
+        "common_errors": "平方時漏掉 2√mn；沒有先判斷正負號。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q15",
@@ -786,11 +816,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "指數模型與科學記號",
+        "key_insight": "把高度 0 與 1000 的兩筆資料代入同一指數模型，可直接消去比例常數並求衰減因子。",
+        "solution": "由 p0=1013、p1000=977 可得到相鄰高度尺度的壓力比；答案頁記錄 r=4.26735×10^3、s=977/1013。完整 r 的定義與指數尺度仍需依原卷模型影像確認。",
+        "common_errors": "把 p1000/p0 寫反；科學記號的小數點位數移動錯誤。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q18",
@@ -822,11 +860,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "奇數的代數因式分解",
+        "key_insight": "令兩奇數為 x、y，利用 x³+y³=(x+y)(x²-xy+y²) 分析兩因子的奇偶性。",
+        "solution": "若 x、y 都是奇數，x+y 為偶數，而 x²-xy+y²=奇-奇+奇=奇數，所以標準和因式分解得到『偶數×奇數』。要判斷能否表示成兩個奇數的積，還可直接看 x³、y³ 都是奇數，因此 x³+y³ 為偶數；兩個奇數的積必為奇數，故不可能。",
+        "common_errors": "只做立方和因式分解卻沒檢查因子奇偶；兩奇數相加是偶數。"
+      },
+      "math_verification": "independently_verified"
     }
   ]
 }
