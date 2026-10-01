@@ -1,0 +1,962 @@
+{
+  "schema_version": "batch-import-v1",
+  "exam": {
+    "id": "jgsh-112-1-3-g1-math",
+    "school": "建國中學",
+    "academic_year": 112,
+    "semester": 1,
+    "exam": "期末考",
+    "grade": 1,
+    "subject": "數學",
+    "source_type": "school_exam_verified",
+    "source_url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+    "expected_question_count": 14,
+    "source_pages": 4,
+    "answer_key_page": 4,
+    "normalization_notes": [
+      "保留原卷選項順序。",
+      "混合題視為一個 top-level question unit，內含兩小題。",
+      "來源 PDF 本身標示建國中學 112 學年度第一學期期末考一年級數學科試題。"
+    ],
+    "explanation_progress": {
+      "complete": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "independently_verified": [
+        1,
+        9,
+        10,
+        14
+      ],
+      "source_image_review_required": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        12,
+        13
+      ],
+      "partial_option_review_required": [
+        4,
+        7
+      ],
+      "method_verified_source_review": [
+        2,
+        5,
+        6,
+        8
+      ]
+    }
+  },
+  "groups": [],
+  "questions": [
+    {
+      "id": "jgsh-112-1-3-g1-math-q01",
+      "question_number": 1,
+      "questionType": "single_choice",
+      "stem": "一次函數 f 滿足 f(6)-f(3)=4，求 f(16)-f(4)。",
+      "options": [
+        "12",
+        "16",
+        "18",
+        "20",
+        "24"
+      ],
+      "answer": {
+        "index": 1
+      },
+      "primary_unit": "一次函數",
+      "skill_tags": [
+        "一次函數"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "一次函數斜率",
+        "key_insight": "一次函數的函數值差只與輸入差及斜率有關。",
+        "solution": "設 f(x)=mx+b。由 f(6)-f(3)=3m=4，得 m=4/3。因此 f(16)-f(4)=12m=16，答案 B。",
+        "common_errors": "把 f(6)-f(3) 誤當成 f(3)；忘記截距在函數值相減時會消掉。"
+      },
+      "math_verification": "independently_verified",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q02",
+      "question_number": 2,
+      "questionType": "single_choice",
+      "stem": "設 x 為實數，二次函數 f(x) 對所有 x 恆有 f(x)>0，依原卷所給含參數 k 的式子求 k 的範圍。",
+      "options": [
+        "k>0",
+        "k>1",
+        "1>k>0",
+        "k<0",
+        "k>8/3"
+      ],
+      "answer": {
+        "index": 3
+      },
+      "primary_unit": "二次函數",
+      "skill_tags": [
+        "二次函數"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數恆正與判別式",
+        "key_insight": "若二次函數對所有實數 x 恆為正，需同時確認開口向上以及判別式小於 0。",
+        "solution": "本題核心判準為首項係數 >0 且 Δ=b²-4ac<0。原卷含參數 k 的完整係數目前仍需影像核對，因此不從不完整文字層反推 k；答案選項 D 暫保留為 answer-key transcription，待原式確認後完成代數推導。",
+        "common_errors": "只檢查 Δ<0 而漏掉首項係數正負；或從破碎 PDF 文字層猜 k 的係數。"
+      },
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "formula_image_verification_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q03",
+      "question_number": 3,
+      "questionType": "single_choice",
+      "stem": "三次多項式 f(x) 除以 (x-3)^3 的餘式為 2x-6，且 x-1 為 f(x) 的因式，求 f(x) 除以 x-5 的餘式。",
+      "options": [
+        "0",
+        "1",
+        "2",
+        "4",
+        "8"
+      ],
+      "answer": {
+        "index": 0
+      },
+      "primary_unit": "多項式",
+      "skill_tags": [
+        "多項式"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "餘式定理與因式定理",
+        "key_insight": "題幹目前的『三次多項式』與所述餘式條件需再對原卷公式核對，先不反推係數。",
+        "solution": "答案頁記錄本題選 A；但現有文字轉錄不足以安全重建完整多項式條件，因此推導保留待影像複核。",
+        "common_errors": "從不完整的文字層自行補次方或括號，會造成條件互相矛盾。"
+      },
+      "math_verification": "source_image_review_required",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q04",
+      "question_number": 4,
+      "questionType": "single_choice",
+      "stem": "實係數二次函數 f(x)=ax²+bx，a>0，且 f(9)<0、f(10)>0；比較原卷所列各函數值，選出最小者。",
+      "options": [
+        "f(2)",
+        "f(3)",
+        "f(4)",
+        "f(5)",
+        "f(7)"
+      ],
+      "answer": {
+        "index": 2
+      },
+      "primary_unit": "二次函數",
+      "skill_tags": [
+        "二次函數"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending",
+        "option_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "math_verification": "derivation_verified_option_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數零點與對稱軸",
+        "key_insight": "f(x)=ax²+bx=x(ax+b)，已知 a>0、f(9)<0、f(10)>0，可把非零根夾在 9 與 10 之間；拋物線對稱軸位於兩根 0 與 r 的中點。",
+        "solution": "設另一根為 r=-b/a。因 a>0 且 f(9)<0、f(10)>0，可得 9<r<10，因此對稱軸 r/2 介於 4.5 與 5。二次函數在對稱軸附近取得較小值；原卷選項中的整數代入點需以原卷影像再次確認後，才能正式鎖定選項。",
+        "common_errors": "只由開口向上判斷大小，卻沒有先利用 f(9)、f(10) 找出第二根與對稱軸的位置。"
+      },
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "option_image_verification_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "option_image_verification_required"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q05",
+      "question_number": 5,
+      "questionType": "single_choice",
+      "stem": "二次函數 y=f(x) 與 y 軸交於 (0,2)，且滿足原卷所列兩組函數值差條件，求 f(-16)。",
+      "options": [
+        "10",
+        "12",
+        "14",
+        "16",
+        "18"
+      ],
+      "answer": {
+        "index": 2
+      },
+      "primary_unit": "二次函數",
+      "skill_tags": [
+        "二次函數"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數有限差分",
+        "key_insight": "對二次函數 f(x)=ax²+bx+c，函數值差可直接消去 c；已知 y 軸交點又可立即得到 c=2。",
+        "solution": "由 f(0)=2 得 c=2。其餘兩組函數值差應建立兩個關於 a、b 的一次方程式，再代入 f(-16)。目前差分式中的下標／負號需影像複核，因此先保留完整解法骨架，不反推係數。",
+        "common_errors": "把 f(p)-f(q) 當成 f(p-q)；或漏用 f(0)=2。"
+      },
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "formula_image_verification_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q06",
+      "question_number": 6,
+      "questionType": "multiple_choice",
+      "stem": "二次函數 y=ax²+bx+c 的部分圖形如原卷右圖，判斷係數、判別式與函數值相關敘述。",
+      "options": [
+        "a<0",
+        "b>0",
+        "c>0",
+        "b²-4ac<0",
+        "4a+2b+c<0"
+      ],
+      "answer": {
+        "indices": [
+          0,
+          4
+        ]
+      },
+      "primary_unit": "二次函數",
+      "skill_tags": [
+        "二次函數"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending",
+        "figure_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "math_verification": "figure_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數圖形判讀",
+        "key_insight": "由圖形可依序判斷開口方向 a、y 截距 c、對稱軸與 b 的符號、x 軸交點數量與判別式。",
+        "solution": "本題必須依原卷右圖逐項判讀；文字層無法保存圖形，因此不能只靠選項與答案 BD/AE 類記號反推圖形。維持 image review gate，待圖像確認後再鎖定每個敘述。",
+        "common_errors": "忽略圖形是題目條件的一部分；用答案反推圖形會形成循環驗證。"
+      },
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "figure_image_verification_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "figure_image_verification_required"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q07",
+      "question_number": 7,
+      "questionType": "multiple_choice",
+      "stem": "給定 f(x)=x³-3x²-4x-6，判斷圖形、平移、係數表示與近似值敘述。",
+      "options": [],
+      "answer": {
+        "indices": [
+          1,
+          3
+        ]
+      },
+      "primary_unit": "三次函數",
+      "skill_tags": [
+        "三次函數"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending",
+        "option_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "math_verification": "core_derivation_verified_option_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "三次函數平移與對稱中心",
+        "key_insight": "三次函數可先平移消去二次項；對 f(x)=x³-3x²-4x-6，對稱中心的 x 座標為 -b/(3a)=1。",
+        "solution": "令 x=u+1，可把二次項消去；直接計算 f(1)=1-3-4-6=-12，所以原圖形的對稱中心為 (1,-12)。其餘各選項涉及原卷特定平移或近似敘述，須逐項對照原卷影像後才能判定。",
+        "common_errors": "把三次函數對稱中心誤當成極值點；平移時只改 x 而忘記 y 的常數項。"
+      },
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "option_image_verification_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "option_image_verification_required"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q08",
+      "question_number": 8,
+      "questionType": "multiple_choice",
+      "stem": "給定實係數三次多項式及其平移後函數 g(x)，已知 g 的對稱中心為 (-1,0) 且 g(2)<0，判斷五個敘述。",
+      "options": [],
+      "answer": {
+        "indices": [
+          0,
+          1,
+          2
+        ]
+      },
+      "primary_unit": "三次函數",
+      "skill_tags": [
+        "三次函數"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "三次函數平移與對稱中心",
+        "key_insight": "一般三次函數 ax³+bx²+cx+d 的對稱中心 x 座標為 -b/(3a)；平移後中心座標會跟著平移。",
+        "solution": "已知平移後 g 的對稱中心為 (-1,0)，可把它轉成原函數係數／平移量的關係，再配合 g(2)<0 判斷符號。原卷完整 f、g 定義仍需影像核對，所以目前不自行補公式。",
+        "common_errors": "把三次函數對稱中心公式誤寫成二次函數的 -b/(2a)；平移時符號方向寫反。"
+      },
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "formula_image_verification_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q09",
+      "question_number": 9,
+      "questionType": "fill_blank",
+      "stem": "解不等式 (x+2)(x-1)(x²-4x+4)<0。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "-2<x<1"
+        ]
+      },
+      "primary_unit": "多項式不等式",
+      "skill_tags": [
+        "多項式不等式"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "多項式不等式",
+        "key_insight": "先因式分解 x²-4x+4=(x-2)²；平方因子不改變穿越 2 時的符號。",
+        "solution": "原式=(x+2)(x-1)(x-2)²<0。除 x=2 為零點外，符號由 (x+2)(x-1) 決定；乘積為負時 -2<x<1。因此答案為 -2<x<1。",
+        "common_errors": "把二重根 x=2 當成會改變正負號的一重根。"
+      },
+      "math_verification": "independently_verified",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q10",
+      "question_number": 10,
+      "questionType": "fill_blank",
+      "stem": "A、B、C 三鎮中 AB=30、AC=40 且夾角 90°；甲由 B 往 A，乙同時由 A 往 C，乙速率為甲 2 倍。甲走幾公里時兩人距離最近？",
+      "options": [],
+      "answer": {
+        "cells": [
+          "6"
+        ]
+      },
+      "primary_unit": "二次函數最佳化",
+      "skill_tags": [
+        "二次函數最佳化"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數距離最佳化",
+        "key_insight": "以甲走的距離 x 表示兩人的座標，再最小化距離平方。",
+        "solution": "令 A=(0,0)、B=(30,0)、C=(0,40)。甲由 B 往 A 走 x 公里，位置 (30-x,0)；乙速率為甲 2 倍，位置 (0,2x)。距離平方 D²=(30-x)²+(2x)²=5x²-60x+900=5(x-6)²+720，故 x=6 時最近。",
+        "common_errors": "直接最小化距離的根號式；忘記乙走的是 2x。"
+      },
+      "math_verification": "independently_verified",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q11",
+      "question_number": 11,
+      "questionType": "fill_blank",
+      "stem": "依原卷給定 f(x) 的兩組除式餘式條件，求 f(x) 除以 (x+1)(3x-1) 的餘式。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "3x+3"
+        ]
+      },
+      "primary_unit": "多項式",
+      "skill_tags": [
+        "多項式"
+      ],
+      "source_page": 3,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "中國剩餘式型的多項式餘式",
+        "key_insight": "除以兩個一次因式乘積時，餘式至多一次；設 R(x)=mx+n，再利用兩個根代入取得兩個條件。",
+        "solution": "設 f(x) 除以 (x+1)(3x-1) 的餘式為 R(x)=mx+n。只要由原卷兩組除式條件取得 f(-1) 與 f(1/3)，就可解 R(-1)=f(-1)、R(1/3)=f(1/3)。答案頁記錄 R(x)=3x+3；完整代入仍待原卷兩個餘式公式影像核對。",
+        "common_errors": "把餘式設成二次式；或知道兩個除式餘式後直接相加，沒有在根上建立條件。"
+      },
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "formula_image_verification_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q12",
+      "question_number": 12,
+      "questionType": "fill_blank",
+      "stem": "實係數三次方程式 x³-14x²+26x+t=0 的三根中，一根為另外兩根乘積，求 t 最大值。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "-4"
+        ]
+      },
+      "primary_unit": "多項式方程式",
+      "skill_tags": [
+        "多項式方程式"
+      ],
+      "source_page": 3,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "韋達定理",
+        "key_insight": "設其中一根等於另外兩根乘積，把三根的對稱關係轉成整體根和、根積條件。",
+        "solution": "答案頁記錄 t=-4；完整推導仍需核對原卷係數與『最大值』條件後再解除 review gate。",
+        "common_errors": "未先確認原卷三次式係數，就用文字層的數字硬套韋達定理。"
+      },
+      "math_verification": "source_image_review_required",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q13",
+      "question_number": 13,
+      "questionType": "fill_blank",
+      "stem": "α、β 為原卷含參數 k 的二次方程式兩實根，求 (α-1)²+(β-1)² 的最小值。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "8"
+        ]
+      },
+      "primary_unit": "二次方程式",
+      "skill_tags": [
+        "二次方程式"
+      ],
+      "source_page": 3,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "韋達定理與二次式最小值",
+        "key_insight": "把 (α-1)²+(β-1)² 改寫成 (α+β)²-2αβ-2(α+β)+2，再以韋達定理換成 k 的函數。",
+        "solution": "設 S=α+β、P=αβ，則目標式=S²-2P-2S+2。由原卷二次方程式以韋達定理寫出 S、P 後，可化為 k 的二次式並求最小值；答案頁記錄最小值為 8。因原卷含 k 的係數尚待影像確認，暫不反推 S、P。",
+        "common_errors": "誤把 α²+β² 寫成 S²-P；正確為 S²-2P。求 k 的最小值時也要檢查『兩實根』的判別式限制。"
+      },
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "formula_image_verification_required"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ]
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q14",
+      "question_number": 14,
+      "questionType": "short_answer",
+      "stem": "實係數三次多項式函數 y=f(x) 的圖形對稱中心為 (1,3)。(1) 求 f(x) 除以 x-1 的餘式；(2) 已知 x=0 附近一次近似直線為 y=5x+2，求 f(x)。",
+      "options": [],
+      "answer": {
+        "parts": [
+          "3",
+          "2x³-6x²+5x+2"
+        ]
+      },
+      "primary_unit": "三次函數",
+      "skill_tags": [
+        "三次函數"
+      ],
+      "source_page": 3,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/%E5%BB%BA%E5%9C%8B%E4%B8%AD%E5%AD%B8112%E5%AD%B8%E5%B9%B4%E5%BA%A6%E7%AC%AC%E4%B8%80%E5%AD%B8%E6%9C%9F%E6%9C%9F%E6%9C%AB%E8%80%83%E4%B8%80%E5%B9%B4%E7%B4%9A%E6%95%B8%E5%AD%B8%E7%A7%91%E8%A9%A6%E9%A1%8C.pdf",
+        "school": "建國中學",
+        "academic_year": 112,
+        "semester": 1,
+        "exam": "期末考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "staging",
+      "published": false,
+      "review_flags": [],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "三次函數對稱中心與一次近似",
+        "key_insight": "三次函數以 (1,3) 為對稱中心，所以 f(1)=3；一次近似 y=5x+2 給出 f(0)=2、f'(0)=5。",
+        "solution": "(1) 由 f(1)=3，除以 x-1 的餘式為 3。(2) 設 f(x)=ax³+bx²+cx+d。一次近似給 d=2、c=5；對稱中心 x=1 表示 f''(1)=0，故 6a+2b=0，即 b=-3a；再由 f(1)=3 得 a-3a+5+2=3，所以 a=2、b=-6。故 f(x)=2x³-6x²+5x+2。",
+        "common_errors": "把對稱中心只當成圖形資訊而漏用 f''(1)=0；一次近似斜率就是 f'(0)。"
+      },
+      "math_verification": "independently_verified",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    }
+  ],
+  "review_summary": {
+    "exam_id": "jgsh-112-1-3-g1-math",
+    "total": 14,
+    "clean": 4,
+    "needs_review": 10,
+    "error_count": 0,
+    "warning_count": 18,
+    "expected_question_count": 14,
+    "missing_question_numbers": [],
+    "exam_errors": [],
+    "ready_for_human_review": true,
+    "ready_for_publish": false
+  },
+  "exception_queue": [
+    {
+      "id": "jgsh-112-1-3-g1-math-q02",
+      "question_number": 2,
+      "reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "source_page": 1
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q03",
+      "question_number": 3,
+      "reasons": [
+        "question_transcription_pending"
+      ],
+      "source_page": 1
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q04",
+      "question_number": 4,
+      "reasons": [
+        "question_transcription_pending",
+        "option_image_verification_required"
+      ],
+      "source_page": 1
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q05",
+      "question_number": 5,
+      "reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "source_page": 1
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q06",
+      "question_number": 6,
+      "reasons": [
+        "question_transcription_pending",
+        "figure_image_verification_required"
+      ],
+      "source_page": 1
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q07",
+      "question_number": 7,
+      "reasons": [
+        "question_transcription_pending",
+        "option_image_verification_required"
+      ],
+      "source_page": 2
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q08",
+      "question_number": 8,
+      "reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "source_page": 2
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q11",
+      "question_number": 11,
+      "reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "source_page": 3
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q12",
+      "question_number": 12,
+      "reasons": [
+        "question_transcription_pending"
+      ],
+      "source_page": 3
+    },
+    {
+      "id": "jgsh-112-1-3-g1-math-q13",
+      "question_number": 13,
+      "reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required"
+      ],
+      "source_page": 3
+    }
+  ],
+  "group_exception_queue": []
+}
