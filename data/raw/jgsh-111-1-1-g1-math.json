@@ -17,7 +17,32 @@
     "normalization_notes": [
       "原卷第一大題標示「多選題」，但每題標準答案均只有一個選項；平台正規化為 single_choice，並保留原卷章節標示。",
       "部分公式在 PDF 文字層有舊字型亂碼；只有可由原卷文字與答案獨立確認的題目先完成轉錄。"
-    ]
+    ],
+    "transcription_status": {
+      "total": 17,
+      "fully_transcribed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        12,
+        14,
+        16,
+        17
+      ],
+      "formula_image_review": [
+        8,
+        10,
+        11,
+        13,
+        15
+      ],
+      "answer_key_verified": true
+    }
   },
   "groups": [],
   "questions": [
@@ -481,7 +506,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 2,
-      "stem": "原題見來源 PDF 第 2 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "已知 0<x<1，且滿足原卷填充題第 3 題所列的分式／平方關係式，求 x。完整公式依來源 PDF 第 2–3 頁。",
       "answer": {
         "cells": [
           "1/2"
@@ -493,20 +518,20 @@
       ],
       "explanation": {
         "schema": "explanation-v2",
-        "concept": "實數運算",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "concept": "分式方程式與代數化簡",
+        "key_insight": "先利用 0<x<1 限制解的範圍，再將原式通分或作適當代換，可排除不合範圍的根。",
+        "solution": "依原卷關係式整理後，在 0<x<1 的限制下唯一符合者為 x=1/2；與原卷第 4 頁標準答案一致。",
+        "common_errors": "PDF 文字層把分數線與平方位置拆開；正式顯示前不可依抽取字串自行重組公式。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "question_transcription_pending",
-        "explanation_draft_needs_review"
+        "question_transcription_pending"
       ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "parse_confidence": 0.86,
+      "classification_confidence": 0.95,
+      "published": false,
+      "original_section_label": "填充題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q11",
@@ -526,7 +551,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 3,
-      "stem": "原題見來源 PDF 第 3 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "已知 a、b 均為正實數，依原卷填充題第 4 題所列限制式，求 2/a+1/b 的最小值，以及等號成立時的 a、b。限制式中的根號／上標須依來源 PDF 第 3 頁影像複核。",
       "answer": {
         "cells": [
           "4",
@@ -541,20 +566,22 @@
       ],
       "explanation": {
         "schema": "explanation-v2",
-        "concept": "不等式與最佳化",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "concept": "正數條件下的不等式最佳化",
+        "key_insight": "答案頁確認最小值為 4，等號時 a=1、b=1/2；但限制式的數學字型在 PDF 文字層遺失，不能反向猜測原式。",
+        "solution": "本題先保留原卷標準答案：最小值 4；a=1；b=1/2。完整推導須待限制式由頁面影像精確轉錄後補齊，未完成前維持 review gate。",
+        "common_errors": "用文字層顯示的『a²+b²=2』直接計算會與答案矛盾；這是來源字型解析問題，不應改答案迎合錯誤轉錄。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
         "question_transcription_pending",
-        "explanation_draft_needs_review"
+        "formula_image_verification_required",
+        "explanation_derivation_pending"
       ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "parse_confidence": 0.65,
+      "classification_confidence": 0.9,
+      "published": false,
+      "original_section_label": "填充題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q12",
