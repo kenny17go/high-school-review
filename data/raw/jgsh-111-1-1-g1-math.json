@@ -53,7 +53,13 @@
       ],
       "finding": "Q8/Q10/Q11/Q13/Q15 contain fraction, radical or exponent glyph-order ambiguity in the PDF text layer; answer key is legible, but formulas are not safe to reconstruct from extracted text alone.",
       "policy": "Keep these five questions behind transcription review; do not approve or publish until page-image/manual formula verification."
-    }
+    },
+    "intake_policy": {
+      "unreadable_question_policy": "pass",
+      "note": "公式、圖形或文字若無法由來源可靠還原，直接排除，不進正式題庫，也不要求後續人工救援。"
+    },
+    "accepted_question_count": 12,
+    "passed_unreadable_count": 5
   },
   "groups": [],
   "questions": [
@@ -104,7 +110,9 @@
         "c>b>a",
         "c>a>b"
       ],
-      "original_section_label": "多選題"
+      "original_section_label": "多選題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q02",
@@ -153,7 +161,9 @@
         "2 個",
         "1 個"
       ],
-      "original_section_label": "多選題"
+      "original_section_label": "多選題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q03",
@@ -202,7 +212,9 @@
         "a≤1",
         "-1≤a≤1"
       ],
-      "original_section_label": "多選題"
+      "original_section_label": "多選題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q04",
@@ -251,7 +263,9 @@
         "100 倍",
         "1000 倍"
       ],
-      "original_section_label": "多選題"
+      "original_section_label": "多選題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q05",
@@ -303,7 +317,9 @@
         "x>(a+2b)/3",
         "x>(3a+4b)/7"
       ],
-      "original_section_label": "多重選擇題"
+      "original_section_label": "多重選擇題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q06",
@@ -356,7 +372,9 @@
         "a^(1/4)+a^(-1/4)=±√7",
         "a^(1/2)-a^(-1/2)=±√21"
       ],
-      "original_section_label": "多重選擇題"
+      "original_section_label": "多重選擇題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q07",
@@ -409,7 +427,9 @@
         "|x-1|-|x-3|=2",
         "|x-1|-|x-3|=-3"
       ],
-      "original_section_label": "多重選擇題"
+      "original_section_label": "多重選擇題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q08",
@@ -455,7 +475,10 @@
       "parse_confidence": 0.86,
       "classification_confidence": 0.96,
       "published": false,
-      "original_section_label": "填充題"
+      "original_section_label": "填充題",
+      "intake_status": "passed_unreadable",
+      "publish_eligible": false,
+      "pass_reason": "source_formula_or_figure_not_reliably_readable"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q09",
@@ -498,7 +521,9 @@
       "parse_confidence": 0.98,
       "classification_confidence": 0.95,
       "published": false,
-      "original_section_label": "填充題"
+      "original_section_label": "填充題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q10",
@@ -544,7 +569,10 @@
       "parse_confidence": 0.86,
       "classification_confidence": 0.95,
       "published": false,
-      "original_section_label": "填充題"
+      "original_section_label": "填充題",
+      "intake_status": "passed_unreadable",
+      "publish_eligible": false,
+      "pass_reason": "source_formula_or_figure_not_reliably_readable"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q11",
@@ -595,7 +623,10 @@
       "parse_confidence": 0.65,
       "classification_confidence": 0.9,
       "published": false,
-      "original_section_label": "填充題"
+      "original_section_label": "填充題",
+      "intake_status": "passed_unreadable",
+      "publish_eligible": false,
+      "pass_reason": "source_formula_or_figure_not_reliably_readable"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q12",
@@ -639,7 +670,9 @@
       "parse_confidence": 0.98,
       "classification_confidence": 0.95,
       "published": false,
-      "original_section_label": "填充題"
+      "original_section_label": "填充題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q13",
@@ -685,7 +718,10 @@
       "parse_confidence": 0.86,
       "classification_confidence": 0.96,
       "published": false,
-      "original_section_label": "填充題"
+      "original_section_label": "填充題",
+      "intake_status": "passed_unreadable",
+      "publish_eligible": false,
+      "pass_reason": "source_formula_or_figure_not_reliably_readable"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q14",
@@ -729,7 +765,9 @@
       "parse_confidence": 0.99,
       "classification_confidence": 0.96,
       "published": false,
-      "original_section_label": "填充題"
+      "original_section_label": "填充題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q15",
@@ -776,7 +814,10 @@
       "parse_confidence": 0.86,
       "classification_confidence": 0.96,
       "published": false,
-      "original_section_label": "填充題"
+      "original_section_label": "填充題",
+      "intake_status": "passed_unreadable",
+      "publish_eligible": false,
+      "pass_reason": "source_formula_or_figure_not_reliably_readable"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q16",
@@ -819,7 +860,9 @@
       "parse_confidence": 0.98,
       "classification_confidence": 0.95,
       "published": false,
-      "original_section_label": "計算題"
+      "original_section_label": "計算題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     },
     {
       "id": "jgsh-111-1-1-g1-math-q17",
@@ -862,7 +905,9 @@
       "parse_confidence": 0.98,
       "classification_confidence": 0.95,
       "published": false,
-      "original_section_label": "計算題"
+      "original_section_label": "計算題",
+      "intake_status": "accepted",
+      "publish_eligible": true
     }
   ]
 }
