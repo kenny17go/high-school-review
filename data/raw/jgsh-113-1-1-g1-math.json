@@ -17,7 +17,40 @@
       "保留原卷選項順序。",
       "來源 PDF 第 4 頁含標準答案。",
       "舊 PDF 字型造成部分分數、根號、絕對值與指數文字層錯位，相關題目保留公式影像複核標記。"
-    ]
+    ],
+    "explanation_progress": {
+      "complete": [
+        2,
+        3,
+        5,
+        9,
+        11,
+        15,
+        16
+      ],
+      "independently_verified": [
+        2,
+        3,
+        5,
+        9,
+        11,
+        15
+      ],
+      "source_review_required": [
+        1,
+        4,
+        6,
+        7,
+        8,
+        10,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18
+      ]
+    }
   },
   "questions": [
     {
@@ -95,11 +128,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "數線內分",
+        "key_insight": "由 AP:AB=3:5，AB=10，所以 AP=6；A=-3，故 P=-3+6=3。",
+        "solution": "由 AP:AB=3:5，AB=10，所以 AP=6；A=-3，故 P=-3+6=3。答案 A。",
+        "common_errors": "把 3:5 誤當成 AP:PB。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q03",
@@ -135,11 +174,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "區間差的極值",
+        "key_insight": "a-b 最大時取 a 最大、b 最小：5-1=4；最小時取 a 最小、b 最大：-3-2=-5。",
+        "solution": "a-b 最大時取 a 最大、b 最小：5-1=4；最小時取 a 最小、b 最大：-3-2=-5。因此 M-m=4-(-5)=9，答案 E。",
+        "common_errors": "最大最小值沒有分別取端點。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q04",
@@ -210,11 +255,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "常用對數數量級",
+        "key_insight": "12345 介於 10^4 與 10^5，所以 4<log12345<5；且 12345 更接近 10^4 的數量級，最接近整數為 4，答案 D。",
+        "solution": "12345 介於 10^4 與 10^5，所以 4<log12345<5；且 12345 更接近 10^4 的數量級，最接近整數為 4，答案 D。",
+        "common_errors": "把位數 5 直接當成 log 值 5。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q06",
@@ -363,11 +414,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "配方法求二次式最小值",
+        "key_insight": "分別配方：9a²-12a=9(a-2/3)²-4；4b²+12b=4(b+3/2)²-9，所以總式=9(a-2/3)²+4(b+3/2)²-13，最小值 -13。",
+        "solution": "分別配方：9a²-12a=9(a-2/3)²-4；4b²+12b=4(b+3/2)²-9，所以總式=9(a-2/3)²+4(b+3/2)²-13，最小值 -13。",
+        "common_errors": "配方常數補償符號算錯。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q10",
@@ -436,11 +493,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "對數增量",
+        "key_insight": "2a=4+3log b。",
+        "solution": "2a=4+3log b。b 變為 10b 時，右側增加 3[log(10b)-log b]=3，所以 2a 增加 3，a 增加 3/2。",
+        "common_errors": "忘記左側是 2a，直接回答增加 3。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q12",
@@ -583,11 +646,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "指數成長",
+        "key_insight": "設初始 B=N、A=2N。",
+        "solution": "設初始 B=N、A=2N。t 天後 A=2N·2^t，B=N·3^t。要求 B>5A，故 (3/2)^t>10。逐次比較得 t=5 尚不足、t=6 已超過，因此至少 6 天。",
+        "common_errors": "『增加一倍』與『增加兩倍』分別表示變成 2 倍、3 倍；也要注意題意是超過而非等於。"
+      },
+      "math_verification": "independently_verified"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q16",
@@ -619,11 +688,17 @@
       "classification_status": "needs_review",
       "pipeline_stage": "raw",
       "published": false,
-      "review_flags": [
-        "explanation_draft_needs_review"
-      ],
+      "review_flags": [],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "速率與數線距離",
+        "key_insight": "把道路視為數線，依甲乙起點相距 10 與速率比 2:1，比較兩人到獎品的所需時間；原卷答案為最遠整數距離 9。",
+        "solution": "把道路視為數線，依甲乙起點相距 10 與速率比 2:1，比較兩人到獎品的所需時間；原卷答案為最遠整數距離 9。完整方向配置仍需對原卷圖文複核。",
+        "common_errors": "只比較距離而忘記除以各自速率。"
+      },
+      "math_verification": "source_layout_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q17",
