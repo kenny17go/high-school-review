@@ -1,0 +1,703 @@
+{
+  "schema_version": "school-exam-raw-v1",
+  "exam": {
+    "id": "jgsh-113-1-1-g1-math",
+    "school": "建國中學",
+    "academic_year": 113,
+    "semester": 1,
+    "exam": "第一次段考",
+    "grade": 1,
+    "subject": "數學",
+    "source_type": "school_exam_verified",
+    "source_url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+    "source_pages": 4,
+    "answer_key_page": 4,
+    "expected_question_count": 18,
+    "normalization_notes": [
+      "保留原卷選項順序。",
+      "來源 PDF 第 4 頁含標準答案。",
+      "舊 PDF 字型造成部分分數、根號、絕對值與指數文字層錯位，相關題目保留公式影像複核標記。"
+    ]
+  },
+  "questions": [
+    {
+      "id": "jgsh-113-1-1-g1-math-q01",
+      "question_number": 1,
+      "questionType": "single_choice",
+      "stem": "將原卷所列循環小數差表示成有理數。",
+      "options": [
+        "3/2",
+        "65",
+        "1",
+        "67",
+        "34"
+      ],
+      "answer": {
+        "index": 3
+      },
+      "primary_unit": "實數與循環小數",
+      "skill_tags": [
+        "實數與循環小數"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q02",
+      "question_number": 2,
+      "questionType": "single_choice",
+      "stem": "數線上 A(-3)、B(7)，P(x) 在線段 AB 上且 AP:AB=3:5，求 x。",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "answer": {
+        "index": 0
+      },
+      "primary_unit": "數線與分點",
+      "skill_tags": [
+        "數線與分點"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q03",
+      "question_number": 3,
+      "questionType": "single_choice",
+      "stem": "-3≤a≤5、1≤b≤2；M、m 分別為 a-b 的最大與最小值，求 M-m。",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8",
+        "9"
+      ],
+      "answer": {
+        "index": 4
+      },
+      "primary_unit": "實數範圍",
+      "skill_tags": [
+        "實數範圍"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q04",
+      "question_number": 4,
+      "questionType": "single_choice",
+      "stem": "比較原卷三個根式／分數次方數 a、b、c 的大小。",
+      "options": [],
+      "answer": {
+        "index": 1
+      },
+      "primary_unit": "指數與根式",
+      "skill_tags": [
+        "指數與根式"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q05",
+      "question_number": 5,
+      "questionType": "single_choice",
+      "stem": "求最接近 log 12345 的整數。",
+      "options": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "answer": {
+        "index": 3
+      },
+      "primary_unit": "對數",
+      "skill_tags": [
+        "對數"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q06",
+      "question_number": 6,
+      "questionType": "multiple_choice",
+      "stem": "a 為正實數，判斷原卷所列各式哪些等於 a^(3/4)。",
+      "options": [],
+      "answer": {
+        "indices": [
+          0,
+          1,
+          3,
+          4
+        ]
+      },
+      "primary_unit": "指數與根式",
+      "skill_tags": [
+        "指數與根式"
+      ],
+      "source_page": 1,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q07",
+      "question_number": 7,
+      "questionType": "multiple_choice",
+      "stem": "判斷原卷五個關於實數、有理數與無理數的敘述。",
+      "options": [],
+      "answer": {
+        "indices": [
+          0,
+          1,
+          4
+        ]
+      },
+      "primary_unit": "實數",
+      "skill_tags": [
+        "實數"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q08",
+      "question_number": 8,
+      "questionType": "multiple_choice",
+      "stem": "判斷原卷五個含 |x+2|、|3-x| 的方程式／不等式哪些有實數解。",
+      "options": [],
+      "answer": {
+        "indices": [
+          1,
+          3
+        ]
+      },
+      "primary_unit": "絕對值方程式",
+      "skill_tags": [
+        "絕對值方程式"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q09",
+      "question_number": 9,
+      "questionType": "fill_blank",
+      "stem": "a、b 為實數，求 9a²+4b²-12a+12b 的最小值。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "-13"
+        ]
+      },
+      "primary_unit": "二次式最值",
+      "skill_tags": [
+        "二次式最值"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q10",
+      "question_number": 10,
+      "questionType": "fill_blank",
+      "stem": "計算原卷填充題第 2 題的冪次算式。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "5/9"
+        ]
+      },
+      "primary_unit": "指數運算",
+      "skill_tags": [
+        "指數運算"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q11",
+      "question_number": 11,
+      "questionType": "fill_blank",
+      "stem": "2a=4+3log b；當 b 變為 10 倍時，求 a 增加多少。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "3/2"
+        ]
+      },
+      "primary_unit": "對數",
+      "skill_tags": [
+        "對數"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q12",
+      "question_number": 12,
+      "questionType": "fill_blank",
+      "stem": "解 4x-5-3x≥7（依原卷絕對值／符號版面複核）。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "x≥2"
+        ]
+      },
+      "primary_unit": "絕對值不等式",
+      "skill_tags": [
+        "絕對值不等式"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q13",
+      "question_number": 13,
+      "questionType": "fill_blank",
+      "stem": "實數 a、b 滿足原卷二次限制式，求 ab 的範圍。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "[-3√3/2,3√3/2]"
+        ]
+      },
+      "primary_unit": "不等式與範圍",
+      "skill_tags": [
+        "不等式與範圍"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q14",
+      "question_number": 14,
+      "questionType": "fill_blank",
+      "stem": "化簡 36+6√35-√(19-2√60) 類型的原卷根式。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "2+√21"
+        ]
+      },
+      "primary_unit": "根式",
+      "skill_tags": [
+        "根式"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q15",
+      "question_number": 15,
+      "questionType": "fill_blank",
+      "stem": "A 菌一天增加一倍、B 菌一天增加兩倍；起初 A 為 B 的兩倍，B 超過 A 五倍才有效，求至少幾天。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "6"
+        ]
+      },
+      "primary_unit": "指數成長",
+      "skill_tags": [
+        "指數成長"
+      ],
+      "source_page": 2,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q16",
+      "question_number": 16,
+      "questionType": "fill_blank",
+      "stem": "甲乙相距 10 公尺，速率比 2:1 向道路上的獎品跑；若乙最後先到，求開始時獎品與乙的最遠整數距離。",
+      "options": [],
+      "answer": {
+        "cells": [
+          "9"
+        ]
+      },
+      "primary_unit": "數線與速率",
+      "skill_tags": [
+        "數線與速率"
+      ],
+      "source_page": 3,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q17",
+      "question_number": 17,
+      "questionType": "short_answer",
+      "stem": "大氣壓力與高度滿足原卷指數模型；由 p0=1013、p1000=977 求科學記號 r 與最簡有理數 s。",
+      "options": [],
+      "answer": {
+        "parts": [
+          "r=4.26735×10^3",
+          "s=977/1013"
+        ]
+      },
+      "primary_unit": "指數與對數應用",
+      "skill_tags": [
+        "指數與對數應用"
+      ],
+      "source_page": 3,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review",
+        "formula_image_verification_required"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    },
+    {
+      "id": "jgsh-113-1-1-g1-math-q18",
+      "question_number": 18,
+      "questionType": "short_answer",
+      "stem": "判斷兩個奇數的三次方和能否化為兩個奇數的積；可以則舉兩例，否則證明。",
+      "options": [],
+      "answer": {
+        "parts": [
+          "proof"
+        ]
+      },
+      "primary_unit": "代數證明",
+      "skill_tags": [
+        "代數證明"
+      ],
+      "source_page": 3,
+      "source": {
+        "type": "school_exam_verified",
+        "url": "https://www.lintingmath.url.tw/subject/113%E4%B8%8A%E5%AD%B8%E6%9C%9F%E5%BB%BA%E4%B8%AD%E9%AB%98%E4%B8%80%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%AE%B5%E8%80%83.pdf",
+        "school": "建國中學",
+        "academic_year": 113,
+        "semester": 1,
+        "exam": "第一次段考",
+        "grade": 1,
+        "subject": "數學"
+      },
+      "original_option_order": true,
+      "classification_status": "needs_review",
+      "pipeline_stage": "raw",
+      "published": false,
+      "review_flags": [
+        "explanation_draft_needs_review"
+      ],
+      "parse_confidence": 0.96,
+      "classification_confidence": 0.95
+    }
+  ]
+}
