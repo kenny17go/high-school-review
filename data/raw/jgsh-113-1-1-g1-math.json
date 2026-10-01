@@ -20,10 +20,16 @@
     ],
     "explanation_progress": {
       "complete": [
+        1,
         2,
         3,
+        4,
         5,
+        6,
+        7,
+        8,
         9,
+        10,
         11,
         15,
         16
@@ -88,11 +94,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "循環小數與有理數",
+        "key_insight": "循環小數先設未知數，再用 10 的適當次方相減消去循環部分。",
+        "solution": "本題原卷的兩個循環小數記號在 PDF 文字層無法可靠保留循環線範圍；答案頁記錄選 D。待影像確認循環節後，再以設元相減法完成精確分數運算。",
+        "common_errors": "把循環線只套在最後一位，或把有限小數誤當循環小數。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q02",
@@ -215,11 +229,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "根式與分數次方比較",
+        "key_insight": "比較正數的根式／分數次方時，可統一成共同次方或利用單調性比較。",
+        "solution": "原卷三個數 a、b、c 的指數位置在文字層有錯位；答案頁記錄選 B。完整比較必須先由影像確認三個數的正確形式，再統一次方判斷。",
+        "common_errors": "底數與指數同時不同時直接比較底數大小。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q05",
@@ -301,11 +323,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "分數指數律",
+        "key_insight": "把根式全部改寫成 a^r，再利用 (a^m)^n=a^(mn) 與 a^m a^n=a^(m+n)。",
+        "solution": "題目要找等於 a^(3/4) 的式子。答案頁為 A、B、D、E；各選項根號層級仍需影像確認，因此目前只保留方法與答案鍵，不反向重建選項。",
+        "common_errors": "把根號外的次方與根號內次方相加而不是相乘。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q07",
@@ -340,11 +370,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "有理數與無理數",
+        "key_insight": "判斷敘述時要分清楚『一定』與『可能』；兩個無理數的和、積都可能是有理數。",
+        "solution": "答案頁為 A、B、E。原卷五個敘述的部分根號／集合符號需影像確認後才能逐項給出反例或證明。",
+        "common_errors": "誤以為無理數加無理數一定仍是無理數。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q08",
@@ -378,11 +416,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "絕對值方程式的值域",
+        "key_insight": "把 |x+2|、|3-x| 視為數線上到 -2、3 的距離，可快速判斷和與差的可能範圍。",
+        "solution": "兩固定點距離為 5，因此距離和至少為 5，而距離差介於 [-5,5]。答案頁為 B、D；待原卷五個等式／不等式的常數影像確認後，可直接用這兩個值域逐項判定。",
+        "common_errors": "把距離和最小值誤認為 0；忽略距離差的絕對值不超過 5。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q09",
@@ -457,11 +503,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "formula_image_verification_required"
+        "formula_image_verification_required",
+        "source_image_review_required"
       ],
       "parse_confidence": 0.96,
-      "classification_confidence": 0.95
+      "classification_confidence": 0.95,
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "指數律",
+        "key_insight": "先把各底數分解成相同質因數的冪，再合併指數。",
+        "solution": "答案頁記錄 5/9。原卷算式的分數線與負指數在 PDF 文字層錯位，需影像確認完整算式後才能寫出逐步化簡。",
+        "common_errors": "負指數沒有取倒數，或先做近似小數造成不必要誤差。"
+      },
+      "math_verification": "method_verified_source_image_review_required"
     },
     {
       "id": "jgsh-113-1-1-g1-math-q11",
