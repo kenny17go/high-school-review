@@ -39,7 +39,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 1,
-      "stem": "原題見來源 PDF 第 1 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "設 a=√5+√7+√11，b=√2+√7+√14，c=√2+√10+√11，則 a、b、c 的大小關係為何？",
       "answer": {
         "index": 1
       },
@@ -50,20 +50,25 @@
       ],
       "explanation": {
         "schema": "explanation-v2",
-        "concept": "實數與根式",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "concept": "根式大小比較",
+        "key_insight": "三數都有三個正根式，可用近似值快速且安全地比較；也可比較共同項消去後的差。",
+        "solution": "a≈2.236+2.646+3.317=8.199；b≈1.414+2.646+3.742=7.802；c≈1.414+3.162+3.317=7.893，所以 a>c>b，選 B。",
+        "common_errors": "只比較根號內數字總和；√x 的差不能直接當成根號內數字的差。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
-      "review_flags": [
-        "question_transcription_pending",
-        "explanation_draft_needs_review"
+      "review_flags": [],
+      "parse_confidence": 0.99,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "a>b>c",
+        "a>c>b",
+        "b>c>a",
+        "c>b>a",
+        "c>a>b"
       ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "original_section_label": "多選題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q02",
@@ -83,7 +88,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 1,
-      "stem": "原題見來源 PDF 第 1 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "設三相異實數 a、b、c 在數線上對應 A、B、C，且 a=(7/6)b-(1/6)c。判斷五個敘述中有幾個正確。",
       "answer": {
         "index": 3
       },
@@ -94,20 +99,25 @@
       ],
       "explanation": {
         "schema": "explanation-v2",
-        "concept": "實數與數線",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "concept": "數線上的線性關係與距離",
+        "key_insight": "整理 6a=7b-c，可得 c-b=6(b-a)，直接讀出相對位置與距離。",
+        "solution": "c-b=6(b-a)，兩差同號，因此 b 位於 a、c 之間，且 BC=6AB；故甲、丁正確。其餘敘述不能由條件必然推出。共有 2 個正確，選 D。",
+        "common_errors": "由單一示意位置誤認 C 一定在 B 右邊；『必然成立』不能只驗一組例子。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
-      "review_flags": [
-        "question_transcription_pending",
-        "explanation_draft_needs_review"
+      "review_flags": [],
+      "parse_confidence": 0.99,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "5 個",
+        "4 個",
+        "3 個",
+        "2 個",
+        "1 個"
       ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "original_section_label": "多選題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q03",
@@ -127,7 +137,7 @@
       "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
       "answer_source": "原卷第4頁標準解答",
       "source_page": 1,
-      "stem": "原題見來源 PDF 第 1 頁；保留原卷題號與選項順序，完整題幹待人工轉錄複核。",
+      "stem": "若 x 為實數，不等式 |x-4|-|x-3|≤a 恆成立，求實數 a 的範圍。",
       "answer": {
         "index": 2
       },
@@ -138,20 +148,25 @@
       ],
       "explanation": {
         "schema": "explanation-v2",
-        "concept": "絕對值不等式",
-        "key_insight": "依原題條件建立數學關係，先確認定義域與分段條件。",
-        "solution": "待依原卷完整題幹補齊逐步詳解。",
-        "common_errors": "注意原卷符號、範圍端點與正負號；不得只依 PDF 文字層亂碼判讀。"
+        "concept": "絕對值差的值域",
+        "key_insight": "由反三角不等式，兩點距離差的絕對值不超過 1，因此左式最大值為 1。",
+        "solution": "|x-4|-|x-3|≤|(x-4)-(x-3)|=1，而且當 x≥4 時左式=1，所以最大值確為 1。要對所有 x 都成立，必須 a≥1，選 C。",
+        "common_errors": "只得到≤1 卻沒確認 1 能取到；把『恆成立』誤成存在某個 x 成立。"
       },
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
-      "review_flags": [
-        "question_transcription_pending",
-        "explanation_draft_needs_review"
+      "review_flags": [],
+      "parse_confidence": 0.99,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "a>1",
+        "a<1",
+        "a≥1",
+        "a≤1",
+        "-1≤a≤1"
       ],
-      "parse_confidence": 0.75,
-      "classification_confidence": 0.8,
-      "published": false
+      "original_section_label": "多選題"
     },
     {
       "id": "jgsh-111-1-1-g1-math-q04",
