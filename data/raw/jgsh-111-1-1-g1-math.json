@@ -42,6 +42,17 @@
         15
       ],
       "answer_key_verified": true
+    },
+    "source_audit": {
+      "checked_against_pdf_text_layer": true,
+      "checked_pages": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "finding": "Q8/Q10/Q11/Q13/Q15 contain fraction, radical or exponent glyph-order ambiguity in the PDF text layer; answer key is legible, but formulas are not safe to reconstruct from extracted text alone.",
+      "policy": "Keep these five questions behind transcription review; do not approve or publish until page-image/manual formula verification."
     }
   },
   "groups": [],
@@ -438,7 +449,8 @@
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "source_formula_text_layer_ambiguous"
       ],
       "parse_confidence": 0.86,
       "classification_confidence": 0.96,
@@ -526,7 +538,8 @@
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "source_formula_text_layer_ambiguous"
       ],
       "parse_confidence": 0.86,
       "classification_confidence": 0.95,
@@ -576,7 +589,8 @@
       "review_flags": [
         "question_transcription_pending",
         "formula_image_verification_required",
-        "explanation_derivation_pending"
+        "explanation_derivation_pending",
+        "source_formula_text_layer_ambiguous"
       ],
       "parse_confidence": 0.65,
       "classification_confidence": 0.9,
@@ -665,7 +679,8 @@
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "source_formula_text_layer_ambiguous"
       ],
       "parse_confidence": 0.86,
       "classification_confidence": 0.96,
@@ -755,7 +770,8 @@
       "explanation_source": "platform_authored",
       "explanation_status": "draft_review_required",
       "review_flags": [
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "source_formula_text_layer_ambiguous"
       ],
       "parse_confidence": 0.86,
       "classification_confidence": 0.96,
