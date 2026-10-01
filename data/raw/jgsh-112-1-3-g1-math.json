@@ -21,9 +21,13 @@
     "explanation_progress": {
       "complete": [
         1,
+        2,
         3,
         4,
+        5,
+        6,
         7,
+        8,
         9,
         10,
         12,
@@ -50,6 +54,12 @@
       "partial_option_review_required": [
         4,
         7
+      ],
+      "method_verified_source_review": [
+        2,
+        5,
+        6,
+        8
       ]
     }
   },
@@ -135,12 +145,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "formula_image_verification_required"
       ],
       "parse_confidence": 0.96,
       "classification_confidence": 0.95,
-      "math_verification": "source_image_review_required"
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數恆正與判別式",
+        "key_insight": "若二次函數對所有實數 x 恆為正，需同時確認開口向上以及判別式小於 0。",
+        "solution": "本題核心判準為首項係數 >0 且 Δ=b²-4ac<0。原卷含參數 k 的完整係數目前仍需影像核對，因此不從不完整文字層反推 k；答案選項 D 暫保留為 answer-key transcription，待原式確認後完成代數推導。",
+        "common_errors": "只檢查 Δ<0 而漏掉首項係數正負；或從破碎 PDF 文字層猜 k 的係數。"
+      }
     },
     {
       "id": "jgsh-112-1-3-g1-math-q03",
@@ -274,12 +291,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "formula_image_verification_required"
       ],
       "parse_confidence": 0.96,
       "classification_confidence": 0.95,
-      "math_verification": "source_image_review_required"
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數有限差分",
+        "key_insight": "對二次函數 f(x)=ax²+bx+c，函數值差可直接消去 c；已知 y 軸交點又可立即得到 c=2。",
+        "solution": "由 f(0)=2 得 c=2。其餘兩組函數值差應建立兩個關於 a、b 的一次方程式，再代入 f(-16)。目前差分式中的下標／負號需影像複核，因此先保留完整解法骨架，不反推係數。",
+        "common_errors": "把 f(p)-f(q) 當成 f(p-q)；或漏用 f(0)=2。"
+      }
     },
     {
       "id": "jgsh-112-1-3-g1-math-q06",
@@ -319,12 +343,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "figure_image_verification_required"
       ],
       "parse_confidence": 0.96,
       "classification_confidence": 0.95,
-      "math_verification": "source_image_review_required"
+      "math_verification": "figure_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "二次函數圖形判讀",
+        "key_insight": "由圖形可依序判斷開口方向 a、y 截距 c、對稱軸與 b 的符號、x 軸交點數量與判別式。",
+        "solution": "本題必須依原卷右圖逐項判讀；文字層無法保存圖形，因此不能只靠選項與答案 BD/AE 類記號反推圖形。維持 image review gate，待圖像確認後再鎖定每個敘述。",
+        "common_errors": "忽略圖形是題目條件的一部分；用答案反推圖形會形成循環驗證。"
+      }
     },
     {
       "id": "jgsh-112-1-3-g1-math-q07",
@@ -405,12 +436,19 @@
       "pipeline_stage": "raw",
       "published": false,
       "review_flags": [
-        "explanation_draft_needs_review",
-        "question_transcription_pending"
+        "question_transcription_pending",
+        "formula_image_verification_required"
       ],
       "parse_confidence": 0.96,
       "classification_confidence": 0.95,
-      "math_verification": "source_image_review_required"
+      "math_verification": "method_verified_source_formula_review_required",
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "三次函數平移與對稱中心",
+        "key_insight": "一般三次函數 ax³+bx²+cx+d 的對稱中心 x 座標為 -b/(3a)；平移後中心座標會跟著平移。",
+        "solution": "已知平移後 g 的對稱中心為 (-1,0)，可把它轉成原函數係數／平移量的關係，再配合 g(2)<0 判斷符號。原卷完整 f、g 定義仍需影像核對，所以目前不自行補公式。",
+        "common_errors": "把三次函數對稱中心公式誤寫成二次函數的 -b/(2a)；平移時符號方向寫反。"
+      }
     },
     {
       "id": "jgsh-112-1-3-g1-math-q09",
