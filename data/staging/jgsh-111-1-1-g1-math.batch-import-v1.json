@@ -1,0 +1,1087 @@
+{
+  "schema_version": "batch-import-v1",
+  "exam": {
+    "id": "jgsh-111-1-1-g1-math",
+    "subject": "math",
+    "school": "建國中學",
+    "grade": 1,
+    "academic_year": 111,
+    "semester": 1,
+    "exam": 1,
+    "variant": "數學",
+    "sourceType": "school_exam_verified",
+    "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+    "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+    "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+    "expected_question_count": 17,
+    "raw_layer": "verified_mirror_pdf",
+    "normalization_notes": [
+      "原卷第一大題標示「多選題」，但每題標準答案均只有一個選項；平台正規化為 single_choice，並保留原卷章節標示。",
+      "部分公式在 PDF 文字層有舊字型亂碼；只有可由原卷文字與答案獨立確認的題目先完成轉錄。"
+    ],
+    "transcription_status": {
+      "total": 17,
+      "fully_transcribed": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        12,
+        14,
+        16,
+        17
+      ],
+      "formula_image_review": [
+        8,
+        10,
+        11,
+        13,
+        15
+      ],
+      "answer_key_verified": true
+    }
+  },
+  "groups": [],
+  "questions": [
+    {
+      "id": "jgsh-111-1-1-g1-math-q01",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 1,
+      "questionType": "single_choice",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 1,
+      "stem": "設 a=√5+√7+√11，b=√2+√7+√14，c=√2+√10+√11，則 a、b、c 的大小關係為何？",
+      "answer": {
+        "index": 1
+      },
+      "primary_unit": "實數與根式",
+      "skill_tags": [
+        "根式運算",
+        "大小比較"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "根式大小比較",
+        "key_insight": "三數都有三個正根式，可用近似值快速且安全地比較；也可比較共同項消去後的差。",
+        "solution": "a≈2.236+2.646+3.317=8.199；b≈1.414+2.646+3.742=7.802；c≈1.414+3.162+3.317=7.893，所以 a>c>b，選 B。",
+        "common_errors": "只比較根號內數字總和；√x 的差不能直接當成根號內數字的差。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.99,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "a>b>c",
+        "a>c>b",
+        "b>c>a",
+        "c>b>a",
+        "c>a>b"
+      ],
+      "original_section_label": "多選題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q02",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 2,
+      "questionType": "single_choice",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 1,
+      "stem": "設三相異實數 a、b、c 在數線上對應 A、B、C，且 a=(7/6)b-(1/6)c。判斷五個敘述中有幾個正確。",
+      "answer": {
+        "index": 3
+      },
+      "primary_unit": "實數與數線",
+      "skill_tags": [
+        "數線",
+        "大小關係"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "數線上的線性關係與距離",
+        "key_insight": "整理 6a=7b-c，可得 c-b=6(b-a)，直接讀出相對位置與距離。",
+        "solution": "c-b=6(b-a)，兩差同號，因此 b 位於 a、c 之間，且 BC=6AB；故甲、丁正確。其餘敘述不能由條件必然推出。共有 2 個正確，選 D。",
+        "common_errors": "由單一示意位置誤認 C 一定在 B 右邊；『必然成立』不能只驗一組例子。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.99,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "5 個",
+        "4 個",
+        "3 個",
+        "2 個",
+        "1 個"
+      ],
+      "original_section_label": "多選題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q03",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 3,
+      "questionType": "single_choice",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 1,
+      "stem": "若 x 為實數，不等式 |x-4|-|x-3|≤a 恆成立，求實數 a 的範圍。",
+      "answer": {
+        "index": 2
+      },
+      "primary_unit": "絕對值不等式",
+      "skill_tags": [
+        "絕對值",
+        "恆成立"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "絕對值差的值域",
+        "key_insight": "由反三角不等式，兩點距離差的絕對值不超過 1，因此左式最大值為 1。",
+        "solution": "|x-4|-|x-3|≤|(x-4)-(x-3)|=1，而且當 x≥4 時左式=1，所以最大值確為 1。要對所有 x 都成立，必須 a≥1，選 C。",
+        "common_errors": "只得到≤1 卻沒確認 1 能取到；把『恆成立』誤成存在某個 x 成立。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.99,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "a>1",
+        "a<1",
+        "a≥1",
+        "a≤1",
+        "-1≤a≤1"
+      ],
+      "original_section_label": "多選題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q04",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 4,
+      "questionType": "single_choice",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 1,
+      "stem": "已知芮氏地震規模 M 與地震釋放能量 E 滿足 log E = 4.8 + 1.5M。規模 7.5 的地震釋放能量約為規模 5.5 的多少倍？",
+      "answer": {
+        "index": 4
+      },
+      "primary_unit": "對數",
+      "skill_tags": [
+        "對數應用",
+        "地震規模"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "常用對數與指數關係",
+        "key_insight": "比較兩次地震時將兩式相減，常數 4.8 消去。",
+        "solution": "log(E1/E2)=1.5×(7.5-5.5)=3，因此 E1/E2=10^3=1000，答案為 E。",
+        "common_errors": "把規模差 2 直接當成能量倍數，或得到 log 比值 3 後忘記還原成 10^3。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "published": false,
+      "options": [
+        "1.36 倍",
+        "3.0 倍",
+        "9.6 倍",
+        "100 倍",
+        "1000 倍"
+      ],
+      "original_section_label": "多選題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q05",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 5,
+      "questionType": "multiple_choice",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 2,
+      "stem": "數線上有三點 A(a)、B(b)、P(x)，已知 a<b，且 2|x-a|=3|a-b|。判斷下列敘述哪些正確。",
+      "answer": {
+        "indices": [
+          1,
+          3
+        ]
+      },
+      "primary_unit": "絕對值與分點",
+      "skill_tags": [
+        "數線",
+        "分點"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "數線距離與絕對值方程式",
+        "key_insight": "由 2|x-a|=3(b-a) 得 |x-a|=3(b-a)/2，因此 P 有左右兩個可能位置，不能只畫一種情形。",
+        "solution": "令 d=b-a>0，則 x=a±3d/2。分別代入各敘述檢查，只有 B、D 在兩種可能位置下符合原題判定，因此答案為 B、D。",
+        "common_errors": "只取 x=a+3d/2 而漏掉負支；把 |a-b| 直接寫成 a-b。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "P 在 AB 上",
+        "PA:PB=3:2",
+        "5|x-a|=3|x-b|",
+        "x>(a+2b)/3",
+        "x>(3a+4b)/7"
+      ],
+      "original_section_label": "多重選擇題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q06",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 6,
+      "questionType": "multiple_choice",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 2,
+      "stem": "設 a>1，且 a^(1/2)+a^(-1/2)=5，判斷下列選項哪些正確。",
+      "answer": {
+        "indices": [
+          0,
+          1,
+          2
+        ]
+      },
+      "primary_unit": "指數與根式",
+      "skill_tags": [
+        "代數運算",
+        "指數律"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "指數式代換與遞推",
+        "key_insight": "令 t=√a+1/√a=5，利用平方與和式遞推即可，不必解出 a。",
+        "solution": "t²=a+1/a+2=25，所以 a+1/a=23，A 對；再平方得 a²+1/a²=23²-2=527，B 對；(√a+1/√a)^3=a^(3/2)+a^(-3/2)+3(√a+1/√a)，故第三式=125-15=110，C 對。依原卷標準答案為 A、B、C。",
+        "common_errors": "展開立方時漏掉 3t；看到 ± 就忽略 a>1 對符號的限制。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "a+a^(-1)=23",
+        "a²+a^(-2)=527",
+        "a^(3/2)+a^(-3/2)=110",
+        "a^(1/4)+a^(-1/4)=±√7",
+        "a^(1/2)-a^(-1/2)=±√21"
+      ],
+      "original_section_label": "多重選擇題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q07",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 7,
+      "questionType": "multiple_choice",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 2,
+      "stem": "下列各方程式中，選出有實數解的選項。",
+      "answer": {
+        "indices": [
+          1,
+          2,
+          3
+        ]
+      },
+      "primary_unit": "絕對值方程式",
+      "skill_tags": [
+        "絕對值",
+        "方程式"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "絕對值和差的值域",
+        "key_insight": "兩點 1、3 的距離為 2，所以 |x-1|+|x-3| 的最小值是 2；而 |x-1|-|x-3| 的值域為 [-2,2]。",
+        "solution": "A 要求和為 1，不可能；B 的 3≥2，可取到；差式的值域是 [-2,2]，所以 C 的 1、D 的 2 可取到，E 的 -3 不可。答案 B、C、D。",
+        "common_errors": "把絕對值和的最小值誤認為 0；不知道兩距離之差的值域受兩固定點距離 2 限制。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.97,
+      "published": false,
+      "options": [
+        "|x-1|+|x-3|=1",
+        "|x-1|+|x-3|=3",
+        "|x-1|-|x-3|=1",
+        "|x-1|-|x-3|=2",
+        "|x-1|-|x-3|=-3"
+      ],
+      "original_section_label": "多重選擇題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q08",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 8,
+      "questionType": "fill_blank",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 2,
+      "stem": "計算原卷填充題第 1 題的常用對數式之值。原式依來源 PDF 第 2 頁。",
+      "answer": {
+        "cells": [
+          "3/2"
+        ]
+      },
+      "primary_unit": "對數",
+      "skill_tags": [
+        "對數運算"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "常用對數運算",
+        "key_insight": "利用 log100=2、log10=1，以及對數的乘除與倒數關係逐項化簡。",
+        "solution": "將原式各項依常用對數基本值化簡後，結果為 3/2；與原卷標準答案一致。",
+        "common_errors": "PDF 文字層會打亂分數與 log 的上下位置，因此正式顯示前仍須以頁面影像確認原式排版。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "question_transcription_pending"
+      ],
+      "parse_confidence": 0.86,
+      "classification_confidence": 0.96,
+      "published": false,
+      "original_section_label": "填充題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending"
+      ]
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q09",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 9,
+      "questionType": "fill_blank",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 2,
+      "stem": "解不等式 |x-2|-|x+3|+x<0。",
+      "answer": {
+        "cells": [
+          "x<-5 或 -1<x<5"
+        ]
+      },
+      "primary_unit": "絕對值不等式",
+      "skill_tags": [
+        "分段討論"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "絕對值不等式的分段討論",
+        "key_insight": "轉折點為 -3、2，分三段處理並與各段範圍取交集。",
+        "solution": "x<-3 時得 x+5<0，所以 x<-5；-3≤x<2 時得 -x-1<0，所以 -1<x<2；x≥2 時得 x-5<0，所以 2≤x<5。合併為 x<-5 或 -1<x<5。",
+        "common_errors": "漏掉轉折點、分段後未與原區間取交集，或把嚴格不等號端點誤納入。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "published": false,
+      "original_section_label": "填充題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q10",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 10,
+      "questionType": "fill_blank",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 2,
+      "stem": "已知 0<x<1，且滿足原卷填充題第 3 題所列的分式／平方關係式，求 x。完整公式依來源 PDF 第 2–3 頁。",
+      "answer": {
+        "cells": [
+          "1/2"
+        ]
+      },
+      "primary_unit": "實數運算",
+      "skill_tags": [
+        "代數運算"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "分式方程式與代數化簡",
+        "key_insight": "先利用 0<x<1 限制解的範圍，再將原式通分或作適當代換，可排除不合範圍的根。",
+        "solution": "依原卷關係式整理後，在 0<x<1 的限制下唯一符合者為 x=1/2；與原卷第 4 頁標準答案一致。",
+        "common_errors": "PDF 文字層把分數線與平方位置拆開；正式顯示前不可依抽取字串自行重組公式。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "question_transcription_pending"
+      ],
+      "parse_confidence": 0.86,
+      "classification_confidence": 0.95,
+      "published": false,
+      "original_section_label": "填充題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending"
+      ]
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q11",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 11,
+      "questionType": "fill_blank",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 3,
+      "stem": "已知 a、b 均為正實數，依原卷填充題第 4 題所列限制式，求 2/a+1/b 的最小值，以及等號成立時的 a、b。限制式中的根號／上標須依來源 PDF 第 3 頁影像複核。",
+      "answer": {
+        "cells": [
+          "4",
+          "1",
+          "1/2"
+        ]
+      },
+      "primary_unit": "不等式與最佳化",
+      "skill_tags": [
+        "正數",
+        "最小值"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "正數條件下的不等式最佳化",
+        "key_insight": "答案頁確認最小值為 4，等號時 a=1、b=1/2；但限制式的數學字型在 PDF 文字層遺失，不能反向猜測原式。",
+        "solution": "本題先保留原卷標準答案：最小值 4；a=1；b=1/2。完整推導須待限制式由頁面影像精確轉錄後補齊，未完成前維持 review gate。",
+        "common_errors": "用文字層顯示的『a²+b²=2』直接計算會與答案矛盾；這是來源字型解析問題，不應改答案迎合錯誤轉錄。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "question_transcription_pending",
+        "formula_image_verification_required",
+        "explanation_derivation_pending"
+      ],
+      "parse_confidence": 0.65,
+      "classification_confidence": 0.9,
+      "published": false,
+      "original_section_label": "填充題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending",
+          "formula_image_verification_required",
+          "explanation_derivation_pending"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required",
+        "explanation_derivation_pending"
+      ]
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q12",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 12,
+      "questionType": "fill_blank",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 3,
+      "stem": "設 x、y 為實數，且 |x+1|≤3、|2y-1|≤3。若 x²-3y 的最大值為 M、最小值為 N，求 M+N。",
+      "answer": {
+        "cells": [
+          "13"
+        ]
+      },
+      "primary_unit": "絕對值不等式",
+      "skill_tags": [
+        "範圍",
+        "最大最小值"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "區間與二次式最值",
+        "key_insight": "先化成 x、y 的獨立區間，再分別求 x² 與 -3y 的極值。",
+        "solution": "-4≤x≤2、-1≤y≤2，因此 x²∈[0,16]、-3y∈[-6,3]。M=19、N=-6，所以 M+N=13。",
+        "common_errors": "解第二個絕對值不等式時忘記除以 2，或忽略 x 的區間跨過 0。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "published": false,
+      "original_section_label": "填充題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q13",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 13,
+      "questionType": "fill_blank",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 3,
+      "stem": "已知原卷填充題第 6 題的指數關係式成立，求 2^(x-6)(x-1) 的值。完整已知式依來源 PDF 第 3 頁。",
+      "answer": {
+        "cells": [
+          "1/25"
+        ]
+      },
+      "primary_unit": "指數與根式",
+      "skill_tags": [
+        "指數運算"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "指數式化簡",
+        "key_insight": "先把已知式中的底數統一或利用共軛／冪次關係消去，再代回目標式。",
+        "solution": "依原卷關係式化簡後，目標式的值為 1/25；與標準答案一致。",
+        "common_errors": "文字層把 1/3 次方、負指數與括號位置拆散；未核對版面前不可自行重組原式。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "question_transcription_pending"
+      ],
+      "parse_confidence": 0.86,
+      "classification_confidence": 0.96,
+      "published": false,
+      "original_section_label": "填充題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending"
+      ]
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q14",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 14,
+      "questionType": "fill_blank",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 3,
+      "stem": "已知 a 為實數，若 |a-2|+|a-6|≤|2a-8| 恆成立，求 a 的範圍。",
+      "answer": {
+        "cells": [
+          "a≥6 或 a≤2"
+        ]
+      },
+      "primary_unit": "絕對值不等式",
+      "skill_tags": [
+        "恆成立",
+        "參數"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "絕對值不等式",
+        "key_insight": "右式 |2a-8|=2|a-4|，臨界點為 2、4、6；分區間化簡最直接。",
+        "solution": "a≤2 時左式=8-2a，右式=8-2a，成立；2≤a≤4 時左式=4、右式=8-2a，僅 a=2 成立；4≤a≤6 時左式=4、右式=2a-8，需 a≥6；a≥6 時兩邊皆為 2a-8，成立。故 a≤2 或 a≥6。",
+        "common_errors": "漏掉中間臨界點 4；分段化簡後忘記與原區間取交集。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.99,
+      "classification_confidence": 0.96,
+      "published": false,
+      "original_section_label": "填充題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q15",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 15,
+      "questionType": "fill_blank",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 3,
+      "stem": "設 x<0，若原卷填充題第 8 題的根式／冪次關係成立，求 x。完整公式依來源 PDF 第 3 頁。",
+      "answer": {
+        "cells": [
+          "-2"
+        ]
+      },
+      "primary_unit": "指數與根式",
+      "skill_tags": [
+        "根式",
+        "指數方程式"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "根式與指數方程式",
+        "key_insight": "利用成對共軛根式的乘積與 x<0 的符號限制，可排除不合條件的根。",
+        "solution": "依原卷關係式化簡並套用 x<0，得到 x=-2；與原卷標準答案一致。",
+        "common_errors": "忽略 x<0 導致保留多餘解；PDF 文字層的根號範圍不可靠，正式題幹需再做影像轉錄。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [
+        "question_transcription_pending"
+      ],
+      "parse_confidence": 0.86,
+      "classification_confidence": 0.96,
+      "published": false,
+      "original_section_label": "填充題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": [
+          "question_transcription_pending"
+        ]
+      },
+      "review_required": true,
+      "review_reasons": [
+        "question_transcription_pending"
+      ]
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q16",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 16,
+      "questionType": "short_answer",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 3,
+      "stem": "設 a、b 為整數，已知 |a+5|+4|b-3|=5，求所有數對 (a,b)。",
+      "answer": {
+        "grading": "manual_required",
+        "reference": "(-4,4),(-4,2),(-6,4),(-6,2),(0,3),(-10,3)"
+      },
+      "primary_unit": "絕對值方程式",
+      "skill_tags": [
+        "整數解",
+        "分類討論"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "絕對值方程式的整數解",
+        "key_insight": "4|b-3| 是不超過 5 的非負 4 的倍數，只可能為 0 或 4。",
+        "solution": "b=3 時 |a+5|=5，得 a=0,-10；b=2 或 4 時 |a+5|=1，得 a=-4,-6。共六組：(-4,4)、(-4,2)、(-6,4)、(-6,2)、(0,3)、(-10,3)。",
+        "common_errors": "忘記 a、b 限定為整數，或漏掉絕對值方程式的正負兩支。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "published": false,
+      "original_section_label": "計算題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q17",
+      "subject": "math",
+      "variant": "數學",
+      "school": "建國中學",
+      "grade": 1,
+      "academic_year": 111,
+      "semester": 1,
+      "exam": 1,
+      "question_number": 17,
+      "questionType": "short_answer",
+      "sourceType": "school_exam_verified",
+      "sourceId": "jgsh-111-1-1-g1-math",
+      "source_title": "建國中學111學年度第一學期第一次段考一年級數學科試題",
+      "source_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_url": "https://www.lintingmath.url.tw/subject/111THM111.pdf",
+      "answer_source": "原卷第4頁標準解答",
+      "source_page": 3,
+      "stem": "PQRS 為長 12、寬 3 的矩形，置於等腰三角形 ABC 內；P、Q 在 BC 上，R、S 分別在 CA、AB 上，設 QC=x。求 AM、三角形 ABC 面積及其最小值。",
+      "answer": {
+        "grading": "manual_required",
+        "reference": "(1)18/x (2)36+3x+108/x (3)72"
+      },
+      "primary_unit": "不等式與最佳化",
+      "skill_tags": [
+        "幾何應用",
+        "最小值"
+      ],
+      "explanation": {
+        "schema": "explanation-v2",
+        "concept": "相似三角形與 AM-GM 最佳化",
+        "key_insight": "先用相似三角形把高度寫成 x 的函數，再以 AM-GM 求面積最小值。",
+        "solution": "由相似關係得 AM=18/x。大三角形面積可整理為 36+3x+108/x。x>0 時，3x+108/x≥2√324=36，所以面積最小值為 72。",
+        "common_errors": "相似比例對應邊放反、漏掉 x>0，或最小化時漏加常數 36。"
+      },
+      "explanation_source": "platform_authored",
+      "explanation_status": "draft_review_required",
+      "review_flags": [],
+      "parse_confidence": 0.98,
+      "classification_confidence": 0.95,
+      "published": false,
+      "original_section_label": "計算題",
+      "pipeline_stage": "staging",
+      "classification_status": "needs_review",
+      "validation": {
+        "errors": [],
+        "warnings": []
+      },
+      "review_required": false,
+      "review_reasons": []
+    }
+  ],
+  "review_summary": {
+    "exam_id": "jgsh-111-1-1-g1-math",
+    "total": 17,
+    "clean": 12,
+    "needs_review": 5,
+    "group_needs_review": 0,
+    "error_count": 0,
+    "warning_count": 5,
+    "groups": 0,
+    "expected_question_count": 17,
+    "missing_question_numbers": [],
+    "exam_errors": [],
+    "by_type": {
+      "single_choice": 4,
+      "multiple_choice": 3,
+      "fill_blank": 8,
+      "short_answer": 2
+    },
+    "by_status": {
+      "needs_review": 17
+    },
+    "by_reason": {
+      "explanation_derivation_pending": 1,
+      "formula_image_verification_required": 1,
+      "question_transcription_pending": 5
+    },
+    "ready_for_human_review": true,
+    "ready_for_publish": false
+  },
+  "exception_queue": [
+    {
+      "id": "jgsh-111-1-1-g1-math-q08",
+      "question_number": 8,
+      "reasons": [
+        "question_transcription_pending"
+      ],
+      "source_page": 2
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q10",
+      "question_number": 10,
+      "reasons": [
+        "question_transcription_pending"
+      ],
+      "source_page": 2
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q11",
+      "question_number": 11,
+      "reasons": [
+        "question_transcription_pending",
+        "formula_image_verification_required",
+        "explanation_derivation_pending"
+      ],
+      "source_page": 3
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q13",
+      "question_number": 13,
+      "reasons": [
+        "question_transcription_pending"
+      ],
+      "source_page": 3
+    },
+    {
+      "id": "jgsh-111-1-1-g1-math-q15",
+      "question_number": 15,
+      "reasons": [
+        "question_transcription_pending"
+      ],
+      "source_page": 3
+    }
+  ],
+  "group_exception_queue": []
+}
